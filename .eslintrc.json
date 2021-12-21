@@ -1,16 +1,22 @@
 {
     "env": {
         "browser": true,
-        "es2021": true,
         "es6": true
     },
-    "extends": ["google", "eslint:recommended"],
-    "parser": "@typescript-eslint/parser",
+    "extends": [
+        "google",
+        "eslint:recommended",
+        "plugin:vue/base",
+        "plugin:vue/essential",
+        "plugin:decorator-position/ember"
+    ],
+    "parser": "vue-eslint-parser",
     "parserOptions": {
+        "parser": "@typescript-eslint/parser",
         "ecmaVersion": 13,
         "sourceType": "module"
     },
-    "plugins": ["@typescript-eslint"],
+    "plugins": ["@typescript-eslint", "eslint-plugin-vue", "decorator-position"],
     "rules": {
         "semi": ["warn", "never"],
         "indent": [
@@ -23,6 +29,7 @@
                     "ClassBody.body > PropertyDefinition[decorators.length > 0] > .key"
                 ],
                 "MemberExpression": 1,
+                "SwitchCase": 1,
                 "FunctionDeclaration": { "parameters": "first" }
             }
         ],
@@ -43,6 +50,27 @@
                 }
             }
         ],
-        "comma-dangle": ["error", "never"]
-    }
+        "comma-dangle": ["error", "never"],
+        "no-empty": ["warn", { "allowEmptyCatch": true }],
+        "vue/script-indent": [
+            "error",
+            4,
+            {
+                "baseIndent": 1,
+                "switchCase": 1,
+                "ignores": []
+            }
+        ],
+        "vue/no-multiple-template-root": 0,
+        "new-cap": ["error", { "capIsNewExceptions": ["Options"] }]
+    },
+    "overrides": [
+        {
+            "files": ["*.vue"],
+            "rules": {
+                "require-jsdoc": "off",
+                "indent": "off"
+            }
+        }
+    ]
 }
