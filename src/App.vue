@@ -79,6 +79,11 @@
         font-size: 1rem;
         cursor: pointer;
         width: fit-content;
+        transition-duration: 0.4s;
+    }
+
+    button:hover {
+        filter: invert(100%);
     }
 
     input {

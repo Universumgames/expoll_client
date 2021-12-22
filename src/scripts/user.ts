@@ -13,7 +13,7 @@ export async function signUp(data: {
     username: string
 }): Promise<{ loginKey?: string; code: ReturnCode }> {
     try {
-        const res = await axios.post("/api/user", data)
+        const res = await axios.post("/api/user", data, { withCredentials: true })
         const loginKey = res.data.loginKey
         return {
             loginKey: loginKey,

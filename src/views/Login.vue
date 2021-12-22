@@ -47,7 +47,7 @@
     import axios from "axios"
     import { Options, Vue } from "vue-class-component"
     import { IUser } from "../scripts/interfaces"
-    import { getUserData } from "../scripts/user"
+    import { getUserData, signUp } from "../scripts/user"
 
     @Options({
         props: {
@@ -147,11 +147,34 @@
             this.signFirstMis = this.signupFirstName.value == ""
 
             if (this.signMailMis || this.signUsrMis || this.signLastMis || this.signFirstMis) return
+
+            this.errorMsg = ""
+
+            const rc = await signUp({
+                firstName: this.signupFirstName.value,
+                lastName: this.signupLastName.value,
+                username: this.signupUsername.value,
+                mail: this.signupMail.value
+            })
+
+            switch (rc.code) {
+                case 406:
+                    this.errorMsg = "User already exists (mail or username)"
+                    break
+                case 500:
+                    this.errorMsg = "Server error"
+                    break
+            }
+
+            console.log(rc)
+
+            // @ts-ignore
+            if (rc.code == 200) window.location = "/"
         }
 
         async logout() {
             try {
-                await axios.post("/api/user/logout")
+                await axios.post("/api/user/logout", { withCredentials: true })
             } catch (error) {
                 console.error(error)
             }
