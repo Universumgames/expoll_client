@@ -1,10 +1,28 @@
 import { createRouter, createWebHashHistory } from "vue-router"
 import Home from "../views/Home.vue"
 import Login from "../views/Login.vue"
+import PollListView from "../views/PollListView.vue"
+import CreatePollView from "../views/CreatePollView.vue"
 
 const routes = [
     {
         path: "/",
+        name: "Polls",
+        component: PollListView,
+        meta: {
+            title: "Polls"
+        }
+    },
+    {
+        path: "/create",
+        name: "Create Poll",
+        component: CreatePollView,
+        meta: {
+            title: "Create Poll"
+        }
+    },
+    {
+        path: "/home",
         name: "Home",
         component: Home,
         meta: {

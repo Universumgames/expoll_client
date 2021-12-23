@@ -1,11 +1,12 @@
 <template>
     <div>
-        <user-icon :userData="this.userData" />
+        <user-icon :userData="this.userData" :language="this.localeLanguage" />
         <div id="nav">
-            <router-link to="/">Home</router-link> |
+            <router-link v-show="this.userData != undefined" to="/">Polls</router-link> |
+            <router-link to="/home">Home</router-link> |
             <router-link to="/about">About</router-link>
         </div>
-        <router-view :userData="this.userData" />
+        <router-view :userData="this.userData" :language="localeLanguage" />
     </div>
 </template>
 
@@ -16,6 +17,7 @@
     import { isDarkMode } from "./scripts/helper"
     import { IUser } from "./scripts/interfaces"
     import { getUserData } from "./scripts/user"
+    import getSystemLanguage, { languageData } from "./scripts/languageConstruct"
 
     @Options({
         components: {
@@ -25,22 +27,37 @@
     export default class App extends Vue {
         isDark: boolean = false
         userData?: IUser
+        localeLanguage!: languageData
 
-        async mounted() {
-            this.manageDarkMode()
-
+        async created() {
+            this.localeLanguage = getSystemLanguage()
             // @ts-ignore
             this.$router.beforeEach((to) => {
                 document.title = to.meta.title != undefined ? (to.meta.title as string) : "404 Page not found"
             })
 
+            console.log(getSystemLanguage())
+            console.log(this.localeLanguage)
+        }
+
+        async mounted() {
+            const startUserGet = getUserData()
+            this.manageDarkMode()
+
             // this.userData = await getUserData("d3303768-c3d1-4ada-97cb-e433c9c45d25")
             try {
-                this.userData = await getUserData()
+                this.userData = await startUserGet
             } catch {}
             this.$forceUpdate()
+            this.forceLogin()
+        }
 
-            console.log(await (await axios.get("/api/poll")).data)
+        forceLogin() {
+            // @ts-ignore
+            if (this.userData == undefined) {
+                // @ts-ignore
+                this.$router.push({ path: "/login" })
+            }
         }
 
         manageDarkMode() {
@@ -86,12 +103,22 @@
         filter: invert(100%);
     }
 
-    input {
+    input,
+    textarea {
         color: var(--text-color);
         padding: 1ch;
         background: var(--bg-color);
         border: none;
         margin: 1ch;
+        border-radius: 1ch;
+    }
+
+    select {
+        border: none;
+        background: var(--secondary-color);
+        color: var(--text-color);
+        margin: 1ch;
+        padding: 1ch;
         border-radius: 1ch;
     }
 
@@ -111,7 +138,7 @@
     .lightVars {
         --text-color: #2c3e50;
         --bg-color: whitesmoke;
-        --secondary-color: rgb(192, 192, 192);
+        --secondary-color: #dddddd;
     }
 
     .darkVars {

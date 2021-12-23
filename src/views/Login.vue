@@ -1,45 +1,55 @@
 <template>
     <div v-show="this.paramLoginKeyExist && !this.loggedIn">
-        <h1 v-if="loggedIn">Loggin in...</h1>
+        <h1 v-if="loggedIn">{{ this.language?.uiElements.login.form.loggingIn }}</h1>
         <div>Loginkey: {{ this.paramLoginKey }}</div>
     </div>
     <div v-show="!this.paramLoginKeyExist && !this.loggedIn && !this.loggingIn" class="columnContainer">
         <div class="column">
-            <h2>Login</h2>
-            <label for="mail">Mail address</label>
+            <h2>{{ this.language?.uiElements.login.form.login }}</h2>
+            <label for="mail">{{ this.language?.uiElements.login.form.mail }}</label>
             <input id="mail" type="text" placeholder="max.mustermann@gmail.com" ref="loginMail" />
             <br />
-            <label for="key">or Loginkey</label>
+            <label for="key">{{ this.language?.uiElements.login.form.loginKey }}</label>
             <input id="key" type="text" placeholder="key" ref="loginKey" />
-            <button @click="this.login">Login</button>
-            <p v-if="this.loginMissing" class="errorInfo">You must specify either your e-mail or an login key</p>
+            <button @click="this.login">{{ this.language?.uiElements.login.form.loginBtn }}</button>
+            <p v-if="this.loginMissing" class="errorInfo">
+                {{ this.language?.uiElements.login.form.loginMailOrKeyMissing }}
+            </p>
             <p v-if="this.loginMsg != ''">{{ this.loginMsg }}</p>
         </div>
         <div class="column">
-            <h2>Sign up</h2>
-            <label for="mail">Mail address</label>
-            <small v-if="this.signMailMis" class="errorInfo">You need to specify a valid mail address</small>
+            <h2>{{ this.language?.uiElements.login.form.signup }}</h2>
+            <label for="mail">{{ this.language?.uiElements.login.form.mail }}</label>
+            <small v-if="this.signMailMis" class="errorInfo">{{
+                this.language?.uiElements.login.form.validMailNeeded
+            }}</small>
             <input id="mail" type="text" placeholder="max.mustermann@gmail.com" ref="signupMail" /><br />
 
-            <label for="first">First name</label>
-            <small v-if="this.signFirstMis" class="errorInfo">You need to specify your first name</small>
+            <label for="first">{{ this.language?.uiElements.login.form.firstName }}</label>
+            <small v-if="this.signFirstMis" class="errorInfo">{{
+                this.language?.uiElements.login.form.firstNameNeeded
+            }}</small>
             <input id="first" type="text" placeholder="Max" ref="signupFirstName" /><br />
 
-            <label for="last">Last name</label>
-            <small v-if="this.signLastMis" class="errorInfo">You need to specify your last name</small>
+            <label for="last">{{ this.language?.uiElements.login.form.lastName }}</label>
+            <small v-if="this.signLastMis" class="errorInfo">{{
+                this.language?.uiElements.login.form.lastNameNeeded
+            }}</small>
             <input id="last" type="text" placeholder="Mustermann" ref="signupLastName" /><br />
 
-            <label for="user">Username</label>
-            <small v-if="this.signUsrMis" class="errorInfo">You need to specify a username</small>
+            <label for="user">{{ this.language?.uiElements.login.form.username }}</label>
+            <small v-if="this.signUsrMis" class="errorInfo">{{
+                this.language?.uiElements.login.form.usernameNeeded
+            }}</small>
             <input id="user" type="text" placeholder="mustermannekin001" ref="signupUsername" />
-            <button @click="this.signup">Signup</button>
+            <button @click="this.signup">{{ this.language?.uiElements.login.form.signupBtn }}</button>
         </div>
     </div>
-    <div v-if="this.loggingIn">Logging in please wait</div>
+    <div v-if="this.loggingIn">{{ this.language?.uiElements.login.form.loggingIn }}</div>
     <div v-if="this.errorMsg != ''" class="errorInfo">{{ this.errorMsg }}</div>
     <div v-show="this.loggedIn">
-        <h1>You are already logged in</h1>
-        <button @click="logout">Logout</button>
+        <h1>{{ this.language?.uiElements.login.alreadyLoggedInAs(this.userData?.username) }}</h1>
+        <button @click="logout">{{ this.language?.uiElements.login.logoutBtn }}</button>
     </div>
 </template>
 
@@ -47,14 +57,18 @@
     import axios from "axios"
     import { Options, Vue } from "vue-class-component"
     import { IUser } from "../scripts/interfaces"
+    import { languageData } from "../scripts/languageConstruct"
     import { getUserData, signUp } from "../scripts/user"
 
     @Options({
         props: {
-            userData: Object
+            userData: Object,
+            language: Object
         }
     })
     export default class Login extends Vue {
+        language?: languageData
+
         userData: IUser | undefined
         loggingIn: boolean = false
         loginMissing: boolean = false
@@ -89,7 +103,7 @@
                     // @ts-ignore
                     window.location = "/"
                 } catch (error) {
-                    this.errorMsg = "LoginKey does not exist"
+                    this.errorMsg = this.language?.uiElements.login.messages.loginKeyNotExist ?? ""
                     this.loggingIn = false
                 }
             }
@@ -119,12 +133,11 @@
             if (this.loginMailEle.value != "") {
                 try {
                     const user = (await axios.post("/api/user/login", { mail: this.loginMailEle.value })).data as IUser
-                    this.loginMsg =
-                        "An email has been sent to your mail address with an login link, receiving may take some minutes"
+                    this.loginMsg = this.language?.uiElements.login.messages.mailSent ?? ""
                     this.loggingIn = false
                 } catch (error) {
                     this.loginMsg = ""
-                    this.errorMsg = "Mail does not exist"
+                    this.errorMsg = this.language?.uiElements.login.messages.mailNotExist ?? ""
                     this.loggingIn = false
                 }
             } else if (this.loginKeyEle.value != "") {
@@ -134,7 +147,7 @@
                     // @ts-ignore
                     window.location = "/"
                 } catch (error) {
-                    this.errorMsg = "LoginKey does not exist"
+                    this.errorMsg = this.language?.uiElements.login.messages.loginKeyNotExist ?? ""
                     this.loggingIn = false
                 }
             }
@@ -159,10 +172,10 @@
 
             switch (rc.code) {
                 case 406:
-                    this.errorMsg = "User already exists (mail or username)"
+                    this.errorMsg = this.language?.uiElements.login.messages.userExists ?? ""
                     break
                 case 500:
-                    this.errorMsg = "Server error"
+                    this.errorMsg = this.language?.uiElements.serverError ?? ""
                     break
             }
 

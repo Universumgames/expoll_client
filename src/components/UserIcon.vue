@@ -1,10 +1,17 @@
 <template>
-    <span id="userico" :title="this.loggedIn ? 'Logged in as ' + userData.username : 'Not Logged in'">
+    <span
+        id="userico"
+        :title="
+            this.loggedIn
+                ? this.language?.uiElements.login.loggedInAs(userData.username)
+                : this.language?.uiElements.login.notLoggedIn
+        "
+    >
         <router-link to="/login">
             <div v-show="this.loggedIn">
                 <img src="../assets/logo.png" alt="" />
             </div>
-            <div v-show="!this.loggedIn">Login</div>
+            <div v-show="!this.loggedIn">{{ this.language?.uiElements.login.loginLink }}</div>
         </router-link>
     </span>
 </template>
@@ -12,14 +19,23 @@
 <script lang="ts">
     import { Options, Vue } from "vue-class-component"
     import { IUser } from "../scripts/interfaces"
+    import getSystemLanguage, { languageData } from "../scripts/languageConstruct"
 
     @Options({
         props: {
-            userData: Object
+            userData: Object,
+            language: Object
         }
     })
     export default class UserIcon extends Vue {
         userData: IUser | undefined
+        language?: languageData
+
+        created() {
+            // this.language = getSystemLanguage()
+        }
+
+        mounted() {}
 
         get loggedIn() {
             return this.userData != undefined
