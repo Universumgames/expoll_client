@@ -3,6 +3,7 @@ import Home from "../views/Home.vue"
 import Login from "../views/Login.vue"
 import PollListView from "../views/PollListView.vue"
 import CreatePollView from "../views/CreatePollView.vue"
+import DetailedPollView from "../views/DetailedPollView.vue"
 
 const routes = [
     {
@@ -11,6 +12,14 @@ const routes = [
         component: PollListView,
         meta: {
             title: "Polls"
+        }
+    },
+    {
+        path: "/polls/:id",
+        name: "Poll Details",
+        component: DetailedPollView,
+        meta: {
+            title: "Poll Detail"
         }
     },
     {

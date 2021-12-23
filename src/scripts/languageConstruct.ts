@@ -54,6 +54,12 @@ export interface languageData {
                 optionOptEndValue: string
                 createBtn: string
             }
+            list: {
+                lastUpdate: (time: Date) => string
+            }
+            details: {
+                userCol: string
+            }
         }
         serverError: string
     }

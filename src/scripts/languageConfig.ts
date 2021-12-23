@@ -55,6 +55,12 @@ export const languageList: languageData[] = [
                     optionValue: "Value",
                     optionOptEndValue: "Optional end value",
                     createBtn: "Create poll"
+                },
+                list: {
+                    lastUpdate: (time: Date) => "Last update on " + time.toString()
+                },
+                details: {
+                    userCol: "User"
                 }
             },
             serverError: "An error on our side occured"
@@ -115,6 +121,12 @@ export const languageList: languageData[] = [
                     optionValue: "Wert",
                     optionOptEndValue: "Optionales Ende",
                     createBtn: "Erstellen"
+                },
+                list: {
+                    lastUpdate: (time: Date) => "Zuletz aktualisiert am " + time.toString()
+                },
+                details: {
+                    userCol: "Benutzer"
                 }
             },
             serverError: "Ein Fehler beim Server ist aaufgetreten"

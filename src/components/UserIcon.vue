@@ -45,7 +45,6 @@
 
 <style scoped>
     img {
-        clip-path: circle(3rem at center);
         width: 3rem;
         height: 3rem;
     }
@@ -55,5 +54,7 @@
         top: 0;
         right: 0;
         margin: 1ch;
+        background: var(--secondary-color);
+        clip-path: circle(1.5rem at center);
     }
 </style>

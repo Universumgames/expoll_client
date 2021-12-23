@@ -36,7 +36,6 @@
                 document.title = to.meta.title != undefined ? (to.meta.title as string) : "404 Page not found"
             })
 
-            console.log(getSystemLanguage())
             console.log(this.localeLanguage)
         }
 
@@ -129,6 +128,7 @@
     a {
         font-weight: bold;
         color: var(--text-color);
+        text-decoration: none;
     }
 
     a.router-link-exact-active {

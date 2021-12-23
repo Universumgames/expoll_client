@@ -60,6 +60,7 @@
 </template>
 
 <script lang="ts">
+    import axios from "axios"
     import { Options, Vue } from "vue-class-component"
     import {
         IPoll,
@@ -73,24 +74,7 @@
         tDateTime
     } from "../scripts/interfaces"
     import { languageData } from "../scripts/languageConstruct"
-
-    interface ComplexOption {
-        id: number
-        value?: string
-        dateStart?: tDate
-        dateEnd?: tDate
-        dateTimeStart?: tDateTime
-        dateTimeEnd?: tDateTime
-    }
-
-    const empty = {
-        id: 0,
-        value: "",
-        dateStart: new Date(),
-        dateEnd: undefined,
-        dateTimeStart: new Date(),
-        dateTimeEnd: undefined
-    } as ComplexOption
+    import { ComplexOption, empty } from "../scripts/extraInterfaces"
 
     @Options({
         components: {},
@@ -103,7 +87,7 @@
         language?: languageData
         userData?: IUser
 
-        pollName: string = "name"
+        pollName: string = ""
         maxVoteCount: number = -1
         type: PollType = PollType.String
         description: string = ""
@@ -127,7 +111,16 @@
         }
 
         async create() {
-            console.log(this.options)
+            const data = {
+                name: this.pollName,
+                maxPerUserVoteCount: this.maxVoteCount,
+                description: this.description,
+                type: this.type,
+                options: this.options
+            }
+            const retData = await axios.post("/api/poll", data)
+            console.log(data)
+            console.log(retData)
         }
     }
 </script>
