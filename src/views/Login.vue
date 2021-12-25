@@ -220,4 +220,8 @@
         margin-top: 1rem;
         margin-bottom: 1rem;
     }
+
+    input {
+        background: var(--bg-color);
+    }
 </style>

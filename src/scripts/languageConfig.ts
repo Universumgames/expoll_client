@@ -60,7 +60,12 @@ export const languageList: languageData[] = [
                     lastUpdate: (time: Date) => "Last update on " + time.toString()
                 },
                 details: {
-                    userCol: "User"
+                    userCol: "User",
+                    pollName: "Name",
+                    save: "save",
+                    cancel: "cancel",
+                    delete: "delete",
+                    deleteConfirm: (value: string) => "Are you sure you want to delete " + value
                 }
             },
             serverError: "An error on our side occured"
@@ -126,7 +131,12 @@ export const languageList: languageData[] = [
                     lastUpdate: (time: Date) => "Zuletz aktualisiert am " + time.toString()
                 },
                 details: {
-                    userCol: "Benutzer"
+                    userCol: "Benutzer",
+                    pollName: "Name",
+                    save: "Speichern",
+                    cancel: "Abbrechen",
+                    delete: "Löschen",
+                    deleteConfirm: (value: string) => "WIllst du wirklich '" + value + "' unwiederruflich löschen?"
                 }
             },
             serverError: "Ein Fehler beim Server ist aaufgetreten"

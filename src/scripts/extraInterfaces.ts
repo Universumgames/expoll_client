@@ -1,7 +1,7 @@
 import { PollType, tDate, tDateTime, tOptionId, tPollID, tUserID } from "./interfaces"
 
 export interface ComplexOption {
-    id: number
+    id?: number
     value?: string
     dateStart?: tDate
     dateEnd?: tDate
@@ -44,4 +44,21 @@ export interface DetailedPoll {
 export interface simpleVote {
     optionID: tOptionId
     votedFor?: boolean
+}
+
+export interface PollEdit {
+    inviteLink?: string
+    pollID: tPollID
+    name?: string
+    description?: string
+    userRemove?: string[]
+    votes?: { userID: string; optionID: tOptionId; votedFor: boolean }[]
+    options?: {
+        optionID?: tOptionId
+        value?: string
+        dateStart?: tDate
+        dateEnd?: tDate
+        dateTimeStart?: tDateTime
+        dateTimeEnd?: tDateTime
+    }[]
 }

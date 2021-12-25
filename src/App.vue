@@ -77,6 +77,10 @@
         background: var(--bg-color);
     }
 
+    p {
+        white-space: pre-wrap;
+    }
+
     #app {
         font-family: Avenir, Helvetica, Arial, sans-serif;
         -webkit-font-smoothing: antialiased;
@@ -88,7 +92,7 @@
     button {
         background: #42b983;
         border: none;
-        padding: 1rem;
+        padding: 0.5rem;
         border-radius: 1rem;
         color: var(--text-color);
         font-weight: bold;
@@ -96,6 +100,7 @@
         cursor: pointer;
         width: fit-content;
         transition-duration: 0.4s;
+        margin: 1ch;
     }
 
     button:hover {
@@ -106,7 +111,7 @@
     textarea {
         color: var(--text-color);
         padding: 1ch;
-        background: var(--bg-color);
+        background: var(--secondary-color);
         border: none;
         margin: 1ch;
         border-radius: 1ch;
@@ -149,5 +154,10 @@
 
     .errorInfo {
         color: red;
+    }
+
+    .normalIcon {
+        width: 1.5rem;
+        height: 1.5rem;
     }
 </style>

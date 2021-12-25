@@ -59,6 +59,11 @@ export interface languageData {
             }
             details: {
                 userCol: string
+                pollName: string
+                save: string
+                cancel: string
+                delete: string
+                deleteConfirm: (value: string) => string
             }
         }
         serverError: string
