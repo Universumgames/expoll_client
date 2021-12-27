@@ -7,6 +7,11 @@
             <router-link to="/about">About</router-link>
         </div>
         <router-view :userData="this.userData" :language="localeLanguage" />
+        <div class="footer">
+            <label>Created by universumgames</label><br />
+            <a href="https://universegame.de">Website</a>
+            <a href="https://github.com/universumgames">Github</a>
+        </div>
     </div>
 </template>
 
@@ -167,5 +172,16 @@
     th {
         padding: 0.5rem;
         background: var(--secondary-color);
+    }
+
+    .footer {
+        background: var(--secondary-color);
+        padding: 1rem;
+        border-radius: 1ch;
+        margin: 1ch;
+    }
+
+    .footer > * {
+        margin: 1ch;
     }
 </style>
