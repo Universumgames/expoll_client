@@ -1,0 +1,47 @@
+<template>
+    <div class="loader"></div>
+</template>
+
+<script lang="ts">
+    import { Options, Vue } from "vue-class-component"
+    import { IUser } from "../scripts/interfaces"
+    import getSystemLanguage, { languageData } from "../scripts/languageConstruct"
+
+    @Options({
+        props: {
+            userData: Object,
+            language: Object
+        }
+    })
+    export default class LoadingScreen extends Vue {
+        userData: IUser | undefined
+        language?: languageData
+
+        created() {
+            // this.language = getSystemLanguage()
+        }
+
+        mounted() {}
+    }
+</script>
+
+<style scoped>
+    .loader {
+        border: 16px solid #f3f3f300; /* Light grey */
+        border-top: 16px solid var(--primary-color); /* Blue */
+        border-radius: 50%;
+        width: 10vw;
+        height: 10vw;
+        animation: spin 2s linear infinite;
+        margin: 0 auto 0 auto;
+    }
+
+    @keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+</style>

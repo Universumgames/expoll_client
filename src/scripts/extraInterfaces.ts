@@ -25,20 +25,23 @@ interface SimpleUser {
     username: string
 }
 
+export interface SimpleUserVotes {
+    user?: SimpleUser
+    votes: simpleVote[]
+}
+
 export interface DetailedPoll {
     pollID: tPollID
     admin: SimpleUser
     name: string
     description: string
+    maxPerUserVoteCount: number
     userCount: number
     lastUpdated: Date
     created: Date
     type: PollType
     options: any[]
-    userVotes: {
-        user: SimpleUser
-        votes: simpleVote[]
-    }[]
+    userVotes: SimpleUserVotes[]
 }
 
 export interface simpleVote {
@@ -51,6 +54,7 @@ export interface PollEdit {
     pollID: tPollID
     name?: string
     description?: string
+    maxPerUserVoteCount?: number
     userRemove?: string[]
     votes?: { userID: string; optionID: tOptionId; votedFor: boolean }[]
     options?: {
@@ -61,4 +65,12 @@ export interface PollEdit {
         dateTimeStart?: tDateTime
         dateTimeEnd?: tDateTime
     }[]
+    delete?: boolean
+}
+
+export interface VoteChange {
+    pollID: tPollID
+    optionID: tOptionId
+    votedFor: boolean
+    userID?: tUserID
 }

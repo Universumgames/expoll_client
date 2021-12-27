@@ -118,9 +118,15 @@
                 type: this.type,
                 options: this.options
             }
-            const retData = await axios.post("/api/poll", data)
-            console.log(data)
-            console.log(retData)
+            try {
+                const retData = await axios.post("/api/poll", data)
+                if (retData.status == 200) {
+                    // @ts-ignore
+                    window.location = "/"
+                }
+            } catch (e) {
+                console.warn(e)
+            }
         }
     }
 </script>

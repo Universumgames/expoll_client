@@ -62,10 +62,19 @@ export const languageList: languageData[] = [
                 details: {
                     userCol: "User",
                     pollName: "Name",
+                    maxPerUserVoteCount: "Maximum number of votes each user can do (-1 for infinity)",
+                    dateStringFormat: (start: Date, end?: Date) =>
+                        "from " + start.toString() + (end != undefined ? " \nto " + end.toString() : ""),
                     save: "save",
                     cancel: "cancel",
                     delete: "delete",
-                    deleteConfirm: (value: string) => "Are you sure you want to delete " + value
+                    deleteConfirm: (value: string) => "Are you sure you want to delete " + value,
+                    deletePollBtn: "Delete poll",
+                    deletePollConfirm: "Are you sure you want to delete this poll, this cannot be undone",
+                    deletePollConfirmConfirm: "Are you REALLY sure you want to delete this poll, it cannot be undone",
+                    errorMsgs: {
+                        tooMuchVotes: "Too much options chosen, deselect one first"
+                    }
                 }
             },
             serverError: "An error on our side occured"
@@ -133,10 +142,21 @@ export const languageList: languageData[] = [
                 details: {
                     userCol: "Benutzer",
                     pollName: "Name",
+                    maxPerUserVoteCount: "Maximal Anzahl an ausgewählten Optionen (-1 für unendlich)",
+                    dateStringFormat: (start: Date, end?: Date) =>
+                        "Von " + start + (end != undefined ? " \nbis " + end.toString() : ""),
                     save: "Speichern",
                     cancel: "Abbrechen",
                     delete: "Löschen",
-                    deleteConfirm: (value: string) => "WIllst du wirklich '" + value + "' unwiederruflich löschen?"
+                    deleteConfirm: (value: string) => "WIllst du wirklich '" + value + "' unwiederruflich löschen?",
+                    deletePollBtn: "Umfrage löschen",
+                    deletePollConfirm:
+                        "Sicher, dass du diese Umfrage löschen willst, dies kann nicht rückgängig gemacht werden",
+                    deletePollConfirmConfirm:
+                        "Bist du WIRLICH sicher, dass du diese Umfrage löschen willst, das Löschen kann icht rückgängig gemacht werden",
+                    errorMsgs: {
+                        tooMuchVotes: "Zu viele Optionen gewählt, wähle zuerst Optionen ab"
+                    }
                 }
             },
             serverError: "Ein Fehler beim Server ist aaufgetreten"

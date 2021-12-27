@@ -60,10 +60,18 @@ export interface languageData {
             details: {
                 userCol: string
                 pollName: string
+                maxPerUserVoteCount: string
+                dateStringFormat: (start: Date, end?: Date) => string
                 save: string
                 cancel: string
                 delete: string
                 deleteConfirm: (value: string) => string
+                deletePollBtn: string
+                deletePollConfirm: string
+                deletePollConfirmConfirm: string
+                errorMsgs: {
+                    tooMuchVotes: string
+                }
             }
         }
         serverError: string

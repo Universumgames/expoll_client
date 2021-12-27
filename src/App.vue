@@ -144,12 +144,14 @@
         --text-color: #2c3e50;
         --bg-color: whitesmoke;
         --secondary-color: #dddddd;
+        --primary-color: #42b983;
     }
 
     .darkVars {
         --text-color: whitesmoke;
         --bg-color: #2c3e50;
         --secondary-color: #314961;
+        --primary-color: #42b983;
     }
 
     .errorInfo {
@@ -159,5 +161,11 @@
     .normalIcon {
         width: 1.5rem;
         height: 1.5rem;
+    }
+
+    td,
+    th {
+        padding: 0.5rem;
+        background: var(--secondary-color);
     }
 </style>
