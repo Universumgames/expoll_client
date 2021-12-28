@@ -21,7 +21,10 @@
                     />
                 </svg>
             </div>
-            <div>{{ this.language?.uiElements.polls.list.lastUpdate(poll.lastUpdated) }}</div>
+            <div>
+                {{ lastUpdated() }}
+            </div>
+            <div>Admin: {{ this.poll?.admin.firstName + " " + this.poll?.admin.lastName }}</div>
         </div>
     </router-link>
 </template>
@@ -43,10 +46,19 @@
         language?: languageData
 
         async mounted() {}
+
+        lastUpdated(): string {
+            return (
+                this.language?.uiElements.polls.list.lastUpdate(
+                    // @ts-ignore
+                    this.language?.uiElements.dateTimeToString(new Date(this.poll?.lastUpdated))
+                ) ?? ""
+            )
+        }
     }
 </script>
 
-<style>
+<style scoped>
     .pollListElementContainer {
         background: var(--secondary-color);
         border-radius: 1ch;

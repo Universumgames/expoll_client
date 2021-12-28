@@ -4,6 +4,9 @@ import Login from "../views/Login.vue"
 import PollListView from "../views/PollListView.vue"
 import CreatePollView from "../views/CreatePollView.vue"
 import DetailedPollView from "../views/DetailedPollView.vue"
+import Admin from "../views/Admin/Admin.vue"
+import AdminUserList from "../views/Admin/AdminUserList.vue"
+import AdminPollList from "../views/Admin/AdminPollList.vue"
 
 const routes = [
     {
@@ -56,6 +59,32 @@ const routes = [
         meta: {
             title: "Login - expoll"
         }
+    },
+    {
+        path: "/admin",
+        name: "Admin",
+        component: Admin,
+        meta: {
+            title: "Administration Home"
+        },
+        children: [
+            {
+                path: "users",
+                name: "User list",
+                component: AdminUserList,
+                meta: {
+                    title: "Userlist"
+                }
+            },
+            {
+                path: "polls",
+                name: "Poll Management",
+                component: AdminPollList,
+                meta: {
+                    title: "Pollmanagement"
+                }
+            }
+        ]
     }
 ]
 

@@ -6,6 +6,10 @@ export const languageList: languageData[] = [
         name: "english",
         short: "EN",
         uiElements: {
+            navigation: {
+                polls: "Polls",
+                home: "Home"
+            },
             login: {
                 loggedInAs: (username: string) => "Logged in as " + username,
                 notLoggedIn: "Not logged in",
@@ -57,14 +61,15 @@ export const languageList: languageData[] = [
                     createBtn: "Create poll"
                 },
                 list: {
-                    lastUpdate: (time: Date) => "Last update on " + time.toString()
+                    lastUpdate: (timeString: string) => "Last update on " + timeString
                 },
                 details: {
+                    createdBy: (username: string) => "Created by " + username,
                     userCol: "User",
                     pollName: "Name",
                     maxPerUserVoteCount: "Maximum number of votes each user can do (-1 for infinity)",
-                    dateStringFormat: (start: Date, end?: Date) =>
-                        "from " + start.toString() + (end != undefined ? " \nto " + end.toString() : ""),
+                    dateStringFormat: (start?: string, end?: string) =>
+                        "from " + start + (end != undefined ? " \nto " + end : ""),
                     save: "save",
                     cancel: "cancel",
                     delete: "delete",
@@ -77,7 +82,23 @@ export const languageList: languageData[] = [
                     }
                 }
             },
-            serverError: "An error on our side occured"
+            serverError: "An error on our side occured",
+            dateToString: (d?: Date) =>
+                d?.getFullYear() +
+                    "-" +
+                    d?.getMonth().toString().padStart(2, "0") +
+                    "-" +
+                    d?.getDay().toString().padStart(2, "0") ?? "",
+            dateTimeToString: (dt?: Date) =>
+                dt?.getFullYear() +
+                    "-" +
+                    dt?.getMonth().toString().padStart(2, "0") +
+                    "-" +
+                    dt?.getDate().toString().padStart(2, "0") +
+                    " " +
+                    dt?.getHours().toString().padStart(2, "0") +
+                    ":" +
+                    dt?.getMinutes().toString().padStart(2, "0") ?? ""
         }
     },
     {
@@ -85,6 +106,10 @@ export const languageList: languageData[] = [
         name: ["deutsch", "german"],
         short: "DE",
         uiElements: {
+            navigation: {
+                polls: "Umfragen",
+                home: "Startseite"
+            },
             login: {
                 loggedInAs: (username: string) => "Angemeldet als " + username,
                 notLoggedIn: "Nicht angemeldet",
@@ -137,14 +162,15 @@ export const languageList: languageData[] = [
                     createBtn: "Erstellen"
                 },
                 list: {
-                    lastUpdate: (time: Date) => "Zuletz aktualisiert am " + time.toString()
+                    lastUpdate: (timeString: string) => "Zuletz aktualisiert am " + timeString
                 },
                 details: {
+                    createdBy: (username: string) => "Erstellt von " + username,
                     userCol: "Benutzer",
                     pollName: "Name",
                     maxPerUserVoteCount: "Maximal Anzahl an ausgewählten Optionen (-1 für unendlich)",
-                    dateStringFormat: (start: Date, end?: Date) =>
-                        "Von " + start + (end != undefined ? " \nbis " + end.toString() : ""),
+                    dateStringFormat: (start?: string, end?: string) =>
+                        "Von " + start + (end != undefined ? " \nbis " + end : ""),
                     save: "Speichern",
                     cancel: "Abbrechen",
                     delete: "Löschen",
@@ -159,7 +185,23 @@ export const languageList: languageData[] = [
                     }
                 }
             },
-            serverError: "Ein Fehler beim Server ist aaufgetreten"
+            serverError: "Ein Fehler beim Server ist aaufgetreten",
+            dateToString: (d?: Date) =>
+                d?.getDate().toString().padStart(2, "0") +
+                    "." +
+                    d?.getMonth().toString().padStart(2, "0") +
+                    "." +
+                    d?.getFullYear() ?? "",
+            dateTimeToString: (dt?: Date) =>
+                dt?.getDate().toString().padStart(2, "0") +
+                    "." +
+                    dt?.getMonth().toString().padStart(2, "0") +
+                    "." +
+                    dt?.getFullYear() +
+                    " " +
+                    dt?.getHours().toString().padStart(2, "0") +
+                    ":" +
+                    dt?.getMinutes().toString().padStart(2, "0") ?? ""
         }
     }
 ]

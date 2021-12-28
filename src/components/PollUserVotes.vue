@@ -1,12 +1,19 @@
 <template>
     <tr>
-        <th>{{ this.userVote?.user?.username }}</th>
+        <th>
+            {{
+                this.displayUsernameInsteadOfFull
+                    ? this.userVote?.user?.username
+                    : this.userVote?.user?.firstName + " " + this.userVote?.user?.lastName
+            }}
+            <small>{{ this.pollData?.admin.id == this.userVote?.user?.id ?? false ? "(admin)" : "" }}</small>
+        </th>
         <td v-for="voteOpt in this.userVote?.votes" :key="voteOpt.optionID">
             <a @click="this.change(voteOpt.optionID)" :class="this.isEditable() ? 'changeable' : ''">{{
                 voteOpt.votedFor ? "✔" : "𐄂" ?? "?"
             }}</a
             ><br />
-            <small v-show="this.errorMsg != ''" class="errorInfo">{{ this.errorMsg }}</small>
+            <small v-show="this.errorMsg != '' && voteOpt.votedFor" class="errorInfo">{{ this.errorMsg }}</small>
         </td>
     </tr>
 </template>
@@ -23,7 +30,8 @@
             userData: Object,
             language: Object,
             userVote: Object,
-            pollData: Object
+            pollData: Object,
+            displayUsernameInsteadOfFull: Boolean
         },
         emits: {
             voteChange: null
@@ -34,6 +42,7 @@
         language?: languageData
         userVote?: SimpleUserVotes
         pollData?: DetailedPoll
+        displayUsernameInsteadOfFull?: boolean
 
         errorMsg: string = ""
 
@@ -92,7 +101,12 @@
         }
 
         isEditable(): boolean {
-            return this.userVote?.user?.id == this.userData?.id || this.pollData?.admin.id == this.userData?.id
+            return (
+                (this.userVote?.user?.id == this.userData?.id ||
+                    this.pollData?.admin.id == this.userData?.id ||
+                    this.userData?.admin) ??
+                false
+            )
         }
     }
 </script>

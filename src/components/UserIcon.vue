@@ -57,4 +57,8 @@
         background: var(--secondary-color);
         clip-path: circle(1.5rem at center);
     }
+
+    a {
+        margin: 0 !important;
+    }
 </style>

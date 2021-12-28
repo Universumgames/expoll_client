@@ -18,7 +18,7 @@ export const empty = {
     dateTimeEnd: undefined
 } as ComplexOption
 
-interface SimpleUser {
+export interface SimpleUser {
     id: tUserID
     firstName: string
     lastName: string

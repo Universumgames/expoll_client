@@ -5,6 +5,10 @@ export interface languageData {
     name: string | string[]
     short: string
     uiElements: {
+        navigation: {
+            polls: string
+            home: string
+        }
         login: {
             loggedInAs: (username: string) => string
             notLoggedIn: string
@@ -55,13 +59,14 @@ export interface languageData {
                 createBtn: string
             }
             list: {
-                lastUpdate: (time: Date) => string
+                lastUpdate: (timeString: string) => string
             }
             details: {
+                createdBy: (username: string) => string
                 userCol: string
                 pollName: string
                 maxPerUserVoteCount: string
-                dateStringFormat: (start: Date, end?: Date) => string
+                dateStringFormat: (start?: string, end?: string) => string
                 save: string
                 cancel: string
                 delete: string
@@ -75,6 +80,8 @@ export interface languageData {
             }
         }
         serverError: string
+        dateToString: (d?: Date) => string
+        dateTimeToString: (dt?: Date) => string
     }
 }
 

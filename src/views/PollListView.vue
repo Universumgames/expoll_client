@@ -27,12 +27,14 @@
         },
         props: {
             userData: Object,
-            language: Object
+            language: Object,
+            tryAdminView: Boolean
         }
     })
     export default class PollListView extends Vue {
         userData!: IUser
         polls: IPoll[] = []
+        tryAdminView?: boolean
 
         loading = true
 
@@ -44,7 +46,6 @@
             const pollData = await (await axios.get("/api/poll")).data
             this.polls = pollData.polls
 
-            console.log(pollData)
             this.$forceUpdate()
 
             this.loading = false
@@ -58,7 +59,6 @@
 
 <style scoped>
     .listContainer {
-        width: 90vw;
         margin-left: auto;
         margin-right: auto;
     }

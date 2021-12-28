@@ -2,11 +2,14 @@
     <div>
         <user-icon :userData="this.userData" :language="this.localeLanguage" />
         <div id="nav">
-            <router-link v-show="this.userData != undefined" to="/">Polls</router-link> |
-            <router-link to="/home">Home</router-link> |
+            <router-link v-show="this.userData != undefined" to="/">{{
+                this.localeLanguage?.uiElements.navigation.polls
+            }}</router-link>
+            <router-link to="/home">{{ this.localeLanguage?.uiElements.navigation.home }}</router-link>
             <router-link to="/about">About</router-link>
+            <router-link to="/admin" v-if="userData?.admin">Admin</router-link>
         </div>
-        <router-view :userData="this.userData" :language="localeLanguage" />
+        <router-view :userData="this.userData" :language="localeLanguage" :failedLoading="this.failedLoading" />
         <div class="footer">
             <label>Created by universumgames</label><br />
             <a href="https://universegame.de">Website</a>
@@ -33,6 +36,7 @@
         isDark: boolean = false
         userData?: IUser
         localeLanguage!: languageData
+        failedLoading = false
 
         async created() {
             this.localeLanguage = getSystemLanguage()
@@ -51,7 +55,9 @@
             // this.userData = await getUserData("d3303768-c3d1-4ada-97cb-e433c9c45d25")
             try {
                 this.userData = await startUserGet
-            } catch {}
+            } catch {
+                this.failedLoading = true
+            }
             this.$forceUpdate()
             this.forceLogin()
         }
@@ -139,6 +145,8 @@
         font-weight: bold;
         color: var(--text-color);
         text-decoration: none;
+        margin-left: 1ch;
+        display: inline-block;
     }
 
     a.router-link-exact-active {

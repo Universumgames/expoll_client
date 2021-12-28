@@ -21,6 +21,10 @@
             </div>
             <small>ID: {{ this.pollID }}</small
             ><br />
+            <small
+                >{{ this.language?.uiElements.polls.details.createdBy(this.poll?.admin.username) }}:
+                {{ this.pollID }}</small
+            ><br />
             <!-- description -->
             <div style="margin-top: 1ch">
                 <label>{{ this.language?.uiElements.polls.create.description }}</label
@@ -82,7 +86,12 @@
         <div class="x-scroller">
             <table>
                 <tr>
-                    <th>{{ this.language?.uiElements.polls.details.userCol }}</th>
+                    <th>
+                        {{ this.language?.uiElements.polls.details.userCol }}
+                        <button @click="this.displayUsernameInsteadOfFull = !this.displayUsernameInsteadOfFull">
+                            <switch-icon class="normalIcon" />
+                        </button>
+                    </th>
                     <th v-for="option in this.poll?.options" :key="option.id" style="white-space: pre-wrap">
                         {{ optionValue(option) }}
                         <br />
@@ -153,7 +162,9 @@
                     :language="this.language"
                     :userVote="this.getVotesByUser()"
                     :pollData="this.poll"
+                    :displayUsernameInsteadOfFull="this.displayUsernameInsteadOfFull"
                     @voteChange="this.voteUpdateCallback"
+                    class="currentUserVotes"
                 />
                 <poll-user-vote-row
                     v-for="vote in this.poll?.userVotes"
@@ -163,6 +174,7 @@
                     :language="this.language"
                     :userVote="vote"
                     :pollData="this.poll"
+                    :displayUsernameInsteadOfFull="this.displayUsernameInsteadOfFull"
                     @voteChange="this.voteUpdateCallback"
                 />
             </table>
@@ -177,7 +189,14 @@
 <script lang="ts">
     import axios from "axios"
     import { Options, Vue } from "vue-class-component"
-    import { ComplexOption, DetailedPoll, PollEdit, SimpleUserVotes, simpleVote } from "../scripts/extraInterfaces"
+    import {
+        ComplexOption,
+        DetailedPoll,
+        PollEdit,
+        SimpleUser,
+        SimpleUserVotes,
+        simpleVote
+    } from "../scripts/extraInterfaces"
     import { IPoll, IPollOption, IUser, PollType, tOptionId, tPollID, tUserID } from "../scripts/interfaces"
     import { languageData } from "../scripts/languageConstruct"
     import SaveIcon from "../assetComponents/SaveIcon.vue"
@@ -185,6 +204,7 @@
     import ShareIcon from "../assetComponents/ShareIcon.vue"
     import PollUserVoteRow from "../components/PollUserVotes.vue"
     import LoadingScreen from "../components/LoadingScreen.vue"
+    import SwitchIcon from "../assetComponents/SwitchIcon.vue"
 
     /*
          votes: { user: User; votes: { optionID: tOptionId; votedFor: boolean }
@@ -199,6 +219,7 @@
             SaveIcon,
             EditIcon,
             ShareIcon,
+            SwitchIcon,
             PollUserVoteRow,
             LoadingScreen
         }
@@ -220,6 +241,8 @@
 
         shareLinkCopied = false
 
+        displayUsernameInsteadOfFull = false
+
         async mounted() {
             await this.setup()
         }
@@ -236,7 +259,6 @@
             ).data
             if (this.poll != undefined) this.changes = { pollID: this.poll.pollID }
 
-            console.log(this.poll)
             this.$forceUpdate()
 
             this.loadingMain = false
@@ -260,20 +282,29 @@
         }
 
         optionValue(option: any): string {
+            let start: string | undefined = ""
+            let end: string | undefined = ""
             switch (this.poll?.type) {
                 case PollType.String:
                     return option.value
 
                 case PollType.Date:
+                    start = this.language?.uiElements.dateToString(new Date(option.dateStart))
+                    end = this.language?.uiElements.dateToString(new Date(option.dateEnd))
                     return (
-                        this.language?.uiElements.polls.details.dateStringFormat(option.dateStart, option.dateEnd) ?? ""
+                        this.language?.uiElements.polls.details.dateStringFormat(
+                            start,
+                            option.dateEnd == undefined ? undefined : end
+                        ) ?? ""
                     )
 
                 case PollType.DateTime:
+                    start = this.language?.uiElements.dateTimeToString(new Date(option.dateTimeStart))
+                    end = this.language?.uiElements.dateTimeToString(new Date(option.dateTimeEnd))
                     return (
                         this.language?.uiElements.polls.details.dateStringFormat(
-                            option.dateTimeStart,
-                            option.dateTimeEnd
+                            start,
+                            option.dateTimeEnd == undefined ? undefined : end
                         ) ?? ""
                     )
             }
@@ -296,7 +327,7 @@
         }
 
         mayEdit(): boolean {
-            return this.poll?.admin.id == this.userData?.id ?? false
+            return (this.poll?.admin.id == this.userData?.id ?? false) || (this.userData?.admin ?? false)
         }
 
         async pushChanges() {
@@ -404,5 +435,9 @@
     .x-scroller {
         width: 98vw;
         overflow-x: auto;
+    }
+
+    .currentUserVotes {
+        outline: thin solid var(--primary-color);
     }
 </style>
