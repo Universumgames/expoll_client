@@ -86,13 +86,13 @@ export const languageList: languageData[] = [
             dateToString: (d?: Date) =>
                 d?.getFullYear() +
                     "-" +
-                    d?.getMonth().toString().padStart(2, "0") +
+                    (d?.getMonth() ?? 0 + 1).toString().padStart(2, "0") +
                     "-" +
                     d?.getDay().toString().padStart(2, "0") ?? "",
             dateTimeToString: (dt?: Date) =>
                 dt?.getFullYear() +
                     "-" +
-                    dt?.getMonth().toString().padStart(2, "0") +
+                    (dt?.getMonth() ?? 0 + 1).toString().padStart(2, "0") +
                     "-" +
                     dt?.getDate().toString().padStart(2, "0") +
                     " " +
@@ -127,8 +127,8 @@ export const languageList: languageData[] = [
                     lastName: "Nachname",
                     username: "Bentutzername",
                     validMailNeeded: "Ein gültige E-Mail adresse wird benötigt",
-                    firstNameNeeded: "Dein Vroname muss angegeben werden",
-                    lastNameNeeded: "Dein nachname wird benötigt",
+                    firstNameNeeded: "Dein Vorname muss angegeben werden",
+                    lastNameNeeded: "Dein Nachname wird benötigt",
                     usernameNeeded: "Du musst einen Benutzernamen angeben",
                     signupBtn: "Registrieren"
                 },
@@ -174,7 +174,7 @@ export const languageList: languageData[] = [
                     save: "Speichern",
                     cancel: "Abbrechen",
                     delete: "Löschen",
-                    deleteConfirm: (value: string) => "WIllst du wirklich '" + value + "' unwiederruflich löschen?",
+                    deleteConfirm: (value: string) => "Willst du wirklich '" + value + "' unwiederruflich löschen?",
                     deletePollBtn: "Umfrage löschen",
                     deletePollConfirm:
                         "Sicher, dass du diese Umfrage löschen willst, dies kann nicht rückgängig gemacht werden",
@@ -189,13 +189,13 @@ export const languageList: languageData[] = [
             dateToString: (d?: Date) =>
                 d?.getDate().toString().padStart(2, "0") +
                     "." +
-                    d?.getMonth().toString().padStart(2, "0") +
+                    (d?.getMonth() ?? 0 + 1).toString().padStart(2, "0") +
                     "." +
                     d?.getFullYear() ?? "",
             dateTimeToString: (dt?: Date) =>
                 dt?.getDate().toString().padStart(2, "0") +
                     "." +
-                    dt?.getMonth().toString().padStart(2, "0") +
+                    (dt?.getMonth() ?? 0 + 1).toString().padStart(2, "0") +
                     "." +
                     dt?.getFullYear() +
                     " " +

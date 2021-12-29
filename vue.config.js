@@ -14,6 +14,8 @@ module.exports = {
                 }
             }
         },
-        disableHostCheck: true
+        disableHostCheck: true,
+        // https: true,
+        port: 8080
     }
 }

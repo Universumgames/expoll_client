@@ -22,8 +22,11 @@
             <small>ID: {{ this.pollID }}</small
             ><br />
             <small
-                >{{ this.language?.uiElements.polls.details.createdBy(this.poll?.admin.username) }}:
-                {{ this.pollID }}</small
+                >{{
+                    this.language?.uiElements.polls.details.createdBy(
+                        this.poll?.admin.firstName + " " + this.poll?.admin.lastName
+                    )
+                }} </small
             ><br />
             <!-- description -->
             <div style="margin-top: 1ch">
@@ -353,10 +356,7 @@
 
             this.pushChanges()
 
-            console.log(this.newOption)
-
             this.addingOption = false
-
             this.newOption = {}
         }
 
@@ -409,6 +409,10 @@
 </script>
 
 <style scoped>
+    * {
+        color: var(--text-color);
+    }
+
     input {
         background: var(--secondary-color);
     }

@@ -8,10 +8,10 @@
         "
     >
         <router-link to="/login">
-            <div v-show="this.loggedIn">
+            <div v-show="this.loggedIn" id="userIcoImg">
                 <img src="../assets/logo.png" alt="" />
             </div>
-            <div v-show="!this.loggedIn">{{ this.language?.uiElements.login.loginLink }}</div>
+            <div v-show="!this.loggedIn" id="loginText">{{ this.language?.uiElements.login.loginLink }}</div>
         </router-link>
     </span>
 </template>
@@ -55,7 +55,16 @@
         right: 0;
         margin: 1ch;
         background: var(--secondary-color);
+        width: 3rem;
+        height: 3rem;
         clip-path: circle(1.5rem at center);
+    }
+
+    #userIcoImg {
+    }
+
+    #loginText {
+        transform: translateY(50%);
     }
 
     a {
