@@ -1,5 +1,5 @@
 import axios from "axios"
-import { IUser, ReturnCode } from "./interfaces"
+import { IUser, ReturnCode } from "expoll-lib/interfaces"
 
 /**
  * Create a new user

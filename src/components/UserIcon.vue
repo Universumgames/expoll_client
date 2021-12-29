@@ -18,7 +18,7 @@
 
 <script lang="ts">
     import { Options, Vue } from "vue-class-component"
-    import { IUser } from "../scripts/interfaces"
+    import { IUser } from "expoll-lib/interfaces"
     import getSystemLanguage, { languageData } from "../scripts/languageConstruct"
 
     @Options({

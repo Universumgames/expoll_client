@@ -199,8 +199,8 @@
         SimpleUser,
         SimpleUserVotes,
         simpleVote
-    } from "../scripts/extraInterfaces"
-    import { IPoll, IPollOption, IUser, PollType, tOptionId, tPollID, tUserID } from "../scripts/interfaces"
+    } from "expoll-lib/extraInterfaces"
+    import { IPoll, IPollOption, IUser, PollType, tOptionId, tPollID, tUserID } from "expoll-lib/interfaces"
     import { languageData } from "../scripts/languageConstruct"
     import SaveIcon from "../assetComponents/SaveIcon.vue"
     import EditIcon from "../assetComponents/EditIcon.vue"
@@ -366,7 +366,7 @@
             const deleteConfirm = confirm(this.language?.uiElements.polls.details.deleteConfirm(JSON.stringify(option)))
             if (deleteConfirm) {
                 if (this.changes.options == undefined) this.changes.options = []
-                this.changes.options.push({ optionID: optionID })
+                this.changes.options.push({ id: optionID })
                 await this.pushChanges()
             }
         }

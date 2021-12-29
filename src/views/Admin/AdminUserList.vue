@@ -5,8 +5,8 @@
 
 <script lang="ts">
     import { Options, Vue } from "vue-class-component"
-    import { IUser } from "../../scripts/interfaces"
-    import { UserInfo } from "../../scripts/adminInterfaces"
+    import { IUser } from "expoll-lib/interfaces"
+    import { UserInfo } from "expoll-lib/adminInterfaces"
     import { languageData } from "../../scripts/languageConstruct"
     import UserRow from "./UserRow.vue"
     import axios from "axios"

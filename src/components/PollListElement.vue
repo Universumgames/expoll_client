@@ -31,7 +31,7 @@
 
 <script lang="ts">
     import { Options, Vue } from "vue-class-component"
-    import { IPoll } from "../scripts/interfaces"
+    import { IPoll } from "expoll-lib/interfaces"
     import { languageData } from "../scripts/languageConstruct"
 
     @Options({

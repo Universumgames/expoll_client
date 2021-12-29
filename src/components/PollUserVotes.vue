@@ -21,8 +21,8 @@
 <script lang="ts">
     import axios from "axios"
     import { Options, Vue } from "vue-class-component"
-    import { DetailedPoll, SimpleUserVotes, VoteChange } from "../scripts/extraInterfaces"
-    import { IUser, tOptionId } from "../scripts/interfaces"
+    import { DetailedPoll, SimpleUserVotes, VoteChange } from "expoll-lib/extraInterfaces"
+    import { IUser, tOptionId } from "expoll-lib/interfaces"
     import getSystemLanguage, { languageData } from "../scripts/languageConstruct"
 
     @Options({

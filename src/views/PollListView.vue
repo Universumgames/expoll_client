@@ -17,8 +17,10 @@
     import PollListElement from "../components/PollListElement.vue" // @ is an alias to /src
     import LoadingScreen from "../components/LoadingScreen.vue"
 
-    import { IPoll, IUser } from "../scripts/interfaces"
+    import { IPoll, IUser } from "expoll-lib/interfaces"
     import { languageData } from "../scripts/languageConstruct"
+    import { SimplePoll } from "expoll-lib/extraInterfaces"
+    import { getPollOverviews } from "../scripts/poll"
 
     @Options({
         components: {
@@ -33,7 +35,7 @@
     })
     export default class PollListView extends Vue {
         userData!: IUser
-        polls: IPoll[] = []
+        polls: SimplePoll[] = []
         tryAdminView?: boolean
 
         loading = true
@@ -43,8 +45,8 @@
         create: boolean = false
 
         async mounted() {
-            const pollData = await (await axios.get("/api/poll")).data
-            this.polls = pollData.polls
+            const pollData = await getPollOverviews()
+            this.polls = pollData?.polls ?? []
 
             this.$forceUpdate()
 

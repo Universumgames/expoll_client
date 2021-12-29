@@ -7,8 +7,8 @@
 
 <script lang="ts">
     import { Options, Vue } from "vue-class-component"
-    import { IPoll, IUser } from "../../scripts/interfaces"
-    import { UserInfo } from "../../scripts/adminInterfaces"
+    import { IPoll, IUser } from "expoll-lib/interfaces"
+    import { UserInfo } from "expoll-lib/adminInterfaces"
     import { languageData } from "../../scripts/languageConstruct"
     import axios from "axios"
     import LoadingScreen from "../../components/LoadingScreen.vue"

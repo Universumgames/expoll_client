@@ -69,7 +69,7 @@
 <script lang="ts">
     import axios from "axios"
     import { Options, Vue } from "vue-class-component"
-    import { IUser } from "../scripts/interfaces"
+    import { IUser } from "expoll-lib/interfaces"
     import { languageData } from "../scripts/languageConstruct"
     import { getUserData, signUp } from "../scripts/user"
     import LoadingScreen from "../components/LoadingScreen.vue"

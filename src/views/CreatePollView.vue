@@ -72,9 +72,9 @@
         PollType,
         tDate,
         tDateTime
-    } from "../scripts/interfaces"
+    } from "expoll-lib/interfaces"
     import { languageData } from "../scripts/languageConstruct"
-    import { ComplexOption, empty } from "../scripts/extraInterfaces"
+    import { ComplexOption, empty } from "expoll-lib/extraInterfaces"
 
     @Options({
         components: {},

@@ -23,7 +23,7 @@
     import { Options, Vue } from "vue-class-component"
     import UserIcon from "./components/UserIcon.vue"
     import { isDarkMode } from "./scripts/helper"
-    import { IUser } from "./scripts/interfaces"
+    import { IUser } from "expoll-lib/interfaces"
     import { getUserData } from "./scripts/user"
     import getSystemLanguage, { languageData } from "./scripts/languageConstruct"
 
