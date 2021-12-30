@@ -1,17 +1,13 @@
 import axios from "axios"
 import { IUser, ReturnCode } from "expoll-lib/interfaces"
+import { CreateUserRequest } from "expoll-lib/requestInterfaces"
 
 /**
  * Create a new user
  * @param {{}} data user login data
  * @return {Promise<{string, ReturnCode }>} login key and response code to check for errors
  */
-export async function signUp(data: {
-    firstName: string
-    lastName: string
-    mail: string
-    username: string
-}): Promise<{ loginKey?: string; code: ReturnCode }> {
+export async function signUp(data: CreateUserRequest): Promise<{ loginKey?: string; code: ReturnCode }> {
     try {
         const res = await axios.post("/api/user", data, { withCredentials: true })
         const loginKey = res.data.loginKey

@@ -2,10 +2,18 @@
     <h2>{{ this.language?.uiElements.polls.create.createPoll(pollName) }}</h2>
 
     <label for="pollNameInput">{{ this.language?.uiElements.polls.create.pollNameInputLabel }}</label>
-    <input type="text" v-model="pollName" id="pollNameInput" /><br />
+    <input type="text" v-model="pollName" id="pollNameInput" />
+    <label v-show="this.clicked && this.pollName == ''" class="errorInfo">{{
+        this.language?.uiElements.polls.create.emptyField
+    }}</label>
+    <br />
 
     <label for="pollDescriptionInput">{{ this.language?.uiElements.polls.create.description }}</label>
     <textarea type="text" v-model="description" id="pollDescriptionInput" maxlength="255" rows="7" cols="50" /><br />
+    <label v-show="this.clicked && this.description == ''" class="errorInfo">{{
+        this.language?.uiElements.polls.create.emptyField
+    }}</label
+    ><br />
 
     <label for="typeSelect">{{ this.language?.uiElements.polls.create.typeSelect.label }}</label>
     <select v-model="type" id="typeSelect">
@@ -32,11 +40,17 @@
             <div v-show="type == 0">
                 <label :for="option.id + 'value'">{{ this.language?.uiElements.polls.create.optionValue }}</label>
                 <input v-model="option.value" :id="option.id + 'value'" type="text" />
+                <label v-show="this.clicked && option.value == ''" class="errorInfo">{{
+                    this.language?.uiElements.polls.create.emptyField
+                }}</label>
             </div>
             <!-- Date options -->
             <div v-show="type == 1">
                 <label :for="option.id + 'dateStart'">{{ this.language?.uiElements.polls.create.optionValue }}</label>
                 <input v-model="option.dateStart" :id="option.id + 'dateStart'" type="date" />
+                <label v-show="this.clicked && option.dateStart == undefined" class="errorInfo">{{
+                    this.language?.uiElements.polls.create.emptyField
+                }}</label>
                 <label :for="option.id + 'dateEnd'">{{
                     this.language?.uiElements.polls.create.optionOptEndValue
                 }}</label>
@@ -48,6 +62,9 @@
                     this.language?.uiElements.polls.create.optionValue
                 }}</label>
                 <input v-model="option.dateTimeStart" :id="option.id + 'dateTimeStart'" type="datetime-local" />
+                <label v-show="this.clicked && option.dateTimeStart == undefined" class="errorInfo">{{
+                    this.language?.uiElements.polls.create.emptyField
+                }}</label>
                 <label :for="option.id + 'dateTimeEnd'">{{
                     this.language?.uiElements.polls.create.optionOptEndValue
                 }}</label>
@@ -98,6 +115,8 @@
         options: ComplexOption[] = []
         currentID = 0
 
+        clicked = false
+
         errorMsg = ""
 
         async mounted() {
@@ -116,6 +135,11 @@
         }
 
         async create() {
+            this.clicked = true
+            if (this.pollName == "") return
+            if (this.description == "") return
+            if (this.options[0] == undefined) return
+
             const data: CreatePollRequest = {
                 name: this.pollName,
                 maxPerUserVoteCount: this.maxVoteCount,
@@ -131,7 +155,7 @@
                 }
             } catch (e) {
                 if (e.response.status == ReturnCode.TOO_MANY_POLLS) {
-                    this.errorMsg = this.language?.uiElements.polls.create.maxCountExceeded
+                    this.errorMsg = this.language?.uiElements.polls.create.maxCountExceeded ?? ""
                 }
                 console.warn(e)
             }

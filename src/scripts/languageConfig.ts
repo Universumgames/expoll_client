@@ -17,8 +17,10 @@ export const languageList: languageData[] = [
                 form: {
                     loggingIn: "Loggin in... this may take a few seconds",
                     login: "Login",
+                    requestMail: "Request login mail",
+                    requestBtn: "Request",
                     mail: "Mail address",
-                    loginKey: "or a loginKey",
+                    loginKey: "loginKey",
                     loginBtn: "Login",
                     loginMailOrKeyMissing: "You must either specify your mail address or a loginkey",
                     signup: "Signup",
@@ -59,7 +61,8 @@ export const languageList: languageData[] = [
                     optionValue: "Value",
                     optionOptEndValue: "Optional end value",
                     createBtn: "Create poll",
-                    maxCountExceeded: "You have already created too much polls"
+                    maxCountExceeded: "You have already created too much polls",
+                    emptyField: "This field shouldn't be empty"
                 },
                 list: {
                     lastUpdate: (timeString: string) => "Last update on " + timeString
@@ -118,8 +121,10 @@ export const languageList: languageData[] = [
                 form: {
                     loggingIn: "Anmelden... dies kann einen Moment dauern",
                     login: "Anmelden",
+                    requestMail: "Anmeldelink per Email anfragen",
+                    requestBtn: "Anfragen",
                     mail: "E-Mail Adresse",
-                    loginKey: "oder ein Anmeldeschlüssel (loginKey)",
+                    loginKey: "Anmeldeschlüssel (loginKey)",
                     loginBtn: "Anmelden",
                     loginMailOrKeyMissing:
                         "Es muss entweder eine Mail addresse für einen Anmeldelink oder ein Anmeldeschlüssel angegeben werden",
@@ -161,7 +166,8 @@ export const languageList: languageData[] = [
                     optionValue: "Wert",
                     optionOptEndValue: "Optionales Ende",
                     createBtn: "Erstellen",
-                    maxCountExceeded: "DU hast bereits zu viele Umfragen erstellt"
+                    maxCountExceeded: "DU hast bereits zu viele Umfragen erstellt",
+                    emptyField: "Dieses Feld darf nicht leer sein"
                 },
                 list: {
                     lastUpdate: (timeString: string) => "Zuletz aktualisiert am " + timeString

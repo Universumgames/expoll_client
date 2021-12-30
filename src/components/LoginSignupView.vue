@@ -6,14 +6,19 @@
     <div v-show="!this.paramLoginKeyExist && !this.loggingIn" class="columnContainer">
         <!-- logging in -->
         <div class="column">
-            <h2>{{ this.language?.uiElements.login.form.login }}</h2>
+            <h2>{{ this.language?.uiElements.login.form.requestMail }}</h2>
             <label for="mail">{{ this.language?.uiElements.login.form.mail }}</label>
-            <input id="mail" type="text" placeholder="max.mustermann@gmail.com" ref="loginMail" />
+            <input id="mail" type="text" placeholder="max.mustermann@gmail.com" v-model="loginMail" />
+            <button @click="this.request">{{ this.language?.uiElements.login.form.requestBtn }}</button>
             <br />
+            <h2>{{ this.language?.uiElements.login.form.login }}</h2>
             <label for="key">{{ this.language?.uiElements.login.form.loginKey }}</label>
-            <input id="key" type="text" placeholder="key" ref="loginKey" />
+            <input id="key" type="text" placeholder="key" v-model="loginKey" />
             <button @click="this.login">{{ this.language?.uiElements.login.form.loginBtn }}</button>
-            <p v-if="this.loginMissing" class="errorInfo">
+            <p
+                v-if="(this.loginKey == '' || this.loginMail == '') && (this.requestClicked || this.loginClicked)"
+                class="errorInfo"
+            >
                 {{ this.language?.uiElements.login.form.loginMailOrKeyMissing }}
             </p>
             <p v-if="this.loginMsg != ''">{{ this.loginMsg }}</p>
@@ -22,28 +27,28 @@
         <div class="column">
             <h2>{{ this.language?.uiElements.login.form.signup }}</h2>
             <label for="mail">{{ this.language?.uiElements.login.form.mail }}</label>
-            <small v-if="this.signMailMis" class="errorInfo">{{
+            <small v-if="this.signupMail == '' && clickedSignup" class="errorInfo">{{
                 this.language?.uiElements.login.form.validMailNeeded
             }}</small>
-            <input id="mail" type="text" placeholder="max.mustermann@gmail.com" ref="signupMail" /><br />
+            <input id="mail" type="text" placeholder="max.mustermann@gmail.com" v-model="signupMail" /><br />
 
             <label for="first">{{ this.language?.uiElements.login.form.firstName }}</label>
-            <small v-if="this.signFirstMis" class="errorInfo">{{
+            <small v-if="this.signupFirstName == '' && clickedSignup" class="errorInfo">{{
                 this.language?.uiElements.login.form.firstNameNeeded
             }}</small>
-            <input id="first" type="text" placeholder="Max" ref="signupFirstName" /><br />
+            <input id="first" type="text" placeholder="Max" v-model="signupFirstName" /><br />
 
             <label for="last">{{ this.language?.uiElements.login.form.lastName }}</label>
-            <small v-if="this.signLastMis" class="errorInfo">{{
+            <small v-if="this.signupLastName == '' && clickedSignup" class="errorInfo">{{
                 this.language?.uiElements.login.form.lastNameNeeded
             }}</small>
-            <input id="last" type="text" placeholder="Mustermann" ref="signupLastName" /><br />
+            <input id="last" type="text" placeholder="Mustermann" v-model="signupLastName" /><br />
 
             <label for="user">{{ this.language?.uiElements.login.form.username }}</label>
-            <small v-if="this.signUsrMis" class="errorInfo">{{
+            <small v-if="this.signupUsername == '' && clickedSignup" class="errorInfo">{{
                 this.language?.uiElements.login.form.usernameNeeded
             }}</small>
-            <input id="user" type="text" placeholder="mustermannekin001" ref="signupUsername" />
+            <input id="user" type="text" placeholder="mustermannekin001" v-model="signupUsername" />
             <button @click="this.signup">{{ this.language?.uiElements.login.form.signupBtn }}</button>
             <!-- notes -->
             <div style="margin: 1rem">
@@ -54,7 +59,10 @@
                     Information regarding polls (like participation and votes) are stored as long as the polls exist. If
                     you want to delete your user account, this will be possible in the future. When deleting your
                     account only your personal information wil be deleted such as your mail, and your name, your
-                    username and votes will be stored going forward to serve this site's purpose.</small
+                    username and votes will be stored going forward to serve this site's purpose.<br />
+                    This site is protected by reCAPTCHA and the Google
+                    <a href="https://policies.google.com/privacy">Privacy Policy</a> and
+                    <a href="https://policies.google.com/terms">Terms of Service</a> apply.</small
                 >
             </div>
         </div>
@@ -73,6 +81,16 @@
     import { languageData } from "../scripts/languageConstruct"
     import { getUserData, requestLoginMail, signUp } from "../scripts/user"
     import LoadingScreen from "../components/LoadingScreen.vue"
+    import { ReCaptchaInstance } from "../scripts/recaptcha"
+
+    declare global {
+        interface Window {
+            grecaptcha: ReCaptchaInstance
+            captchaOnLoad: () => void
+        }
+    }
+
+    const captchaKey = "6LcreNsdAAAAAAGYzVEJFg1IcKLQsWDrh_LAYHsB"
 
     @Options({
         props: {
@@ -90,27 +108,19 @@
         loginMsg = ""
         errorMsg = ""
 
-        loginMailEle!: HTMLInputElement
-        loginKeyEle!: HTMLInputElement
+        loginMail = ""
+        loginKey = ""
 
-        signupFirstName!: HTMLInputElement
-        signupLastName!: HTMLInputElement
-        signupUsername!: HTMLInputElement
-        signupMail!: HTMLInputElement
+        signupMail = ""
+        signupFirstName = ""
+        signupLastName = ""
+        signupUsername = ""
 
-        signMailMis = false
-        signLastMis = false
-        signFirstMis = false
-        signUsrMis = false
+        clickedSignup = false
+        requestClicked = false
+        loginClicked = false
 
         async mounted() {
-            this.loginMailEle = this.$refs.loginMail as HTMLInputElement
-            this.loginKeyEle = this.$refs.loginKey as HTMLInputElement
-            this.signupFirstName = this.$refs.signupFirstName as HTMLInputElement
-            this.signupLastName = this.$refs.signupLastName as HTMLInputElement
-            this.signupUsername = this.$refs.signupUsername as HTMLInputElement
-            this.signupMail = this.$refs.signupMail as HTMLInputElement
-
             if (this.paramLoginKeyExist) {
                 this.loggingIn = true
                 try {
@@ -133,54 +143,61 @@
             return this.paramLoginKey != undefined && this.paramLoginKey != ""
         }
 
+        async request() {
+            this.requestClicked = true
+            if (this.loginMail == "") return
+
+            try {
+                const rc = await requestLoginMail(this.loginMail)
+                if (rc != ReturnCode.OK) throw new Error()
+                this.loginMsg = this.language?.uiElements.login.messages.mailSent ?? ""
+                this.loggingIn = false
+                this.errorMsg = ""
+            } catch (error) {
+                this.loginMsg = ""
+                this.errorMsg = this.language?.uiElements.login.messages.mailNotExist ?? ""
+                this.loggingIn = false
+            }
+        }
+
         async login() {
-            if (this.loginMailEle.value == "" && this.loginKeyEle.value == "") {
-                this.loginMissing = true
-                return
-            } else this.loginMissing = false
+            this.loginClicked = true
+            if (this.loginKey == "") return
 
             this.loggingIn = true
 
-            if (this.loginMailEle.value != "") {
-                try {
-                    const rc = await requestLoginMail(this.loginMailEle.value)
-                    if (rc != ReturnCode.OK) throw new Error()
-                    this.loginMsg = this.language?.uiElements.login.messages.mailSent ?? ""
-                    this.loggingIn = false
-                    this.errorMsg = ""
-                } catch (error) {
-                    this.loginMsg = ""
-                    this.errorMsg = this.language?.uiElements.login.messages.mailNotExist ?? ""
-                    this.loggingIn = false
-                }
-            } else if (this.loginKeyEle.value != "") {
-                this.loginMsg = ""
-                try {
-                    const user = await getUserData(this.loginKeyEle.value)
-                    // @ts-ignore
-                    window.location = "/"
-                } catch (error) {
-                    this.errorMsg = this.language?.uiElements.login.messages.loginKeyNotExist ?? ""
-                    this.loggingIn = false
-                }
+            this.loginMsg = ""
+            try {
+                console.log(this.loginKey)
+                const user = await getUserData(this.loginKey)
+                // @ts-ignore
+                window.location = "/"
+            } catch (error) {
+                this.errorMsg = this.language?.uiElements.login.messages.loginKeyNotExist ?? ""
+                this.loggingIn = false
             }
         }
 
         async signup() {
-            this.signMailMis = this.signupMail.value == ""
-            this.signUsrMis = this.signupUsername.value == ""
-            this.signLastMis = this.signupLastName.value == ""
-            this.signFirstMis = this.signupFirstName.value == ""
+            this.clickedSignup = true
 
-            if (this.signMailMis || this.signUsrMis || this.signLastMis || this.signFirstMis) return
+            if (
+                this.signupMail == "" ||
+                this.signupUsername == "" ||
+                this.signupLastName == "" ||
+                this.signupFirstName == ""
+            ) {
+                return
+            }
 
             this.errorMsg = ""
 
             const rc = await signUp({
-                firstName: this.signupFirstName.value,
-                lastName: this.signupLastName.value,
-                username: this.signupUsername.value,
-                mail: this.signupMail.value.toLowerCase().replace(" ", "")
+                firstName: this.signupFirstName,
+                lastName: this.signupLastName,
+                username: this.signupUsername,
+                mail: this.signupMail.toLowerCase().replace(" ", ""),
+                captcha: await this.getCaptchaToken()
             })
 
             switch (rc.code) {
@@ -196,6 +213,16 @@
 
             // @ts-ignore
             if (rc.code == 200) window.location = "/"
+        }
+
+        async getCaptchaToken(): Promise<string> {
+            return new Promise((resolve, reject) => {
+                window.grecaptcha.ready(() => {
+                    window.grecaptcha.execute(captchaKey, { action: "signup" }).then((token: string) => {
+                        resolve(token)
+                    })
+                })
+            })
         }
     }
 </script>

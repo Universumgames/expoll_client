@@ -41,8 +41,13 @@
         async created() {
             this.localeLanguage = getSystemLanguage()
             // @ts-ignore
-            this.$router.beforeEach((to) => {
+            this.$router.beforeEach(async (to) => {
                 document.title = to.meta.title != undefined ? (to.meta.title as string) : "404 Page not found"
+                const badges = document.getElementsByClassName("grecaptcha-badge")
+                for (let i = 0; i < badges.length; i++) {
+                    // @ts-ignore
+                    badges[i].style.visibility = to.path == "/login" ? "visible" : "hidden"
+                }
             })
 
             console.log(this.localeLanguage)
@@ -192,5 +197,9 @@
 
     .footer > * {
         margin: 1ch;
+    }
+
+    .grecaptcha-badge {
+        visibility: hidden;
     }
 </style>

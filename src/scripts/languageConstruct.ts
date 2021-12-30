@@ -16,6 +16,8 @@ export interface languageData {
             form: {
                 loggingIn: string
                 login: string
+                requestMail: string
+                requestBtn: string
                 mail: string
                 loginKey: string
                 loginBtn: string
@@ -58,6 +60,7 @@ export interface languageData {
                 optionOptEndValue: string
                 createBtn: string
                 maxCountExceeded: string
+                emptyField: string
             }
             list: {
                 lastUpdate: (timeString: string) => string

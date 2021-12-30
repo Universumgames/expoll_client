@@ -54,13 +54,14 @@
         top: 0;
         right: 0;
         margin: 1ch;
-        background: var(--secondary-color);
+
         width: 3rem;
         height: 3rem;
-        clip-path: circle(1.5rem at center);
     }
 
     #userIcoImg {
+        background: var(--secondary-color);
+        clip-path: circle(1.5rem at center);
     }
 
     #loginText {
