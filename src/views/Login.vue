@@ -21,11 +21,10 @@
 </template>
 
 <script lang="ts">
-    import axios from "axios"
     import { Options, Vue } from "vue-class-component"
     import { IUser } from "expoll-lib/interfaces"
     import { languageData } from "../scripts/languageConstruct"
-    import { getUserData, signUp, logout } from "../scripts/user"
+    import { logout } from "../scripts/user"
     import LoadingScreen from "../components/LoadingScreen.vue"
     import LoginSignupView from "../components/LoginSignupView.vue"
 

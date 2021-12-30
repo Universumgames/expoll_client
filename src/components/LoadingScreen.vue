@@ -5,7 +5,7 @@
 <script lang="ts">
     import { Options, Vue } from "vue-class-component"
     import { IUser } from "expoll-lib/interfaces"
-    import getSystemLanguage, { languageData } from "../scripts/languageConstruct"
+    import { languageData } from "../scripts/languageConstruct"
 
     @Options({
         props: {

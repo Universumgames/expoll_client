@@ -38,7 +38,8 @@ export const languageList: languageData[] = [
                 messages: {
                     loginKeyNotExist: "Loginkey is invalid",
                     mailSent:
-                        "An email has been sent to your mail address with an login link, receiving may take some minutes",
+                        "An email has been sent to your mail address with an login link, " +
+                        "receiving may take some minutes",
                     mailNotExist: "Mail address is not registered, please use a valid one or create a new user",
                     userExists: "Username is already taken"
                 }
@@ -127,7 +128,8 @@ export const languageList: languageData[] = [
                     loginKey: "Anmeldeschlüssel (loginKey)",
                     loginBtn: "Anmelden",
                     loginMailOrKeyMissing:
-                        "Es muss entweder eine Mail addresse für einen Anmeldelink oder ein Anmeldeschlüssel angegeben werden",
+                        "Es muss entweder eine Mail addresse für einen Anmeldelink " +
+                        "oder ein Anmeldeschlüssel angegeben werden",
                     signup: "Registrieren",
                     firstName: "Vorname",
                     lastName: "Nachname",
@@ -143,7 +145,8 @@ export const languageList: languageData[] = [
                 messages: {
                     loginKeyNotExist: "Der Anmeldeschlüssel ist nicht valide",
                     mailSent:
-                        "Es wird ein E-Mail mit einem Anmeldeschlüssel versendet, dies kann einen kleinen augenblick in Anspruch nehmen",
+                        "Es wird ein E-Mail mit einem Anmeldeschlüssel versendet, " +
+                        "dies kann einen kleinen augenblick in Anspruch nehmen",
                     mailNotExist: "Die E-Mail Adresse existiert nicht, jetzt registrieren und Benutzer erstellen",
                     userExists: "Ein anderer Benutzer mit dieser Email Adresse oder Benutzernamen existiert bereits"
                 }
@@ -187,7 +190,8 @@ export const languageList: languageData[] = [
                     deletePollConfirm:
                         "Sicher, dass du diese Umfrage löschen willst, dies kann nicht rückgängig gemacht werden",
                     deletePollConfirmConfirm:
-                        "Bist du WIRLICH sicher, dass du diese Umfrage löschen willst, das Löschen kann icht rückgängig gemacht werden",
+                        "Bist du WIRLICH sicher, dass du diese Umfrage löschen willst, " +
+                        "das Löschen kann icht rückgängig gemacht werden",
                     errorMsgs: {
                         tooMuchVotes: "Zu viele Optionen gewählt, wähle zuerst Optionen ab"
                     }

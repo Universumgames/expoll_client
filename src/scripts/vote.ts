@@ -1,4 +1,4 @@
-import axios, { Axios } from "axios"
+import axios from "axios"
 import { ReturnCode } from "expoll-lib/interfaces"
 import { VoteRequest } from "expoll-lib/requestInterfaces"
 

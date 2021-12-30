@@ -80,18 +80,7 @@
 <script lang="ts">
     import axios from "axios"
     import { Options, Vue } from "vue-class-component"
-    import {
-        IPoll,
-        IPollOption,
-        IPollOptionDate,
-        IPollOptionDateTime,
-        IPollOptionString,
-        IUser,
-        PollType,
-        ReturnCode,
-        tDate,
-        tDateTime
-    } from "expoll-lib/interfaces"
+    import { IUser, PollType, ReturnCode } from "expoll-lib/interfaces"
     import { languageData } from "../scripts/languageConstruct"
     import { ComplexOption, empty } from "expoll-lib/extraInterfaces"
     import { CreatePollRequest } from "expoll-lib/requestInterfaces"

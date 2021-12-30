@@ -19,7 +19,6 @@
 </template>
 
 <script lang="ts">
-    import axios from "axios"
     import { Options, Vue } from "vue-class-component"
     import UserIcon from "./components/UserIcon.vue"
     import { isDarkMode } from "./scripts/helper"

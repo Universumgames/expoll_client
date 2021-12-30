@@ -75,15 +75,15 @@
 </template>
 
 <script lang="ts">
-    import axios from "axios"
     import { Options, Vue } from "vue-class-component"
-    import { IUser, ReturnCode } from "expoll-lib/interfaces"
+    import { ReturnCode } from "expoll-lib/interfaces"
     import { languageData } from "../scripts/languageConstruct"
     import { getUserData, requestLoginMail, signUp } from "../scripts/user"
     import LoadingScreen from "../components/LoadingScreen.vue"
     import { ReCaptchaInstance } from "../scripts/recaptcha"
 
     declare global {
+        // eslint-disable-next-line no-unused-vars
         interface Window {
             grecaptcha: ReCaptchaInstance
             captchaOnLoad: () => void
@@ -124,7 +124,7 @@
             if (this.paramLoginKeyExist) {
                 this.loggingIn = true
                 try {
-                    const user = await getUserData(this.paramLoginKey)
+                    await getUserData(this.paramLoginKey)
                     // @ts-ignore
                     window.location = "/"
                 } catch (error) {
@@ -169,7 +169,7 @@
             this.loginMsg = ""
             try {
                 console.log(this.loginKey)
-                const user = await getUserData(this.loginKey)
+                await getUserData(this.loginKey)
                 // @ts-ignore
                 window.location = "/"
             } catch (error) {

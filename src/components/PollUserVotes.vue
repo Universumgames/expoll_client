@@ -19,11 +19,10 @@
 </template>
 
 <script lang="ts">
-    import axios from "axios"
     import { Options, Vue } from "vue-class-component"
-    import { DetailedPoll, SimpleUserVotes, VoteChange } from "expoll-lib/extraInterfaces"
+    import { DetailedPoll, SimpleUserVotes } from "expoll-lib/extraInterfaces"
     import { IUser, ReturnCode, tOptionId } from "expoll-lib/interfaces"
-    import getSystemLanguage, { languageData } from "../scripts/languageConstruct"
+    import { languageData } from "../scripts/languageConstruct"
     import { vote } from "../scripts/vote"
     import { VoteRequest } from "expoll-lib/requestInterfaces"
 
@@ -60,13 +59,13 @@
             if (this.userVote.user == undefined) return
 
             if (this.isEditable()) {
-                const maxCount = this.maxAcceptableVoteCount
+                // const maxCount = this.maxAcceptableVoteCount
 
                 const option = this.userVote?.votes.find((vote) => vote.optionID == optionID)
                 if (option == undefined) return
                 this.errorMsg = ""
 
-                const oldState: boolean | undefined = option.votedFor
+                // const oldState: boolean | undefined = option.votedFor
                 if (option.votedFor == undefined) option.votedFor = true
                 else option.votedFor = !option.votedFor
                 this.$forceUpdate()

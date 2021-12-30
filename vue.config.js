@@ -1,6 +1,7 @@
 /**
  * @type {import('@vue/cli-service').ProjectOptions}
  */
+// eslint-disable-next-line no-undef
 module.exports = {
     devServer: {
         proxy: {

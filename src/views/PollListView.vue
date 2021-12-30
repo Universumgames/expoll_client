@@ -12,12 +12,11 @@
 </template>
 
 <script lang="ts">
-    import axios from "axios"
     import { Options, Vue } from "vue-class-component"
     import PollListElement from "../components/PollListElement.vue" // @ is an alias to /src
     import LoadingScreen from "../components/LoadingScreen.vue"
 
-    import { IPoll, IUser } from "expoll-lib/interfaces"
+    import { IUser } from "expoll-lib/interfaces"
     import { languageData } from "../scripts/languageConstruct"
     import { SimplePoll } from "expoll-lib/extraInterfaces"
     import { getPollOverviews } from "../scripts/poll"

@@ -13,7 +13,6 @@
 <script lang="ts">
     import { Options, Vue } from "vue-class-component"
     import { UserInfo } from "expoll-lib/adminInterfaces"
-    import { IUser } from "expoll-lib/interfaces"
     import { languageData } from "../../scripts/languageConstruct"
 
     @Options({

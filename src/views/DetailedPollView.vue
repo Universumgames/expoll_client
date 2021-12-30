@@ -192,15 +192,8 @@
 <script lang="ts">
     import axios from "axios"
     import { Options, Vue } from "vue-class-component"
-    import {
-        ComplexOption,
-        DetailedPoll,
-        PollEdit,
-        SimpleUser,
-        SimpleUserVotes,
-        simpleVote
-    } from "expoll-lib/extraInterfaces"
-    import { IPoll, IPollOption, IUser, PollType, tOptionId, tPollID, tUserID } from "expoll-lib/interfaces"
+    import { ComplexOption, DetailedPoll, SimpleUserVotes } from "expoll-lib/extraInterfaces"
+    import { IUser, PollType, tOptionId } from "expoll-lib/interfaces"
     import { languageData } from "../scripts/languageConstruct"
     import SaveIcon from "../assetComponents/SaveIcon.vue"
     import EditIcon from "../assetComponents/EditIcon.vue"
@@ -276,7 +269,7 @@
                 false
             ) {
                 try {
-                    const rc = await axios.put("/api/poll", { inviteLink: this.pollID }, { withCredentials: true })
+                    await axios.put("/api/poll", { inviteLink: this.pollID }, { withCredentials: true })
                     // @ts-ignore
                     window.location = "/#/polls/" + this.pollID
                 } catch (e) {
