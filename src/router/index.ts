@@ -10,7 +10,7 @@ import AdminPollList from "../views/Admin/AdminPollList.vue"
 
 const routes = [
     {
-        path: "/",
+        path: "/polls",
         name: "Polls",
         component: PollListView,
         meta: {
@@ -34,7 +34,7 @@ const routes = [
         }
     },
     {
-        path: "/home",
+        path: "/",
         name: "Home",
         component: Home,
         meta: {

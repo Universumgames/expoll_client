@@ -22,8 +22,10 @@
     import axios from "axios"
     import { Options, Vue } from "vue-class-component"
     import { DetailedPoll, SimpleUserVotes, VoteChange } from "expoll-lib/extraInterfaces"
-    import { IUser, tOptionId } from "expoll-lib/interfaces"
+    import { IUser, ReturnCode, tOptionId } from "expoll-lib/interfaces"
     import getSystemLanguage, { languageData } from "../scripts/languageConstruct"
+    import { vote } from "../scripts/vote"
+    import { VoteRequest } from "expoll-lib/requestInterfaces"
 
     @Options({
         props: {
@@ -69,22 +71,18 @@
                 else option.votedFor = !option.votedFor
                 this.$forceUpdate()
 
-                try {
-                    const change: VoteChange = {
-                        pollID: this.pollData.pollID,
-                        optionID: optionID,
-                        votedFor: option.votedFor,
-                        userID: this.userVote.user.id
-                    }
-                    const rc = await axios.post("/api/vote", change, { withCredentials: true })
-                    console.log(rc)
-
-                    this.$forceUpdate()
-                } catch (e) {
-                    if (e.response.status != 200) {
-                        this.errorMsg = this.language?.uiElements.polls.details.errorMsgs.tooMuchVotes ?? ""
-                    }
+                const change: VoteRequest = {
+                    pollID: this.pollData.pollID,
+                    optionID: optionID,
+                    votedFor: option.votedFor,
+                    userID: this.userVote.user.id
                 }
+
+                const rc = await vote(change)
+                if (rc != ReturnCode.OK) {
+                    this.errorMsg = this.language?.uiElements.polls.details.errorMsgs.tooMuchVotes ?? ""
+                }
+                this.$forceUpdate()
             }
         }
 

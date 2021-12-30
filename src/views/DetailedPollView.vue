@@ -208,6 +208,7 @@
     import PollUserVoteRow from "../components/PollUserVotes.vue"
     import LoadingScreen from "../components/LoadingScreen.vue"
     import SwitchIcon from "../assetComponents/SwitchIcon.vue"
+    import { EditPollRequest } from "expoll-lib/requestInterfaces"
 
     /*
          votes: { user: User; votes: { optionID: tOptionId; votedFor: boolean }
@@ -238,7 +239,7 @@
 
         addingOption = false
 
-        changes: PollEdit = { pollID: "" }
+        changes: EditPollRequest = { pollID: "" }
 
         test: string = ""
 
@@ -381,7 +382,7 @@
             const confirm2 = confirm(this.language?.uiElements.polls.details.deletePollConfirmConfirm)
             if (!confirm2) return
 
-            await axios.put("/api/poll", { pollID: this.poll?.pollID, delete: true } as PollEdit)
+            await axios.put("/api/poll", { pollID: this.poll?.pollID, delete: true } as EditPollRequest)
             // @ts-ignore
             window.location = "/"
         }

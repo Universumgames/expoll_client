@@ -25,7 +25,7 @@
     import { Options, Vue } from "vue-class-component"
     import { IUser } from "expoll-lib/interfaces"
     import { languageData } from "../scripts/languageConstruct"
-    import { getUserData, signUp } from "../scripts/user"
+    import { getUserData, signUp, logout } from "../scripts/user"
     import LoadingScreen from "../components/LoadingScreen.vue"
     import LoginSignupView from "../components/LoginSignupView.vue"
 
@@ -54,11 +54,7 @@
         }
 
         async logout() {
-            try {
-                await axios.post("/api/user/logout", { withCredentials: true })
-            } catch (error) {
-                console.error(error)
-            }
+            await logout()
             location.reload()
         }
     }

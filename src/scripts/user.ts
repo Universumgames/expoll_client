@@ -25,6 +25,22 @@ export async function signUp(data: {
 }
 
 /**
+ * Requesting a loginmail being send to the users mail address
+ * @param {string} mail the registered user's mail address
+ * @return {ReturnCode} returns OK if user exists and mail has been sent, appropriate code otherwise
+ */
+export async function requestLoginMail(mail: string): Promise<ReturnCode> {
+    try {
+        await axios.post("/api/user/login", {
+            mail: mail.toLowerCase().replace(" ", "")
+        })
+        return ReturnCode.OK
+    } catch (e: any) {
+        return e.response.status
+    }
+}
+
+/**
  * Get user data via cookie
  * @param {string?} loginKey if loginkey is not stored as cookie but as raw value, it can be passed here
  * @return {IUser} return user data
@@ -33,4 +49,15 @@ export async function getUserData(loginKey?: string): Promise<IUser> {
     if (loginKey != undefined) {
         return (await axios.post("/api/user/login", { loginKey: loginKey })).data as IUser
     } else return (await axios.get("/api/user", { withCredentials: true })).data as IUser
+}
+
+/**
+ * Logout if logged in
+ */
+export async function logout() {
+    try {
+        await axios.post("/api/user/logout", { withCredentials: true })
+    } catch (error) {
+        console.error(error)
+    }
 }

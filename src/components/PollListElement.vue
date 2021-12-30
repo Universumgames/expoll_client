@@ -1,10 +1,10 @@
 <template>
-    <router-link :to="'/polls/' + poll.id">
+    <router-link :to="'/polls/' + poll?.pollID">
         <div class="pollListElementContainer">
             <div>
                 {{ poll.name }}<br />
                 <small
-                    ><small>{{ poll.id }}</small></small
+                    ><small>{{ poll.pollID }}</small></small
                 >
             </div>
             <div>

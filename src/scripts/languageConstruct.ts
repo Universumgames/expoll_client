@@ -57,6 +57,7 @@ export interface languageData {
                 optionValue: string
                 optionOptEndValue: string
                 createBtn: string
+                maxCountExceeded: string
             }
             list: {
                 lastUpdate: (timeString: string) => string

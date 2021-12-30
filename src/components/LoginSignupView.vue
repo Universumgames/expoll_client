@@ -69,9 +69,9 @@
 <script lang="ts">
     import axios from "axios"
     import { Options, Vue } from "vue-class-component"
-    import { IUser } from "expoll-lib/interfaces"
+    import { IUser, ReturnCode } from "expoll-lib/interfaces"
     import { languageData } from "../scripts/languageConstruct"
-    import { getUserData, signUp } from "../scripts/user"
+    import { getUserData, requestLoginMail, signUp } from "../scripts/user"
     import LoadingScreen from "../components/LoadingScreen.vue"
 
     @Options({
@@ -143,11 +143,8 @@
 
             if (this.loginMailEle.value != "") {
                 try {
-                    const user = (
-                        await axios.post("/api/user/login", {
-                            mail: this.loginMailEle.value.toLowerCase().replace(" ", "")
-                        })
-                    ).data as IUser
+                    const rc = await requestLoginMail(this.loginMailEle.value)
+                    if (rc != ReturnCode.OK) throw new Error()
                     this.loginMsg = this.language?.uiElements.login.messages.mailSent ?? ""
                     this.loggingIn = false
                     this.errorMsg = ""

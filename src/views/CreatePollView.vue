@@ -57,6 +57,7 @@
     </div>
     <br />
     <button @click="create">{{ this.language?.uiElements.polls.create.createBtn }}</button>
+    <label class="errorInfo" v-show="this.errorInfo != ''">{{ this.errorInfo }}</label>
 </template>
 
 <script lang="ts">
@@ -70,11 +71,13 @@
         IPollOptionString,
         IUser,
         PollType,
+        ReturnCode,
         tDate,
         tDateTime
     } from "expoll-lib/interfaces"
     import { languageData } from "../scripts/languageConstruct"
     import { ComplexOption, empty } from "expoll-lib/extraInterfaces"
+    import { CreatePollRequest } from "expoll-lib/requestInterfaces"
 
     @Options({
         components: {},
@@ -95,6 +98,8 @@
         options: ComplexOption[] = []
         currentID = 0
 
+        errorMsg = ""
+
         async mounted() {
             this.options.push(empty)
         }
@@ -111,7 +116,7 @@
         }
 
         async create() {
-            const data = {
+            const data: CreatePollRequest = {
                 name: this.pollName,
                 maxPerUserVoteCount: this.maxVoteCount,
                 description: this.description,
@@ -122,9 +127,12 @@
                 const retData = await axios.post("/api/poll", data)
                 if (retData.status == 200) {
                     // @ts-ignore
-                    window.location = "/"
+                    window.location = "/#/polls"
                 }
             } catch (e) {
+                if (e.response.status == ReturnCode.TOO_MANY_POLLS) {
+                    this.errorMsg = this.language?.uiElements.polls.create.maxCountExceeded
+                }
                 console.warn(e)
             }
         }

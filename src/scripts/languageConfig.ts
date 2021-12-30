@@ -58,7 +58,8 @@ export const languageList: languageData[] = [
                     optionName: (id: number) => "Option nr." + id,
                     optionValue: "Value",
                     optionOptEndValue: "Optional end value",
-                    createBtn: "Create poll"
+                    createBtn: "Create poll",
+                    maxCountExceeded: "You have already created too much polls"
                 },
                 list: {
                     lastUpdate: (timeString: string) => "Last update on " + timeString
@@ -159,7 +160,8 @@ export const languageList: languageData[] = [
                     optionName: (id: number) => "Option Nr. " + id,
                     optionValue: "Wert",
                     optionOptEndValue: "Optionales Ende",
-                    createBtn: "Erstellen"
+                    createBtn: "Erstellen",
+                    maxCountExceeded: "DU hast bereits zu viele Umfragen erstellt"
                 },
                 list: {
                     lastUpdate: (timeString: string) => "Zuletz aktualisiert am " + timeString
