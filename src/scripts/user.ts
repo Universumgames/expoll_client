@@ -41,7 +41,7 @@ export async function requestLoginMail(mail: string): Promise<ReturnCode> {
  * @param {string?} loginKey if loginkey is not stored as cookie but as raw value, it can be passed here
  * @return {IUser} return user data
  */
-export async function getUserData(loginKey?: string): Promise<IUser> {
+export async function getUserData(loginKey?: string): Promise<IUser | undefined> {
     if (loginKey != undefined) {
         return (await axios.post("/api/user/login", { loginKey: loginKey })).data as IUser
     } else return (await axios.get("/api/user", { withCredentials: true })).data as IUser

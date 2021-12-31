@@ -16,7 +16,7 @@
             <input id="key" type="text" placeholder="key" v-model="loginKey" />
             <button @click="this.login">{{ this.language?.uiElements.login.form.loginBtn }}</button>
             <p
-                v-if="(this.loginKey == '' || this.loginMail == '') && (this.requestClicked || this.loginClicked)"
+                v-if="(this.loginKey == '' && this.loginClicked) || (this.loginMail == '' && this.requestClicked)"
                 class="errorInfo"
             >
                 {{ this.language?.uiElements.login.form.loginMailOrKeyMissing }}
@@ -146,6 +146,7 @@
         async request() {
             this.requestClicked = true
             if (this.loginMail == "") return
+            this.loginClicked = false
 
             try {
                 const rc = await requestLoginMail(this.loginMail)
@@ -163,6 +164,7 @@
         async login() {
             this.loginClicked = true
             if (this.loginKey == "") return
+            this.requestClicked = false
 
             this.loggingIn = true
 
@@ -201,11 +203,14 @@
             })
 
             switch (rc.code) {
-                case 406:
+                case ReturnCode.USER_EXISTS:
                     this.errorMsg = this.language?.uiElements.login.messages.userExists ?? ""
                     break
-                case 500:
+                case ReturnCode.INTERNAL_SERVER_ERROR:
                     this.errorMsg = this.language?.uiElements.serverError ?? ""
+                    break
+                case ReturnCode.CAPTCHA_INVALID:
+                    this.errorMsg = "Captcha invalid"
                     break
             }
 
