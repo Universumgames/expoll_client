@@ -1,6 +1,10 @@
 <template>
     <loading-screen v-show="this.loadingMain" />
-    <div v-show="!this.loadingMain">
+    <div v-show="!this.loadingMain && this.loadingFailed">
+        <h2 class="errorInfo">{{ this.language?.uiElements.login.loginFirst }}</h2>
+        <login-signup-view :language="this.language" />
+    </div>
+    <div v-show="!this.loadingMain && !this.loadingFailed">
         <div style="text-align: left">
             <!-- name -->
             <div>
@@ -202,6 +206,7 @@
     import LoadingScreen from "../components/LoadingScreen.vue"
     import SwitchIcon from "../assetComponents/SwitchIcon.vue"
     import { EditPollRequest } from "expoll-lib/requestInterfaces"
+    import LoginSignupView from "../components/LoginSignupView.vue"
 
     /*
          votes: { user: User; votes: { optionID: tOptionId; votedFor: boolean }
@@ -218,7 +223,8 @@
             ShareIcon,
             SwitchIcon,
             PollUserVoteRow,
-            LoadingScreen
+            LoadingScreen,
+            LoginSignupView
         }
     })
     export default class DetailedPollView extends Vue {
@@ -226,6 +232,7 @@
         language?: languageData
 
         loadingMain = true
+        loadingFailed = false
 
         poll?: DetailedPoll
         newOption: ComplexOption = {}
@@ -245,20 +252,25 @@
         }
 
         async setup() {
-            await this.checkAndJoinPoll()
-            this.poll = (
-                await axios.get("/api/poll", {
-                    params: {
-                        pollID: this.pollID
-                    },
-                    withCredentials: true
-                })
-            ).data
-            if (this.poll != undefined) this.changes = { pollID: this.poll.pollID }
+            try {
+                await this.checkAndJoinPoll()
+                this.poll = (
+                    await axios.get("/api/poll", {
+                        params: {
+                            pollID: this.pollID
+                        },
+                        withCredentials: true
+                    })
+                ).data
+                if (this.poll != undefined) this.changes = { pollID: this.poll.pollID }
 
-            this.$forceUpdate()
+                this.$forceUpdate()
 
-            this.loadingMain = false
+                this.loadingMain = false
+            } catch (e) {
+                this.loadingMain = false
+                this.loadingFailed = true
+            }
         }
 
         async checkAndJoinPoll() {

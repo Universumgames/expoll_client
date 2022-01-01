@@ -172,8 +172,7 @@
             try {
                 console.log(this.loginKey)
                 await getUserData(this.loginKey)
-                // @ts-ignore
-                window.location = "/"
+                window.location.reload()
             } catch (error) {
                 this.errorMsg = this.language?.uiElements.login.messages.loginKeyNotExist ?? ""
                 this.loggingIn = false
@@ -217,7 +216,9 @@
             console.log(rc)
 
             // @ts-ignore
-            if (rc.code == 200) window.location = "/"
+            if (rc.code == 200) {
+                window.location.reload()
+            }
         }
 
         async getCaptchaToken(): Promise<string> {

@@ -14,6 +14,7 @@ export const languageList: languageData[] = [
                 loggedInAs: (username: string) => "Logged in as " + username,
                 notLoggedIn: "Not logged in",
                 loginLink: "Login",
+                loginFirst: "You first need to login",
                 form: {
                     loggingIn: "Loggin in... this may take a few seconds",
                     login: "Login",
@@ -119,6 +120,7 @@ export const languageList: languageData[] = [
                 loggedInAs: (username: string) => "Angemeldet als " + username,
                 notLoggedIn: "Nicht angemeldet",
                 loginLink: "Anmelden",
+                loginFirst: "Du musst dich zuerst anmedlen",
                 form: {
                     loggingIn: "Anmelden... dies kann einen Moment dauern",
                     login: "Anmelden",

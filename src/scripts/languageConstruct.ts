@@ -13,6 +13,7 @@ export interface languageData {
             loggedInAs: (username: string) => string
             notLoggedIn: string
             loginLink: string
+            loginFirst: string
             form: {
                 loggingIn: string
                 login: string
