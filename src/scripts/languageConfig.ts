@@ -98,7 +98,7 @@ export const languageList: languageData[] = [
             dateTimeToString: (dt?: Date) =>
                 dt?.getFullYear() +
                     "-" +
-                    (dt?.getMonth() ?? 0 + 1).toString().padStart(2, "0") +
+                    ((dt?.getMonth() ?? 0) + 1).toString().padStart(2, "0") +
                     "-" +
                     dt?.getDate().toString().padStart(2, "0") +
                     " " +
@@ -209,7 +209,7 @@ export const languageList: languageData[] = [
             dateTimeToString: (dt?: Date) =>
                 dt?.getDate().toString().padStart(2, "0") +
                     "." +
-                    (dt?.getMonth() ?? 0 + 1).toString().padStart(2, "0") +
+                    ((dt?.getMonth() ?? 0) + 1).toString().padStart(2, "0") +
                     "." +
                     dt?.getFullYear() +
                     " " +

@@ -121,6 +121,7 @@
         loginClicked = false
 
         async mounted() {
+            console.log(this.paramLoginKey)
             if (this.paramLoginKeyExist) {
                 this.loggingIn = true
                 try {
@@ -136,7 +137,7 @@
 
         get paramLoginKey(): string {
             // @ts-ignore
-            return this.$route.params.key
+            return this.$route.query.key
         }
 
         get paramLoginKeyExist() {
