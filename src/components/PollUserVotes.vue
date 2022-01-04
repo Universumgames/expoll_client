@@ -15,6 +15,15 @@
             ><br />
             <small v-show="this.errorMsg != '' && voteOpt.votedFor" class="errorInfo">{{ this.errorMsg }}</small>
         </td>
+        <td>
+            <button class="leaveBtn" @click="removeUser" v-show="userData.id == userVote.user.id || userData.admin">
+                {{
+                    this.loggedUserIsSelectedUser()
+                        ? this.language?.uiElements.polls.details.leavePollBtn
+                        : this.language?.uiElements.polls.details.kickFromPollBtn
+                }}
+            </button>
+        </td>
     </tr>
 </template>
 
@@ -24,7 +33,8 @@
     import { IUser, ReturnCode, tOptionId } from "expoll-lib/interfaces"
     import { languageData } from "../scripts/languageConstruct"
     import { vote } from "../scripts/vote"
-    import { VoteRequest } from "expoll-lib/requestInterfaces"
+    import { EditPollRequest, VoteRequest } from "expoll-lib/requestInterfaces"
+    import axios from "axios"
 
     @Options({
         props: {
@@ -35,7 +45,8 @@
             displayUsernameInsteadOfFull: Boolean
         },
         emits: {
-            voteChange: null
+            voteChange: null,
+            kickedID: String
         }
     })
     export default class PollUserVoteRow extends Vue {
@@ -82,6 +93,40 @@
                     this.errorMsg = this.language?.uiElements.polls.details.errorMsgs.tooMuchVotes ?? ""
                 }
                 this.$forceUpdate()
+
+                this.$emit("voteChange")
+            }
+        }
+
+        async removeUser() {
+            if (this.pollData == undefined || this.userVote == undefined) return
+            try {
+                const askName = this.userVote?.user.firstName + " " + this.userVote?.user.lastName ?? ""
+                if (
+                    !confirm(
+                        this.loggedUserIsSelectedUser()
+                            ? this.language?.uiElements.polls.details.leaveConfirm ?? ""
+                            : this.language?.uiElements.polls.details.kickConfirm(askName) ?? ""
+                    )
+                ) {
+                    return
+                }
+                // leave poll
+                if (this.loggedUserIsSelectedUser()) {
+                    const data: EditPollRequest = { pollID: this.pollData.pollID, leave: true }
+                    await axios.put("/api/poll", data, { withCredentials: true })
+                    // @ts-ignore
+                    window.location = "/#/poll"
+                } else {
+                    // remove user from poll
+                    if (!this.isEditable()) return
+                    if (this.userVote.user == undefined) return
+                    const data: EditPollRequest = { pollID: this.pollData.pollID, userRemove: [this.userVote.user?.id] }
+                    await axios.put("/api/poll", data, { withCredentials: true })
+                    this.$emit("kickedID", this.userVote.user.id)
+                }
+            } catch (e) {
+                console.error(e)
             }
         }
 
@@ -105,6 +150,10 @@
                 false
             )
         }
+
+        loggedUserIsSelectedUser() {
+            return this.userData?.id == this.userVote?.user?.id ?? false
+        }
     }
 </script>
 
@@ -124,5 +173,9 @@
         height: 100%;
         display: inline-block;
         margin: 0;
+    }
+
+    .leaveBtn {
+        background-color: red;
     }
 </style>

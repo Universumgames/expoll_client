@@ -62,7 +62,8 @@
             }
         ],
         "vue/no-multiple-template-root": 0,
-        "new-cap": ["error", { "capIsNewExceptions": ["Options"] }]
+        "new-cap": ["error", { "capIsNewExceptions": ["Options"] }],
+        "operator-linebreak": ["off", "before", { "overrides": { "||": "after", "&&": "after" } }]
     },
     "overrides": [
         {

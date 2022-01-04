@@ -10,6 +10,7 @@
             <router-link to="/admin" v-if="userData?.admin">Admin</router-link>
         </div>
         <router-view :userData="this.userData" :language="localeLanguage" :failedLoading="this.failedLoading" />
+
         <div class="footer">
             <label>Created by universumgames</label><br />
             <a href="https://universegame.de">Website</a>
@@ -103,13 +104,14 @@
         -moz-osx-font-smoothing: grayscale;
         text-align: center;
         color: var(--text-color);
+        position: relative;
     }
 
     button {
         background: #42b983;
         border: none;
         padding: 0.5rem;
-        border-radius: 1rem;
+        border-radius: 1ch;
         color: var(--text-color);
         font-weight: bold;
         font-size: 1rem;
@@ -177,8 +179,8 @@
     }
 
     .normalIcon {
-        width: 1.5rem;
-        height: 1.5rem;
+        width: 1rem;
+        height: 1rem;
     }
 
     td,
@@ -191,7 +193,7 @@
         background: var(--secondary-color);
         padding: 1rem;
         border-radius: 1ch;
-        margin: 1ch;
+        margin: 1ch auto 1ch auto;
     }
 
     .footer > * {

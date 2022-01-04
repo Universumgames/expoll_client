@@ -102,7 +102,9 @@
                     <th v-for="option in this.poll?.options" :key="option.id" style="white-space: pre-wrap">
                         {{ optionValue(option) }}
                         <br />
-                        <a v-show="this.mayEdit()" @click="this.deleteOption(option.id)">
+                        ({{ getVotedForCount(option.id) }})
+                        <br />
+                        <a v-show="this.mayEdit()" @click="this.deleteOption(option.id)" class="deleteOpt">
                             <small>{{ this.language?.uiElements.polls.details.delete }}</small>
                         </a>
                     </th>
@@ -183,6 +185,7 @@
                     :pollData="this.poll"
                     :displayUsernameInsteadOfFull="this.displayUsernameInsteadOfFull"
                     @voteChange="this.voteUpdateCallback"
+                    @kickedID="this.userKicked"
                 />
             </table>
         </div>
@@ -197,7 +200,7 @@
     import axios from "axios"
     import { Options, Vue } from "vue-class-component"
     import { ComplexOption, DetailedPoll, SimpleUserVotes } from "expoll-lib/extraInterfaces"
-    import { IUser, PollType, tOptionId } from "expoll-lib/interfaces"
+    import { IUser, PollType, tOptionId, tUserID } from "expoll-lib/interfaces"
     import { languageData } from "../scripts/languageConstruct"
     import SaveIcon from "../assetComponents/SaveIcon.vue"
     import EditIcon from "../assetComponents/EditIcon.vue"
@@ -321,10 +324,13 @@
         }
 
         getVotesByUser(): SimpleUserVotes {
-            if (this.poll == undefined) return { user: this.userData, votes: [] }
+            if (this.poll == undefined) {
+                return { user: this.userData ?? { id: 0, firstName: "", lastName: "", username: "" }, votes: [] }
+            }
+            const that = this
             return (
                 this.poll.userVotes.find((vote) => vote.user?.id == this.userData?.id) ?? {
-                    user: this.userData,
+                    user: that.userData ?? { id: 0, firstName: "", lastName: "", username: "" },
                     votes: []
                 }
             )
@@ -378,7 +384,7 @@
         }
 
         voteUpdateCallback() {
-            console.log("vote update callback")
+            this.$forceUpdate()
         }
 
         async deletePoll() {
@@ -410,6 +416,22 @@
 
         copyToClipboard(text: string) {
             window.prompt("Copy to clipboard: Ctrl+C, Enter", text)
+        }
+
+        getVotedForCount(optionID: tOptionId): number {
+            const optionIndex = this.poll?.options.findIndex((ele) => ele.id == optionID) ?? 0
+            if (optionIndex == -1) return 0
+            let count = 0
+            for (const userVotes of this.poll?.userVotes ?? []) {
+                if (userVotes.votes[optionIndex].votedFor != undefined && userVotes.votes[optionIndex].votedFor) count++
+            }
+            return count
+        }
+
+        userKicked(userID: tUserID) {
+            if (this.poll == undefined) return
+            this.poll.userVotes = this.poll.userVotes.filter((ele) => ele.user?.id != userID ?? true) ?? []
+            this.$forceUpdate()
         }
     }
 </script>
@@ -449,5 +471,9 @@
 
     .currentUserVotes {
         outline: thin solid var(--primary-color);
+    }
+
+    .deleteOpt {
+        text-decoration: underline;
     }
 </style>

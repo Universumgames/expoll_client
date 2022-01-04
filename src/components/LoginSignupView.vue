@@ -121,7 +121,6 @@
         loginClicked = false
 
         async mounted() {
-            console.log(this.paramLoginKey)
             if (this.paramLoginKeyExist) {
                 this.loggingIn = true
                 try {

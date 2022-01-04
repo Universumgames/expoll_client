@@ -109,7 +109,7 @@
         errorMsg = ""
 
         async mounted() {
-            this.options.push(empty)
+            this.addOption()
         }
 
         addOption() {

@@ -82,6 +82,10 @@ export interface languageData {
                 errorMsgs: {
                     tooMuchVotes: string
                 }
+                leavePollBtn: string
+                leaveConfirm: string
+                kickFromPollBtn: string
+                kickConfirm: (username: string) => string
             }
         }
         serverError: string

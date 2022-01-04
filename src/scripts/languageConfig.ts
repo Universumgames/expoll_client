@@ -85,7 +85,14 @@ export const languageList: languageData[] = [
                     deletePollConfirmConfirm: "Are you REALLY sure you want to delete this poll, it cannot be undone",
                     errorMsgs: {
                         tooMuchVotes: "Too much options chosen, deselect one first"
-                    }
+                    },
+                    leavePollBtn: "Leave",
+                    leaveConfirm: "Sure you want to leave this poll (your votes will be deleted)?",
+                    kickFromPollBtn: "Kick",
+                    kickConfirm: (username: string) =>
+                        "Sure you want to kick " +
+                        username +
+                        " from this poll (all votes will be deleted from this user)?"
                 }
             },
             serverError: "An error on our side occured",
@@ -196,7 +203,12 @@ export const languageList: languageData[] = [
                         "das Löschen kann icht rückgängig gemacht werden",
                     errorMsgs: {
                         tooMuchVotes: "Zu viele Optionen gewählt, wähle zuerst Optionen ab"
-                    }
+                    },
+                    leavePollBtn: "Verlassen",
+                    leaveConfirm: "Sicher, dass du die Umfrage verlasen willst (deine Stimmen werden gelöscht)?",
+                    kickFromPollBtn: "Kick",
+                    kickConfirm: (username: string) =>
+                        "Sicher, dass du " + username + " rauswerfen willst (die Stimmen werden gelöscht)?"
                 }
             },
             serverError: "Ein Fehler beim Server ist aaufgetreten",
