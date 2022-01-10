@@ -71,6 +71,7 @@ export interface languageData {
                 userCol: string
                 pollName: string
                 maxPerUserVoteCount: string
+                maxPerUserVoteCountDescription: string
                 dateStringFormat: (start?: string, end?: string) => string
                 save: string
                 cancel: string

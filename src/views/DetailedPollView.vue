@@ -4,6 +4,7 @@
         <h2 class="errorInfo">{{ this.language?.uiElements.login.loginFirst }}</h2>
         <login-signup-view :language="this.language" />
     </div>
+    <blank-detailed-poll-view :language="this.language" v-show="this.loadingMain" />
     <div v-show="!this.loadingMain && !this.loadingFailed">
         <div style="text-align: left">
             <!-- name -->
@@ -58,8 +59,11 @@
             <div>
                 <div v-show="this.changes.maxPerUserVoteCount == undefined">
                     <label
-                        >{{ this.language?.uiElements.polls.details.maxPerUserVoteCount }}:
-                        {{ this.poll?.maxPerUserVoteCount }}</label
+                        >{{ this.language?.uiElements.polls.details.maxPerUserVoteCount }}
+                        <span style="white-space: nowrap"
+                            >{{ this.language?.uiElements.polls.details.maxPerUserVoteCountDescription }}:
+                            {{ this.poll?.maxPerUserVoteCount }}</span
+                        ></label
                     >
                     <button
                         v-show="this.mayEdit()"
@@ -210,6 +214,7 @@
     import SwitchIcon from "../assetComponents/SwitchIcon.vue"
     import { EditPollRequest } from "expoll-lib/requestInterfaces"
     import LoginSignupView from "../components/LoginSignupView.vue"
+    import BlankDetailedPollView from "../components/BlankDetailedPollView.vue"
 
     /*
          votes: { user: User; votes: { optionID: tOptionId; votedFor: boolean }
@@ -227,7 +232,8 @@
             SwitchIcon,
             PollUserVoteRow,
             LoadingScreen,
-            LoginSignupView
+            LoginSignupView,
+            BlankDetailedPollView
         }
     })
     export default class DetailedPollView extends Vue {

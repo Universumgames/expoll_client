@@ -165,6 +165,7 @@
         --bg-color: whitesmoke;
         --secondary-color: #dddddd;
         --primary-color: #42b983;
+        --blank-text-color: var(--bg-color);
     }
 
     .darkVars {
@@ -172,6 +173,7 @@
         --bg-color: #2c3e50;
         --secondary-color: #314961;
         --primary-color: #42b983;
+        --blank-text-color: var(--bg-color);
     }
 
     .errorInfo {

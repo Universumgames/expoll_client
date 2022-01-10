@@ -4,8 +4,13 @@
             <label>{{ this.userInfo?.username }}</label>
             <small>ID: {{ this.userInfo?.id }}</small>
         </div>
-        <label>Name: {{ this.userInfo?.firstName }} {{ this.userInfo?.lastName }}</label>
-        <label>Mail: {{ this.userInfo?.mail }}</label>
+        <label
+            >Name:
+            <span style="white-space: nowrap">{{ this.userInfo?.firstName }} {{ this.userInfo?.lastName }}</span></label
+        >
+        <label
+            >Mail: <span style="word-break: break-word">{{ this.userInfo?.mail }}</span></label
+        >
         <label>Admin: {{ this.userInfo?.admin ? "yes" : "no" }}</label>
     </div>
 </template>

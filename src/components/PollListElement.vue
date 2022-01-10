@@ -24,7 +24,12 @@
             <div>
                 {{ lastUpdated() }}
             </div>
-            <div>Admin: {{ this.poll?.admin.firstName + " " + this.poll?.admin.lastName }}</div>
+            <div>
+                Admin:
+                <span style="white-space: nowrap">{{
+                    this.poll?.admin.firstName + " " + this.poll?.admin.lastName
+                }}</span>
+            </div>
         </div>
     </router-link>
 </template>

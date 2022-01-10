@@ -73,7 +73,8 @@ export const languageList: languageData[] = [
                     createdBy: (username: string) => "Created by " + username,
                     userCol: "User",
                     pollName: "Name",
-                    maxPerUserVoteCount: "Maximum number of votes each user can do (-1 for infinity)",
+                    maxPerUserVoteCount: "Maximum number of votes each user can do",
+                    maxPerUserVoteCountDescription: "(-1 for infinity)",
                     dateStringFormat: (start?: string, end?: string) =>
                         "from " + start + (end != undefined ? " \nto " + end : ""),
                     save: "save",
@@ -188,7 +189,8 @@ export const languageList: languageData[] = [
                     createdBy: (username: string) => "Erstellt von " + username,
                     userCol: "Benutzer",
                     pollName: "Name",
-                    maxPerUserVoteCount: "Maximal Anzahl an ausgewählten Optionen (-1 für unendlich)",
+                    maxPerUserVoteCount: "Maximal Anzahl an ausgewählten Optionen",
+                    maxPerUserVoteCountDescription: "(-1 für unendlich)",
                     dateStringFormat: (start?: string, end?: string) =>
                         "Von " + start + (end != undefined ? " \nbis " + end : ""),
                     save: "Speichern",

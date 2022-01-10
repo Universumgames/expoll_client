@@ -1,5 +1,8 @@
 <template>
     <div class="listContainer">
+        <div v-show="this.loading">
+            <blank-poll-list-element v-for="n in 20" v-bind:key="n" :language="language" />
+        </div>
         <loading-screen v-show="this.loading" />
         <div v-for="poll in polls" :key="poll.id">
             <poll-list-element :poll="poll" :language="language" />
@@ -15,6 +18,7 @@
     import { Options, Vue } from "vue-class-component"
     import PollListElement from "../components/PollListElement.vue" // @ is an alias to /src
     import LoadingScreen from "../components/LoadingScreen.vue"
+    import BlankPollListElement from "../components/BlankPollListElement.vue"
 
     import { IUser } from "expoll-lib/interfaces"
     import { languageData } from "../scripts/languageConstruct"
@@ -24,7 +28,8 @@
     @Options({
         components: {
             PollListElement,
-            LoadingScreen
+            LoadingScreen,
+            BlankPollListElement
         },
         props: {
             userData: Object,

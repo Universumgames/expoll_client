@@ -30,18 +30,22 @@
         border: 16px solid #f3f3f300; /* Light grey */
         border-top: 16px solid var(--primary-color); /* Blue */
         border-radius: 50%;
-        width: 10vw;
-        height: 10vw;
+        width: 20vw;
+        height: 20vw;
         animation: spin 2s linear infinite;
         margin: 0 auto 0 auto;
+        position: absolute;
+        top: 50vh;
+        left: 50vw;
+        transform: translate(50%, 50%);
     }
 
     @keyframes spin {
         0% {
-            transform: rotate(0deg);
+            transform: translate(-50%, -50%) rotate(0deg);
         }
         100% {
-            transform: rotate(360deg);
+            transform: translate(-50%, -50%) rotate(360deg);
         }
     }
 </style>
