@@ -1,8 +1,4 @@
 from node as compiler
-WORKDIR /expoll/lib
-COPY ./lib .
-RUN npm install
-RUN npm run build
 
 WORKDIR /expoll/frontend_server
 COPY ./client .
