@@ -1,18 +1,10 @@
 import { createRouter, createWebHashHistory } from "vue-router"
-import Home from "../views/Home.vue"
-import Login from "../views/Login.vue"
-import PollListView from "../views/PollListView.vue"
-import CreatePollView from "../views/CreatePollView.vue"
-import DetailedPollView from "../views/DetailedPollView.vue"
-import Admin from "../views/Admin/Admin.vue"
-import AdminUserList from "../views/Admin/AdminUserList.vue"
-import AdminPollList from "../views/Admin/AdminPollList.vue"
 
 const routes = [
     {
         path: "/polls",
         name: "Polls",
-        component: PollListView,
+        component: () => import("../views/PollListView.vue"),
         meta: {
             title: "Polls"
         }
@@ -20,7 +12,7 @@ const routes = [
     {
         path: "/polls/:id",
         name: "Poll Details",
-        component: DetailedPollView,
+        component: () => import("../views/DetailedPollView.vue"),
         meta: {
             title: "Poll Detail"
         }
@@ -28,7 +20,7 @@ const routes = [
     {
         path: "/create",
         name: "Create Poll",
-        component: CreatePollView,
+        component: () => import("../views/CreatePollView.vue"),
         meta: {
             title: "Create Poll"
         }
@@ -36,7 +28,7 @@ const routes = [
     {
         path: "/",
         name: "Home",
-        component: Home,
+        component: () => import("../views/Home.vue"),
         meta: {
             title: "Home - expoll"
         }
@@ -55,7 +47,7 @@ const routes = [
     {
         path: "/login/:key?",
         name: "Login Page",
-        component: Login,
+        component: () => import("../views/Login.vue"),
         meta: {
             title: "Login - expoll"
         }
@@ -63,7 +55,7 @@ const routes = [
     {
         path: "/admin",
         name: "Admin",
-        component: Admin,
+        component: () => import("../views/Admin/Admin.vue"),
         meta: {
             title: "Administration Home"
         },
@@ -71,7 +63,7 @@ const routes = [
             {
                 path: "users",
                 name: "User list",
-                component: AdminUserList,
+                component: () => import("../views/Admin/AdminUserList.vue"),
                 meta: {
                     title: "Userlist"
                 }
@@ -79,7 +71,7 @@ const routes = [
             {
                 path: "polls",
                 name: "Poll Management",
-                component: AdminPollList,
+                component: () => import("../views/Admin/AdminPollList.vue"),
                 meta: {
                     title: "Pollmanagement"
                 }

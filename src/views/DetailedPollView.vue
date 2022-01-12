@@ -194,7 +194,7 @@
             </table>
         </div>
 
-        <button v-show="this.mayEdit()" style="background: red" @click="this.deletePoll()">
+        <button v-show="this.mayEdit()" style="background: var(--alert-color)" @click="this.deletePoll()">
             {{ this.language?.uiElements.polls.details.deletePollBtn }}
         </button>
     </div>

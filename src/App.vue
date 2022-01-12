@@ -174,10 +174,11 @@
         --secondary-color: #314961;
         --primary-color: #42b983;
         --blank-text-color: var(--bg-color);
+        --alert-color: #ba4b4a;
     }
 
     .errorInfo {
-        color: red;
+        color: var(--alert-color);
     }
 
     .normalIcon {

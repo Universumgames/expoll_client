@@ -176,6 +176,6 @@
     }
 
     .leaveBtn {
-        background-color: red;
+        background-color: var(--alert-color);
     }
 </style>
