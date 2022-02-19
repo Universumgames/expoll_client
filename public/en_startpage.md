@@ -6,7 +6,7 @@ Expoll is a voting website similar to [doodle](https://doodle.com) or [votesup](
 
 ## Features
 
-Unlike this startpage our site is available in english and german, automatically changed to the browsers preference. With expoll you are able to participate in as much polls as you like and create and maintain up to 10 polls at a time. When creating a new poll you can choose between a word poll and a date or date-time poll to suit best your usecase. Date (and date-time) polls have even the possibility to define a start and an end time.
+The pages language changes automatically between german and english to best suit the browsers preferences. With expoll you are able to participate in as much polls as you like and create and maintain up to 10 polls at a time. When creating a new poll you can choose between a word poll and a date or date-time poll to suit best your usecase. Date (and date-time) polls have even the possibility to define a start and an end time.
 
 ## How to create a user and login
 

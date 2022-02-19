@@ -6,21 +6,27 @@
     import axios from "axios"
     import { Options, Vue } from "vue-class-component"
     import VueMarkdown from "vue-markdown-render"
+    import { languageData } from "../scripts/languageConstruct"
 
     @Options({
         components: {
             VueMarkdown
+        },
+        props: {
+            language: Object
         }
     })
     export default class Home extends Vue {
         markdown: string = ""
+        language!: languageData
 
         mounted() {
             this.loadMarkdown()
         }
 
         async loadMarkdown() {
-            this.markdown = (await axios.get("/startpage.md")).data
+            const filename = "/" + this.language.short.toLowerCase() + "_startpage.md"
+            this.markdown = (await axios.get(filename)).data
         }
     }
 </script>
