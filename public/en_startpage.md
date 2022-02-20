@@ -2,7 +2,7 @@
 
 ## Why expoll
 
-Expoll is a voting website similar to [doodle](https://doodle.com) or [votesup](https://votesup.eu). We tried to combine both in a neat small and easy-to-use website. Unlike doodle, who deletes polls after a quite short time, or votesup where you have to be logged in with an active session to even get the chance to vote for something withing a few minutes, we are trying to keep every vote possible (though probably have to restrict the creation of polls to about 5-10 per user at a time in the future).
+Expoll is a voting website similar to other woll-known voting/polling websites. We tried to combine both in a neat small and easy-to-use website. Unlike the well-known platforms, who delete polls after a quite short time, or where you have to be logged in with an active session to even get the chance to vote for something withing a few minutes, we are trying to keep every vote possible (though probably have to restrict the creation of polls to about 5-10 per user at a time in the future).
 
 ## Features
 
