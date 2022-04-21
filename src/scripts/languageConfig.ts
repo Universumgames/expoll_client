@@ -16,7 +16,7 @@ export const languageList: languageData[] = [
                 loginLink: "Login",
                 loginFirst: "You first need to login",
                 form: {
-                    loggingIn: "Loggin in... this may take a few seconds",
+                    loggingIn: "Logging in... this may take a few seconds",
                     login: "Login",
                     requestMail: "Request login mail",
                     requestBtn: "Request",
@@ -49,7 +49,7 @@ export const languageList: languageData[] = [
                 create: {
                     createPoll: (name: string) => 'Creating poll "' + name + '"',
                     pollNameInputLabel: "Poll name",
-                    description: "Description",
+                    description: "Description (255 characters max)",
                     maxVoteLabel: "Max number of votes per user (-1 for infinity)",
                     typeSelect: {
                         label: "Poll type",
@@ -87,16 +87,23 @@ export const languageList: languageData[] = [
                     errorMsgs: {
                         tooMuchVotes: "Too much options chosen, deselect one first"
                     },
-                    leavePollBtn: "Leave",
-                    leaveConfirm: "Sure you want to leave this poll (your votes will be deleted)?",
+                    leavePollBtn: "Delete own votes and leave",
+                    leaveConfirm:
+                        "Sure you want to delete your votes and leave this poll (your votes will be deleted)?",
                     kickFromPollBtn: "Kick",
                     kickConfirm: (username: string) =>
                         "Sure you want to kick " +
                         username +
                         " from this poll (all votes will be deleted from this user)?"
+                },
+                votes: {
+                    yes: "Yes",
+                    no: "No",
+                    notVoted: "Unknown",
+                    maybe: "Maybe"
                 }
             },
-            serverError: "An error on our side occured",
+            serverError: "An error on our side occurred",
             dateToString: (d?: Date) =>
                 d?.getFullYear() +
                     "-" +
@@ -128,7 +135,7 @@ export const languageList: languageData[] = [
                 loggedInAs: (username: string) => "Angemeldet als " + username,
                 notLoggedIn: "Nicht angemeldet",
                 loginLink: "Anmelden",
-                loginFirst: "Du musst dich zuerst anmedlen",
+                loginFirst: "Du musst dich zuerst anmelden",
                 form: {
                     loggingIn: "Anmelden... dies kann einen Moment dauern",
                     login: "Anmelden",
@@ -138,13 +145,13 @@ export const languageList: languageData[] = [
                     loginKey: "Anmeldeschlüssel (loginKey)",
                     loginBtn: "Anmelden",
                     loginMailOrKeyMissing:
-                        "Es muss entweder eine Mail addresse für einen Anmeldelink " +
+                        "Es muss entweder eine Mail Adresse für einen Anmeldelink " +
                         "oder ein Anmeldeschlüssel angegeben werden",
                     signup: "Registrieren",
                     firstName: "Vorname",
                     lastName: "Nachname",
-                    username: "Bentutzername",
-                    validMailNeeded: "Ein gültige E-Mail adresse wird benötigt",
+                    username: "Benutzername",
+                    validMailNeeded: "Ein gültige E-Mail Adresse wird benötigt",
                     firstNameNeeded: "Dein Vorname muss angegeben werden",
                     lastNameNeeded: "Dein Nachname wird benötigt",
                     usernameNeeded: "Du musst einen Benutzernamen angeben",
@@ -156,7 +163,7 @@ export const languageList: languageData[] = [
                     loginKeyNotExist: "Der Anmeldeschlüssel ist nicht valide",
                     mailSent:
                         "Es wird ein E-Mail mit einem Anmeldeschlüssel versendet, " +
-                        "dies kann einen kleinen augenblick in Anspruch nehmen",
+                        "dies kann einen kleinen Augenblick in Anspruch nehmen",
                     mailNotExist: "Die E-Mail Adresse existiert nicht, jetzt registrieren und Benutzer erstellen",
                     userExists: "Ein anderer Benutzer mit dieser Email Adresse oder Benutzernamen existiert bereits"
                 }
@@ -165,10 +172,10 @@ export const languageList: languageData[] = [
                 create: {
                     createPoll: (name: string) => 'Erstellen der Umfrage "' + name + '"',
                     pollNameInputLabel: "Umfragenname",
-                    description: "Beschreibung",
+                    description: "Beschreibung (maximal 255 Zeichen)",
                     maxVoteLabel: "Maximale Anzahl an Stimmen pro Benutzer (-1 für unendlich)",
                     typeSelect: {
-                        label: "Umfragentype auswählen",
+                        label: "Umfragentyp auswählen",
                         stringOption: "Wortumfrage",
                         dateOption: "Datumsumfrage",
                         dateTimeOption: "DAtums- und Zeit Umfrage"
@@ -183,7 +190,7 @@ export const languageList: languageData[] = [
                     emptyField: "Dieses Feld darf nicht leer sein"
                 },
                 list: {
-                    lastUpdate: (timeString: string) => "Zuletz aktualisiert am " + timeString
+                    lastUpdate: (timeString: string) => "Zuletzt aktualisiert am " + timeString
                 },
                 details: {
                     createdBy: (username: string) => "Erstellt von " + username,
@@ -191,29 +198,39 @@ export const languageList: languageData[] = [
                     pollName: "Name",
                     maxPerUserVoteCount: "Maximal Anzahl an ausgewählten Optionen",
                     maxPerUserVoteCountDescription: "(-1 für unendlich)",
-                    dateStringFormat: (start?: string, end?: string) =>
-                        "Von " + start + (end != undefined ? " \nbis " + end : ""),
+                    dateStringFormat: (start?: string, end?: string) => {
+                        if (end == undefined) {
+                            return "Ab " + start
+                        } else return "Von " + start + (end != undefined ? " \nbis " + end : "")
+                    },
                     save: "Speichern",
                     cancel: "Abbrechen",
                     delete: "Löschen",
-                    deleteConfirm: (value: string) => "Willst du wirklich '" + value + "' unwiederruflich löschen?",
+                    deleteConfirm: (value: string) => "Willst du wirklich '" + value + "' unwiderruflich löschen?",
                     deletePollBtn: "Umfrage löschen",
                     deletePollConfirm:
                         "Sicher, dass du diese Umfrage löschen willst, dies kann nicht rückgängig gemacht werden",
                     deletePollConfirmConfirm:
-                        "Bist du WIRLICH sicher, dass du diese Umfrage löschen willst, " +
-                        "das Löschen kann icht rückgängig gemacht werden",
+                        "Bist du WIRKLICH sicher, dass du diese Umfrage löschen willst, " +
+                        "das Löschen kann nicht rückgängig gemacht werden",
                     errorMsgs: {
                         tooMuchVotes: "Zu viele Optionen gewählt, wähle zuerst Optionen ab"
                     },
-                    leavePollBtn: "Verlassen",
-                    leaveConfirm: "Sicher, dass du die Umfrage verlasen willst (deine Stimmen werden gelöscht)?",
+                    leavePollBtn: "Stimmen löschen und Umfrage verlassen",
+                    leaveConfirm:
+                        "Sicher, dass du deine Stimmen löschen und diese Umfrage verlassen willst (deine Stimmen werden gelöscht)?",
                     kickFromPollBtn: "Kick",
                     kickConfirm: (username: string) =>
                         "Sicher, dass du " + username + " rauswerfen willst (die Stimmen werden gelöscht)?"
+                },
+                votes: {
+                    yes: "Ja",
+                    no: "Nein",
+                    notVoted: "Unbekannt",
+                    maybe: "Vielleicht"
                 }
             },
-            serverError: "Ein Fehler beim Server ist aaufgetreten",
+            serverError: "Ein Fehler beim Server ist aufgetreten",
             dateToString: (d?: Date) =>
                 d?.getDate().toString().padStart(2, "0") +
                     "." +

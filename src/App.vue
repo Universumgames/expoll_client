@@ -14,14 +14,16 @@
         <div class="footer">
             <label>Created by universumgames</label><br />
             <a href="https://universegame.de">Website</a>
-            <a href="https://github.com/universumgames">Github</a><br />
+            <a href="https://github.com/universumgames">Github</a>
+            <a href="https://universegame.de/bug">Bugreport</a><br />
             <a href="https://www.buymeacoffee.com/universum" target="_blank"
                 ><img
                     src="https://cdn.buymeacoffee.com/buttons/default-orange.png"
                     alt="Buy Me A Coffee"
                     height="41"
-                    width="174"
-            /></a>
+                    width="174" /></a
+            ><br />
+            <p>Version 1.2</p>
         </div>
     </div>
 </template>
@@ -56,8 +58,6 @@
                     badges[i].style.visibility = to.path == "/login" ? "visible" : "hidden"
                 }
             })
-
-            console.log(this.localeLanguage)
         }
 
         async mounted() {
@@ -173,6 +173,7 @@
         --secondary-color: #dddddd;
         --primary-color: #42b983;
         --blank-text-color: var(--bg-color);
+        --alert-color: #ba4b4a;
     }
 
     .darkVars {

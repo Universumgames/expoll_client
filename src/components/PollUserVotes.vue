@@ -10,7 +10,7 @@
         </th>
         <td v-for="voteOpt in this.userVote?.votes" :key="voteOpt.optionID">
             <a @click="this.change(voteOpt.optionID)" :class="this.isEditable() ? 'changeable' : ''">{{
-                voteOpt.votedFor ? "✔" : "𐄂" ?? "?"
+                voteOpt.votedFor ? this.language?.uiElements.polls.votes.yes : this.language?.uiElements.polls.votes.no ?? this.language?.uiElements.polls.votes.unknown
             }}</a
             ><br />
             <small v-show="this.errorMsg != '' && voteOpt.votedFor" class="errorInfo">{{ this.errorMsg }}</small>

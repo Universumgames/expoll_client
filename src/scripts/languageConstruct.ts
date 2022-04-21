@@ -88,6 +88,12 @@ export interface languageData {
                 kickFromPollBtn: string
                 kickConfirm: (username: string) => string
             }
+            votes: {
+                yes: string
+                no: string
+                notVoted: string
+                maybe: string
+            }
         }
         serverError: string
         dateToString: (d?: Date) => string
