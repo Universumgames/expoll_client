@@ -6,7 +6,7 @@
                 this.localeLanguage?.uiElements.navigation.polls
             }}</router-link>
             <router-link to="/">{{ this.localeLanguage?.uiElements.navigation.home }}</router-link>
-            <router-link to="/about">About</router-link>
+            <!-- <router-link to="/about">About</router-link> -->
             <router-link to="/admin" v-if="userData?.admin">Admin</router-link>
         </div>
         <router-view :userData="this.userData" :language="localeLanguage" :failedLoading="this.failedLoading" />
@@ -15,7 +15,15 @@
             <label>Created by universumgames</label><br />
             <a href="https://universegame.de">Website</a>
             <a href="https://github.com/universumgames">Github</a>
-            <a href="https://universegame.de/bug">Bugreport</a><br />
+            <a
+                :href="
+                    'https://universegame.de/bug?app=expoll&v=' +
+                    bugreportVersion +
+                    (userData != undefined ? '&mail=' + encodeURIComponent(userData.mail) : '')
+                "
+                target="_blank"
+                >Bugreport</a
+            ><br />
             <a href="https://www.buymeacoffee.com/universum" target="_blank"
                 ><img
                     src="https://cdn.buymeacoffee.com/buttons/default-orange.png"
@@ -23,7 +31,8 @@
                     height="41"
                     width="174" /></a
             ><br />
-            <p>Version 1.2</p>
+            <p>Frontend-Version {{ this.frontendVersion }}</p>
+            <p>Backend-Version {{ this.backendVersion }}</p>
         </div>
     </div>
 </template>
@@ -35,6 +44,7 @@
     import { IUser } from "expoll-lib/interfaces"
     import { getUserData } from "./scripts/user"
     import getSystemLanguage, { languageData } from "./scripts/languageConstruct"
+    import axios from "axios"
 
     @Options({
         components: {
@@ -47,6 +57,9 @@
         localeLanguage!: languageData
         failedLoading = false
 
+        frontendVersion = "1.1.5"
+        backendVersion = ""
+
         async created() {
             this.localeLanguage = getSystemLanguage()
             // @ts-ignore
@@ -58,6 +71,8 @@
                     badges[i].style.visibility = to.path == "/login" ? "visible" : "hidden"
                 }
             })
+
+            this.backendVersion = (await axios.get("/api/metaInfo")).data.serverInfo.version
         }
 
         async mounted() {
@@ -67,7 +82,7 @@
             // this.userData = await getUserData("d3303768-c3d1-4ada-97cb-e433c9c45d25")
             try {
                 this.userData = await startUserGet
-                console.log(this.userData)
+                // console.log(this.userData)
             } catch {
                 this.failedLoading = true
             }
@@ -92,6 +107,10 @@
                 document.body.classList.add(this.isDark ? "darkVars" : "lightVars")
             })
             document.body.classList.add(this.isDark ? "darkVars" : "lightVars")
+        }
+
+        get bugreportVersion() {
+            return encodeURIComponent("Frontend " + this.frontendVersion + ", Backend " + this.backendVersion)
         }
     }
 </script>

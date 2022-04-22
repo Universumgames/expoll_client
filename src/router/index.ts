@@ -75,6 +75,14 @@ const routes = [
                 meta: {
                     title: "Pollmanagement"
                 }
+            },
+            {
+                path: "info",
+                name: "Server Debug Info",
+                component: () => import("../views/Admin/Info.vue"),
+                meta: {
+                    title: "Server Debug Info"
+                }
             }
         ]
     }

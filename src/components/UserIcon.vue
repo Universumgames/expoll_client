@@ -9,7 +9,7 @@
     >
         <router-link to="/login">
             <div v-show="this.loggedIn" id="userIcoImg">
-                <img src="../assets/logo.png" alt="" />
+                <img src="../assets/userIcon.svg" alt="" />
             </div>
             <div v-show="!this.loggedIn" id="loginText">{{ this.language?.uiElements.login.loginLink }}</div>
         </router-link>
@@ -60,7 +60,7 @@
     }
 
     #userIcoImg {
-        background: var(--secondary-color);
+        /* background: var(--secondary-color); */
         clip-path: circle(1.5rem at center);
     }
 

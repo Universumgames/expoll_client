@@ -4,6 +4,7 @@
             <h3>Administration</h3>
             <router-link to="/admin/users">Users</router-link>
             <router-link to="/admin/polls">Polls</router-link>
+            <router-link to="/admin/info">Debug Info</router-link>
         </div>
         <router-view :userData="this.userData" :language="this.language" />
     </div>
