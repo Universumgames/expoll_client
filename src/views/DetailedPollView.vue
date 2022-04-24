@@ -215,37 +215,6 @@
             </table>
         </div>
 
-        <div>
-            <!-- max vote count -->
-            <div>
-                <div v-show="this.changes.maxPerUserVoteCount == undefined" class="poll-main">
-                    <label
-                        >{{ this.language?.uiElements.polls.details.maxPerUserVoteCount }}
-                        <span style="white-space: nowrap"
-                            >{{ this.language?.uiElements.polls.details.maxPerUserVoteCountDescription }}:
-                            {{ this.poll?.maxPerUserVoteCount }}</span
-                        ></label
-                    >
-                    <button
-                        v-show="this.mayEdit()"
-                        @click="this.changes.maxPerUserVoteCount = this.poll?.maxPerUserVoteCount"
-                    >
-                        <edit-icon class="normalIcon" />
-                    </button>
-                </div>
-                <div v-show="this.mayEdit() && this.changes.maxPerUserVoteCount != undefined">
-                    <label for="maxPerUserVoteCount">{{
-                        this.language?.uiElements.polls.details.maxPerUserVoteCount
-                    }}</label>
-                    <input id="maxPerUserVoteCount" type="number" min="-1" v-model="this.changes.maxPerUserVoteCount" />
-                    <button @click="this.pushChanges">{{ this.language?.uiElements.polls.details.save }}</button>
-                    <button @click="this.changes.maxPerUserVoteCount = undefined">
-                        {{ this.language?.uiElements.polls.details.cancel }}
-                    </button>
-                </div>
-            </div>
-        </div>
-
         <button v-show="this.mayEdit()" style="background: var(--alert-color)" @click="this.deletePoll()">
             {{ this.language?.uiElements.polls.details.deletePollBtn }}
         </button>
