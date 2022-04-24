@@ -3,15 +3,14 @@
         <header>
             <user-icon :userData="this.userData" :language="this.localeLanguage" />
             <div id="nav">
-                <a>Expoll</a>
-                <div>
-                    <router-link v-show="this.userData != undefined" to="/polls">{{
-                        this.localeLanguage?.uiElements.navigation.polls
-                    }}</router-link>
-                    <router-link to="/">{{ this.localeLanguage?.uiElements.navigation.home }}</router-link>
-                    <!-- <router-link to="/about">About</router-link> -->
-                    <router-link to="/admin" v-if="userData?.admin">Admin</router-link>
-                </div>
+                <a style="float: left">Expoll</a>
+
+                <router-link v-show="this.userData != undefined" to="/polls">{{
+                    this.localeLanguage?.uiElements.navigation.polls
+                }}</router-link>
+                <router-link to="/">{{ this.localeLanguage?.uiElements.navigation.home }}</router-link>
+                <!-- <router-link to="/about">About</router-link> -->
+                <router-link to="/admin" v-if="userData?.admin">Admin</router-link>
             </div>
         </header>
 
@@ -66,7 +65,7 @@
         localeLanguage!: languageData
         failedLoading = false
 
-        frontendVersion = "1.2.2"
+        frontendVersion = "1.2.3"
         backendVersion = ""
 
         async created() {
@@ -249,9 +248,6 @@
 
     #nav {
         padding: 3ch;
-        display: grid;
-        grid-template-columns: auto auto;
-        justify-items: left;
     }
 
     .errorInfo {
