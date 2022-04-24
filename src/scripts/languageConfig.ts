@@ -3,12 +3,13 @@ import { languageData } from "./languageConstruct"
 export const languageList: languageData[] = [
     {
         id: 0,
-        name: "english",
+        name: ["English"],
         short: "EN",
         uiElements: {
             navigation: {
                 polls: "Polls",
-                home: "Home"
+                home: "Home",
+                changeLanguageButton: "Change language"
             },
             login: {
                 loggedInAs: (username: string) => "Logged in as " + username,
@@ -116,7 +117,7 @@ export const languageList: languageData[] = [
                     ((dt?.getMonth() ?? 0) + 1).toString().padStart(2, "0") +
                     "-" +
                     dt?.getDate().toString().padStart(2, "0") +
-                    " " +
+                    " at " +
                     dt?.getHours().toString().padStart(2, "0") +
                     ":" +
                     dt?.getMinutes().toString().padStart(2, "0") ?? ""
@@ -124,12 +125,13 @@ export const languageList: languageData[] = [
     },
     {
         id: 1,
-        name: ["deutsch", "german"],
+        name: ["Deutsch", "German"],
         short: "DE",
         uiElements: {
             navigation: {
                 polls: "Umfragen",
-                home: "Startseite"
+                home: "Startseite",
+                changeLanguageButton: "Sprache ändern"
             },
             login: {
                 loggedInAs: (username: string) => "Angemeldet als " + username,
@@ -200,7 +202,7 @@ export const languageList: languageData[] = [
                     maxPerUserVoteCountDescription: "(-1 für unendlich)",
                     dateStringFormat: (start?: string, end?: string) => {
                         if (end == undefined) {
-                            return "Ab " + start
+                            return "Am " + start
                         } else return "Von " + start + (end != undefined ? " \nbis " + end : "")
                     },
                     save: "Speichern",
@@ -243,7 +245,7 @@ export const languageList: languageData[] = [
                     ((dt?.getMonth() ?? 0) + 1).toString().padStart(2, "0") +
                     "." +
                     dt?.getFullYear() +
-                    " " +
+                    " um " +
                     dt?.getHours().toString().padStart(2, "0") +
                     ":" +
                     dt?.getMinutes().toString().padStart(2, "0") ?? ""

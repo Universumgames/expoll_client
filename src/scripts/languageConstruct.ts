@@ -2,12 +2,13 @@ import { languageList } from "./languageConfig"
 
 export interface languageData {
     id: number
-    name: string | string[]
+    name: string[]
     short: string
     uiElements: {
         navigation: {
             polls: string
             home: string
+            changeLanguageButton: string
         }
         login: {
             loggedInAs: (username: string) => string
@@ -111,8 +112,7 @@ export function getLanguage(data: { id?: number; lang?: string; short?: string }
         languageList.find((ele: languageData) => {
             return (
                 (data.id != undefined && data.id == ele.id) ||
-                (data.lang != undefined &&
-                    (data.lang.toLowerCase() == ele.name || ele.name.includes(data.lang.toLowerCase()))) ||
+                (data.lang != undefined && ele.name.includes(data.lang.toLowerCase())) ||
                 (data.short != undefined && data.short.substring(0, 2).toUpperCase() == ele.short)
             )
         }) ?? languageList[0]

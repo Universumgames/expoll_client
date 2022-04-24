@@ -12,6 +12,7 @@
         <router-view :userData="this.userData" :language="localeLanguage" :failedLoading="this.failedLoading" />
 
         <div class="footer">
+            <languageSelect @langChange="onLangChange" :language="localeLanguage" />
             <label>Created by universumgames</label><br />
             <a href="https://universegame.de">Website</a>
             <a href="https://github.com/universumgames">Github</a>
@@ -40,15 +41,17 @@
 <script lang="ts">
     import { Options, Vue } from "vue-class-component"
     import UserIcon from "./components/UserIcon.vue"
+    import LanguageSelect from "./components/LanguageSelect.vue"
     import { isDarkMode } from "./scripts/helper"
     import { IUser } from "expoll-lib/interfaces"
     import { getUserData } from "./scripts/user"
-    import getSystemLanguage, { languageData } from "./scripts/languageConstruct"
+    import getSystemLanguage, { getLanguage, languageData } from "./scripts/languageConstruct"
     import axios from "axios"
 
     @Options({
         components: {
-            UserIcon
+            UserIcon,
+            LanguageSelect
         }
     })
     export default class App extends Vue {
@@ -57,11 +60,16 @@
         localeLanguage!: languageData
         failedLoading = false
 
-        frontendVersion = "1.1.5"
+        frontendVersion = "1.1.8"
         backendVersion = ""
 
         async created() {
-            this.localeLanguage = getSystemLanguage()
+            const cookieLang = this.getCookie("lang")
+            if (cookieLang == undefined) {
+                this.localeLanguage = getSystemLanguage()
+            } else {
+                this.localeLanguage = getLanguage({ short: cookieLang })
+            }
             // @ts-ignore
             this.$router.beforeEach(async (to) => {
                 document.title = to.meta.title != undefined ? (to.meta.title as string) : "404 Page not found"
@@ -111,6 +119,33 @@
 
         get bugreportVersion() {
             return encodeURIComponent("Frontend " + this.frontendVersion + ", Backend " + this.backendVersion)
+        }
+
+        onLangChange(short: string) {
+            this.localeLanguage = getLanguage({ short: short })
+            console.log("Changed language to " + short)
+            document.cookie = "lang=" + short
+            this.$forceUpdate()
+            // @ts-ignore
+            if (this.$route.name == "Home") {
+                window.location.reload()
+            }
+        }
+
+        getCookie(cname: string): string | undefined {
+            const name = cname + "="
+            const decodedCookie = decodeURIComponent(document.cookie)
+            const ca = decodedCookie.split(";")
+            for (let i = 0; i < ca.length; i++) {
+                let c = ca[i]
+                while (c.charAt(0) == " ") {
+                    c = c.substring(1)
+                }
+                if (c.indexOf(name) == 0) {
+                    return c.substring(name.length, c.length)
+                }
+            }
+            return undefined
         }
     }
 </script>
