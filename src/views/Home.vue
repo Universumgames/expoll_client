@@ -1,5 +1,7 @@
 <template>
-    <vue-markdown :source="this.markdown" />
+    <div class="home">
+        <vue-markdown class="text" :source="this.markdown" />
+    </div>
 </template>
 
 <script lang="ts">
@@ -30,3 +32,14 @@
         }
     }
 </script>
+
+<style scoped>
+.home {
+    display: flex;
+    justify-content: center;
+}
+.text {
+    max-width: 80ch;
+    text-align: justify;
+}
+</style>
