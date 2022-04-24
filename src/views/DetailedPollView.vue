@@ -8,7 +8,7 @@
     <div v-show="!this.loadingMain && !this.loadingFailed">
         <div style="text-align: left">
             <!-- name -->
-            <div style="padding: 1ch;">
+            <div style="padding: 1ch">
                 <div v-show="this.changes.name == undefined">
                     <h2 style="display: inline">{{ this.poll?.name }}</h2>
                     <button v-show="this.mayEdit()" @click="this.changes.name = this.poll?.name">
@@ -31,12 +31,13 @@
                         this.language?.uiElements.polls.details.createdBy(
                             this.poll?.admin.firstName + " " + this.poll?.admin.lastName
                         )
-                    }} </a
-                >
+                    }}
+                </a>
             </div>
             <!-- description -->
             <div style="margin-top: 1ch" class="footer">
-                <label><b>{{ this.language?.uiElements.polls.create.description }}</b></label
+                <label
+                    ><b>{{ this.language?.uiElements.polls.create.description }}</b></label
                 ><button
                     v-show="this.mayEdit() && this.changes?.description == undefined"
                     @click="this.changes.description = this.poll?.description"
@@ -55,7 +56,54 @@
                     </button>
                 </div>
             </div>
-
+            <!-- max vote count -->
+            <div v-show="this.mayEdit()">
+                <div v-show="this.changes.maxPerUserVoteCount == undefined">
+                    <label
+                        >{{ this.language?.uiElements.polls.details.maxPerUserVoteCount }}
+                        <span style="white-space: nowrap"
+                            >{{ this.language?.uiElements.polls.details.maxPerUserVoteCountDescription }}:
+                            {{ this.poll?.maxPerUserVoteCount }}</span
+                        ></label
+                    >
+                    <button
+                        v-show="this.mayEdit()"
+                        @click="this.changes.maxPerUserVoteCount = this.poll?.maxPerUserVoteCount"
+                    >
+                        <edit-icon class="normalIcon" />
+                    </button>
+                </div>
+                <div v-show="this.mayEdit() && this.changes.maxPerUserVoteCount != undefined">
+                    <label for="maxPerUserVoteCount">{{
+                        this.language?.uiElements.polls.details.maxPerUserVoteCount
+                    }}</label>
+                    <input id="maxPerUserVoteCount" type="number" min="-1" v-model="this.changes.maxPerUserVoteCount" />
+                    <button @click="this.pushChanges">{{ this.language?.uiElements.polls.details.save }}</button>
+                    <button @click="this.changes.maxPerUserVoteCount = undefined">
+                        {{ this.language?.uiElements.polls.details.cancel }}
+                    </button>
+                </div>
+            </div>
+            <!-- Allows Maybe -->
+            <div v-show="this.mayEdit()">
+                <div v-show="this.changes.allowsMaybe == undefined">
+                    <label
+                        >{{ this.language?.uiElements.polls.create.allowsMaybeLabel }}:
+                        {{ this.poll?.allowsMaybe }}
+                    </label>
+                    <button v-show="this.mayEdit()" @click="this.changes.allowsMaybe = this.poll?.allowsMaybe">
+                        <edit-icon class="normalIcon" />
+                    </button>
+                </div>
+                <div v-show="this.mayEdit() && this.changes.allowsMaybe != undefined">
+                    <label for="allowsMaybe">{{ this.language?.uiElements.polls.create.allowsMaybeLabel }}</label>
+                    <input id="allowsMaybe" type="checkbox" v-model="this.changes.allowsMaybe" />
+                    <button @click="this.pushChanges">{{ this.language?.uiElements.polls.details.save }}</button>
+                    <button @click="this.changes.allowsMaybe = undefined">
+                        {{ this.language?.uiElements.polls.details.cancel }}
+                    </button>
+                </div>
+            </div>
         </div>
         <!-- share -->
         <div style="text-align: left; margin-top: 1rem">
@@ -497,6 +545,6 @@
     }
 
     .poll-main {
-        border-radius:15px;
+        border-radius: 1ch;
     }
 </style>

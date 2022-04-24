@@ -10,7 +10,7 @@
         </th>
         <td v-for="voteOpt in this.userVote?.votes" :key="voteOpt.optionID">
             <a @click="this.change(voteOpt.optionID)" :class="this.isEditable() ? 'changeable' : ''">{{
-                voteOpt.votedFor ? this.language?.uiElements.polls.votes.yes : this.language?.uiElements.polls.votes.no ?? this.language?.uiElements.polls.votes.unknown
+                voteString(voteOpt.votedFor)
             }}</a
             ><br />
             <small v-show="this.errorMsg != '' && voteOpt.votedFor" class="errorInfo">{{ this.errorMsg }}</small>
@@ -33,7 +33,7 @@
 <script lang="ts">
     import { Options, Vue } from "vue-class-component"
     import { DetailedPoll, SimpleUserVotes } from "expoll-lib/extraInterfaces"
-    import { IUser, ReturnCode, tOptionId } from "expoll-lib/interfaces"
+    import { IUser, ReturnCode, tOptionId, VoteValue } from "expoll-lib/interfaces"
     import { languageData } from "../scripts/languageConstruct"
     import { vote } from "../scripts/vote"
     import { EditPollRequest, VoteRequest } from "expoll-lib/requestInterfaces"
@@ -80,8 +80,8 @@
                 this.errorMsg = ""
 
                 // const oldState: boolean | undefined = option.votedFor
-                if (option.votedFor == undefined) option.votedFor = true
-                else option.votedFor = !option.votedFor
+                if (option.votedFor == undefined) option.votedFor = VoteValue.yes
+                else option.votedFor = this.pollData.allowsMaybe ? (option.votedFor + 1) % 3 : (option.votedFor + 1) % 2
                 this.$forceUpdate()
 
                 const change: VoteRequest = {
@@ -140,7 +140,7 @@
         voteCountTrue(): number {
             let count = 0
             for (const vote of this.userVote?.votes ?? []) {
-                if (vote.votedFor == true) count++
+                if (vote.votedFor == VoteValue.yes || vote.votedFor == VoteValue.maybe) count++
             }
             return count
         }
@@ -156,6 +156,19 @@
 
         loggedUserIsSelectedUser() {
             return this.userData?.id == this.userVote?.user?.id ?? false
+        }
+
+        voteString(value: VoteValue | undefined) {
+            if (value == undefined) return this.language?.uiElements.polls.votes.unknown
+
+            switch (value) {
+                case VoteValue.no:
+                    return this.language?.uiElements.polls.votes.no
+                case VoteValue.yes:
+                    return this.language?.uiElements.polls.votes.yes
+                case VoteValue.maybe:
+                    return this.language?.uiElements.polls.votes.maybe
+            }
         }
     }
 </script>

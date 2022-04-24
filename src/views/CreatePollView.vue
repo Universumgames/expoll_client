@@ -28,6 +28,9 @@
     <label for="pollMaxVote">{{ this.language?.uiElements.polls.create.maxVoteLabel }}</label>
     <input type="number" v-model="maxVoteCount" id="pollMaxVote" min="-1" /><br />
 
+    <label for="allowsMaybe">{{ this.language?.uiElements.polls.create.allowsMaybeLabel }}</label>
+    <input type="checkbox" v-model="allowsMaybe" id="allowsMaybe" /><br />
+
     <label>{{ this.language?.uiElements.polls.create.optionList }}</label>
     <br />
     <button @click="addOption">{{ this.language?.uiElements.polls.create.optionListAddOption }}</button><br />
@@ -98,6 +101,7 @@
 
         pollName: string = ""
         maxVoteCount: number = -1
+        allowsMaybe: boolean = true
         type: PollType = PollType.String
         description: string = ""
 
@@ -134,7 +138,8 @@
                 maxPerUserVoteCount: this.maxVoteCount,
                 description: this.description,
                 type: this.type,
-                options: this.options
+                options: this.options,
+                allowsMaybe: this.allowsMaybe
             }
             try {
                 const retData = await axios.post("/api/poll", data)

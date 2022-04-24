@@ -49,6 +49,7 @@ export interface languageData {
                 pollNameInputLabel: string
                 description: string
                 maxVoteLabel: string
+                allowsMaybeLabel: string
                 typeSelect: {
                     label: string
                     stringOption: string
@@ -92,7 +93,7 @@ export interface languageData {
             votes: {
                 yes: string
                 no: string
-                notVoted: string
+                unknown: string
                 maybe: string
             }
         }

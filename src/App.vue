@@ -66,7 +66,7 @@
         localeLanguage!: languageData
         failedLoading = false
 
-        frontendVersion = "1.1.8"
+        frontendVersion = "1.2.0"
         backendVersion = ""
 
         async created() {
@@ -241,15 +241,14 @@
         --alert-color: #ba4b4a;
     }
 
-
     header {
         background: var(--secondary-color);
-        border-radius: 15px;
-        margin-bottom: 2rem;;
+        border-radius: 1ch;
+        margin-bottom: 2rem;
     }
 
     #nav {
-        padding: 30px;
+        padding: 3ch;
         display: grid;
         grid-template-columns: auto auto;
         justify-items: left;

@@ -52,6 +52,7 @@ export const languageList: languageData[] = [
                     pollNameInputLabel: "Poll name",
                     description: "Description (255 characters max)",
                     maxVoteLabel: "Max number of votes per user (-1 for infinity)",
+                    allowsMaybeLabel: '"Maybe" as Vote allowed',
                     typeSelect: {
                         label: "Poll type",
                         stringOption: "Word poll",
@@ -77,7 +78,7 @@ export const languageList: languageData[] = [
                     maxPerUserVoteCount: "Maximum number of votes each user can do",
                     maxPerUserVoteCountDescription: "(-1 for infinity)",
                     dateStringFormat: (start?: string, end?: string) =>
-                        "from " + start + (end != undefined ? " \nto " + end : ""),
+                        start + (end != undefined ? " \nto " + end : ""),
                     save: "save",
                     cancel: "cancel",
                     delete: "delete",
@@ -100,7 +101,7 @@ export const languageList: languageData[] = [
                 votes: {
                     yes: "Yes",
                     no: "No",
-                    notVoted: "Unknown",
+                    unknown: "Unknown",
                     maybe: "Maybe"
                 }
             },
@@ -176,6 +177,7 @@ export const languageList: languageData[] = [
                     pollNameInputLabel: "Umfragenname",
                     description: "Beschreibung (maximal 255 Zeichen)",
                     maxVoteLabel: "Maximale Anzahl an Stimmen pro Benutzer (-1 für unendlich)",
+                    allowsMaybeLabel: '"Vielleicht" als Auswahl erlaubt',
                     typeSelect: {
                         label: "Umfragentyp auswählen",
                         stringOption: "Wortumfrage",
@@ -201,9 +203,7 @@ export const languageList: languageData[] = [
                     maxPerUserVoteCount: "Maximal Anzahl an ausgewählten Optionen",
                     maxPerUserVoteCountDescription: "(-1 für unendlich)",
                     dateStringFormat: (start?: string, end?: string) => {
-                        if (end == undefined) {
-                            return "Am " + start
-                        } else return "Von " + start + (end != undefined ? " \nbis " + end : "")
+                        return start + (end != undefined ? " \nbis " + end : "")
                     },
                     save: "Speichern",
                     cancel: "Abbrechen",
@@ -228,7 +228,7 @@ export const languageList: languageData[] = [
                 votes: {
                     yes: "Ja",
                     no: "Nein",
-                    notVoted: "Unbekannt",
+                    unknown: "Unbekannt",
                     maybe: "Vielleicht"
                 }
             },

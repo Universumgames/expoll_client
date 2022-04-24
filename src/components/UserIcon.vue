@@ -53,8 +53,7 @@
         position: absolute;
         top: 0;
         right: 0;
-        margin: 1ch;
-
+        margin: 1.5ch;
         width: 3rem;
         height: 3rem;
     }

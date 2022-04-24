@@ -12,6 +12,7 @@
             >Mail: <span style="word-break: break-word">{{ this.userInfo?.mail }}</span></label
         >
         <label>Admin: {{ this.userInfo?.admin ? "yes" : "no" }}</label>
+        <label v-show="this.userInfo?.superAdmin">Superadmin</label>
     </div>
 </template>
 
