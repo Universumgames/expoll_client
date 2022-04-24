@@ -1,14 +1,20 @@
 <template>
     <div>
-        <user-icon :userData="this.userData" :language="this.localeLanguage" />
-        <div id="nav">
-            <router-link v-show="this.userData != undefined" to="/polls">{{
-                this.localeLanguage?.uiElements.navigation.polls
-            }}</router-link>
-            <router-link to="/">{{ this.localeLanguage?.uiElements.navigation.home }}</router-link>
-            <!-- <router-link to="/about">About</router-link> -->
-            <router-link to="/admin" v-if="userData?.admin">Admin</router-link>
-        </div>
+        <header>
+            <user-icon :userData="this.userData" :language="this.localeLanguage" />
+            <div id="nav">
+                <a>Expoll</a>
+                <div>
+                    <router-link v-show="this.userData != undefined" to="/polls">{{
+                        this.localeLanguage?.uiElements.navigation.polls
+                    }}</router-link>
+                    <router-link to="/">{{ this.localeLanguage?.uiElements.navigation.home }}</router-link>
+                    <!-- <router-link to="/about">About</router-link> -->
+                    <router-link to="/admin" v-if="userData?.admin">Admin</router-link>
+                </div>
+            </div>
+        </header>
+
         <router-view :userData="this.userData" :language="localeLanguage" :failedLoading="this.failedLoading" />
 
         <div class="footer">
@@ -205,10 +211,6 @@
         border-radius: 1ch;
     }
 
-    #nav {
-        padding: 30px;
-    }
-
     a {
         font-weight: bold;
         color: var(--text-color);
@@ -237,6 +239,20 @@
         --primary-color: #42b983;
         --blank-text-color: var(--bg-color);
         --alert-color: #ba4b4a;
+    }
+
+
+    header {
+        background: var(--secondary-color);
+        border-radius: 15px;
+        margin-bottom: 2rem;;
+    }
+
+    #nav {
+        padding: 30px;
+        display: grid;
+        grid-template-columns: auto auto;
+        justify-items: left;
     }
 
     .errorInfo {

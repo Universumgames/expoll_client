@@ -15,6 +15,9 @@
             ><br />
             <small v-show="this.errorMsg != '' && voteOpt.votedFor" class="errorInfo">{{ this.errorMsg }}</small>
         </td>
+        <td class="spacer-col">
+            <small v-show="this.errorMsg != '' && voteOpt.votedFor" class="errorInfo">{{ this.errorMsg }}</small>
+        </td>
         <td>
             <button class="leaveBtn" @click="removeUser" v-show="userData.id == userVote.user.id || userData.admin">
                 {{
@@ -177,5 +180,10 @@
 
     .leaveBtn {
         background-color: var(--alert-color);
+        width: 20ch;
+    }
+
+    .spacer-col {
+        width: 100%;
     }
 </style>
