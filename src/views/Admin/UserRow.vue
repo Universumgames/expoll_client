@@ -13,6 +13,24 @@
         >
         <label>Admin: {{ this.userInfo?.admin ? "yes" : "no" }}</label>
         <label v-show="this.userInfo?.superAdmin">Superadmin</label>
+
+        <div>
+            <button
+                v-show="!this.userInfo?.admin && this.userInfo?.active"
+                @click="deleteUser"
+                style="background: var(--alert-color)"
+            >
+                Delete User
+            </button>
+            <label v-show="!this.userInfo?.admin && !this.userInfo?.active">Already deleted</label>
+            <button
+                v-show="!this.userInfo?.admin && !this.userInfo?.active"
+                @click="deleteUser"
+                style="background: var(--alert-color)"
+            >
+                Delete User and Votes
+            </button>
+        </div>
     </div>
 </template>
 
@@ -20,6 +38,7 @@
     import { Options, Vue } from "vue-class-component"
     import { UserInfo } from "expoll-lib/adminInterfaces"
     import { languageData } from "../../scripts/languageConstruct"
+    import axios from "axios"
 
     @Options({
         props: {
@@ -31,6 +50,21 @@
     export default class UserRow extends Vue {
         userInfo: UserInfo | undefined
         language?: languageData
+
+        async deleteUser() {
+            if (
+                confirm("Do you really want to delete the user " + this.userInfo?.username + "? This cannot be undone")
+            ) {
+                if (
+                    confirm(
+                        "Do you really want to delete the user " + this.userInfo?.username + "? This cannot be undone"
+                    )
+                ) {
+                    await axios.delete("/api/admin/user", { data: { userID: this.userInfo?.id } })
+                    this.$emit("update")
+                }
+            }
+        }
     }
 </script>
 

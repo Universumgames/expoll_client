@@ -4,7 +4,7 @@
         <label>User count: {{ this.count }}</label>
     </div>
 
-    <user-row v-for="user in this.users" :key="user.id" :userInfo="user" :language="this.language" />
+    <user-row v-for="user in this.users" :key="user.id" :userInfo="user" :language="this.language" @update="getData" />
 </template>
 
 <script lang="ts">
@@ -37,6 +37,10 @@
         loading = true
 
         async mounted() {
+            this.getData()
+        }
+
+        async getData() {
             const data = (await axios.get("/api/admin/users", { withCredentials: true })).data as AdminUserListResponse
             this.users = data.users
             this.count = data.totalCount

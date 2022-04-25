@@ -14,6 +14,11 @@
                 ><br />
                 <label>{{ this.language?.uiElements.login.form.lastName }}: {{ this.userData?.lastName }}</label
                 ><br />
+                <p>
+                    To delete your account please notify me via
+                    <a href="mailto:programming@universegame.de">programming@universegame.de</a> and please use the mail
+                    address you used to register your account
+                </p>
                 <button @click="logout">{{ this.language?.uiElements.login.logoutBtn }}</button>
             </div>
         </div>
