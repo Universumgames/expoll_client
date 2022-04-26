@@ -1,12 +1,13 @@
 <template>
     <tr>
-        <th>
+        <th @click="editNote">
             {{
                 this.displayUsernameInsteadOfFull
                     ? this.userVote?.user?.username
                     : this.userVote?.user?.firstName + " " + this.userVote?.user?.lastName
             }}
             <small>{{ this.pollData?.admin.id == this.userVote?.user?.id ?? false ? "(admin)" : "" }}</small>
+            <small>{{ this.noteString }}</small>
         </th>
         <td v-for="voteOpt in this.userVote?.votes" :key="voteOpt.optionID">
             <a @click="this.change(voteOpt.optionID)" :class="this.isEditable() ? 'changeable' : ''">{{
@@ -32,7 +33,7 @@
 
 <script lang="ts">
     import { Options, Vue } from "vue-class-component"
-    import { DetailedPoll, SimpleUserVotes } from "expoll-lib/extraInterfaces"
+    import { DetailedPoll, SimpleUserNote, SimpleUserVotes } from "expoll-lib/extraInterfaces"
     import { IUser, ReturnCode, tOptionId, VoteValue } from "expoll-lib/interfaces"
     import { languageData } from "../scripts/languageConstruct"
     import { vote } from "../scripts/vote"
@@ -45,6 +46,7 @@
             language: Object,
             userVote: Object,
             pollData: Object,
+            note: Object,
             displayUsernameInsteadOfFull: Boolean
         },
         emits: {
@@ -57,7 +59,10 @@
         language?: languageData
         userVote?: SimpleUserVotes
         pollData?: DetailedPoll
+        notes?: SimpleUserNote[]
         displayUsernameInsteadOfFull?: boolean
+
+        note?: string
 
         errorMsg: string = ""
 
@@ -170,6 +175,28 @@
                     if (this.pollData?.allowsMaybe) return this.language?.uiElements.polls.votes.maybe
                     else return this.language?.uiElements.polls.votes.no
             }
+        }
+
+        async editNote() {
+            if (this.isEditable()) {
+                const note = prompt("Note for user", this.note)
+                if (this.pollData == undefined || this.userVote?.user == undefined) return
+                await axios.put(
+                    "/api/poll",
+                    {
+                        pollID: this.pollData.pollID,
+                        notes: [{ userID: this.userVote?.user.id, note: note }]
+                    } as EditPollRequest,
+                    {
+                        withCredentials: true
+                    }
+                )
+                this.$emit("noteChange")
+            }
+        }
+
+        get noteString() {
+            return this.language?.uiElements.polls.details.userNotesByAdmin(this.note)
         }
     }
 </script>

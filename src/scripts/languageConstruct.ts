@@ -71,6 +71,7 @@ export interface languageData {
             details: {
                 createdBy: (username: string) => string
                 userCol: string
+                userNotesByAdmin: (note?: string) => string
                 pollName: string
                 maxPerUserVoteCount: string
                 maxPerUserVoteCountDescription: string

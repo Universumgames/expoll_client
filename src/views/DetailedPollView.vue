@@ -196,21 +196,25 @@
                     :language="this.language"
                     :userVote="this.getVotesByUser()"
                     :pollData="this.poll"
+                    :note="this.poll?.userNotes?.find((note) => note.user.id == this.userData?.id)?.note"
                     :displayUsernameInsteadOfFull="this.displayUsernameInsteadOfFull"
                     @voteChange="this.voteUpdateCallback"
                     class="currentUserVotes"
+                    @noteChange="this.noteChangeCallback"
                 />
                 <poll-user-vote-row
                     v-for="vote in this.poll?.userVotes"
                     :key="vote.user.id"
                     v-show="vote.user.id != userData.id"
                     :userData="this.userData"
+                    :note="this.poll?.userNotes?.find((note) => note.user.id == vote.user.id)?.note"
                     :language="this.language"
                     :userVote="vote"
                     :pollData="this.poll"
                     :displayUsernameInsteadOfFull="this.displayUsernameInsteadOfFull"
                     @voteChange="this.voteUpdateCallback"
                     @kickedID="this.userKicked"
+                    @noteChange="this.noteChangeCallback"
                 />
             </table>
         </div>
@@ -459,6 +463,10 @@
             if (this.poll == undefined) return
             this.poll.userVotes = this.poll.userVotes.filter((ele) => ele.user?.id != userID ?? true) ?? []
             this.$forceUpdate()
+        }
+
+        async noteChangeCallback() {
+            await this.setup()
         }
     }
 </script>

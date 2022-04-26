@@ -60,7 +60,10 @@
                         "Do you really want to delete the user " + this.userInfo?.username + "? This cannot be undone"
                     )
                 ) {
-                    await axios.delete("/api/admin/user", { data: { userID: this.userInfo?.id } })
+                    await axios.delete("/api/admin/user", {
+                        data: { userID: this.userInfo?.id },
+                        withCredentials: true
+                    })
                     this.$emit("update")
                 }
             }
