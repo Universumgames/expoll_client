@@ -18,6 +18,7 @@ export interface languageData {
             form: {
                 loggingIn: string
                 login: string
+                advancedLogin: string
                 requestMail: string
                 requestBtn: string
                 mail: string

@@ -65,7 +65,7 @@
         localeLanguage!: languageData
         failedLoading = false
 
-        frontendVersion = "1.2.5"
+        frontendVersion = "1.2.6"
         backendVersion = ""
 
         async created() {
@@ -158,6 +158,8 @@
 <style>
     body {
         background: var(--bg-color);
+        margin: 0;
+        padding: 0;
     }
 
     p {
@@ -171,6 +173,7 @@
         text-align: center;
         color: var(--text-color);
         position: relative;
+        margin: 2ch;
     }
 
     button {
@@ -248,6 +251,7 @@
 
     #nav {
         padding: 3ch;
+        margin: 2ch;
     }
 
     .errorInfo {

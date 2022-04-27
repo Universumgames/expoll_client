@@ -3,18 +3,23 @@
         <h1 v-if="this.loggedIn">{{ this.language?.uiElements.login.form.loggingIn }}</h1>
         <div>Loginkey: {{ this.paramLoginKey }}</div>
     </div>
+    <popup v-if="showPopup" :text="popupText" :title="popupTitle" @close="showPopup = false" />
     <div v-show="!this.paramLoginKeyExist && !this.loggingIn" class="columnContainer">
         <!-- logging in -->
         <div class="column">
-            <h2>{{ this.language?.uiElements.login.form.requestMail }}</h2>
+            <h2>{{ this.language?.uiElements.login.form.login }}</h2>
             <label for="mail">{{ this.language?.uiElements.login.form.mail }}</label>
             <input id="mail" type="text" placeholder="max.mustermann@gmail.com" v-model="loginMail" />
             <button @click="this.request">{{ this.language?.uiElements.login.form.requestBtn }}</button>
             <br />
-            <h2>{{ this.language?.uiElements.login.form.login }}</h2>
-            <label for="key">{{ this.language?.uiElements.login.form.loginKey }}</label>
-            <input id="key" type="text" placeholder="key" v-model="loginKey" />
-            <button @click="this.login">{{ this.language?.uiElements.login.form.loginBtn }}</button>
+            <button @click="showAdvancedLogin = !showAdvancedLogin">
+                {{ this.language?.uiElements.login.form.advancedLogin }}
+            </button>
+            <div v-show="showAdvancedLogin">
+                <label for="key">{{ this.language?.uiElements.login.form.loginKey }}</label>
+                <input id="key" type="text" placeholder="key" v-model="loginKey" />
+                <button @click="this.login">{{ this.language?.uiElements.login.form.loginBtn }}</button>
+            </div>
             <p
                 v-if="(this.loginKey == '' && this.loginClicked) || (this.loginMail == '' && this.requestClicked)"
                 class="errorInfo"
@@ -81,6 +86,7 @@
     import { getUserData, requestLoginMail, signUp } from "../scripts/user"
     import LoadingScreen from "../components/LoadingScreen.vue"
     import { ReCaptchaInstance } from "../scripts/recaptcha"
+    import Popup from "../components/Popup.vue"
 
     declare global {
         // eslint-disable-next-line no-unused-vars
@@ -97,7 +103,8 @@
             language: Object
         },
         components: {
-            LoadingScreen
+            LoadingScreen,
+            Popup
         }
     })
     export default class LoginSignupView extends Vue {
@@ -107,6 +114,10 @@
         loginMissing: boolean = false
         loginMsg = ""
         errorMsg = ""
+
+        showPopup = false
+        popupTitle = ""
+        popupText = ""
 
         loginMail = ""
         loginKey = ""
@@ -120,6 +131,8 @@
         requestClicked = false
         loginClicked = false
 
+        showAdvancedLogin = false
+
         async mounted() {
             if (this.paramLoginKeyExist) {
                 this.loggingIn = true
@@ -128,10 +141,22 @@
                     // @ts-ignore
                     window.location = "/"
                 } catch (error) {
-                    this.errorMsg = this.language?.uiElements.login.messages.loginKeyNotExist ?? ""
+                    this.displayError(this.language?.uiElements.login.messages.loginKeyNotExist)
                     this.loggingIn = false
                 }
             }
+        }
+
+        displayError(error?: string) {
+            this.errorMsg = error ?? ""
+            this.popupTitle = "Error"
+            this.popupText = this.errorMsg
+            this.showPopup = true
+        }
+
+        resetError() {
+            this.errorMsg = ""
+            this.showPopup = false
         }
 
         get paramLoginKey(): string {
@@ -153,10 +178,10 @@
                 if (rc != ReturnCode.OK) throw new Error()
                 this.loginMsg = this.language?.uiElements.login.messages.mailSent ?? ""
                 this.loggingIn = false
-                this.errorMsg = ""
+                this.resetError()
             } catch (error) {
                 this.loginMsg = ""
-                this.errorMsg = this.language?.uiElements.login.messages.mailNotExist ?? ""
+                this.displayError(this.language?.uiElements.login.messages.mailNotExist)
                 this.loggingIn = false
             }
         }
@@ -174,7 +199,7 @@
                 await getUserData(this.loginKey)
                 window.location.reload()
             } catch (error) {
-                this.errorMsg = this.language?.uiElements.login.messages.loginKeyNotExist ?? ""
+                this.displayError(this.language?.uiElements.login.messages.loginKeyNotExist)
                 this.loggingIn = false
             }
         }
@@ -191,7 +216,7 @@
                 return
             }
 
-            this.errorMsg = ""
+            this.resetError()
 
             const rc = await signUp({
                 firstName: this.signupFirstName,
@@ -203,10 +228,10 @@
 
             switch (rc.code) {
                 case ReturnCode.USER_EXISTS:
-                    this.errorMsg = this.language?.uiElements.login.messages.userExists ?? ""
+                    this.displayError(this.language?.uiElements.login.messages.userExists)
                     break
                 case ReturnCode.INTERNAL_SERVER_ERROR:
-                    this.errorMsg = this.language?.uiElements.serverError ?? ""
+                    this.displayError(this.language?.uiElements.serverError)
                     break
                 case ReturnCode.CAPTCHA_INVALID:
                     this.errorMsg = "Captcha invalid"

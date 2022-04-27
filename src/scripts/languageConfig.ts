@@ -19,6 +19,7 @@ export const languageList: languageData[] = [
                 form: {
                     loggingIn: "Logging in... this may take a few seconds",
                     login: "Login",
+                    advancedLogin: "Advanced Login",
                     requestMail: "Request login mail",
                     requestBtn: "Request",
                     mail: "Mail address",
@@ -143,6 +144,7 @@ export const languageList: languageData[] = [
                 form: {
                     loggingIn: "Anmelden... dies kann einen Moment dauern",
                     login: "Anmelden",
+                    advancedLogin: "Erweiterter Login",
                     requestMail: "Anmeldelink per Email anfragen",
                     requestBtn: "Anfragen",
                     mail: "E-Mail Adresse",
