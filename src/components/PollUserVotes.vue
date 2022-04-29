@@ -20,7 +20,7 @@
             <small v-show="this.errorMsg != '' && voteOpt.votedFor" class="errorInfo">{{ this.errorMsg }}</small>
         </td>
         <td>
-            <button class="leaveBtn" @click="removeUser" v-show="userData.id == userVote.user.id || userData.admin">
+            <button class="leaveBtn" @click="removeUser" v-show="this.removeUserBtnVisible">
                 {{
                     this.loggedUserIsSelectedUser()
                         ? this.language?.uiElements.polls.details.leavePollBtn
@@ -104,6 +104,14 @@
 
                 this.$emit("voteChange")
             }
+        }
+
+        get removeUserBtnVisible() {
+            return (
+                this.userData?.id == this.userVote?.user.id ||
+                this.userData?.admin ||
+                this.pollData?.admin.id == this.userData?.id
+            )
         }
 
         async removeUser() {
