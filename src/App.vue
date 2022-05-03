@@ -65,7 +65,7 @@
         localeLanguage!: languageData
         failedLoading = false
 
-        frontendVersion = "1.2.7"
+        frontendVersion = "1.2.8"
         backendVersion = ""
 
         async created() {
@@ -85,7 +85,7 @@
                 }
             })
 
-            this.backendVersion = (await axios.get("/api/metaInfo")).data.serverInfo.version
+            this.backendVersion = (await axios.get("/api/serverInfo")).data.version
         }
 
         async mounted() {

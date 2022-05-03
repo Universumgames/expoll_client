@@ -11,8 +11,22 @@
         <label
             >Mail: <span style="word-break: break-word">{{ this.userInfo?.mail }}</span></label
         >
-        <label>Admin: {{ this.userInfo?.admin ? "yes" : "no" }}</label>
-        <label v-show="this.userInfo?.superAdmin">Superadmin</label>
+        <div>
+            <div v-show="!this.userInfo?.superAdmin && this.admin?.admin">
+                <label>Admin: {{ this.userInfo?.admin ? "yes" : "no" }}</label
+                ><br />
+                <button
+                    v-show="!this.userInfo?.admin || this.admin?.superAdmin"
+                    @click="toggleAdmin()"
+                    :style="
+                        'background-color: var(' + (this.userInfo?.admin ? '--alert-color' : '--primary-color') + ')'
+                    "
+                >
+                    {{ this.userInfo?.admin ? "Demote" : "Promote" }}
+                </button>
+            </div>
+            <label v-show="this.userInfo?.superAdmin">Superadmin</label>
+        </div>
 
         <div>
             <button
@@ -43,12 +57,14 @@
     @Options({
         props: {
             userInfo: Object,
+            admin: Object,
             language: Object
         },
         components: {}
     })
     export default class UserRow extends Vue {
         userInfo: UserInfo | undefined
+        admin: UserInfo | undefined
         language?: languageData
 
         async deleteUser() {
@@ -66,6 +82,25 @@
                     })
                     this.$emit("update")
                 }
+            }
+        }
+
+        async toggleAdmin() {
+            const newState = !this.userInfo?.admin
+            if (
+                confirm(
+                    "Are you sure you want to " +
+                        (newState ? "PROMOTE" : "DEMOTE") +
+                        " the user " +
+                        this.userInfo?.username +
+                        "?"
+                )
+            ) {
+                await axios.put("/api/admin/users", {
+                    userID: this.userInfo?.id,
+                    admin: true
+                })
+                this.$emit("update")
             }
         }
     }

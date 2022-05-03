@@ -105,12 +105,16 @@
                 </div>
             </div>
         </div>
+
         <!-- share -->
         <div style="text-align: left; margin-top: 1rem">
             <a @click="this.share()"
                 ><h3 style="display: inline">Share <share-icon v-show="!this.shareLinkCopied" class="normalIcon" /></h3>
                 <h3 style="display: inline" v-show="this.shareLinkCopied">Copied</h3></a
             >
+        </div>
+        <div style="text-align: left; margin-top: 1rem" v-show="this.isJoined">
+            <a @click="this.joinPoll()"><h3 style="display: inline">Join</h3></a>
         </div>
         <br />
 
@@ -310,18 +314,25 @@
         async checkAndJoinPoll() {
             if (
                 // @ts-ignore
-                (this.$route.query.join == true &&
-                    this.userData?.polls.find((poll) => poll.id == this.pollID) == undefined) ??
+                (this.$route.query.join == true && !this.isJoined) ??
                 false
             ) {
                 try {
-                    await axios.put("/api/poll", { inviteLink: this.pollID }, { withCredentials: true })
-                    // @ts-ignore
-                    window.location = "/#/polls/" + this.pollID
+                    await this.joinPoll()
                 } catch (e) {
                     console.warn(e)
                 }
             }
+        }
+
+        get isJoined() {
+            return this.userData?.polls.find((poll) => poll.id == this.pollID) != undefined
+        }
+
+        async joinPoll() {
+            await axios.put("/api/poll", { inviteLink: this.pollID }, { withCredentials: true })
+            // @ts-ignore
+            window.location = "/#/polls/" + this.pollID
         }
 
         optionValue(option: any): string {

@@ -4,7 +4,14 @@
         <label>User count: {{ this.count }}</label>
     </div>
 
-    <user-row v-for="user in this.users" :key="user.id" :userInfo="user" :language="this.language" @update="getData" />
+    <user-row
+        v-for="user in this.users"
+        :key="user.id"
+        :userInfo="user"
+        :language="this.language"
+        @update="getData"
+        :admin="userData"
+    />
 </template>
 
 <script lang="ts">
