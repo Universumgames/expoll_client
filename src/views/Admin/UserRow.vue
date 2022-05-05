@@ -16,7 +16,7 @@
                 <label>Admin: {{ this.userInfo?.admin ? "yes" : "no" }}</label
                 ><br />
                 <button
-                    v-show="!this.userInfo?.admin || this.admin?.superAdmin"
+                    v-show="!this.userInfo?.admin || this.superAdmin"
                     @click="toggleAdmin()"
                     :style="
                         'background-color: var(' + (this.userInfo?.admin ? '--alert-color' : '--primary-color') + ')'
@@ -58,7 +58,8 @@
         props: {
             userInfo: Object,
             admin: Object,
-            language: Object
+            language: Object,
+            superAdmin: Object
         },
         components: {}
     })
@@ -66,6 +67,7 @@
         userInfo: UserInfo | undefined
         admin: UserInfo | undefined
         language?: languageData
+        superAdmin?: boolean
 
         async deleteUser() {
             if (

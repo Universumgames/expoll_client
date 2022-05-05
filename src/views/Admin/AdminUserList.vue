@@ -11,6 +11,7 @@
         :language="this.language"
         @update="getData"
         :admin="userData"
+        :superAdmin="adminIsSuper"
     />
 </template>
 
@@ -23,6 +24,7 @@
     import axios from "axios"
     import LoadingScreen from "../../components/LoadingScreen.vue"
     import { AdminUserListResponse } from "expoll-lib/requestInterfaces"
+    import { getUserData } from "../../scripts/user"
 
     @Options({
         props: {
@@ -37,6 +39,7 @@
     export default class AdminUserList extends Vue {
         userData: IUser | undefined
         language?: languageData
+        adminIsSuper = false
 
         users?: UserInfo[]
         count = 0
@@ -51,6 +54,15 @@
             const data = (await axios.get("/api/admin/users", { withCredentials: true })).data as AdminUserListResponse
             this.users = data.users
             this.count = data.totalCount
+
+            const u = await getUserData()
+
+            if (u != undefined && this.users != undefined) {
+                this.adminIsSuper =
+                    this.users?.find((user) => {
+                        return user.id == u.id
+                    })?.superAdmin ?? false
+            }
 
             this.$forceUpdate()
             this.loading = false
