@@ -17,7 +17,9 @@
         <router-view :userData="this.userData" :language="localeLanguage" :failedLoading="this.failedLoading" />
 
         <div class="footer">
-            <languageSelect @langChange="onLangChange" :language="localeLanguage" />
+            <div class="footer-center">
+                <languageSelect @langChange="onLangChange" :language="localeLanguage" />
+            </div>
             <label>Created by universumgames</label><br />
             <a href="https://universegame.de">Website</a>
             <a href="https://github.com/universumgames">Github</a>
@@ -282,5 +284,10 @@
 
     .grecaptcha-badge {
         visibility: hidden;
+    }
+
+    .footer-center {
+        display: flex;
+        justify-content: center;
     }
 </style>
