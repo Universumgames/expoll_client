@@ -287,6 +287,17 @@
 
         async mounted() {
             await this.setup()
+
+            // update votes every 60 seconds
+            let intID: any = 0
+            const that = this
+            intID = setInterval(() => {
+                // @ts-ignore
+                if (that.$route.params.id == undefined && !that.$route.fullPath.includes("polls")) {
+                    clearInterval(intID)
+                }
+                this.setup()
+            }, 60 * 1000)
         }
 
         async setup() {
