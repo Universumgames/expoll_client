@@ -1,9 +1,9 @@
-from node as compiler
+from node
 
 WORKDIR /expoll/frontend_server
 COPY ./client .
 
-RUN npm install
+RUN npm install --legacy-peer-deps
 RUN npm run build
 
 from httpd
