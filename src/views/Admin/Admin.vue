@@ -1,12 +1,12 @@
 <template>
-    <div v-if="this.userData?.admin">
+    <div v-if="userData?.admin">
         <div>
             <h3>Administration</h3>
             <router-link to="/admin/users">Users</router-link>
             <router-link to="/admin/polls">Polls</router-link>
             <router-link to="/admin/info">Debug Info</router-link>
         </div>
-        <router-view :userData="this.userData" :language="this.language" />
+        <router-view :userData="userData" :language="language" />
     </div>
     <small v-else class="errorInfo">You are not an admin</small>
 </template>

@@ -1,106 +1,100 @@
 <template>
-    <loading-screen v-show="this.loadingMain" />
-    <div v-show="!this.loadingMain && this.loadingFailed">
-        <h2 class="errorInfo">{{ this.language?.uiElements.login.loginFirst }}</h2>
-        <login-signup-view :language="this.language" />
+    <loading-screen v-show="loadingMain" />
+    <div v-show="!loadingMain && loadingFailed">
+        <h2 class="errorInfo">{{ language?.uiElements.login.loginFirst }}</h2>
+        <login-signup-view :language="language" />
     </div>
-    <blank-detailed-poll-view :language="this.language" v-show="this.loadingMain" />
-    <div v-show="!this.loadingMain && !this.loadingFailed">
+    <blank-detailed-poll-view :language="language" v-show="loadingMain" />
+    <div v-show="!loadingMain && !loadingFailed">
         <div style="text-align: left">
             <!-- name -->
             <div style="padding: 1ch">
-                <div v-show="this.changes.name == undefined">
-                    <h2 style="display: inline">{{ this.poll?.name }}</h2>
-                    <button v-show="this.mayEdit()" @click="this.changes.name = this.poll?.name">
+                <div v-show="changes.name == undefined">
+                    <h2 style="display: inline">{{ poll?.name }}</h2>
+                    <button v-show="mayEdit()" @click="changes.name = poll?.name">
                         <edit-icon class="normalIcon" />
                     </button>
                 </div>
-                <div v-show="this.mayEdit() && this.changes.name != undefined">
-                    <label for="nameChange">{{ this.language?.uiElements.polls.details.pollName }}</label>
-                    <input type="text" id="nameChange" v-model="this.changes.name" />
-                    <button @click="this.pushChanges">{{ this.language?.uiElements.polls.details.save }}</button>
-                    <button @click="this.changes.name = undefined">
-                        {{ this.language?.uiElements.polls.details.cancel }}
+                <div v-show="mayEdit() && changes.name != undefined">
+                    <label for="nameChange">{{ language?.uiElements.polls.details.pollName }}</label>
+                    <input type="text" id="nameChange" v-model="changes.name" />
+                    <button @click="pushChanges">{{ language?.uiElements.polls.details.save }}</button>
+                    <button @click="changes.name = undefined">
+                        {{ language?.uiElements.polls.details.cancel }}
                     </button>
                 </div>
             </div>
             <div class="info-text">
-                <a>ID: {{ this.pollID }}</a>
+                <a>ID: {{ pollID }}</a>
                 <a
                     >{{
-                        this.language?.uiElements.polls.details.createdBy(
-                            this.poll?.admin.firstName + " " + this.poll?.admin.lastName
-                        )
+                        language?.uiElements.polls.details.createdBy(poll?.admin.firstName + " " + poll?.admin.lastName)
                     }}
                 </a>
             </div>
             <!-- description -->
             <div style="margin-top: 1ch" class="footer">
                 <label
-                    ><b>{{ this.language?.uiElements.polls.create.description }}</b></label
+                    ><b>{{ language?.uiElements.polls.create.description }}</b></label
                 ><button
-                    v-show="this.mayEdit() && this.changes?.description == undefined"
-                    @click="this.changes.description = this.poll?.description"
+                    v-show="mayEdit() && changes?.description == undefined"
+                    @click="changes.description = poll?.description"
                 >
                     <edit-icon class="normalIcon" /></button
                 ><br />
-                <div v-show="this.changes?.description == undefined">
-                    <p>{{ this.poll?.description }}</p>
+                <div v-show="changes?.description == undefined">
+                    <p>{{ poll?.description }}</p>
                 </div>
-                <div v-show="this.mayEdit() && this.changes?.description != undefined">
-                    <textarea name="description" cols="60" rows="10" v-model="this.changes.description"></textarea
-                    ><br />
-                    <button @click="this.pushChanges">{{ this.language?.uiElements.polls.details.save }}</button>
-                    <button @click="this.changes.description = undefined">
-                        {{ this.language?.uiElements.polls.details.cancel }}
+                <div v-show="mayEdit() && changes?.description != undefined">
+                    <textarea name="description" cols="60" rows="10" v-model="changes.description"></textarea><br />
+                    <button @click="pushChanges">{{ language?.uiElements.polls.details.save }}</button>
+                    <button @click="changes.description = undefined">
+                        {{ language?.uiElements.polls.details.cancel }}
                     </button>
                 </div>
             </div>
             <!-- max vote count -->
-            <div v-show="this.mayEdit()">
-                <div v-show="this.changes.maxPerUserVoteCount == undefined">
+            <div v-show="mayEdit()">
+                <div v-show="changes.maxPerUserVoteCount == undefined">
                     <label
-                        >{{ this.language?.uiElements.polls.details.maxPerUserVoteCount }}
+                        >{{ language?.uiElements.polls.details.maxPerUserVoteCount }}
                         <span style="white-space: nowrap"
-                            >{{ this.language?.uiElements.polls.details.maxPerUserVoteCountDescription }}:
-                            {{ this.poll?.maxPerUserVoteCount }}</span
+                            >{{ language?.uiElements.polls.details.maxPerUserVoteCountDescription }}:
+                            {{ poll?.maxPerUserVoteCount }}</span
                         ></label
                     >
-                    <button
-                        v-show="this.mayEdit()"
-                        @click="this.changes.maxPerUserVoteCount = this.poll?.maxPerUserVoteCount"
-                    >
+                    <button v-show="mayEdit()" @click="changes.maxPerUserVoteCount = poll?.maxPerUserVoteCount">
                         <edit-icon class="normalIcon" />
                     </button>
                 </div>
-                <div v-show="this.mayEdit() && this.changes.maxPerUserVoteCount != undefined">
+                <div v-show="mayEdit() && changes.maxPerUserVoteCount != undefined">
                     <label for="maxPerUserVoteCount">{{
-                        this.language?.uiElements.polls.details.maxPerUserVoteCount
+                        language?.uiElements.polls.details.maxPerUserVoteCount
                     }}</label>
-                    <input id="maxPerUserVoteCount" type="number" min="-1" v-model="this.changes.maxPerUserVoteCount" />
-                    <button @click="this.pushChanges">{{ this.language?.uiElements.polls.details.save }}</button>
-                    <button @click="this.changes.maxPerUserVoteCount = undefined">
-                        {{ this.language?.uiElements.polls.details.cancel }}
+                    <input id="maxPerUserVoteCount" type="number" min="-1" v-model="changes.maxPerUserVoteCount" />
+                    <button @click="pushChanges">{{ language?.uiElements.polls.details.save }}</button>
+                    <button @click="changes.maxPerUserVoteCount = undefined">
+                        {{ language?.uiElements.polls.details.cancel }}
                     </button>
                 </div>
             </div>
             <!-- Allows Maybe -->
-            <div v-show="this.mayEdit()">
-                <div v-show="this.changes.allowsMaybe == undefined">
+            <div v-show="mayEdit()">
+                <div v-show="changes.allowsMaybe == undefined">
                     <label
-                        >{{ this.language?.uiElements.polls.create.allowsMaybeLabel }}:
-                        {{ this.poll?.allowsMaybe }}
+                        >{{ language?.uiElements.polls.create.allowsMaybeLabel }}:
+                        {{ poll?.allowsMaybe }}
                     </label>
-                    <button v-show="this.mayEdit()" @click="this.changes.allowsMaybe = this.poll?.allowsMaybe">
+                    <button v-show="mayEdit()" @click="changes.allowsMaybe = poll?.allowsMaybe">
                         <edit-icon class="normalIcon" />
                     </button>
                 </div>
-                <div v-show="this.mayEdit() && this.changes.allowsMaybe != undefined">
-                    <label for="allowsMaybe">{{ this.language?.uiElements.polls.create.allowsMaybeLabel }}</label>
-                    <input id="allowsMaybe" type="checkbox" v-model="this.changes.allowsMaybe" />
-                    <button @click="this.pushChanges">{{ this.language?.uiElements.polls.details.save }}</button>
-                    <button @click="this.changes.allowsMaybe = undefined">
-                        {{ this.language?.uiElements.polls.details.cancel }}
+                <div v-show="mayEdit() && changes.allowsMaybe != undefined">
+                    <label for="allowsMaybe">{{ language?.uiElements.polls.create.allowsMaybeLabel }}</label>
+                    <input id="allowsMaybe" type="checkbox" v-model="changes.allowsMaybe" />
+                    <button @click="pushChanges">{{ language?.uiElements.polls.details.save }}</button>
+                    <button @click="changes.allowsMaybe = undefined">
+                        {{ language?.uiElements.polls.details.cancel }}
                     </button>
                 </div>
             </div>
@@ -108,13 +102,13 @@
 
         <!-- share -->
         <div style="text-align: left; margin-top: 1rem">
-            <a @click="this.share()"
-                ><h3 style="display: inline">Share <share-icon v-show="!this.shareLinkCopied" class="normalIcon" /></h3>
-                <h3 style="display: inline" v-show="this.shareLinkCopied">Copied</h3></a
+            <a @click="share()"
+                ><h3 style="display: inline">Share <share-icon v-show="!shareLinkCopied" class="normalIcon" /></h3>
+                <h3 style="display: inline" v-show="shareLinkCopied">Copied</h3></a
             >
         </div>
-        <div style="text-align: left; margin-top: 1rem" v-show="this.isJoined">
-            <a @click="this.joinPoll()"><h3 style="display: inline">Join</h3></a>
+        <div style="text-align: left; margin-top: 1rem" v-show="isJoined">
+            <a @click="joinPoll()"><h3 style="display: inline">Join</h3></a>
         </div>
         <br />
 
@@ -123,108 +117,100 @@
             <table>
                 <tr>
                     <th>
-                        {{ this.language?.uiElements.polls.details.userCol }}
-                        <button @click="this.displayUsernameInsteadOfFull = !this.displayUsernameInsteadOfFull">
+                        {{ language?.uiElements.polls.details.userCol }}
+                        <button @click="displayUsernameInsteadOfFull = !displayUsernameInsteadOfFull">
                             <switch-icon class="normalIcon" />
                         </button>
                     </th>
-                    <th v-for="option in this.poll?.options" :key="option.id" style="white-space: pre-wrap">
+                    <th v-for="option in poll?.options" :key="option.id" style="white-space: pre-wrap">
                         {{ optionValue(option) }}
                         <br />
-                        ({{ getVotedForCount(option.id) }})
+                        ({{ getVotedForCount(option.id ?? 0) }})
                         <br />
-                        <a v-show="this.mayEdit()" @click="this.deleteOption(option.id)" class="deleteOpt">
-                            <small>{{ this.language?.uiElements.polls.details.delete }}</small>
+                        <a v-show="mayEdit()" @click="deleteOption(option.id ?? 0)" class="deleteOpt">
+                            <small>{{ language?.uiElements.polls.details.delete }}</small>
                         </a>
                     </th>
-                    <th style="padding: 1rem" v-show="this.mayEdit()">
-                        <button v-show="!this.addingOption" @click="this.addingOption = true">+</button>
-                        <div v-show="this.addingOption" class="addOption">
+                    <th style="padding: 1rem" v-show="mayEdit()">
+                        <button v-show="!addingOption" @click="addingOption = true">+</button>
+                        <div v-show="addingOption" class="addOption">
                             <!-- String poll options -->
-                            <div v-show="this.poll?.type == 0">
-                                <label :for="this.newOption.id + 'value'">{{
-                                    this.language?.uiElements.polls.create.optionValue
+                            <div v-show="poll?.type == 0">
+                                <label :for="newOption.id + 'value'">{{
+                                    language?.uiElements.polls.create.optionValue
                                 }}</label>
-                                <input v-model="this.newOption.value" :id="this.newOption.id + 'value'" type="text" />
+                                <input v-model="newOption.value" :id="newOption.id + 'value'" type="text" />
                             </div>
                             <!-- Date options -->
-                            <div v-show="this.poll?.type == 1">
-                                <label :for="this.newOption.id + 'dateStart'">{{
-                                    this.language?.uiElements.polls.create.optionValue
+                            <div v-show="poll?.type == 1">
+                                <label :for="newOption.id + 'dateStart'">{{
+                                    language?.uiElements.polls.create.optionValue
                                 }}</label>
-                                <input
-                                    v-model="this.newOption.dateStart"
-                                    :id="this.newOption.id + 'dateStart'"
-                                    type="date"
-                                />
-                                <label :for="this.newOption.id + 'dateEnd'">{{
-                                    this.language?.uiElements.polls.create.optionOptEndValue
+                                <input v-model="newOption.dateStart" :id="newOption.id + 'dateStart'" type="date" />
+                                <label :for="newOption.id + 'dateEnd'">{{
+                                    language?.uiElements.polls.create.optionOptEndValue
                                 }}</label>
-                                <input
-                                    v-model="this.newOption.dateEnd"
-                                    :id="this.newOption.id + 'dateEnd'"
-                                    type="date"
-                                />
+                                <input v-model="newOption.dateEnd" :id="newOption.id + 'dateEnd'" type="date" />
                             </div>
                             <!-- Date time options -->
-                            <div v-show="this.poll?.type == 2">
-                                <label :for="this.newOption.id + 'dateTimeStart'">{{
-                                    this.language?.uiElements.polls.create.optionValue
+                            <div v-show="poll?.type == 2">
+                                <label :for="newOption.id + 'dateTimeStart'">{{
+                                    language?.uiElements.polls.create.optionValue
                                 }}</label>
                                 <input
-                                    v-model="this.newOption.dateTimeStart"
-                                    :id="this.newOption.id + 'dateTimeStart'"
+                                    v-model="newOption.dateTimeStart"
+                                    :id="newOption.id + 'dateTimeStart'"
                                     type="datetime-local"
                                 />
-                                <label :for="this.newOption.id + 'dateTimeEnd'">{{
-                                    this.language?.uiElements.polls.create.optionOptEndValue
+                                <label :for="newOption.id + 'dateTimeEnd'">{{
+                                    language?.uiElements.polls.create.optionOptEndValue
                                 }}</label>
                                 <input
-                                    v-model="this.newOption.dateTimeEnd"
-                                    :id="this.newOption.id + 'dateTimeEnd'"
+                                    v-model="newOption.dateTimeEnd"
+                                    :id="newOption.id + 'dateTimeEnd'"
                                     type="datetime-local"
                                 />
                             </div>
-                            <button @click="this.addOption" style="padding: 0.5rem">
+                            <button @click="addOption" style="padding: 0.5rem">
                                 <save-icon class="normalIcon" />
                             </button>
-                            <button @click="this.addingOption = false">
-                                {{ this.language?.uiElements.polls.details.cancel }}
+                            <button @click="addingOption = false">
+                                {{ language?.uiElements.polls.details.cancel }}
                             </button>
                         </div>
                     </th>
                 </tr>
 
                 <poll-user-vote-row
-                    :userData="this.userData"
-                    :language="this.language"
-                    :userVote="this.getVotesByUser()"
-                    :pollData="this.poll"
-                    :note="this.poll?.userNotes?.find((note) => note.user.id == this.userData?.id)?.note"
-                    :displayUsernameInsteadOfFull="this.displayUsernameInsteadOfFull"
-                    @voteChange="this.voteUpdateCallback"
+                    :userData="userData"
+                    :language="language"
+                    :userVote="getVotesByUser()"
+                    :pollData="poll"
+                    :note="poll?.userNotes?.find((note) => note.user.id == userData?.id)?.note"
+                    :displayUsernameInsteadOfFull="displayUsernameInsteadOfFull"
+                    @voteChange="voteUpdateCallback"
                     class="currentUserVotes"
-                    @noteChange="this.noteChangeCallback"
+                    @noteChange="noteChangeCallback"
                 />
                 <poll-user-vote-row
-                    v-for="vote in this.poll?.userVotes"
+                    v-for="vote in poll?.userVotes"
                     :key="vote.user.id"
-                    v-show="vote.user.id != userData.id"
-                    :userData="this.userData"
-                    :note="this.poll?.userNotes?.find((note) => note.user.id == vote.user.id)?.note"
-                    :language="this.language"
+                    v-show="vote.user.id != userData?.id"
+                    :userData="userData"
+                    :note="poll?.userNotes?.find((note) => note.user.id == vote.user.id)?.note"
+                    :language="language"
                     :userVote="vote"
-                    :pollData="this.poll"
-                    :displayUsernameInsteadOfFull="this.displayUsernameInsteadOfFull"
-                    @voteChange="this.voteUpdateCallback"
-                    @kickedID="this.userKicked"
-                    @noteChange="this.noteChangeCallback"
+                    :pollData="poll"
+                    :displayUsernameInsteadOfFull="displayUsernameInsteadOfFull"
+                    @voteChange="voteUpdateCallback"
+                    @kickedID="userKicked"
+                    @noteChange="noteChangeCallback"
                 />
             </table>
         </div>
 
-        <button v-show="this.mayEdit()" style="background: var(--alert-color)" @click="this.deletePoll()">
-            {{ this.language?.uiElements.polls.details.deletePollBtn }}
+        <button v-show="mayEdit()" style="background: var(--alert-color)" @click="deletePoll()">
+            {{ language?.uiElements.polls.details.deletePollBtn }}
         </button>
     </div>
 </template>

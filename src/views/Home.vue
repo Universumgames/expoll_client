@@ -1,6 +1,6 @@
 <template>
     <div class="home">
-        <vue-markdown class="text" :source="this.markdown" />
+        <vue-markdown class="text" :source="markdown" />
     </div>
 </template>
 
@@ -22,9 +22,11 @@
         markdown: string = ""
         language!: languageData
 
-        mounted() {
+        async created() {
             this.loadMarkdown()
         }
+
+        mounted() {}
 
         async loadMarkdown() {
             const filename = "/" + this.language.short.toLowerCase() + "_startpage.md"
@@ -34,12 +36,12 @@
 </script>
 
 <style scoped>
-.home {
-    display: flex;
-    justify-content: center;
-}
-.text {
-    max-width: 80ch;
-    text-align: justify;
-}
+    .home {
+        display: flex;
+        justify-content: center;
+    }
+    .text {
+        max-width: 80ch;
+        text-align: justify;
+    }
 </style>

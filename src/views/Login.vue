@@ -1,25 +1,25 @@
 <template>
-    <loading-screen v-if="this.userData == undefined && !this.failedLoading" />
+    <loading-screen v-if="userData == undefined && !failedLoading" />
     <!-- logged in -->
-    <div v-show="(this.userData != undefined && this.loggedIn) || this.failedLoading">
-        <login-signup-view v-if="!this.loggedIn" :language="this.language" />
-        <div v-show="this.userData != undefined && this.loggedIn">
-            <h1>{{ this.language?.uiElements.login.alreadyLoggedInAs(this.userData?.username) }}</h1>
+    <div v-show="(userData != undefined && loggedIn) || failedLoading">
+        <login-signup-view v-if="!loggedIn" :language="language" />
+        <div v-show="userData != undefined && loggedIn">
+            <h1>{{ language?.uiElements.login.alreadyLoggedInAs(userData?.username ?? "") }}</h1>
             <div>
-                <label>{{ this.language?.uiElements.login.form.username }}: {{ this.userData?.username }}</label
+                <label>{{ language?.uiElements.login.form.username }}: {{ userData?.username }}</label
                 ><br />
-                <label>{{ this.language?.uiElements.login.form.mail }}: {{ this.userData?.mail }}</label
+                <label>{{ language?.uiElements.login.form.mail }}: {{ userData?.mail }}</label
                 ><br />
-                <label>{{ this.language?.uiElements.login.form.firstName }}: {{ this.userData?.firstName }}</label
+                <label>{{ language?.uiElements.login.form.firstName }}: {{ userData?.firstName }}</label
                 ><br />
-                <label>{{ this.language?.uiElements.login.form.lastName }}: {{ this.userData?.lastName }}</label
+                <label>{{ language?.uiElements.login.form.lastName }}: {{ userData?.lastName }}</label
                 ><br />
                 <p>
                     To delete your account please notify me via
                     <a href="mailto:programming@universegame.de">programming@universegame.de</a> and please use the mail
                     address you used to register your account
                 </p>
-                <button @click="logout">{{ this.language?.uiElements.login.logoutBtn }}</button>
+                <button @click="logout">{{ language?.uiElements.login.logoutBtn }}</button>
             </div>
         </div>
     </div>

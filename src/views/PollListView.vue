@@ -1,10 +1,10 @@
 <template>
     <div class="listContainer">
-        <div v-show="this.loading">
+        <div v-show="loading">
             <blank-poll-list-element v-for="n in 20" v-bind:key="n" :language="language" />
         </div>
-        <loading-screen v-show="this.loading" />
-        <div v-for="poll in polls" :key="poll.id">
+        <loading-screen v-show="loading" />
+        <div v-for="poll in polls" :key="poll.pollID">
             <poll-list-element :poll="poll" :language="language" />
         </div>
 

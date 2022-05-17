@@ -1,14 +1,14 @@
 <template>
-    <loading-screen v-if="this.loading" />
-    <div v-if="!this.loading">
-        <label>User count: {{ this.count }}</label>
+    <loading-screen v-if="loading" />
+    <div v-if="!loading">
+        <label>User count: {{ count }}</label>
     </div>
 
     <user-row
-        v-for="user in this.users"
+        v-for="user in users"
         :key="user.id"
         :userInfo="user"
-        :language="this.language"
+        :language="language"
         @update="getData"
         :admin="userData"
         :superAdmin="adminIsSuper"

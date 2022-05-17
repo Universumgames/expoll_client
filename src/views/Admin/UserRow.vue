@@ -1,44 +1,41 @@
 <template>
     <div class="userListContainer">
         <div>
-            <label>{{ this.userInfo?.username }}</label>
-            <small>ID: {{ this.userInfo?.id }}</small>
+            <label>{{ userInfo?.username }}</label>
+            <small>ID: {{ userInfo?.id }}</small>
         </div>
         <label
-            >Name:
-            <span style="white-space: nowrap">{{ this.userInfo?.firstName }} {{ this.userInfo?.lastName }}</span></label
+            >Name: <span style="white-space: nowrap">{{ userInfo?.firstName }} {{ userInfo?.lastName }}</span></label
         >
         <label
-            >Mail: <span style="word-break: break-word">{{ this.userInfo?.mail }}</span></label
+            >Mail: <span style="word-break: break-word">{{ userInfo?.mail }}</span></label
         >
         <div>
-            <div v-show="!this.userInfo?.superAdmin && this.admin?.admin">
-                <label>Admin: {{ this.userInfo?.admin ? "yes" : "no" }}</label
+            <div v-show="!userInfo?.superAdmin && admin?.admin">
+                <label>Admin: {{ userInfo?.admin ? "yes" : "no" }}</label
                 ><br />
                 <button
-                    v-show="!this.userInfo?.admin || this.superAdmin"
+                    v-show="!userInfo?.admin || superAdmin"
                     @click="toggleAdmin()"
-                    :style="
-                        'background-color: var(' + (this.userInfo?.admin ? '--alert-color' : '--primary-color') + ')'
-                    "
+                    :style="'background-color: var(' + (userInfo?.admin ? '--alert-color' : '--primary-color') + ')'"
                 >
-                    {{ this.userInfo?.admin ? "Demote" : "Promote" }}
+                    {{ userInfo?.admin ? "Demote" : "Promote" }}
                 </button>
             </div>
-            <label v-show="this.userInfo?.superAdmin">Superadmin</label>
+            <label v-show="userInfo?.superAdmin">Superadmin</label>
         </div>
 
         <div>
             <button
-                v-show="!this.userInfo?.admin && this.userInfo?.active"
+                v-show="!userInfo?.admin && userInfo?.active"
                 @click="deleteUser"
                 style="background: var(--alert-color)"
             >
                 Delete User
             </button>
-            <label v-show="!this.userInfo?.admin && !this.userInfo?.active">Already deleted</label>
+            <label v-show="!userInfo?.admin && !userInfo?.active">Already deleted</label>
             <button
-                v-show="!this.userInfo?.admin && !this.userInfo?.active"
+                v-show="!userInfo?.admin && !userInfo?.active"
                 @click="deleteUser"
                 style="background: var(--alert-color)"
             >

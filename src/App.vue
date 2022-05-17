@@ -1,20 +1,20 @@
 <template>
     <div>
         <header>
-            <user-icon :userData="this.userData" :language="this.localeLanguage" />
+            <user-icon :userData="userData" :language="localeLanguage" />
             <div id="nav">
                 <a style="float: left">Expoll</a>
 
-                <router-link v-show="this.userData != undefined" to="/polls">{{
-                    this.localeLanguage?.uiElements.navigation.polls
+                <router-link v-show="userData != undefined" to="/polls">{{
+                    localeLanguage?.uiElements.navigation.polls
                 }}</router-link>
-                <router-link to="/">{{ this.localeLanguage?.uiElements.navigation.home }}</router-link>
+                <router-link to="/">{{ localeLanguage?.uiElements.navigation.home }}</router-link>
                 <!-- <router-link to="/about">About</router-link> -->
                 <router-link to="/admin" v-if="userData?.admin">Admin</router-link>
             </div>
         </header>
 
-        <router-view :userData="this.userData" :language="localeLanguage" :failedLoading="this.failedLoading" />
+        <router-view :userData="userData" :language="localeLanguage" :failedLoading="failedLoading" />
 
         <div class="footer">
             <div class="footer-center">
@@ -39,8 +39,8 @@
                     height="41"
                     width="174" /></a
             ><br />
-            <p>Frontend-Version {{ this.frontendVersion }}</p>
-            <p>Backend-Version {{ this.backendVersion }}</p>
+            <p>Frontend-Version {{ frontendVersion }}</p>
+            <p>Backend-Version {{ backendVersion }}</p>
         </div>
     </div>
 </template>
@@ -67,7 +67,7 @@
         localeLanguage!: languageData
         failedLoading = false
 
-        frontendVersion = "1.2.10"
+        frontendVersion = "1.2.11"
         backendVersion = ""
 
         async created() {

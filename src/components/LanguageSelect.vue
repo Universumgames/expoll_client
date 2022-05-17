@@ -1,7 +1,7 @@
 <template>
     <div class="lang-select">
         <p @click="showSelect = !showSelect" class="changeLang" :class="showSelect ? 'changeLangShow' : ''">
-            {{ this.language?.uiElements.navigation.changeLanguageButton }}
+            {{ language?.uiElements.navigation.changeLanguageButton }}
         </p>
         <div v-show="showSelect" class="selec-field">
             <p class="lang" v-for="lang in availableLangs" :key="lang.short" @click="changeLang(lang.short)">

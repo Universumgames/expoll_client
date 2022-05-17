@@ -39,10 +39,7 @@
 </template>
 
 <script lang="ts">
-    import axios from "axios"
     import { Options, Vue } from "vue-class-component"
-    import { ComplexOption, DetailedPoll, SimpleUserVotes } from "expoll-lib/extraInterfaces"
-    import { IUser, PollType, tOptionId, tUserID } from "expoll-lib/interfaces"
     import { languageData } from "../scripts/languageConstruct"
     import SaveIcon from "../assetComponents/SaveIcon.vue"
     import EditIcon from "../assetComponents/EditIcon.vue"
@@ -50,7 +47,6 @@
     import PollUserVoteRow from "../components/PollUserVotes.vue"
     import LoadingScreen from "../components/LoadingScreen.vue"
     import SwitchIcon from "../assetComponents/SwitchIcon.vue"
-    import { EditPollRequest } from "expoll-lib/requestInterfaces"
     import LoginSignupView from "../components/LoginSignupView.vue"
 
     /*

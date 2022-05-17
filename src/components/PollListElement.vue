@@ -26,9 +26,7 @@
             </div>
             <div>
                 Admin:
-                <span style="white-space: nowrap">{{
-                    this.poll?.admin.firstName + " " + this.poll?.admin.lastName
-                }}</span>
+                <span style="white-space: nowrap">{{ poll?.admin.firstName + " " + poll?.admin.lastName }}</span>
             </div>
         </div>
     </router-link>
@@ -36,8 +34,8 @@
 
 <script lang="ts">
     import { Options, Vue } from "vue-class-component"
-    import { IPoll } from "expoll-lib/interfaces"
     import { languageData } from "../scripts/languageConstruct"
+    import { SimplePoll } from "expoll-lib/extraInterfaces"
 
     @Options({
         components: {},
@@ -47,7 +45,7 @@
         }
     })
     export default class PollListElement extends Vue {
-        poll!: IPoll
+        poll!: SimplePoll
         language?: languageData
 
         async mounted() {}

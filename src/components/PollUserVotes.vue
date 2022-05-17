@@ -2,29 +2,26 @@
     <tr>
         <th @click="editNote">
             {{
-                this.displayUsernameInsteadOfFull
-                    ? this.userVote?.user?.username
-                    : this.userVote?.user?.firstName + " " + this.userVote?.user?.lastName
+                displayUsernameInsteadOfFull
+                    ? userVote?.user?.username
+                    : userVote?.user?.firstName + " " + userVote?.user?.lastName
             }}
-            <small>{{ this.pollData?.admin.id == this.userVote?.user?.id ?? false ? "(admin)" : "" }}</small>
-            <small>{{ this.noteString }}</small>
+            <small>{{ pollData?.admin.id == userVote?.user?.id ?? false ? "(admin)" : "" }}</small>
+            <small>{{ noteString }}</small>
         </th>
-        <td v-for="voteOpt in this.userVote?.votes" :key="voteOpt.optionID">
-            <a @click="this.change(voteOpt.optionID)" :class="this.isEditable() ? 'changeable' : ''">{{
+        <td v-for="voteOpt in userVote?.votes" :key="voteOpt.optionID">
+            <a @click="change(voteOpt.optionID)" :class="isEditable() ? 'changeable' : ''">{{
                 voteString(voteOpt.votedFor)
             }}</a
             ><br />
-            <small v-show="this.errorMsg != '' && voteOpt.votedFor" class="errorInfo">{{ this.errorMsg }}</small>
-        </td>
-        <td class="spacer-col">
-            <small v-show="this.errorMsg != '' && voteOpt.votedFor" class="errorInfo">{{ this.errorMsg }}</small>
+            <small v-show="errorMsg != '' && voteOpt.votedFor" class="errorInfo">{{ errorMsg }}</small>
         </td>
         <td>
-            <button class="leaveBtn" @click="removeUser" v-show="this.removeUserBtnVisible">
+            <button class="leaveBtn" @click="removeUser" v-show="removeUserBtnVisible">
                 {{
-                    this.loggedUserIsSelectedUser()
-                        ? this.language?.uiElements.polls.details.leavePollBtn
-                        : this.language?.uiElements.polls.details.kickFromPollBtn
+                    loggedUserIsSelectedUser()
+                        ? language?.uiElements.polls.details.leavePollBtn
+                        : language?.uiElements.polls.details.kickFromPollBtn
                 }}
             </button>
         </td>
@@ -204,7 +201,7 @@
         }
 
         get noteString() {
-            return this.language?.uiElements.polls.details.userNotesByAdmin(this.note)
+            return " " + this.language?.uiElements.polls.details.userNotesByAdmin(this.note)
         }
     }
 </script>

@@ -2,16 +2,16 @@
     <span
         id="userico"
         :title="
-            this.loggedIn
-                ? this.language?.uiElements.login.loggedInAs(userData.username)
-                : this.language?.uiElements.login.notLoggedIn
+            loggedIn
+                ? language?.uiElements.login.loggedInAs(userData?.username ?? '')
+                : language?.uiElements.login.notLoggedIn
         "
     >
         <router-link to="/login">
-            <div v-show="this.loggedIn" id="userIcoImg">
+            <div v-show="loggedIn" id="userIcoImg">
                 <img src="../assets/userIcon.svg" alt="" />
             </div>
-            <div v-show="!this.loggedIn" id="loginText">{{ this.language?.uiElements.login.loginLink }}</div>
+            <div v-show="!loggedIn" id="loginText">{{ language?.uiElements.login.loginLink }}</div>
         </router-link>
     </span>
 </template>

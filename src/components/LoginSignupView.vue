@@ -1,60 +1,57 @@
 <template>
-    <div v-show="this.paramLoginKeyExist">
-        <h1 v-if="this.loggedIn">{{ this.language?.uiElements.login.form.loggingIn }}</h1>
-        <div>Loginkey: {{ this.paramLoginKey }}</div>
+    <div v-show="paramLoginKeyExist">
+        <h1 v-if="loggingIn">{{ language?.uiElements.login.form.loggingIn }}</h1>
+        <div>Loginkey: {{ paramLoginKey }}</div>
     </div>
     <popup v-if="showPopup" :text="popupText" :title="popupTitle" @close="showPopup = false" />
-    <div v-show="!this.paramLoginKeyExist && !this.loggingIn" class="columnContainer">
+    <div v-show="!paramLoginKeyExist && !loggingIn" class="columnContainer">
         <!-- logging in -->
         <div class="column">
-            <h2>{{ this.language?.uiElements.login.form.login }}</h2>
-            <label for="mail">{{ this.language?.uiElements.login.form.mail }}</label>
+            <h2>{{ language?.uiElements.login.form.login }}</h2>
+            <label for="mail">{{ language?.uiElements.login.form.mail }}</label>
             <input id="mail" type="text" placeholder="max.mustermann@gmail.com" v-model="loginMail" />
-            <button @click="this.request">{{ this.language?.uiElements.login.form.requestBtn }}</button>
+            <button @click="request">{{ language?.uiElements.login.form.requestBtn }}</button>
             <br />
             <button @click="showAdvancedLogin = !showAdvancedLogin">
-                {{ this.language?.uiElements.login.form.advancedLogin }}
+                {{ language?.uiElements.login.form.advancedLogin }}
             </button>
             <div v-show="showAdvancedLogin">
-                <label for="key">{{ this.language?.uiElements.login.form.loginKey }}</label>
+                <label for="key">{{ language?.uiElements.login.form.loginKey }}</label>
                 <input id="key" type="text" placeholder="key" v-model="loginKey" />
-                <button @click="this.login">{{ this.language?.uiElements.login.form.loginBtn }}</button>
+                <button @click="login">{{ language?.uiElements.login.form.loginBtn }}</button>
             </div>
-            <p
-                v-if="(this.loginKey == '' && this.loginClicked) || (this.loginMail == '' && this.requestClicked)"
-                class="errorInfo"
-            >
-                {{ this.language?.uiElements.login.form.loginMailOrKeyMissing }}
+            <p v-if="(loginKey == '' && loginClicked) || (loginMail == '' && requestClicked)" class="errorInfo">
+                {{ language?.uiElements.login.form.loginMailOrKeyMissing }}
             </p>
-            <p v-if="this.loginMsg != ''">{{ this.loginMsg }}</p>
+            <p v-if="loginMsg != ''">{{ loginMsg }}</p>
         </div>
         <!-- register -->
         <div class="column">
-            <h2>{{ this.language?.uiElements.login.form.signup }}</h2>
-            <label for="mail">{{ this.language?.uiElements.login.form.mail }}</label>
-            <small v-if="this.signupMail == '' && clickedSignup" class="errorInfo">{{
-                this.language?.uiElements.login.form.validMailNeeded
+            <h2>{{ language?.uiElements.login.form.signup }}</h2>
+            <label for="mail">{{ language?.uiElements.login.form.mail }}</label>
+            <small v-if="signupMail == '' && clickedSignup" class="errorInfo">{{
+                language?.uiElements.login.form.validMailNeeded
             }}</small>
             <input id="mail" type="text" placeholder="max.mustermann@gmail.com" v-model="signupMail" /><br />
 
-            <label for="first">{{ this.language?.uiElements.login.form.firstName }}</label>
-            <small v-if="this.signupFirstName == '' && clickedSignup" class="errorInfo">{{
-                this.language?.uiElements.login.form.firstNameNeeded
+            <label for="first">{{ language?.uiElements.login.form.firstName }}</label>
+            <small v-if="signupFirstName == '' && clickedSignup" class="errorInfo">{{
+                language?.uiElements.login.form.firstNameNeeded
             }}</small>
             <input id="first" type="text" placeholder="Max" v-model="signupFirstName" /><br />
 
-            <label for="last">{{ this.language?.uiElements.login.form.lastName }}</label>
-            <small v-if="this.signupLastName == '' && clickedSignup" class="errorInfo">{{
-                this.language?.uiElements.login.form.lastNameNeeded
+            <label for="last">{{ language?.uiElements.login.form.lastName }}</label>
+            <small v-if="signupLastName == '' && clickedSignup" class="errorInfo">{{
+                language?.uiElements.login.form.lastNameNeeded
             }}</small>
             <input id="last" type="text" placeholder="Mustermann" v-model="signupLastName" /><br />
 
-            <label for="user">{{ this.language?.uiElements.login.form.username }}</label>
-            <small v-if="this.signupUsername == '' && clickedSignup" class="errorInfo">{{
-                this.language?.uiElements.login.form.usernameNeeded
+            <label for="user">{{ language?.uiElements.login.form.username }}</label>
+            <small v-if="signupUsername == '' && clickedSignup" class="errorInfo">{{
+                language?.uiElements.login.form.usernameNeeded
             }}</small>
             <input id="user" type="text" placeholder="mustermannekin001" v-model="signupUsername" />
-            <button @click="this.signup">{{ this.language?.uiElements.login.form.signupBtn }}</button>
+            <button @click="signup">{{ language?.uiElements.login.form.signupBtn }}</button>
             <!-- notes -->
             <div style="margin: 1rem">
                 <small
@@ -72,11 +69,11 @@
             </div>
         </div>
     </div>
-    <div v-if="this.loggingIn">
+    <div v-if="loggingIn">
         <loading-screen />
-        <div>{{ this.language?.uiElements.login.form.loggingIn }}</div>
+        <div>{{ language?.uiElements.login.form.loggingIn }}</div>
     </div>
-    <div v-if="this.errorMsg != ''" class="errorInfo">{{ this.errorMsg }}</div>
+    <div v-if="errorMsg != ''" class="errorInfo">{{ errorMsg }}</div>
 </template>
 
 <script lang="ts">

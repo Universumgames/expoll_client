@@ -1,9 +1,9 @@
 <template>
-    <loading-screen v-if="this.loading" />
-    <div v-if="!this.loading">
-        <label>Poll Count: {{ this.count }}</label>
+    <loading-screen v-if="loading" />
+    <div v-if="!loading">
+        <label>Poll Count: {{ count }}</label>
     </div>
-    <div v-for="poll in this.polls" :key="poll.id">
+    <div v-for="poll in polls" :key="poll.pollID">
         <poll-list-element :poll="poll" :language="language" />
     </div>
 </template>
