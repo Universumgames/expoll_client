@@ -1,6 +1,6 @@
 <template>
     <tr>
-        <th @click="editNote">
+        <th @click="editNote" class="stickyCol">
             {{
                 displayUsernameInsteadOfFull
                     ? userVote?.user?.username

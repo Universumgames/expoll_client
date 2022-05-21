@@ -116,7 +116,7 @@
         <div class="x-scroller poll-main">
             <table>
                 <tr>
-                    <th>
+                    <th class="stickyCol">
                         {{ language?.uiElements.polls.details.userCol }}
                         <button @click="displayUsernameInsteadOfFull = !displayUsernameInsteadOfFull">
                             <switch-icon class="normalIcon" />
@@ -497,6 +497,10 @@
         margin-top: 0;
     }
 
+    table {
+        table-layout: fixed;
+    }
+
     td > input,
     th > input,
     .addOption > div > input {
@@ -508,7 +512,6 @@
     }
 
     .x-scroller {
-        width: 98vw;
         overflow-x: auto;
     }
 
@@ -531,5 +534,13 @@
 
     .poll-main {
         border-radius: 1ch;
+    }
+</style>
+
+<style>
+    .stickyCol {
+        position: sticky;
+        left: 0;
+        z-index: 2;
     }
 </style>
