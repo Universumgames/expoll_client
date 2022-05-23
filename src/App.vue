@@ -67,7 +67,7 @@
         localeLanguage!: languageData
         failedLoading = false
 
-        frontendVersion = "1.2.12"
+        frontendVersion = "1.2.13"
         backendVersion = ""
 
         async created() {

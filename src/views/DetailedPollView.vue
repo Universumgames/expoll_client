@@ -230,6 +230,7 @@
     import { EditPollRequest } from "expoll-lib/requestInterfaces"
     import LoginSignupView from "../components/LoginSignupView.vue"
     import BlankDetailedPollView from "../components/BlankDetailedPollView.vue"
+    import { replacer } from "../scripts/helper"
 
     /*
          votes: { user: User; votes: { optionID: tOptionId; votedFor: boolean }
@@ -387,7 +388,12 @@
         async pushChanges() {
             try {
                 if (!this.mayEdit()) return
-                const ax = await axios.put("/api/poll", this.changes, { withCredentials: true })
+                const ax = await axios.put("/api/poll", JSON.stringify(this.changes, replacer), {
+                    withCredentials: true,
+                    headers: {
+                        "Content-Type": "application/json;charset=utf-8"
+                    }
+                })
                 if (ax.status == 200) this.changes = { pollID: this.pollID }
                 else console.warn(ax)
 

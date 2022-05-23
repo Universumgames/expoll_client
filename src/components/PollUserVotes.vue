@@ -10,9 +10,16 @@
             <small>{{ noteString }}</small>
         </th>
         <td v-for="voteOpt in userVote?.votes" :key="voteOpt.optionID">
-            <a @click="change(voteOpt.optionID)" :class="isEditable() ? 'changeable' : ''">{{
-                voteString(voteOpt.votedFor)
-            }}</a
+            <a
+                @click="change(voteOpt.optionID)"
+                @keyup="
+                    (e) => {
+                        if (e.keyCode == 13) change(voteOpt.optionID)
+                    }
+                "
+                :class="isEditable() ? 'changeable' : ''"
+                tabindex="0"
+                >{{ voteString(voteOpt.votedFor) }}</a
             ><br />
             <small v-show="errorMsg != '' && voteOpt.votedFor" class="errorInfo">{{ errorMsg }}</small>
         </td>

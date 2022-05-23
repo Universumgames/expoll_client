@@ -83,6 +83,7 @@
     import { languageData } from "../scripts/languageConstruct"
     import { ComplexOption, empty } from "expoll-lib/extraInterfaces"
     import { CreatePollRequest } from "expoll-lib/requestInterfaces"
+    import { replacer } from "../scripts/helper"
 
     @Options({
         components: {},
@@ -138,7 +139,11 @@
                 allowsMaybe: this.allowsMaybe
             }
             try {
-                const retData = await axios.post("/api/poll", data)
+                const retData = await axios.post("/api/poll", JSON.stringify(data, replacer), {
+                    headers: {
+                        "Content-Type": "application/json;charset=utf-8"
+                    }
+                })
                 if (retData.status == 200) {
                     // @ts-ignore
                     window.location = "/#/polls"
