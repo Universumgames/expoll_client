@@ -31,7 +31,9 @@
                 "
                 target="_blank"
                 >Bugreport</a
-            ><br />
+            >
+            <router-link to="/privacy">Privacy Policy</router-link>
+            <br />
             <a href="https://www.buymeacoffee.com/universum" target="_blank"
                 ><img
                     src="https://cdn.buymeacoffee.com/buttons/default-orange.png"
@@ -67,7 +69,7 @@
         localeLanguage!: languageData
         failedLoading = false
 
-        frontendVersion = "1.2.13"
+        frontendVersion = "1.3.0"
         backendVersion = ""
 
         async created() {

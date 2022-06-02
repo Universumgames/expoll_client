@@ -13,7 +13,12 @@
                 <label>{{ language?.uiElements.login.form.firstName }}: {{ userData?.firstName }}</label
                 ><br />
                 <label>{{ language?.uiElements.login.form.lastName }}: {{ userData?.lastName }}</label
-                ><br />
+                ><br /><br />
+                <details>
+                    <summary>See what data of you is in our database</summary>
+                    <pre>{{ personalizedData }}</pre>
+                </details>
+                <br />
                 <p>
                     To delete your account please notify me via
                     <a href="mailto:programming@universegame.de">programming@universegame.de</a> and please use the mail
@@ -32,6 +37,7 @@
     import { logout } from "../scripts/user"
     import LoadingScreen from "../components/LoadingScreen.vue"
     import LoginSignupView from "../components/LoginSignupView.vue"
+    import axios from "axios"
 
     @Options({
         props: {
@@ -51,7 +57,15 @@
         loggingIn: boolean = false
         failedLoading?: boolean
 
-        async mounted() {}
+        personalizedData: string = ""
+
+        async mounted() {
+            this.personalizedData = JSON.stringify(
+                (await axios.get("/api/user/personalizeddata", { withCredentials: true })).data,
+                null,
+                2
+            )
+        }
 
         get loggedIn() {
             return this.userData != undefined
@@ -91,5 +105,12 @@
 
     input {
         background: var(--bg-color);
+    }
+
+    pre {
+        text-align: left;
+        background: var(--secondary-color);
+        padding: 1rem;
+        border-radius: 1ch;
     }
 </style>

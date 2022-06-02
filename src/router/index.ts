@@ -18,6 +18,14 @@ const routes = [
         }
     },
     {
+        path: "/privacy",
+        name: "Privacy Policy",
+        component: () => import("../views/PrivacyPolicy.vue"),
+        meta: {
+            title: "Privacy Policy"
+        }
+    },
+    {
         path: "/create",
         name: "Create Poll",
         component: () => import("../views/CreatePollView.vue"),
