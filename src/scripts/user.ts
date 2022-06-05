@@ -57,3 +57,14 @@ export async function logout() {
         console.error(error)
     }
 }
+
+/**
+ * delete user if logged in
+ */
+export async function deleteUser() {
+    try {
+        await axios.delete("/api/user", { withCredentials: true })
+    } catch (error) {
+        console.error(error)
+    }
+}

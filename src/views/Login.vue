@@ -19,11 +19,8 @@
                     <pre>{{ personalizedData }}</pre>
                 </details>
                 <br />
-                <p>
-                    To delete your account please notify me via
-                    <a href="mailto:programming@universegame.de">programming@universegame.de</a> and please use the mail
-                    address you used to register your account
-                </p>
+                <button @click="deleteUser" class="delete">Delete your account</button>
+                <br />
                 <button @click="logout">{{ language?.uiElements.login.logoutBtn }}</button>
             </div>
         </div>
@@ -34,7 +31,7 @@
     import { Options, Vue } from "vue-class-component"
     import { IUser } from "expoll-lib/interfaces"
     import { languageData } from "../scripts/languageConstruct"
-    import { logout } from "../scripts/user"
+    import * as user from "../scripts/user"
     import LoadingScreen from "../components/LoadingScreen.vue"
     import LoginSignupView from "../components/LoginSignupView.vue"
     import axios from "axios"
@@ -72,8 +69,32 @@
         }
 
         async logout() {
-            await logout()
+            await user.logout()
             location.reload()
+        }
+
+        async deleteUser() {
+            if (this.userData == undefined) return
+            if (this.userData!.admin) {
+                alert("You are an admin, you cannot delete your account")
+                return
+            }
+            if (
+                confirm(
+                    "Are you sure you want to delete your user account? You loose your access to the account immediately and your personal information will be deleted"
+                )
+            ) {
+                if (
+                    confirm(
+                        "Deleting your user account will remove your access to your votes and polls, are you sure you want to continue?"
+                    )
+                ) {
+                    if (confirm("This is your last warning, your account will be deleted immediately")) {
+                        await user.deleteUser()
+                        location.reload()
+                    }
+                }
+            }
         }
     }
 </script>
@@ -112,5 +133,9 @@
         background: var(--secondary-color);
         padding: 1rem;
         border-radius: 1ch;
+    }
+
+    .delete {
+        background-color: var(--alert-color);
     }
 </style>
