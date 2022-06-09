@@ -32,7 +32,8 @@
                 target="_blank"
                 >Bugreport</a
             >
-            <router-link to="/privacy">Privacy Policy</router-link>
+            <router-link to="/privacy">{{ localeLanguage?.uiElements.navigation.privacyPolicy }}</router-link>
+            <router-link to="/siteNotice">{{ localeLanguage?.uiElements.navigation.siteNotice }}</router-link>
             <br />
             <a href="https://www.buymeacoffee.com/universum" target="_blank"
                 ><img
@@ -70,7 +71,7 @@
         failedLoading = false
 
         frontendVersion = "1.3.1"
-        backendVersion = ""
+        backendVersion = "unknown"
 
         async created() {
             const cookieLang = this.getCookie("lang")

@@ -26,6 +26,14 @@ const routes = [
         }
     },
     {
+        path: "/siteNotice",
+        name: "Site Notice",
+        component: () => import("../views/SiteNotice.vue"),
+        meta: {
+            title: "Site Notice"
+        }
+    },
+    {
         path: "/create",
         name: "Create Poll",
         component: () => import("../views/CreatePollView.vue"),

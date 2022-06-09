@@ -9,7 +9,9 @@ export const languageList: languageData[] = [
             navigation: {
                 polls: "Polls",
                 home: "Home",
-                changeLanguageButton: "Change language"
+                changeLanguageButton: "Change language",
+                privacyPolicy: "Privacy Policy",
+                siteNotice: "Site Notice"
             },
             login: {
                 loggedInAs: (username: string) => "Logged in as " + username,
@@ -134,7 +136,9 @@ export const languageList: languageData[] = [
             navigation: {
                 polls: "Umfragen",
                 home: "Startseite",
-                changeLanguageButton: "Sprache ändern"
+                changeLanguageButton: "Sprache ändern",
+                privacyPolicy: "Privatsphäre",
+                siteNotice: "Impressum"
             },
             login: {
                 loggedInAs: (username: string) => "Angemeldet als " + username,

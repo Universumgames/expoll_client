@@ -9,6 +9,8 @@ export interface languageData {
             polls: string
             home: string
             changeLanguageButton: string
+            privacyPolicy: string
+            siteNotice: string
         }
         login: {
             loggedInAs: (username: string) => string

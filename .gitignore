@@ -22,3 +22,8 @@ pnpm-debug.log*
 *.sln
 *.sw?
 package-lock.json
+
+
+en_privacy.md
+public/en_site_notice.md
+public/en_privacy.md
