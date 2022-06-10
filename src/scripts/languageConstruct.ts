@@ -51,6 +51,7 @@ export interface languageData {
             }
             loggedIn: {
                 personalizedDBContent: string
+                viewAuth: string
                 addAuth: string
                 deleteAccount: string
             }

@@ -14,12 +14,23 @@
                 ><br />
                 <label>{{ language?.uiElements.login.form.lastName }}: {{ userData?.lastName }}</label
                 ><br /><br />
-                <button @click="addAuth()" v-show="supportsWebauthn">
-                    {{ language?.uiElements.login.loggedIn.addAuth }}
-                </button>
+
                 <details>
                     <summary>View authenticators</summary>
-                    <pre>{{ auth }}</pre>
+                    <button @click="addAuth()" v-show="supportsWebauthn">
+                        {{ language?.uiElements.login.loggedIn.addAuth }}
+                    </button>
+
+                    <div>
+                        <authenticator-detail
+                            v-for="auth in authenticators"
+                            :key="auth.credentialID"
+                            :language="language"
+                            :userData="userData"
+                            :authenticator="auth"
+                            @update="updateAuthenticators"
+                        />
+                    </div>
                 </details>
                 <br />
                 <details>
@@ -47,6 +58,7 @@
     import axios from "axios"
     import { register } from "../scripts/webauthn"
     import { browserSupportsWebauthn } from "@simplewebauthn/browser"
+    import AuthenticatorDetail from "../components/AuthenticatorDetail.vue"
 
     @Options({
         props: {
@@ -56,7 +68,8 @@
         },
         components: {
             LoadingScreen,
-            LoginSignupView
+            LoginSignupView,
+            AuthenticatorDetail
         }
     })
     export default class Login extends Vue {
@@ -68,7 +81,7 @@
 
         personalizedData: string = ""
 
-        auth: string = ""
+        authenticators: any[] = []
 
         async mounted() {
             this.personalizedData = JSON.stringify(
@@ -76,8 +89,12 @@
                 null,
                 2
             )
+            await this.updateAuthenticators()
+        }
 
-            this.auth = JSON.stringify(await this.getAuthenticators(), null, 2)
+        async updateAuthenticators() {
+            this.authenticators = await this.getAuthenticators()
+            this.$forceUpdate()
         }
 
         get loggedIn() {
@@ -120,10 +137,11 @@
         async addAuth() {
             const { success, error } = await register()
             if (!error) console.log(error)
+            await this.updateAuthenticators()
         }
 
         async getAuthenticators(): Promise<any[]> {
-            return (await axios.get("/api/webauthn/list", { withCredentials: true })).data
+            return (await axios.get("/api/webauthn/list", { withCredentials: true })).data.authenticators
         }
     }
 </script>

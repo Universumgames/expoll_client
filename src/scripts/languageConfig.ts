@@ -54,6 +54,7 @@ export const languageList: languageData[] = [
                 },
                 loggedIn: {
                     personalizedDBContent: "See what data of you is in our database",
+                    viewAuth: "View Authenticators",
                     addAuth: "Add Authenticator",
                     deleteAccount: "Delete your account"
                 }
@@ -192,6 +193,7 @@ export const languageList: languageData[] = [
                 },
                 loggedIn: {
                     personalizedDBContent: "Die persönlichen Daten, die wir über dich haben",
+                    viewAuth: "Authentikator ansehen",
                     addAuth: "Authentikator hinzufügen",
                     deleteAccount: "Account löschen"
                 }
