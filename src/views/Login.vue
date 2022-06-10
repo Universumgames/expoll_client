@@ -14,12 +14,22 @@
                 ><br />
                 <label>{{ language?.uiElements.login.form.lastName }}: {{ userData?.lastName }}</label
                 ><br /><br />
+                <button @click="addAuth()" v-show="supportsWebauthn">
+                    {{ language?.uiElements.login.loggedIn.addAuth }}
+                </button>
                 <details>
-                    <summary>See what data of you is in our database</summary>
+                    <summary>View authenticators</summary>
+                    <pre>{{ auth }}</pre>
+                </details>
+                <br />
+                <details>
+                    <summary>{{ language?.uiElements.login.loggedIn.personalizedDBContent }}</summary>
                     <pre>{{ personalizedData }}</pre>
                 </details>
                 <br />
-                <button @click="deleteUser" class="delete">Delete your account</button>
+                <button @click="deleteUser" class="delete">
+                    {{ language?.uiElements.login.loggedIn.deleteAccount }}
+                </button>
                 <br />
                 <button @click="logout">{{ language?.uiElements.login.logoutBtn }}</button>
             </div>
@@ -35,6 +45,8 @@
     import LoadingScreen from "../components/LoadingScreen.vue"
     import LoginSignupView from "../components/LoginSignupView.vue"
     import axios from "axios"
+    import { register } from "../scripts/webauthn"
+    import { browserSupportsWebauthn } from "@simplewebauthn/browser"
 
     @Options({
         props: {
@@ -56,12 +68,16 @@
 
         personalizedData: string = ""
 
+        auth: string = ""
+
         async mounted() {
             this.personalizedData = JSON.stringify(
                 (await axios.get("/api/user/personalizeddata", { withCredentials: true })).data,
                 null,
                 2
             )
+
+            this.auth = JSON.stringify(await this.getAuthenticators(), null, 2)
         }
 
         get loggedIn() {
@@ -95,6 +111,19 @@
                     }
                 }
             }
+        }
+
+        get supportsWebauthn(): boolean {
+            return browserSupportsWebauthn()
+        }
+
+        async addAuth() {
+            const { success, error } = await register()
+            if (!error) console.log(error)
+        }
+
+        async getAuthenticators(): Promise<any[]> {
+            return (await axios.get("/api/webauthn/list", { withCredentials: true })).data
         }
     }
 </script>
