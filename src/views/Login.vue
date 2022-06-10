@@ -16,7 +16,7 @@
                 ><br /><br />
 
                 <details>
-                    <summary>View authenticators</summary>
+                    <summary>{{ language?.uiElements.login.loggedIn.viewAuth }}</summary>
                     <button @click="addAuth()" v-show="supportsWebauthn">
                         {{ language?.uiElements.login.loggedIn.addAuth }}
                     </button>
