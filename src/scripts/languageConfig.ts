@@ -36,7 +36,11 @@ export const languageList: languageData[] = [
                     firstNameNeeded: "Your first name must be specified",
                     lastNameNeeded: "Your last name must be specified",
                     usernameNeeded: "A valid username is needed",
-                    signupBtn: "Signup"
+                    signupBtn: "Signup",
+                    quickLoginTitle: "Quick Login",
+                    quickLoginBtn: "Quicklogin",
+                    leaveQuickLoginBtn: "Normal Login",
+                    or: "or"
                 },
                 alreadyLoggedInAs: (username: string) => "You are already logged in as " + username,
                 logoutBtn: "Logout",
@@ -47,6 +51,11 @@ export const languageList: languageData[] = [
                         "receiving may take some minutes",
                     mailNotExist: "Mail address is not registered, please use a valid one or create a new user",
                     userExists: "Username is already taken"
+                },
+                loggedIn: {
+                    personalizedDBContent: "See what data of you is in our database",
+                    addAuth: "Add Authenticator",
+                    deleteAccount: "Delete your account"
                 }
             },
             polls: {
@@ -165,7 +174,11 @@ export const languageList: languageData[] = [
                     firstNameNeeded: "Dein Vorname muss angegeben werden",
                     lastNameNeeded: "Dein Nachname wird benötigt",
                     usernameNeeded: "Du musst einen Benutzernamen angeben",
-                    signupBtn: "Registrieren"
+                    signupBtn: "Registrieren",
+                    quickLoginTitle: "Schnell Anmeldung",
+                    quickLoginBtn: "Schnell Anmeldung",
+                    leaveQuickLoginBtn: "Normale Anmeldung",
+                    or: "oder"
                 },
                 alreadyLoggedInAs: (username: string) => "Du bist bereits als " + username + " angemeldet",
                 logoutBtn: "Abmelden",
@@ -176,6 +189,11 @@ export const languageList: languageData[] = [
                         "dies kann einen kleinen Augenblick in Anspruch nehmen",
                     mailNotExist: "Die E-Mail Adresse existiert nicht, jetzt registrieren und Benutzer erstellen",
                     userExists: "Ein anderer Benutzer mit dieser Email Adresse oder Benutzernamen existiert bereits"
+                },
+                loggedIn: {
+                    personalizedDBContent: "Die persönlichen Daten, die wir über dich haben",
+                    addAuth: "Authentikator hinzufügen",
+                    deleteAccount: "Account löschen"
                 }
             },
             polls: {

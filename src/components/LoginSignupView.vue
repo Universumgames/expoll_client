@@ -4,13 +4,16 @@
         <div>Loginkey: {{ paramLoginKey }}</div>
     </div>
     <popup v-if="showPopup" :text="popupText" :title="popupTitle" @close="showPopup = false" />
-    <div v-show="!paramLoginKeyExist && !loggingIn" class="columnContainer">
+    <div v-show="!paramLoginKeyExist && !loggingIn && !useQuickSignIn" class="columnContainer">
         <!-- logging in -->
         <div class="column">
             <h2>{{ language?.uiElements.login.form.login }}</h2>
             <label for="mail">{{ language?.uiElements.login.form.mail }}</label>
             <input id="mail" type="text" placeholder="max.mustermann@gmail.com" v-model="loginMail" />
             <button @click="request">{{ language?.uiElements.login.form.requestBtn }}</button>
+            <button @click="useQuickSignIn = true" v-show="supportsWebauthn">
+                {{ language?.uiElements.login.form.quickLoginBtn }}
+            </button>
             <br />
             <button @click="showAdvancedLogin = !showAdvancedLogin">
                 {{ language?.uiElements.login.form.advancedLogin }}
@@ -73,6 +76,18 @@
         <loading-screen />
         <div>{{ language?.uiElements.login.form.loggingIn }}</div>
     </div>
+    <div v-show="useQuickSignIn" class="columnContainer">
+        <div class="column">
+            <h2>{{ language?.uiElements.login.form.login }}</h2>
+            <label for="mail">{{ language?.uiElements.login.form.mail }}</label>
+            <input id="mail" type="text" placeholder="max.mustermann@gmail.com" v-model="loginMail" />
+            <p>{{ language?.uiElements.login.form.or }}</p>
+            <label for="username">{{ language?.uiElements.login.form.username }}</label>
+            <input id="username" type="text" placeholder="maxmustermann001" v-model="signupUsername" />
+            <button @click="webauthLogin">{{ language?.uiElements.login.form.loginBtn }}</button>
+            <button @click="useQuickSignIn = false">{{ language?.uiElements.login.form.leaveQuickLoginBtn }}</button>
+        </div>
+    </div>
     <div v-if="errorMsg != ''" class="errorInfo">{{ errorMsg }}</div>
 </template>
 
@@ -84,6 +99,8 @@
     import LoadingScreen from "../components/LoadingScreen.vue"
     import { ReCaptchaInstance } from "../scripts/recaptcha"
     import Popup from "../components/Popup.vue"
+    import { browserSupportsWebauthn } from "@simplewebauthn/browser"
+    import { login } from "../scripts/webauthn"
 
     declare global {
         // eslint-disable-next-line no-unused-vars
@@ -129,6 +146,8 @@
         loginClicked = false
 
         showAdvancedLogin = false
+
+        useQuickSignIn = false
 
         async mounted() {
             if (this.paramLoginKeyExist) {
@@ -251,6 +270,26 @@
                     })
                 })
             })
+        }
+
+        get supportsWebauthn(): boolean {
+            return browserSupportsWebauthn()
+        }
+
+        async webauthLogin() {
+            if (this.loginMail != "" && this.signupUsername != "") {
+                this.signupUsername = ""
+                return
+            }
+            let data: { username?: string; mail?: string } = { mail: undefined, username: undefined }
+            if (this.loginMail != "") data = { mail: this.loginMail }
+            else if (this.signupUsername != "") data = { username: this.signupUsername }
+
+            const { success, error } = await login(data)
+            if (!error) console.log(error)
+            else window.location.reload()
+
+            window.location.reload()
         }
     }
 </script>

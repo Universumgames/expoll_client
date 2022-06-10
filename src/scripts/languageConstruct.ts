@@ -36,6 +36,10 @@ export interface languageData {
                 lastNameNeeded: string
                 usernameNeeded: string
                 signupBtn: string
+                quickLoginTitle: string
+                quickLoginBtn: string
+                leaveQuickLoginBtn: string
+                or: string
             }
             alreadyLoggedInAs: (username: string) => string
             logoutBtn: string
@@ -44,6 +48,11 @@ export interface languageData {
                 mailSent: string
                 mailNotExist: string
                 userExists: string
+            }
+            loggedIn: {
+                personalizedDBContent: string
+                addAuth: string
+                deleteAccount: string
             }
         }
         polls: {
