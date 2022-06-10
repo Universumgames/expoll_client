@@ -9,7 +9,13 @@
         <div class="column">
             <h2>{{ language?.uiElements.login.form.login }}</h2>
             <label for="mail">{{ language?.uiElements.login.form.mail }}</label>
-            <input id="mail" type="text" placeholder="max.mustermann@gmail.com" v-model="loginMail" />
+            <input
+                id="mail"
+                type="text"
+                placeholder="max.mustermann@gmail.com"
+                v-model="loginMail"
+                autocomplete="mail"
+            />
             <button @click="request">{{ language?.uiElements.login.form.requestBtn }}</button>
             <button @click="useQuickSignIn = true" v-show="supportsWebauthn">
                 {{ language?.uiElements.login.form.quickLoginBtn }}
@@ -35,25 +41,43 @@
             <small v-if="signupMail == '' && clickedSignup" class="errorInfo">{{
                 language?.uiElements.login.form.validMailNeeded
             }}</small>
-            <input id="mail" type="text" placeholder="max.mustermann@gmail.com" v-model="signupMail" /><br />
+            <input
+                id="mail"
+                type="text"
+                placeholder="max.mustermann@gmail.com"
+                v-model="signupMail"
+                autocomplete="mail"
+            /><br />
 
             <label for="first">{{ language?.uiElements.login.form.firstName }}</label>
             <small v-if="signupFirstName == '' && clickedSignup" class="errorInfo">{{
                 language?.uiElements.login.form.firstNameNeeded
             }}</small>
-            <input id="first" type="text" placeholder="Max" v-model="signupFirstName" /><br />
+            <input id="first" type="text" placeholder="Max" v-model="signupFirstName" autocomplete="given-name" /><br />
 
             <label for="last">{{ language?.uiElements.login.form.lastName }}</label>
             <small v-if="signupLastName == '' && clickedSignup" class="errorInfo">{{
                 language?.uiElements.login.form.lastNameNeeded
             }}</small>
-            <input id="last" type="text" placeholder="Mustermann" v-model="signupLastName" /><br />
+            <input
+                id="last"
+                type="text"
+                placeholder="Mustermann"
+                v-model="signupLastName"
+                autocomplete="family-name"
+            /><br />
 
             <label for="user">{{ language?.uiElements.login.form.username }}</label>
             <small v-if="signupUsername == '' && clickedSignup" class="errorInfo">{{
                 language?.uiElements.login.form.usernameNeeded
             }}</small>
-            <input id="user" type="text" placeholder="mustermannekin001" v-model="signupUsername" />
+            <input
+                id="user"
+                type="text"
+                placeholder="mustermannekin001"
+                v-model="signupUsername"
+                autocomplete="username"
+            />
             <button @click="signup">{{ language?.uiElements.login.form.signupBtn }}</button>
             <!-- notes -->
             <div style="margin: 1rem">
@@ -80,10 +104,22 @@
         <div class="column">
             <h2>{{ language?.uiElements.login.form.login }}</h2>
             <label for="mail">{{ language?.uiElements.login.form.mail }}</label>
-            <input id="mail" type="text" placeholder="max.mustermann@gmail.com" v-model="loginMail" />
+            <input
+                id="mail"
+                type="text"
+                placeholder="max.mustermann@gmail.com"
+                v-model="loginMail"
+                autocomplete="mail"
+            />
             <p>{{ language?.uiElements.login.form.or }}</p>
             <label for="username">{{ language?.uiElements.login.form.username }}</label>
-            <input id="username" type="text" placeholder="maxmustermann001" v-model="signupUsername" />
+            <input
+                id="username"
+                type="text"
+                placeholder="maxmustermann001"
+                v-model="signupUsername"
+                autocomplete="username webauthn"
+            />
             <button @click="webauthLogin">{{ language?.uiElements.login.form.loginBtn }}</button>
             <button @click="useQuickSignIn = false">{{ language?.uiElements.login.form.leaveQuickLoginBtn }}</button>
         </div>

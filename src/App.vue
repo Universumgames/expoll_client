@@ -16,35 +16,12 @@
 
         <router-view :userData="userData" :language="localeLanguage" :failedLoading="failedLoading" />
 
-        <div class="footer">
-            <div class="footer-center">
-                <languageSelect @langChange="onLangChange" :language="localeLanguage" />
-            </div>
-            <label>Created by universumgames</label><br />
-            <a href="https://universegame.de">Website</a>
-            <a href="https://github.com/universumgames">Github</a>
-            <a
-                :href="
-                    'https://universegame.de/bug?app=expoll&v=' +
-                    bugreportVersion +
-                    (userData != undefined ? '&mail=' + encodeURIComponent(userData.mail) : '')
-                "
-                target="_blank"
-                >Bugreport</a
-            >
-            <router-link to="/privacy">{{ localeLanguage?.uiElements.navigation.privacyPolicy }}</router-link>
-            <router-link to="/siteNotice">{{ localeLanguage?.uiElements.navigation.siteNotice }}</router-link>
-            <br />
-            <a href="https://www.buymeacoffee.com/universum" target="_blank"
-                ><img
-                    src="https://cdn.buymeacoffee.com/buttons/default-orange.png"
-                    alt="Buy Me A Coffee"
-                    height="41"
-                    width="174" /></a
-            ><br />
-            <p>Frontend-Version {{ frontendVersion }}</p>
-            <p>Backend-Version {{ backendVersion }}</p>
-        </div>
+        <footer-vue
+            @onLangChange="onLangChange"
+            :language="localeLanguage"
+            :backendVersion="backendVersion"
+            :frontendVersion="frontendVersion"
+        />
     </div>
 </template>
 
@@ -57,11 +34,13 @@
     import { getUserData } from "./scripts/user"
     import getSystemLanguage, { getLanguage, languageData } from "./scripts/languageConstruct"
     import axios from "axios"
+    import FooterVue from "./components/Footer.vue"
 
     @Options({
         components: {
             UserIcon,
-            LanguageSelect
+            LanguageSelect,
+            FooterVue
         }
     })
     export default class App extends Vue {
@@ -125,10 +104,6 @@
                 document.body.classList.add(this.isDark ? "darkVars" : "lightVars")
             })
             document.body.classList.add(this.isDark ? "darkVars" : "lightVars")
-        }
-
-        get bugreportVersion() {
-            return encodeURIComponent("Frontend " + this.frontendVersion + ", Backend " + this.backendVersion)
         }
 
         onLangChange(short: string) {

@@ -9,6 +9,8 @@
                 <small>CredentialID: {{ authenticator.credentialID }}</small
                 ><br />
                 <small>Initiator Platform: {{ platform }}</small>
+                <br />
+                <small>Creation: {{ createdAuth }}</small>
             </div>
             <button @click="deleteAuth" class="delete">Delete</button>
         </div>
@@ -17,8 +19,10 @@
 
 <script lang="ts">
     import axios from "axios"
+    import { IUser } from "expoll-lib/interfaces"
     import { Options, Vue } from "vue-class-component"
     import EditIcon from "../assetComponents/EditIcon.vue"
+    import { languageData } from "../scripts/languageConstruct"
 
     @Options({
         props: {
@@ -32,6 +36,9 @@
     })
     export default class AuthenticatorDetails extends Vue {
         authenticator: any
+        language?: languageData
+
+        userData: IUser | undefined
 
         get name() {
             return this.authenticator.name == "" ? "unnamed" : this.authenticator.name
@@ -39,6 +46,10 @@
 
         get platform() {
             return this.authenticator.initiatorPlatform == "" ? "unknown" : this.authenticator.initiatorPlatform
+        }
+
+        get createdAuth(): Date | string {
+            return this.authenticator.created == undefined ? "unknown" : this.authenticator.created
         }
 
         async rename() {
