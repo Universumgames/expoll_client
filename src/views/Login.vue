@@ -156,7 +156,7 @@
                 alert(this.language!.uiElements.login.loggedIn.authDisclaimer)
             }
             const { success, error } = await register()
-            if (!error) console.error(error)
+            if (!success) console.error(error)
             await this.updateAuthenticators()
         }
 
