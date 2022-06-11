@@ -21,7 +21,7 @@
                         {{ language?.uiElements.login.loggedIn.addAuth }}
                     </button>
 
-                    <div>
+                    <div v-show="authenticators != []">
                         <authenticator-detail
                             v-for="auth in authenticators"
                             :key="auth.credentialID"
@@ -31,6 +31,23 @@
                             @update="updateAuthenticators"
                         />
                     </div>
+                    <div
+                        v-show="authenticators == [] || authenticators == undefined"
+                        style="
+                            display: flex;
+                            flex-wrap: wrap;
+                            flex-direction: column;
+                            background: var(--secondary-color);
+                            border-radius: 1rem;
+                            margin: 1rem;
+                            padding: 1ch;
+                            text-align: left;
+                        "
+                    >
+                        {{ language?.uiElements.login.loggedIn.authEmpty }}
+                    </div>
+
+                    <div>{{ language?.uiElements.login.loggedIn.authDisclaimer }}</div>
                 </details>
                 <br />
                 <details>
@@ -94,6 +111,7 @@
 
         async updateAuthenticators() {
             this.authenticators = await this.getAuthenticators()
+            this.authenticators = undefined as unknown as any[]
             this.$forceUpdate()
         }
 
@@ -135,8 +153,11 @@
         }
 
         async addAuth() {
+            if (this.authenticators == [] && !this.language) {
+                alert(this.language!.uiElements.login.loggedIn.authDisclaimer)
+            }
             const { success, error } = await register()
-            if (!error) console.log(error)
+            if (!error) console.error(error)
             await this.updateAuthenticators()
         }
 

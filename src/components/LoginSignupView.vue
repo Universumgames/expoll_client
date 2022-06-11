@@ -322,7 +322,7 @@
             else if (this.signupUsername != "") data = { username: this.signupUsername }
 
             const { success, error } = await login(data)
-            if (!error) console.log(error)
+            if (!error) console.error(error)
             else window.location.reload()
 
             window.location.reload()

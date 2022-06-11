@@ -6,8 +6,6 @@ import { startAuthentication, startRegistration } from "@simplewebauthn/browser"
 export async function register(): Promise<{ success: boolean; error?: string }> {
     const resp = await fetch("/api/webauthn/register")
 
-    console.log(resp)
-
     let error = ""
     let success = true
 

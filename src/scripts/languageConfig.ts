@@ -56,6 +56,10 @@ export const languageList: languageData[] = [
                     personalizedDBContent: "See what data of you is in our database",
                     viewAuth: "View Authenticators",
                     addAuth: "Add Authenticator",
+                    authDisclaimer:
+                        "Authenticators (like TouchID, Face recognition or security keys) allow an easy, " +
+                        "secure and private way to login without requesting an email",
+                    authEmpty: "No authenticator registered",
                     deleteAccount: "Delete your account"
                 }
             },
@@ -195,6 +199,11 @@ export const languageList: languageData[] = [
                     personalizedDBContent: "Die persönlichen Daten, die wir über dich haben",
                     viewAuth: "Authentikatoren ansehen",
                     addAuth: "Authentikator hinzufügen",
+                    authDisclaimer:
+                        "Mittels Authentifikatoren auf einem Gerät (Beispielsweise TouchID oder " +
+                        "Gesichtserkennung aber auch Security Keys) kann sich einfach und sicher " +
+                        "ohne Email angemeldet werden",
+                    authEmpty: "Kein Authentifikator vorhanden",
                     deleteAccount: "Account löschen"
                 }
             },
@@ -248,7 +257,8 @@ export const languageList: languageData[] = [
                     },
                     leavePollBtn: "Stimmen löschen und Umfrage verlassen",
                     leaveConfirm:
-                        "Sicher, dass du deine Stimmen löschen und diese Umfrage verlassen willst (deine Stimmen werden gelöscht)?",
+                        "Sicher, dass du deine Stimmen löschen und diese Umfrage " +
+                        "verlassen willst (deine Stimmen werden gelöscht)?",
                     kickFromPollBtn: "Kick",
                     kickConfirm: (username: string) =>
                         "Sicher, dass du " + username + " rauswerfen willst (die Stimmen werden gelöscht)?"

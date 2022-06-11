@@ -53,6 +53,8 @@ export interface languageData {
                 personalizedDBContent: string
                 viewAuth: string
                 addAuth: string
+                authDisclaimer: string
+                authEmpty: string
                 deleteAccount: string
             }
         }
