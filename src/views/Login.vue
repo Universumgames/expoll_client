@@ -111,7 +111,6 @@
 
         async updateAuthenticators() {
             this.authenticators = await this.getAuthenticators()
-            this.authenticators = undefined as unknown as any[]
             this.$forceUpdate()
         }
 
