@@ -324,8 +324,6 @@
             const { success, error } = await login(data)
             if (!error) console.error(error)
             else window.location.reload()
-
-            window.location.reload()
         }
     }
 </script>
