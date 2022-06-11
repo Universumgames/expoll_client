@@ -161,7 +161,11 @@
         }
 
         async getAuthenticators(): Promise<any[]> {
-            return (await axios.get("/api/webauthn/list", { withCredentials: true })).data.authenticators
+            return (await axios.get("/api/webauthn/list", { withCredentials: true })).data.authenticators.sort(
+                (a: any, b: any) => {
+                    return a.created < b.created ? 1 : -1
+                }
+            )
         }
     }
 </script>
