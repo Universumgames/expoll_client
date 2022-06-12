@@ -31,6 +31,13 @@
                         : language?.uiElements.polls.details.kickFromPollBtn
                 }}
             </button>
+            <button class="leaveBtn btn-disabled" @click="editingDisabledNote" v-show="!removeUserBtnVisible">
+                {{
+                    loggedUserIsSelectedUser()
+                        ? language?.uiElements.polls.details.leavePollBtn
+                        : language?.uiElements.polls.details.kickFromPollBtn
+                }}
+            </button>
         </td>
     </tr>
 </template>
@@ -81,6 +88,8 @@
             if (this.userVote == undefined) return
             if (this.userVote.user == undefined) return
 
+            if (!this.pollData.allowsEditing) this.editingDisabledNote()
+
             if (this.isEditable()) {
                 // const maxCount = this.maxAcceptableVoteCount
 
@@ -112,14 +121,15 @@
 
         get removeUserBtnVisible() {
             return (
-                this.userData?.id == this.userVote?.user.id ||
-                this.userData?.admin ||
-                this.pollData?.admin.id == this.userData?.id
+                (this.userData?.id == this.userVote?.user.id ||
+                    this.userData?.admin ||
+                    this.pollData?.admin.id == this.userData?.id) &&
+                this.pollData?.allowsEditing
             )
         }
 
         async removeUser() {
-            if (this.pollData == undefined || this.userVote == undefined) return
+            if (this.pollData == undefined || this.userVote == undefined || !this.pollData.allowsEditing) return
             try {
                 const askName = this.userVote?.user.firstName + " " + this.userVote?.user.lastName ?? ""
                 if (
@@ -164,10 +174,11 @@
 
         isEditable(): boolean {
             return (
-                (this.userVote?.user?.id == this.userData?.id ||
+                ((this.userVote?.user?.id == this.userData?.id ||
                     this.pollData?.admin.id == this.userData?.id ||
                     this.userData?.admin) ??
-                false
+                    false) &&
+                (this.pollData?.allowsEditing ?? false)
             )
         }
 
@@ -190,6 +201,7 @@
         }
 
         async editNote() {
+            if (!this.pollData?.allowsEditing) this.editingDisabledNote()
             if (this.isEditable()) {
                 const note = prompt("Note for user", this.note)
                 if (this.pollData == undefined || this.userVote?.user == undefined) return
@@ -209,6 +221,10 @@
 
         get noteString() {
             return " " + this.language?.uiElements.polls.details.userNotesByAdmin(this.note)
+        }
+
+        editingDisabledNote() {
+            alert(this.language?.uiElements.polls.details.editingDisabled ?? "Editing is not allowed by the admin")
         }
     }
 </script>

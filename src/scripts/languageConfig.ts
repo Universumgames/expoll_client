@@ -70,6 +70,7 @@ export const languageList: languageData[] = [
                     description: "Description (255 characters max)",
                     maxVoteLabel: "Max number of votes per user (-1 for infinity)",
                     allowsMaybeLabel: '"Maybe" as Vote allowed',
+                    allowsEditingLabel: "Allow editing votes and options",
                     typeSelect: {
                         label: "Poll type",
                         stringOption: "Word poll",
@@ -114,7 +115,8 @@ export const languageList: languageData[] = [
                     kickConfirm: (username: string) =>
                         "Sure you want to kick " +
                         username +
-                        " from this poll (all votes will be deleted from this user)?"
+                        " from this poll (all votes will be deleted from this user)?",
+                    editingDisabled: "Editing is disabled by the admin"
                 },
                 votes: {
                     yes: "Yes",
@@ -214,6 +216,7 @@ export const languageList: languageData[] = [
                     description: "Beschreibung (maximal 255 Zeichen)",
                     maxVoteLabel: "Maximale Anzahl an Stimmen pro Benutzer (-1 für unendlich)",
                     allowsMaybeLabel: '"Vielleicht" als Auswahl erlaubt',
+                    allowsEditingLabel: "Umfrage bearbeitbar",
                     typeSelect: {
                         label: "Umfragentyp auswählen",
                         stringOption: "Wortumfrage",
@@ -261,7 +264,8 @@ export const languageList: languageData[] = [
                         "verlassen willst (deine Stimmen werden gelöscht)?",
                     kickFromPollBtn: "Kick",
                     kickConfirm: (username: string) =>
-                        "Sicher, dass du " + username + " rauswerfen willst (die Stimmen werden gelöscht)?"
+                        "Sicher, dass du " + username + " rauswerfen willst (die Stimmen werden gelöscht)?",
+                    editingDisabled: "Das Bearbeiten ist durch den Admin deaktiviert"
                 },
                 votes: {
                     yes: "Ja",

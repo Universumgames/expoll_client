@@ -4,16 +4,22 @@
             <label>{{ userInfo?.username }}</label>
             <small>ID: {{ userInfo?.id }}</small>
         </div>
-        <label
-            >Name: <span style="white-space: nowrap">{{ userInfo?.firstName }} {{ userInfo?.lastName }}</span></label
-        >
-        <label
-            >Mail: <span style="word-break: break-word">{{ userInfo?.mail }}</span></label
-        >
+        <label>
+            Name: <span style="white-space: nowrap">{{ userInfo?.firstName }} {{ userInfo?.lastName }}</span>
+            <button @click="editName">
+                <edit-icon class="normalIcon" />
+            </button>
+        </label>
+        <label>
+            Mail: <span style="word-break: break-word">{{ userInfo?.mail }}</span>
+            <button @click="editEmail">
+                <edit-icon class="normalIcon" />
+            </button>
+        </label>
         <div>
             <div v-show="!userInfo?.superAdmin && admin?.admin">
-                <label>Admin: {{ userInfo?.admin ? "yes" : "no" }}</label
-                ><br />
+                <label>Admin: {{ userInfo?.admin ? "yes" : "no" }}</label>
+                <br />
                 <button
                     v-show="!userInfo?.admin || superAdmin"
                     @click="toggleAdmin()"
@@ -50,6 +56,8 @@
     import { UserInfo } from "expoll-lib/adminInterfaces"
     import { languageData } from "../../scripts/languageConstruct"
     import axios from "axios"
+    import EditIcon from "../../assetComponents/EditIcon.vue"
+    import { AdminEditUserRequest } from "expoll-lib/requestInterfaces"
 
     @Options({
         props: {
@@ -58,7 +66,9 @@
             language: Object,
             superAdmin: Object
         },
-        components: {}
+        components: {
+            EditIcon
+        }
     })
     export default class UserRow extends Vue {
         userInfo: UserInfo | undefined
@@ -97,10 +107,41 @@
             ) {
                 await axios.put("/api/admin/users", {
                     userID: this.userInfo?.id,
-                    admin: true
-                })
+                    admin: newState
+                } as AdminEditUserRequest)
                 this.$emit("update")
             }
+        }
+
+        async editEmail() {
+            const newMail = prompt(`Provide new email for user ${this.userInfo?.username}`, this.userInfo?.mail)
+            if (!newMail) return
+            await axios.put("/api/admin/users", {
+                userID: this.userInfo?.id,
+                mail: newMail
+            } as AdminEditUserRequest)
+            this.$emit("update")
+        }
+
+        async editName() {
+            const firstName = prompt(
+                `Provide new firstname for user ${this.userInfo?.username}`,
+                this.userInfo?.firstName
+            )
+            if (!firstName) return
+            await axios.put("/api/admin/users", {
+                userID: this.userInfo?.id,
+                firstName: firstName
+            } as AdminEditUserRequest)
+            this.$emit("update")
+
+            const lastName = prompt(`Provide new lastname for user ${this.userInfo?.username}`, this.userInfo?.lastName)
+            if (!lastName) return
+            await axios.put("/api/admin/users", {
+                userID: this.userInfo?.id,
+                lastName: lastName
+            } as AdminEditUserRequest)
+            this.$emit("update")
         }
     }
 </script>

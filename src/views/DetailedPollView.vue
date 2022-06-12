@@ -98,6 +98,26 @@
                     </button>
                 </div>
             </div>
+            <!-- allows Editing -->
+            <div v-show="mayEditAllowEditing()">
+                <div v-show="changes.allowsEditing == undefined">
+                    <label
+                        >{{ language?.uiElements.polls.create.allowsEditingLabel }}:
+                        {{ poll?.allowsEditing }}
+                    </label>
+                    <button v-show="mayEditAllowEditing()" @click="changes.allowsEditing = poll?.allowsEditing">
+                        <edit-icon class="normalIcon" />
+                    </button>
+                </div>
+                <div v-show="mayEditAllowEditing() && changes.allowsEditing != undefined">
+                    <label for="allowsMaybe">{{ language?.uiElements.polls.create.allowsMaybeLabel }}</label>
+                    <input id="allowsMaybe" type="checkbox" v-model="changes.allowsEditing" />
+                    <button @click="pushChanges">{{ language?.uiElements.polls.details.save }}</button>
+                    <button @click="changes.allowsEditing = undefined">
+                        {{ language?.uiElements.polls.details.cancel }}
+                    </button>
+                </div>
+            </div>
         </div>
 
         <!-- share -->
@@ -107,7 +127,7 @@
                 <h3 style="display: inline" v-show="shareLinkCopied">Copied</h3></a
             >
         </div>
-        <div style="text-align: left; margin-top: 1rem" v-show="isJoined">
+        <div style="text-align: left; margin-top: 1rem" v-show="!isJoined">
             <a @click="joinPoll()"><h3 style="display: inline">Join</h3></a>
         </div>
         <br />
@@ -287,17 +307,21 @@
             }, 60 * 1000)
         }
 
+        async getPollData() {
+            this.poll = (
+                await axios.get("/api/poll", {
+                    params: {
+                        pollID: this.pollID
+                    },
+                    withCredentials: true
+                })
+            ).data
+        }
+
         async setup() {
             try {
                 await this.checkAndJoinPoll()
-                this.poll = (
-                    await axios.get("/api/poll", {
-                        params: {
-                            pollID: this.pollID
-                        },
-                        withCredentials: true
-                    })
-                ).data
+                await this.getPollData()
                 if (this.poll != undefined) this.changes = { pollID: this.poll.pollID }
 
                 this.$forceUpdate()
@@ -312,8 +336,8 @@
         async checkAndJoinPoll() {
             if (
                 // @ts-ignore
-                (this.$route.query.join == true && !this.isJoined) ??
-                false
+                ((this.$route.query.join == true && !this.isJoined) ?? false) &&
+                (this.poll?.allowsEditing ?? false)
             ) {
                 try {
                     await this.joinPoll()
@@ -382,12 +406,19 @@
         }
 
         mayEdit(): boolean {
+            return (
+                ((this.poll?.admin.id == this.userData?.id ?? false) || (this.userData?.admin ?? false)) &&
+                (this.poll?.allowsEditing ?? false)
+            )
+        }
+
+        mayEditAllowEditing(): boolean {
             return (this.poll?.admin.id == this.userData?.id ?? false) || (this.userData?.admin ?? false)
         }
 
         async pushChanges() {
             try {
-                if (!this.mayEdit()) return
+                if (!this.mayEdit() && !this.mayEditAllowEditing()) return
                 const ax = await axios.put("/api/poll", JSON.stringify(this.changes, replacer), {
                     withCredentials: true,
                     headers: {
@@ -428,7 +459,8 @@
             }
         }
 
-        voteUpdateCallback() {
+        async voteUpdateCallback() {
+            await this.getPollData()
             this.$forceUpdate()
         }
 

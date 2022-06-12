@@ -65,6 +65,7 @@ export interface languageData {
                 description: string
                 maxVoteLabel: string
                 allowsMaybeLabel: string
+                allowsEditingLabel: string
                 typeSelect: {
                     label: string
                     stringOption: string
@@ -105,6 +106,7 @@ export interface languageData {
                 leaveConfirm: string
                 kickFromPollBtn: string
                 kickConfirm: (username: string) => string
+                editingDisabled: string
             }
             votes: {
                 yes: string

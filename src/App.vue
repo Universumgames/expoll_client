@@ -49,7 +49,7 @@
         localeLanguage!: languageData
         failedLoading = false
 
-        frontendVersion = "1.4.0"
+        frontendVersion = "1.5.0"
         backendVersion = "unknown"
 
         async created() {
@@ -267,5 +267,9 @@
     .footer-center {
         display: flex;
         justify-content: center;
+    }
+
+    .btn-disabled {
+        background-color: gray !important;
     }
 </style>

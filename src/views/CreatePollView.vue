@@ -136,7 +136,8 @@
                 description: this.description,
                 type: this.type,
                 options: this.options,
-                allowsMaybe: this.allowsMaybe
+                allowsMaybe: this.allowsMaybe,
+                allowsEditing: true
             }
             try {
                 const retData = await axios.post("/api/poll", JSON.stringify(data, replacer), {
