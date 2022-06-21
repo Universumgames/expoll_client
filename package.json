@@ -21,6 +21,7 @@
         "vuex": "^4.0.2"
     },
     "devDependencies": {
+        "@simplewebauthn/typescript-types": "^5.2.1",
         "@types/axios": "^0.14.0",
         "@types/grecaptcha": "^3.0.3",
         "@types/markdown-it": "^12.2.3",
