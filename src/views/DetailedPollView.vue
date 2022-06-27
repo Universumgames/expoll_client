@@ -6,6 +6,9 @@
     </div>
     <blank-detailed-poll-view :language="language" v-show="loadingMain" />
     <div v-show="!loadingMain && !loadingFailed">
+        <div class="archived" v-show="!poll?.allowsEditing">
+            {{ language?.uiElements.polls.details.editingDisabled }}
+        </div>
         <div style="text-align: left">
             <!-- name -->
             <div style="padding: 1ch">
@@ -110,8 +113,8 @@
                     </button>
                 </div>
                 <div v-show="mayEditAllowEditing() && changes.allowsEditing != undefined">
-                    <label for="allowsMaybe">{{ language?.uiElements.polls.create.allowsMaybeLabel }}</label>
-                    <input id="allowsMaybe" type="checkbox" v-model="changes.allowsEditing" />
+                    <label for="allowsEditing">{{ language?.uiElements.polls.create.allowsEditingLabel }}</label>
+                    <input id="allowsEditing" type="checkbox" v-model="changes.allowsEditing" />
                     <button @click="pushChanges">{{ language?.uiElements.polls.details.save }}</button>
                     <button @click="changes.allowsEditing = undefined">
                         {{ language?.uiElements.polls.details.cancel }}
@@ -142,7 +145,12 @@
                             <switch-icon class="normalIcon" />
                         </button>
                     </th>
-                    <th v-for="option in poll?.options" :key="option.id" style="white-space: pre-wrap">
+                    <th
+                        v-for="option in poll?.options"
+                        :key="option.id"
+                        style="white-space: pre-wrap"
+                        class="stickyRow"
+                    >
                         {{ optionValue(option) }}
                         <br />
                         ({{ getVotedForCount(option.id ?? 0) }})
@@ -308,20 +316,33 @@
         }
 
         async getPollData() {
-            this.poll = (
+            const poll = (
                 await axios.get("/api/poll", {
                     params: {
                         pollID: this.pollID
                     },
                     withCredentials: true
                 })
-            ).data
+            ).data as DetailedPoll
+
+            if (poll.type == PollType.Date) {
+                poll.options = poll.options.sort((a, b) => {
+                    return new Date(a.dateStart!).getTime() - new Date(b.dateStart!).getTime()
+                })
+            } else if (poll.type == PollType.DateTime) {
+                poll.options = poll.options.sort((a, b) => {
+                    return new Date(a.dateTimeStart!).getTime() - new Date(b.dateTimeStart!).getTime()
+                })
+            }
+
+            this.poll = poll
         }
 
         async setup() {
             try {
-                await this.checkAndJoinPoll()
                 await this.getPollData()
+                await this.checkAndJoinPoll()
+
                 if (this.poll != undefined) this.changes = { pollID: this.poll.pollID }
 
                 this.$forceUpdate()
@@ -330,6 +351,7 @@
             } catch (e) {
                 this.loadingMain = false
                 this.loadingFailed = true
+                console.warn(e)
             }
         }
 
@@ -573,6 +595,14 @@
     .poll-main {
         border-radius: 1ch;
     }
+
+    .archived {
+        background-color: var(--alert-color);
+        padding: 1ch;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+    }
 </style>
 
 <style>
@@ -580,5 +610,11 @@
         position: sticky;
         left: 0;
         z-index: 2;
+    }
+
+    .stickyRow {
+        position: sticky;
+        top: 0;
+        z-index: 1;
     }
 </style>

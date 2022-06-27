@@ -221,7 +221,7 @@ export const languageList: languageData[] = [
                         label: "Umfragentyp auswählen",
                         stringOption: "Wortumfrage",
                         dateOption: "Datumsumfrage",
-                        dateTimeOption: "DAtums- und Zeit Umfrage"
+                        dateTimeOption: "Datums- und Zeit Umfrage"
                     },
                     optionList: "Optionen Liste",
                     optionListAddOption: "Option hinzufügen",
@@ -229,7 +229,7 @@ export const languageList: languageData[] = [
                     optionValue: "Wert",
                     optionOptEndValue: "Optionales Ende",
                     createBtn: "Erstellen",
-                    maxCountExceeded: "DU hast bereits zu viele Umfragen erstellt",
+                    maxCountExceeded: "Du hast bereits zu viele Umfragen erstellt",
                     emptyField: "Dieses Feld darf nicht leer sein"
                 },
                 list: {
