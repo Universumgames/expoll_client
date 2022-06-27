@@ -17,14 +17,21 @@
         >
         <router-link to="/privacy">{{ language?.uiElements.navigation.privacyPolicy }}</router-link>
         <router-link to="/siteNotice">{{ language?.uiElements.navigation.siteNotice }}</router-link>
+        <a href="https://mt32.net" target="_blank">Blog</a>
+        <br />
+        <a href="https://git.mt32.net/universum/expoll_server" target="_blank">Server Source</a>
+        <a href="https://git.mt32.net/universum/expoll_client" target="_blank">Client Source</a>
+        <a href="https://git.mt32.net/universum/expoll_lib" target="_blank">Library Source</a>
+
         <br />
         <a href="https://www.buymeacoffee.com/universum" target="_blank"
             ><img
                 src="https://cdn.buymeacoffee.com/buttons/default-orange.png"
                 alt="Buy Me A Coffee"
                 height="41"
-                width="174" /></a
-        ><br />
+                width="174"
+        /></a>
+        <br />
         <p>Frontend-Version {{ frontendVersion }}</p>
         <p>Backend-Version {{ backendVersion }}</p>
     </div>

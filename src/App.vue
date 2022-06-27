@@ -3,7 +3,7 @@
         <header>
             <user-icon :userData="userData" :language="localeLanguage" />
             <div id="nav">
-                <a style="float: left">Expoll</a>
+                <a style="float: left" :href="userData != undefined ? '/#/polls' : '/'">Expoll</a>
 
                 <router-link v-show="userData != undefined" to="/polls">{{
                     localeLanguage?.uiElements.navigation.polls
@@ -21,6 +21,7 @@
             :language="localeLanguage"
             :backendVersion="backendVersion"
             :frontendVersion="frontendVersion"
+            :userData="userData"
         />
     </div>
 </template>
@@ -49,7 +50,7 @@
         localeLanguage!: languageData
         failedLoading = false
 
-        frontendVersion = "2.0.2"
+        frontendVersion = "2.0.3"
         backendVersion = "unknown"
 
         async created() {
