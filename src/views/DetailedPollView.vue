@@ -334,6 +334,13 @@
                     return new Date(a.dateTimeStart!).getTime() - new Date(b.dateTimeStart!).getTime()
                 })
             }
+            for (const user of poll.userVotes) {
+                user.votes = user.votes.sort((a, b) => {
+                    const aIndex = poll.options.findIndex((option) => option.id == a.optionID)
+                    const bIndex = poll.options.findIndex((option) => option.id == b.optionID)
+                    return aIndex - bIndex
+                })
+            }
 
             this.poll = poll
         }
@@ -518,11 +525,11 @@
         }
 
         getVotedForCount(optionID: tOptionId): number {
-            const optionIndex = this.poll?.options.findIndex((ele) => ele.id == optionID) ?? 0
-            if (optionIndex == -1) return 0
             let count = 0
             for (const userVotes of this.poll?.userVotes ?? []) {
-                if (userVotes.votes[optionIndex].votedFor != undefined && userVotes.votes[optionIndex].votedFor) count++
+                const vote = userVotes.votes.find((vote) => vote.optionID == optionID) ?? { votedFor: undefined }
+
+                if (vote.votedFor != undefined && vote.votedFor) count++
             }
             return count
         }
@@ -592,10 +599,6 @@
         gap: 0.3rem;
     }
 
-    .poll-main {
-        border-radius: 1ch;
-    }
-
     .archived {
         background-color: var(--alert-color);
         padding: 1ch;
@@ -616,5 +619,13 @@
         position: sticky;
         top: 0;
         z-index: 1;
+    }
+
+    th:first-child {
+        width: 40vw;
+    }
+
+    th:first-child {
+        border: thin solid var(--text-color);
     }
 </style>
