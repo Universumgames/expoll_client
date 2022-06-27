@@ -24,10 +24,12 @@ compiling: # This job runs in the build stage, which runs first.
     stage: build
     script:
         - npm install --force --legacy-peer-deps
+        - npm upgrade expoll-lib --force
         - npm run build
 
 linting:
     stage: test
     script:
         - npm install --force --legacy-peer-deps
+        - npm upgrade expoll-lib --force
         - npm run lint
