@@ -246,7 +246,7 @@
 <script lang="ts">
     import axios from "axios"
     import { Options, Vue } from "vue-class-component"
-    import { ComplexOption, DetailedPoll, SimpleUserVotes } from "expoll-lib/extraInterfaces"
+    import { ComplexOption, DetailedPoll, SimpleUser, SimpleUserVotes } from "expoll-lib/extraInterfaces"
     import { IUser, PollType, tOptionId, tUserID } from "expoll-lib/interfaces"
     import { languageData } from "../scripts/languageConstruct"
     import SaveIcon from "../assetComponents/SaveIcon.vue"
@@ -418,12 +418,15 @@
 
         getVotesByUser(): SimpleUserVotes {
             if (this.poll == undefined) {
-                return { user: this.userData ?? { id: 0, firstName: "", lastName: "", username: "" }, votes: [] }
+                return {
+                    user: this.userData ?? ({ id: "", firstName: "", lastName: "", username: "" } as SimpleUser),
+                    votes: []
+                } as SimpleUserVotes
             }
             const that = this
             return (
                 this.poll.userVotes.find((vote) => vote.user?.id == this.userData?.id) ?? {
-                    user: that.userData ?? { id: 0, firstName: "", lastName: "", username: "" },
+                    user: that.userData ?? { id: "", firstName: "", lastName: "", username: "" },
                     votes: []
                 }
             )
