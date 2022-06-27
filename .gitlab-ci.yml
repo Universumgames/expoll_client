@@ -23,11 +23,11 @@ image: node
 compiling: # This job runs in the build stage, which runs first.
     stage: build
     script:
-        - npm install
+        - npm install --force --legacy-peer-deps
         - npm run build
 
 linting:
     stage: test
     script:
-        - npm install
+        - npm install --force --legacy-peer-deps
         - npm run lint
