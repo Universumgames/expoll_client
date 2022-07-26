@@ -60,7 +60,10 @@ export const languageList: languageData[] = [
                         "Authenticators (like TouchID, Face recognition or security keys) allow an easy, " +
                         "secure and private way to login without requesting an email",
                     authEmpty: "No authenticator registered",
-                    deleteAccount: "Delete your account"
+                    deleteAccount: "Delete your account",
+                    activeSessions: "Active sessions",
+                    deleteSessionPrompt: "Do you want to delete this session?",
+                    logoutAllPrompt: "Do you want to logout everywhere (Authenticators will not be deleted)?"
                 }
             },
             polls: {
@@ -206,7 +209,10 @@ export const languageList: languageData[] = [
                         "Gesichtserkennung aber auch Security Keys) kann sich einfach und sicher " +
                         "ohne Email angemeldet werden",
                     authEmpty: "Kein Authentifikator vorhanden",
-                    deleteAccount: "Account löschen"
+                    deleteAccount: "Account löschen",
+                    activeSessions: "Aktive Sitzungen",
+                    deleteSessionPrompt: "Möchtest du diese Sitzung wirklich löschen?",
+                    logoutAllPrompt: "Möchtest du dich wirklich überall abmelden?"
                 }
             },
             polls: {

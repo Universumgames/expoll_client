@@ -56,6 +56,9 @@ export interface languageData {
                 authDisclaimer: string
                 authEmpty: string
                 deleteAccount: string
+                activeSessions: string
+                deleteSessionPrompt: string
+                logoutAllPrompt: string
             }
         }
         polls: {

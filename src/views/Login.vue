@@ -51,6 +51,24 @@
                 </details>
                 <br />
                 <details>
+                    <summary>{{ language?.uiElements.login.loggedIn.activeSessions }}</summary>
+                    <button @click="logoutEverywhere" class="delete">Logout everywhere</button>
+
+                    <div
+                        v-for="session in personalizedJSON.sessions"
+                        :key="session.expiration"
+                        class="session"
+                        :style="session.active ? 'color:orange;' : ''"
+                    >
+                        {{ session.active ? "current Session" : "" }}
+                        Expires: {{ session.expiration }} userAgent: {{ session.userAgent ?? "unknown" }}
+                        <button class="delete" v-show="!session.active" @click="deleteSession(session.shortKey)">
+                            Delete
+                        </button>
+                    </div>
+                </details>
+                <br />
+                <details>
                     <summary>{{ language?.uiElements.login.loggedIn.personalizedDBContent }}</summary>
                     <pre>{{ personalizedData }}</pre>
                 </details>
@@ -97,16 +115,18 @@
         failedLoading?: boolean
 
         personalizedData: string = ""
+        personalizedJSON: any = {}
 
         authenticators: any[] = []
 
         async mounted() {
-            this.personalizedData = JSON.stringify(
-                (await axios.get("/api/user/personalizeddata", { withCredentials: true })).data,
-                null,
-                2
-            )
+            await this.getPersonalizedData()
             await this.updateAuthenticators()
+        }
+
+        async getPersonalizedData() {
+            this.personalizedJSON = (await axios.get("/api/user/personalizeddata", { withCredentials: true })).data
+            this.personalizedData = JSON.stringify(this.personalizedJSON, null, 2)
         }
 
         async updateAuthenticators() {
@@ -131,12 +151,14 @@
             }
             if (
                 confirm(
-                    "Are you sure you want to delete your user account? You loose your access to the account immediately and your personal information will be deleted"
+                    `Are you sure you want to delete your user account? 
+                    You loose your access to the account immediately and your personal information will be deleted`
                 )
             ) {
                 if (
                     confirm(
-                        "Deleting your user account will remove your access to your votes and polls, are you sure you want to continue?"
+                        `Deleting your user account will remove your access to your votes and polls, 
+                        are you sure you want to continue?`
                     )
                 ) {
                     if (confirm("This is your last warning, your account will be deleted immediately")) {
@@ -166,6 +188,30 @@
                     return a.created < b.created ? 1 : -1
                 }
             )
+        }
+
+        async deleteSession(session: any) {
+            if (confirm(this.language?.uiElements.login.loggedIn.deleteSessionPrompt)) {
+                await fetch("/api/user/session", {
+                    method: "DELETE",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ shortKey: session }),
+                    credentials: "include"
+                })
+                await this.getPersonalizedData()
+            }
+        }
+
+        async logoutEverywhere() {
+            if (confirm(this.language?.uiElements.login.loggedIn.logoutAllPrompt)) {
+                await fetch("/api/user/logoutAll", {
+                    method: "POST",
+                    credentials: "include"
+                })
+                location.reload()
+            }
         }
     }
 </script>
@@ -208,5 +254,12 @@
 
     .delete {
         background-color: var(--alert-color);
+    }
+
+    .session {
+        background: var(--secondary-color);
+        border-radius: 1ch;
+        padding: 0.2rem;
+        margin: 0.5rem;
     }
 </style>
