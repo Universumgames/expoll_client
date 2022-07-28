@@ -18,5 +18,6 @@ module.exports = {
         disableHostCheck: true,
         // https: true,
         port: 8080
-    }
+    },
+    indexPath: "index.php"
 }
