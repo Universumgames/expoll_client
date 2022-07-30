@@ -343,6 +343,8 @@
             }
 
             this.poll = poll
+
+            document.title = "Expoll - " + poll.name
         }
 
         async setup() {
