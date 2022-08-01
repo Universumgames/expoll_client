@@ -5,6 +5,7 @@
             <router-link to="/admin/users">Users</router-link>
             <router-link to="/admin/polls">Polls</router-link>
             <router-link to="/admin/info">Debug Info</router-link>
+            <router-link to="/admin/mailregex">Mail Regex</router-link>
         </div>
         <router-view :userData="userData" :language="language" />
     </div>

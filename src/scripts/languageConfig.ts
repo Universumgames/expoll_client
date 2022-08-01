@@ -40,7 +40,8 @@ export const languageList: languageData[] = [
                     quickLoginTitle: "Quick Login",
                     quickLoginBtn: "Quicklogin",
                     leaveQuickLoginBtn: "Normal Login",
-                    or: "or"
+                    or: "or",
+                    invalidMail: "Invalid mail address"
                 },
                 alreadyLoggedInAs: (username: string) => "You are already logged in as " + username,
                 logoutBtn: "Logout",
@@ -188,7 +189,8 @@ export const languageList: languageData[] = [
                     quickLoginTitle: "Schnell Anmeldung",
                     quickLoginBtn: "Schnell Anmeldung",
                     leaveQuickLoginBtn: "Normale Anmeldung",
-                    or: "oder"
+                    or: "oder",
+                    invalidMail: "Ungültige Mail Adresse"
                 },
                 alreadyLoggedInAs: (username: string) => "Du bist bereits als " + username + " angemeldet",
                 logoutBtn: "Abmelden",

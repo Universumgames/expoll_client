@@ -50,7 +50,7 @@
         localeLanguage!: languageData
         failedLoading = false
 
-        frontendVersion = "2.2.0"
+        frontendVersion = "2.3.0"
         backendVersion = "unknown"
 
         async created() {
@@ -272,5 +272,9 @@
 
     .btn-disabled {
         background-color: gray !important;
+    }
+
+    .delete {
+        background-color: var(--alert-color);
     }
 </style>

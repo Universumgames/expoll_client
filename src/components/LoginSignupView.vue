@@ -15,6 +15,8 @@
                 placeholder="max.mustermann@gmail.com"
                 v-model="loginMail"
                 autocomplete="mail"
+                @keyup="mailUpdate()"
+                :style="mailInvalid ? 'color:red' : 'color:green'"
             />
             <button @click="request">{{ language?.uiElements.login.form.requestBtn }}</button>
             <button @click="useQuickSignIn = true" v-show="supportsWebauthn">
@@ -38,15 +40,15 @@
         <div class="column">
             <h2>{{ language?.uiElements.login.form.signup }}</h2>
             <label for="mail">{{ language?.uiElements.login.form.mail }}</label>
-            <small v-if="signupMail == '' && clickedSignup" class="errorInfo">{{
-                language?.uiElements.login.form.validMailNeeded
-            }}</small>
+            <small v-if="mailInvalid" class="errorInfo">{{ language?.uiElements.login.form.validMailNeeded }}</small>
             <input
                 id="mail"
                 type="text"
                 placeholder="max.mustermann@gmail.com"
-                v-model="signupMail"
+                v-model="loginMail"
                 autocomplete="mail"
+                @keyup="mailUpdate()"
+                :style="mailInvalid ? 'color:red' : 'color:green'"
             /><br />
 
             <label for="first">{{ language?.uiElements.login.form.firstName }}</label>
@@ -137,6 +139,9 @@
     import Popup from "../components/Popup.vue"
     import { browserSupportsWebauthn } from "@simplewebauthn/browser"
     import { login } from "../scripts/webauthn"
+    import axios from "axios"
+    import { mailIsAllowed } from "@/scripts/helper"
+    import { MailRegexEntry } from "expoll-lib/extraInterfaces"
 
     declare global {
         // eslint-disable-next-line no-unused-vars
@@ -172,10 +177,11 @@
         loginMail = ""
         loginKey = ""
 
-        signupMail = ""
         signupFirstName = ""
         signupLastName = ""
         signupUsername = ""
+
+        mailRegex: MailRegexEntry[] = []
 
         clickedSignup = false
         requestClicked = false
@@ -184,6 +190,8 @@
         showAdvancedLogin = false
 
         useQuickSignIn = false
+
+        mailInvalid = false
 
         async mounted() {
             if (this.paramLoginKeyExist) {
@@ -197,6 +205,14 @@
                     this.loggingIn = false
                 }
             }
+
+            this.mailRegex = await (await axios.get("/api/simple/mailregex")).data.regex
+        }
+
+        mailUpdate() {
+            if (!mailIsAllowed(this.loginMail, this.mailRegex)) {
+                this.mailInvalid = true
+            } else this.mailInvalid = false
         }
 
         displayError(error?: string) {
@@ -260,7 +276,7 @@
             this.clickedSignup = true
 
             if (
-                this.signupMail == "" ||
+                this.loginMail == "" ||
                 this.signupUsername == "" ||
                 this.signupLastName == "" ||
                 this.signupFirstName == ""
@@ -274,7 +290,7 @@
                 firstName: this.signupFirstName,
                 lastName: this.signupLastName,
                 username: this.signupUsername,
-                mail: this.signupMail.toLowerCase().replace(" ", ""),
+                mail: this.loginMail.toLowerCase().replace(" ", ""),
                 captcha: await this.getCaptchaToken()
             })
 

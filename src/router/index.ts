@@ -99,6 +99,14 @@ const routes = [
                 meta: {
                     title: "Server Debug Info"
                 }
+            },
+            {
+                path: "mailregex",
+                name: "Mail Regex Settings",
+                component: () => import("../views/Admin/MailRegex.vue"),
+                meta: {
+                    title: "Mail Regex Settings"
+                }
             }
         ]
     }

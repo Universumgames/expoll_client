@@ -252,10 +252,6 @@
         border-radius: 1ch;
     }
 
-    .delete {
-        background-color: var(--alert-color);
-    }
-
     .session {
         background: var(--secondary-color);
         border-radius: 1ch;

@@ -1,4 +1,5 @@
 import axios from "axios"
+import { MailRegexEntry } from "expoll-lib/extraInterfaces"
 
 /**
  * get meta info from /api/metaInfo endpoint
@@ -32,4 +33,20 @@ export function replacer(key: any, value: any) {
     }
 
     return value
+}
+
+/**
+ * Check if a mail is not banned
+ * @param {String} mail the mial adress to check
+ * @param {MailRegexEntry[]} regexRules not allowed mail adresss
+ * @return {boolean} returns true if mail is allowed, false otherwise
+ */
+export function mailIsAllowed(mail: string, regexRules: MailRegexEntry[]): boolean {
+    let res = true
+    for (const regex of regexRules) {
+        if ((mail.match(regex.regex) && regex.blacklist) || (!mail.match(regex.regex) && !regex.blacklist)) {
+            res = false
+        }
+    }
+    return res
 }
