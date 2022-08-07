@@ -13,6 +13,21 @@ export const languageList: languageData[] = [
                 privacyPolicy: "Privacy Policy",
                 siteNotice: "Site Notice"
             },
+            home: `
+# Expoll - Polling made easy
+
+## Why expoll
+
+Expoll is a voting website similar to other woll-known voting/polling websites. We tried to combine both in a neat small and easy-to-use website. Unlike the well-known platforms, who delete polls after a quite short time, or where you have to be logged in with an active session to even get the chance to vote for something withing a few minutes, we are trying to keep every vote possible (though probably have to restrict the creation of polls to about 5-10 per user at a time in the future).
+
+## Features
+
+The pages language changes automatically between german and english to best suit the browsers preferences. With expoll you are able to participate in as much polls as you like and create and maintain up to 10 polls at a time. When creating a new poll you can choose between a word poll and a date or date-time poll to suit best your usecase. Date (and date-time) polls have even the possibility to define a start and an end time.
+
+## How to create a user and login
+
+To participate in any poll you first have to sign up. To get to the signup page you can use the button in the top right corner of your screen. Over there you have to provide your "real" (as real as you like) a username and your mail address (unlike the name this should be correspond to a real address you have access to). It's important that you type the correct mail address because after creating a user you are automatically logged in, but to login on another browser you will have to provide your mail address and you will receive a login link to allow easy and password-less access to your polls.
+`,
             login: {
                 loggedInAs: (username: string) => "Logged in as " + username,
                 notLoggedIn: "Not logged in",
@@ -160,6 +175,21 @@ export const languageList: languageData[] = [
                 privacyPolicy: "Privatsphäre",
                 siteNotice: "Impressum"
             },
+            home: `
+# Expoll - Umfragen einfach gemacht
+
+## Warum expoll
+
+Expoll ist eine super simple Abstimmungsplattform ähnlich wie bekannte Umfrageplatformen. Wir versuchen hier beide Lösungen zu einer kleinen, einfach verwendbaren Webseite zu kombinieren. Anders als andere Plattformen, wo Umfragen nach realtiv kurzer Inaktivität gelöscht werden oder man zum Zeitpunkt der Umfrage angemeldet und online sein muss, versuchen wir jede Umfrage so lange wie möglich am laufen zu lassen.
+
+## Was kann expoll
+
+Die Seite passt sich automatisch der des Geräts voreingestellte Sprache an (unterschieden wird derzeit ziwschen Deutsch und Englisch) an. Mit Expoll hast du die Möglichkeit an so vielen Umfragen wie du möchtest teilzunehmen und bis zu 10 Umfragen gleichzeitig als Eigentümer zu besitzen. Beim Erstellen einer Neuen Umfrage kannst du derzeit wählen aus drei Arten: Wort, Datum und Zeit(+Datum) um die Umfrage bestmöglich an deine Bedürfnisse anzupassen.
+
+## Benutzer erstellen und anmelden
+
+Um an einer Umfrage teilnehmen zu können musst du dich zunächst anmelden. Hierzu einfach auf den Knopf oben rechts in der Ecke klicken. Auf deiser Seite musst du dann auf der Registrierungsmaske (rechts) deinen Namen, einen Benutzername und, ganz wichtig, deine E-Mail addresse angeben. Es ist wichtig,d ass du eine gültige und für dich dauerhaft erreichbare Mail angibst (also keine Wegwerf Mail oder so) da diese im weiteren zur Passwortlosen Anmeldung verwendet wird. Beim anmelden auf einem neuen Gerät fordest du dann auf der linken Seite eine Anmeldemail an und ein passender Link wird dir in kürze zugesendet, so musst du dir keine lästiges Password merken...
+`,
             login: {
                 loggedInAs: (username: string) => "Angemeldet als " + username,
                 notLoggedIn: "Nicht angemeldet",

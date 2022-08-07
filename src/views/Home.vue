@@ -1,6 +1,6 @@
 <template>
     <div class="home">
-        <vue-markdown class="text" :source="markdown" />
+        <vue-markdown class="text" :source="language.uiElements.home" />
     </div>
 </template>
 
@@ -19,19 +19,11 @@
         }
     })
     export default class Home extends Vue {
-        markdown: string = ""
         language!: languageData
 
-        async created() {
-            this.loadMarkdown()
-        }
+        async created() {}
 
         mounted() {}
-
-        async loadMarkdown() {
-            const filename = "/" + this.language.short.toLowerCase() + "_startpage.md"
-            this.markdown = (await axios.get(filename)).data
-        }
     }
 </script>
 

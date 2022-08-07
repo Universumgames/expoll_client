@@ -4,9 +4,10 @@
     "private": true,
     "scripts": {
         "serve": "vue-cli-service serve",
-        "build": "export SET NODE_OPTIONS=--openssl-legacy-provider && vue-cli-service build",
-        "localBuild": "vue-cli-service build",
-        "lint": "vue-cli-service lint"
+        "build": "export SET NODE_OPTIONS=--openssl-legacy-provider && vue-cli-service build --modern",
+        "localBuild": "vue-cli-service build --modern",
+        "lint": "vue-cli-service lint",
+        "build-report": "vue-cli-service build --report"
     },
     "dependencies": {
         "@simplewebauthn/browser": "^5.2.1",

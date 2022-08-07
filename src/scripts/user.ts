@@ -42,9 +42,13 @@ export async function requestLoginMail(mail: string): Promise<ReturnCode> {
  * @return {IUser} return user data
  */
 export async function getUserData(loginKey?: string): Promise<IUser | undefined> {
-    if (loginKey != undefined) {
-        return (await axios.post("/api/user/login", { loginKey: loginKey })).data as IUser
-    } else return (await axios.get("/api/user", { withCredentials: true })).data as IUser
+    try {
+        if (loginKey != undefined) {
+            return (await axios.post("/api/user/login", { loginKey: loginKey })).data as IUser
+        } else return (await axios.get("/api/user", { withCredentials: true })).data as IUser
+    } catch (e: any) {
+        return undefined
+    }
 }
 
 /**

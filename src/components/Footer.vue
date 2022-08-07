@@ -30,6 +30,7 @@
                 alt="Buy Me A Coffee"
                 height="41"
                 width="174"
+                loading="lazy"
         /></a>
         <br />
         <p>Frontend-Version {{ frontendVersion }}</p>

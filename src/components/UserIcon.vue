@@ -9,7 +9,7 @@
     >
         <router-link to="/login">
             <div v-show="loggedIn" id="userIcoImg">
-                <img src="../assets/userIcon.svg" alt="" />
+                <img src="../assets/userIcon.svg" alt="" loading="lazy" />
             </div>
             <div v-show="!loggedIn" id="loginText">{{ language?.uiElements.login.loginLink }}</div>
         </router-link>

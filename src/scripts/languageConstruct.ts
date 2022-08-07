@@ -12,6 +12,7 @@ export interface languageData {
             privacyPolicy: string
             siteNotice: string
         }
+        home: string
         login: {
             loggedInAs: (username: string) => string
             notLoggedIn: string
