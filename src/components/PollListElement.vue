@@ -3,9 +3,15 @@
         <div class="pollListElementContainer">
             <div>
                 {{ poll.name }}<br />
-                <small
-                    ><small>{{ poll.pollID }}</small></small
-                >
+                <small>
+                    <small>
+                        {{ poll.pollID }}
+                    </small>
+                </small>
+                <br />
+                <small v-show="!poll.editable" class="delete" style="padding: 0.5ch">
+                    {{ poll.editable ? "" : language?.uiElements.polls.details.editingDisabled }}
+                </small>
             </div>
             <div>
                 <div style="display: inline; margin: 1ch; top: -1ch; position: relative">{{ poll.userCount }}</div>

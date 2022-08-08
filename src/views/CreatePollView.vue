@@ -1,6 +1,10 @@
 <template>
     <h2>{{ language?.uiElements.polls.create.createPoll(pollName) }}</h2>
 
+    <div>
+        * <small>{{ language?.uiElements.polls.create.notEditableAfterCreation }}</small>
+    </div>
+
     <label for="pollNameInput">{{ language?.uiElements.polls.create.pollNameInputLabel }}</label>
     <input type="text" v-model="pollName" id="pollNameInput" />
     <label v-show="clicked && pollName == ''" class="errorInfo">{{
@@ -15,7 +19,8 @@
     }}</label
     ><br />
 
-    <label for="typeSelect">{{ language?.uiElements.polls.create.typeSelect.label }}</label>
+    <label for="typeSelect"> {{ language?.uiElements.polls.create.typeSelect.label }}* </label>
+
     <select v-model="type" id="typeSelect">
         <option value="0">{{ language?.uiElements.polls.create.typeSelect.stringOption }}</option>
         <option value="1">{{ language?.uiElements.polls.create.typeSelect.dateOption }}</option>
@@ -23,6 +28,7 @@
             {{ language?.uiElements.polls.create.typeSelect.dateTimeOption }}
         </option>
     </select>
+
     <br />
 
     <label for="pollMaxVote">{{ language?.uiElements.polls.create.maxVoteLabel }}</label>
@@ -31,43 +37,49 @@
     <label for="allowsMaybe">{{ language?.uiElements.polls.create.allowsMaybeLabel }}</label>
     <input type="checkbox" v-model="allowsMaybe" id="allowsMaybe" /><br />
 
-    <label>{{ language?.uiElements.polls.create.optionList }}</label>
-    <br />
-    <button @click="addOption">{{ language?.uiElements.polls.create.optionListAddOption }}</button><br />
+    <div style="margin-top: 5ch">
+        <label>{{ language?.uiElements.polls.create.optionList }}</label>
+        <br />
+        <button @click="addOption">{{ language?.uiElements.polls.create.optionListAddOption }}</button><br />
 
-    <div>
-        <div v-for="option in options" :key="option.id" class="optionElement">
-            <label>{{ language?.uiElements.polls.create.optionName(option.id ?? 0) }}</label>
-            <button @click="removeOption(option.id ?? 0)">-</button>
-            <!-- String poll options -->
-            <div v-show="type == 0">
-                <label :for="option.id + 'value'">{{ language?.uiElements.polls.create.optionValue }}</label>
-                <input v-model="option.value" :id="option.id + 'value'" type="text" />
-                <label v-show="clicked && option.value == ''" class="errorInfo">{{
-                    language?.uiElements.polls.create.emptyField
-                }}</label>
-            </div>
-            <!-- Date options -->
-            <div v-show="type == 1">
-                <label :for="option.id + 'dateStart'">{{ language?.uiElements.polls.create.optionValue }}</label>
-                <input v-model="option.dateStart" :id="option.id + 'dateStart'" type="date" />
-                <label v-show="clicked && option.dateStart == undefined" class="errorInfo">{{
-                    language?.uiElements.polls.create.emptyField
-                }}</label>
-                <label :for="option.id + 'dateEnd'">{{ language?.uiElements.polls.create.optionOptEndValue }}</label>
-                <input v-model="option.dateEnd" :id="option.id + 'dateEnd'" type="date" />
-            </div>
-            <!-- Date time options -->
-            <div v-show="type == 2">
-                <label :for="option.id + 'dateTimeStart'">{{ language?.uiElements.polls.create.optionValue }}</label>
-                <input v-model="option.dateTimeStart" :id="option.id + 'dateTimeStart'" type="datetime-local" />
-                <label v-show="clicked && option.dateTimeStart == undefined" class="errorInfo">{{
-                    language?.uiElements.polls.create.emptyField
-                }}</label>
-                <label :for="option.id + 'dateTimeEnd'">{{
-                    language?.uiElements.polls.create.optionOptEndValue
-                }}</label>
-                <input v-model="option.dateTimeEnd" :id="option.id + 'dateTimeEnd'" type="datetime-local" />
+        <div>
+            <div v-for="option in options" :key="option.id" class="optionElement">
+                <label>{{ language?.uiElements.polls.create.optionName(option.id ?? 0) }}</label>
+                <button @click="removeOption(option.id ?? 0)">-</button>
+                <!-- String poll options -->
+                <div v-show="type == 0">
+                    <label :for="option.id + 'value'">{{ language?.uiElements.polls.create.optionValue }}</label>
+                    <input v-model="option.value" :id="option.id + 'value'" type="text" />
+                    <label v-show="clicked && option.value == ''" class="errorInfo">{{
+                        language?.uiElements.polls.create.emptyField
+                    }}</label>
+                </div>
+                <!-- Date options -->
+                <div v-show="type == 1">
+                    <label :for="option.id + 'dateStart'">{{ language?.uiElements.polls.create.optionValue }}</label>
+                    <input v-model="option.dateStart" :id="option.id + 'dateStart'" type="date" />
+                    <label v-show="clicked && option.dateStart == undefined" class="errorInfo">{{
+                        language?.uiElements.polls.create.emptyField
+                    }}</label>
+                    <label :for="option.id + 'dateEnd'">{{
+                        language?.uiElements.polls.create.optionOptEndValue
+                    }}</label>
+                    <input v-model="option.dateEnd" :id="option.id + 'dateEnd'" type="date" />
+                </div>
+                <!-- Date time options -->
+                <div v-show="type == 2">
+                    <label :for="option.id + 'dateTimeStart'">{{
+                        language?.uiElements.polls.create.optionValue
+                    }}</label>
+                    <input v-model="option.dateTimeStart" :id="option.id + 'dateTimeStart'" type="datetime-local" />
+                    <label v-show="clicked && option.dateTimeStart == undefined" class="errorInfo">{{
+                        language?.uiElements.polls.create.emptyField
+                    }}</label>
+                    <label :for="option.id + 'dateTimeEnd'">{{
+                        language?.uiElements.polls.create.optionOptEndValue
+                    }}</label>
+                    <input v-model="option.dateTimeEnd" :id="option.id + 'dateTimeEnd'" type="datetime-local" />
+                </div>
             </div>
         </div>
     </div>

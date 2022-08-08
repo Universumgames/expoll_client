@@ -50,7 +50,7 @@
         localeLanguage!: languageData
         failedLoading = false
 
-        frontendVersion = "2.3.0"
+        frontendVersion = "2.4.0"
         backendVersion = "unknown"
 
         async created() {
@@ -78,12 +78,10 @@
             this.manageDarkMode()
 
             // this.userData = await getUserData("d3303768-c3d1-4ada-97cb-e433c9c45d25")
-            try {
-                this.userData = await startUserGet
-                // console.log(this.userData)
-            } catch {
-                this.failedLoading = true
-            }
+            this.userData = await startUserGet
+            // console.log(this.userData)
+            if (this.userData == undefined) this.failedLoading = true
+
             this.$forceUpdate()
             // this.forceLogin()
         }
@@ -276,5 +274,13 @@
 
     .delete {
         background-color: var(--alert-color);
+    }
+
+    pre {
+        white-space: pre-wrap; /* Since CSS 2.1 */
+        white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+        white-space: -pre-wrap; /* Opera 4-6 */
+        white-space: -o-pre-wrap; /* Opera 7 */
+        word-wrap: break-word; /* Internet Explorer 5.5+ */
     }
 </style>

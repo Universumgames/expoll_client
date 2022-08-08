@@ -19,11 +19,15 @@
                 :style="mailInvalid ? 'color:red' : 'color:green'"
             />
             <button @click="request">{{ language?.uiElements.login.form.requestBtn }}</button>
-            <button @click="useQuickSignIn = true" v-show="supportsWebauthn">
+            <button @click="useQuickSignIn = true" v-show="supportsWebauthn" style="font-size: smaller">
                 {{ language?.uiElements.login.form.quickLoginBtn }}
             </button>
+            <small>{{ language?.uiElements.login.form.quickLoginNote }}</small>
             <br />
-            <button @click="showAdvancedLogin = !showAdvancedLogin">
+            <button
+                @click="showAdvancedLogin = !showAdvancedLogin"
+                style="background-color: #00000000; font-size: small"
+            >
                 {{ language?.uiElements.login.form.advancedLogin }}
             </button>
             <div v-show="showAdvancedLogin">
@@ -123,7 +127,10 @@
                 autocomplete="username webauthn"
             />
             <button @click="webauthLogin">{{ language?.uiElements.login.form.loginBtn }}</button>
-            <button @click="useQuickSignIn = false">{{ language?.uiElements.login.form.leaveQuickLoginBtn }}</button>
+            <small>{{ language?.uiElements.login.form.quickLoginNote }}</small>
+            <button @click="useQuickSignIn = false" class="delete">
+                {{ language?.uiElements.login.form.leaveQuickLoginBtn }}
+            </button>
         </div>
     </div>
     <div v-if="errorMsg != ''" class="errorInfo">{{ errorMsg }}</div>

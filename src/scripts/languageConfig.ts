@@ -36,9 +36,9 @@ To participate in any poll you first have to sign up. To get to the signup page 
                 form: {
                     loggingIn: "Logging in... this may take a few seconds",
                     login: "Login",
-                    advancedLogin: "Advanced Login",
+                    advancedLogin: "Login with loginkey",
                     requestMail: "Request login mail",
-                    requestBtn: "Request",
+                    requestBtn: "Request login mail",
                     mail: "Mail address",
                     loginKey: "loginKey",
                     loginBtn: "Login",
@@ -52,9 +52,11 @@ To participate in any poll you first have to sign up. To get to the signup page 
                     lastNameNeeded: "Your last name must be specified",
                     usernameNeeded: "A valid username is needed",
                     signupBtn: "Signup",
-                    quickLoginTitle: "Quick Login",
-                    quickLoginBtn: "Quicklogin",
-                    leaveQuickLoginBtn: "Normal Login",
+                    quickLoginTitle: "Quick Login with security key",
+                    quickLoginBtn: "Login with security key",
+                    quickLoginNote:
+                        "Only usable when setup with a security key or biometric authentication on this device",
+                    leaveQuickLoginBtn: "Back to Nonmal Login",
                     or: "or",
                     invalidMail: "Invalid mail address"
                 },
@@ -103,7 +105,9 @@ To participate in any poll you first have to sign up. To get to the signup page 
                     optionOptEndValue: "Optional end value",
                     createBtn: "Create poll",
                     maxCountExceeded: "You have already created too much polls",
-                    emptyField: "This field shouldn't be empty"
+                    emptyField: "This field shouldn't be empty",
+                    editableAfterCreation: "You can edit this option after creation",
+                    notEditableAfterCreation: "You can't edit this option after saving"
                 },
                 list: {
                     lastUpdate: (timeString: string) => "Last update on " + timeString
@@ -198,9 +202,9 @@ Um an einer Umfrage teilnehmen zu können musst du dich zunächst anmelden. Hier
                 form: {
                     loggingIn: "Anmelden... dies kann einen Moment dauern",
                     login: "Anmelden",
-                    advancedLogin: "Erweiterter Login",
+                    advancedLogin: "Login mit loginkey",
                     requestMail: "Anmeldelink per Email anfragen",
-                    requestBtn: "Anfragen",
+                    requestBtn: "Login-Mail Anfragen",
                     mail: "E-Mail Adresse",
                     loginKey: "Anmeldeschlüssel (loginKey)",
                     loginBtn: "Anmelden",
@@ -217,8 +221,10 @@ Um an einer Umfrage teilnehmen zu können musst du dich zunächst anmelden. Hier
                     usernameNeeded: "Du musst einen Benutzernamen angeben",
                     signupBtn: "Registrieren",
                     quickLoginTitle: "Schnell Anmeldung",
-                    quickLoginBtn: "Schnell Anmeldung",
-                    leaveQuickLoginBtn: "Normale Anmeldung",
+                    quickLoginBtn: "Anmeldung mit Security key",
+                    quickLoginNote:
+                        "Nur verwendbar wenn Anmeldung mit Security Key oder biometrischer Authentifizierung aufgesetzt ist",
+                    leaveQuickLoginBtn: "Zurück zur normalen Anmeldung",
                     or: "oder",
                     invalidMail: "Ungültige Mail Adresse"
                 },
@@ -268,7 +274,9 @@ Um an einer Umfrage teilnehmen zu können musst du dich zunächst anmelden. Hier
                     optionOptEndValue: "Optionales Ende",
                     createBtn: "Erstellen",
                     maxCountExceeded: "Du hast bereits zu viele Umfragen erstellt",
-                    emptyField: "Dieses Feld darf nicht leer sein"
+                    emptyField: "Dieses Feld darf nicht leer sein",
+                    editableAfterCreation: "Die Option kann nach dem Erstellen noch bearbeitet werden",
+                    notEditableAfterCreation: "Die Option kann nach dem Erstellen nicht mehr bearbeitet werden"
                 },
                 list: {
                     lastUpdate: (timeString: string) => "Zuletzt aktualisiert am " + timeString

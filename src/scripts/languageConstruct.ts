@@ -39,6 +39,7 @@ export interface languageData {
                 signupBtn: string
                 quickLoginTitle: string
                 quickLoginBtn: string
+                quickLoginNote: string
                 leaveQuickLoginBtn: string
                 or: string
                 invalidMail: string
@@ -85,6 +86,8 @@ export interface languageData {
                 createBtn: string
                 maxCountExceeded: string
                 emptyField: string
+                editableAfterCreation: string
+                notEditableAfterCreation: string
             }
             list: {
                 lastUpdate: (timeString: string) => string
