@@ -72,3 +72,49 @@ export async function deleteUser() {
         console.error(error)
     }
 }
+
+/**
+ * get all data the system has over current user
+ * @return {any} presonalized data
+ */
+export async function getPersonalizedData(): Promise<any | undefined> {
+    try {
+        return (await axios.get("/api/user/personalizeddata", { withCredentials: true })).data
+    } catch (e) {
+        console.warn(e)
+        return undefined
+    }
+}
+
+/**
+ * Logout all session from current user (deletes all sessions in database)
+ */
+export async function logoutAllSessions() {
+    try {
+        await fetch("/api/user/logoutAll", {
+            method: "POST",
+            credentials: "include"
+        })
+    } catch (e) {
+        console.warn(e)
+    }
+}
+
+/**
+ * logout/delete specific session
+ * @param {string} shortKey the first 4 characters of the session that should be deleted
+ */
+export async function deleteSession(shortKey: string) {
+    try {
+        await fetch("/api/user/session", {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ shortKey: shortKey }),
+            credentials: "include"
+        })
+    } catch (e) {
+        console.warn(e)
+    }
+}

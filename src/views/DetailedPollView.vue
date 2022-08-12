@@ -244,10 +244,9 @@
 </template>
 
 <script lang="ts">
-    import axios from "axios"
     import { Options, Vue } from "vue-class-component"
     import { ComplexOption, DetailedPoll, SimpleUser, SimpleUserVotes } from "expoll-lib/extraInterfaces"
-    import { IUser, PollType, tOptionId, tUserID } from "expoll-lib/interfaces"
+    import { IUser, PollType, ReturnCode, tOptionId, tUserID } from "expoll-lib/interfaces"
     import { languageData } from "../scripts/languageConstruct"
     import SaveIcon from "../assetComponents/SaveIcon.vue"
     import EditIcon from "../assetComponents/EditIcon.vue"
@@ -257,8 +256,8 @@
     import SwitchIcon from "../assetComponents/SwitchIcon.vue"
     import { EditPollRequest } from "expoll-lib/requestInterfaces"
     import LoginSignupView from "../components/LoginSignupView.vue"
-    import BlankDetailedPollView from "../components/BlankDetailedPollView.vue"
-    import { replacer } from "../scripts/helper"
+    import BlankDetailedPollView from "../components/Blanks/BlankDetailedPollView.vue"
+    import { joinPoll, pushPollChanges, deletePoll, getDetailedPoll } from "@/scripts/poll"
 
     /*
          votes: { user: User; votes: { optionID: tOptionId; votedFor: boolean }
@@ -316,14 +315,8 @@
         }
 
         async getPollData() {
-            const poll = (
-                await axios.get("/api/poll", {
-                    params: {
-                        pollID: this.pollID
-                    },
-                    withCredentials: true
-                })
-            ).data as DetailedPoll
+            const poll = await getDetailedPoll(this.pollID)
+            if (poll == undefined) return
 
             if (poll.type == PollType.Date) {
                 poll.options = poll.options.sort((a, b) => {
@@ -383,7 +376,7 @@
         }
 
         async joinPoll() {
-            await axios.put("/api/poll", { inviteLink: this.pollID }, { withCredentials: true })
+            await joinPoll(this.pollID)
             // @ts-ignore
             window.location = "/#/polls/" + this.pollID
         }
@@ -453,15 +446,8 @@
         async pushChanges() {
             try {
                 if (!this.mayEdit() && !this.mayEditAllowEditing()) return
-                const ax = await axios.put("/api/poll", JSON.stringify(this.changes, replacer), {
-                    withCredentials: true,
-                    headers: {
-                        "Content-Type": "application/json;charset=utf-8"
-                    }
-                })
-                if (ax.status == 200) this.changes = { pollID: this.pollID }
-                else console.warn(ax)
-
+                const ret = await pushPollChanges(this.pollID, this.changes)
+                if (ret == ReturnCode.OK) this.changes = { pollID: this.pollID }
                 await this.setup()
             } catch (e) {
                 console.warn(e)
@@ -504,7 +490,7 @@
             const confirm2 = confirm(this.language?.uiElements.polls.details.deletePollConfirmConfirm)
             if (!confirm2) return
 
-            await axios.put("/api/poll", { pollID: this.poll?.pollID, delete: true } as EditPollRequest)
+            await deletePoll(this.pollID)
             // @ts-ignore
             window.location = "/"
         }

@@ -25,10 +25,10 @@
     import { IUser } from "expoll-lib/interfaces"
     import { languageData } from "../../scripts/languageConstruct"
     import UserRow from "./UserRow.vue"
-    import axios from "axios"
     import LoadingScreen from "../../components/LoadingScreen.vue"
     import RegexTest from "./RegexTest.vue"
     import { MailRegexEntry } from "expoll-lib/extraInterfaces"
+    import { updateRegeAdmin, getRegexAdmin } from "@/scripts/regex"
 
     @Options({
         props: {
@@ -58,11 +58,7 @@
         }
 
         async getData() {
-            const data = (await axios.get("/api/admin/mailregex", { withCredentials: true })).data as {
-                regex: MailRegexEntry[]
-            }
-
-            this.regex = data.regex
+            this.regex = await getRegexAdmin()
 
             this.$forceUpdate()
             this.loading = false
@@ -84,25 +80,13 @@
         }
 
         async removeRegex(reg: string) {
-            await axios.post(
-                "/api/admin/mailregex",
-                {
-                    mailRegex: this.regex.filter((r) => r.regex != reg)
-                },
-                { withCredentials: true }
-            )
+            await updateRegeAdmin(this.regex.filter((r) => r.regex != reg))
 
             await this.getData()
         }
 
         async update() {
-            await axios.post(
-                "/api/admin/mailregex",
-                {
-                    mailRegex: this.regex
-                },
-                { withCredentials: true }
-            )
+            await updateRegeAdmin(this.regex)
             await this.getData()
         }
 

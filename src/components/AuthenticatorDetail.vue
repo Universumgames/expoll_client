@@ -18,7 +18,7 @@
 </template>
 
 <script lang="ts">
-    import axios from "axios"
+    import { rename, deleteWebauthn } from "@/scripts/webauthn"
     import { IUser } from "expoll-lib/interfaces"
     import { Options, Vue } from "vue-class-component"
     import EditIcon from "../assetComponents/EditIcon.vue"
@@ -55,23 +55,13 @@
         async rename() {
             const newName = prompt("New name for this authenticator (leave empty for cancel)", "")
             if (!newName || newName == "") return
-            await axios.post(
-                "/api/webauthn/edit",
-                { credentialID: this.authenticator.credentialID, newName: newName },
-                { withCredentials: true }
-            )
+            await rename(this.authenticator.credentialID, newName)
             this.$emit("update")
         }
 
         async deleteAuth() {
             if (!confirm(`Do you really want to delete the authenticator "${this.name}"?`)) return
-            await fetch("/api/webauthn/", {
-                method: "DELETE",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({ credentialID: this.authenticator.credentialID })
-            })
+            deleteWebauthn(this.authenticator.credentialID)
             this.$emit("update")
         }
     }

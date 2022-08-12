@@ -12,11 +12,10 @@
     import { Options, Vue } from "vue-class-component"
     import { IUser } from "expoll-lib/interfaces"
     import { languageData } from "../../scripts/languageConstruct"
-    import axios from "axios"
     import LoadingScreen from "../../components/LoadingScreen.vue"
     import PollListElement from "../../components/PollListElement.vue"
-    import { AdminPollListResponse } from "expoll-lib/requestInterfaces"
     import { SimplePoll } from "expoll-lib/extraInterfaces"
+    import { getAllPolls } from "@/scripts/admin"
 
     @Options({
         props: {
@@ -37,7 +36,8 @@
         loading = true
 
         async mounted() {
-            const data = (await axios.get("/api/admin/polls", { withCredentials: true })).data as AdminPollListResponse
+            const data = await getAllPolls()
+            if (data == undefined) return
             this.polls = data.polls
             this.count = data.totalCount
 

@@ -48,8 +48,8 @@
     import { IUser, ReturnCode, tOptionId, VoteValue } from "expoll-lib/interfaces"
     import { languageData } from "../scripts/languageConstruct"
     import { vote } from "../scripts/vote"
-    import { EditPollRequest, VoteRequest } from "expoll-lib/requestInterfaces"
-    import axios from "axios"
+    import { VoteRequest } from "expoll-lib/requestInterfaces"
+    import { leavePoll, removeUserFromPoll, editUserNote } from "@/scripts/poll"
 
     @Options({
         props: {
@@ -143,16 +143,14 @@
                 }
                 // leave poll
                 if (this.loggedUserIsSelectedUser()) {
-                    const data: EditPollRequest = { pollID: this.pollData.pollID, leave: true }
-                    await axios.put("/api/poll", data, { withCredentials: true })
+                    await leavePoll(this.pollData.pollID)
                     // @ts-ignore
                     window.location = "/#/poll"
                 } else {
                     // remove user from poll
                     if (!this.isEditable()) return
                     if (this.userVote.user == undefined) return
-                    const data: EditPollRequest = { pollID: this.pollData.pollID, userRemove: [this.userVote.user?.id] }
-                    await axios.put("/api/poll", data, { withCredentials: true })
+                    await removeUserFromPoll(this.pollData.pollID, this.userVote.user?.id)
                     this.$emit("kickedID", this.userVote.user.id)
                 }
             } catch (e) {
@@ -204,17 +202,8 @@
             if (!this.pollData?.allowsEditing) this.editingDisabledNote()
             if (this.isEditable()) {
                 const note = prompt("Note for user", this.note)
-                if (this.pollData == undefined || this.userVote?.user == undefined) return
-                await axios.put(
-                    "/api/poll",
-                    {
-                        pollID: this.pollData.pollID,
-                        notes: [{ userID: this.userVote?.user.id, note: note }]
-                    } as EditPollRequest,
-                    {
-                        withCredentials: true
-                    }
-                )
+                if (this.pollData == undefined || this.userVote?.user == undefined || note == undefined) return
+                await editUserNote(this.pollData.pollID, this.userVote.user.id, note)
                 this.$emit("noteChange")
             }
         }

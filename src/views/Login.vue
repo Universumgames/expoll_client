@@ -90,8 +90,7 @@
     import * as user from "../scripts/user"
     import LoadingScreen from "../components/LoadingScreen.vue"
     import LoginSignupView from "../components/LoginSignupView.vue"
-    import axios from "axios"
-    import { register } from "../scripts/webauthn"
+    import { register, getWebauthnList } from "../scripts/webauthn"
     import { browserSupportsWebauthn } from "@simplewebauthn/browser"
     import AuthenticatorDetail from "../components/AuthenticatorDetail.vue"
 
@@ -125,7 +124,7 @@
         }
 
         async getPersonalizedData() {
-            this.personalizedJSON = (await axios.get("/api/user/personalizeddata", { withCredentials: true })).data
+            this.personalizedJSON = await user.getPersonalizedData()
             this.personalizedData = JSON.stringify(this.personalizedJSON, null, 2)
         }
 
@@ -183,33 +182,21 @@
         }
 
         async getAuthenticators(): Promise<any[]> {
-            return (await axios.get("/api/webauthn/list", { withCredentials: true })).data.authenticators.sort(
-                (a: any, b: any) => {
-                    return a.created < b.created ? 1 : -1
-                }
-            )
+            return (await getWebauthnList()).sort((a: any, b: any) => {
+                return a.created < b.created ? 1 : -1
+            })
         }
 
         async deleteSession(session: any) {
             if (confirm(this.language?.uiElements.login.loggedIn.deleteSessionPrompt)) {
-                await fetch("/api/user/session", {
-                    method: "DELETE",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({ shortKey: session }),
-                    credentials: "include"
-                })
+                await user.deleteSession(session)
                 await this.getPersonalizedData()
             }
         }
 
         async logoutEverywhere() {
             if (confirm(this.language?.uiElements.login.loggedIn.logoutAllPrompt)) {
-                await fetch("/api/user/logoutAll", {
-                    method: "POST",
-                    credentials: "include"
-                })
+                await user.logoutAllSessions()
                 location.reload()
             }
         }

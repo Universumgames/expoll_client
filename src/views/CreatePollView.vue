@@ -89,13 +89,12 @@
 </template>
 
 <script lang="ts">
-    import axios from "axios"
     import { Options, Vue } from "vue-class-component"
     import { IUser, PollType, ReturnCode } from "expoll-lib/interfaces"
     import { languageData } from "../scripts/languageConstruct"
     import { ComplexOption, empty } from "expoll-lib/extraInterfaces"
     import { CreatePollRequest } from "expoll-lib/requestInterfaces"
-    import { replacer } from "../scripts/helper"
+    import { createPoll } from "@/scripts/poll"
 
     @Options({
         components: {},
@@ -151,21 +150,13 @@
                 allowsMaybe: this.allowsMaybe,
                 allowsEditing: true
             }
-            try {
-                const retData = await axios.post("/api/poll", JSON.stringify(data, replacer), {
-                    headers: {
-                        "Content-Type": "application/json;charset=utf-8"
-                    }
-                })
-                if (retData.status == 200) {
-                    // @ts-ignore
-                    window.location = "/#/polls"
-                }
-            } catch (e: any) {
-                if (e.response.status == ReturnCode.TOO_MANY_POLLS) {
-                    this.errorMsg = this.language?.uiElements.polls.create.maxCountExceeded ?? ""
-                }
-                console.warn(e)
+            const retDat = await createPoll(data)
+
+            if (retDat == 200) {
+                // @ts-ignore
+                window.location = "/#/polls"
+            } else if (retDat == ReturnCode.TOO_MANY_POLLS) {
+                this.errorMsg = this.language?.uiElements.polls.create.maxCountExceeded ?? ""
             }
         }
     }

@@ -18,7 +18,7 @@
     import { Options, Vue } from "vue-class-component"
     import PollListElement from "../components/PollListElement.vue" // @ is an alias to /src
     import LoadingScreen from "../components/LoadingScreen.vue"
-    import BlankPollListElement from "../components/BlankPollListElement.vue"
+    import BlankPollListElement from "../components/Blanks/BlankPollListElement.vue"
 
     import { IUser } from "expoll-lib/interfaces"
     import { languageData } from "../scripts/languageConstruct"

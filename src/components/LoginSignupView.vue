@@ -146,9 +146,9 @@
     import Popup from "../components/Popup.vue"
     import { browserSupportsWebauthn } from "@simplewebauthn/browser"
     import { login } from "../scripts/webauthn"
-    import axios from "axios"
     import { mailIsAllowed } from "@/scripts/helper"
     import { MailRegexEntry } from "expoll-lib/extraInterfaces"
+    import { getLoginRegex } from "../scripts/regex"
 
     declare global {
         // eslint-disable-next-line no-unused-vars
@@ -213,7 +213,7 @@
                 }
             }
 
-            this.mailRegex = await (await axios.get("/api/simple/mailregex")).data.regex
+            this.mailRegex = await getLoginRegex()
         }
 
         mailUpdate() {

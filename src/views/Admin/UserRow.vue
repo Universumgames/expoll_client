@@ -55,9 +55,8 @@
     import { Options, Vue } from "vue-class-component"
     import { UserInfo } from "expoll-lib/adminInterfaces"
     import { languageData } from "../../scripts/languageConstruct"
-    import axios from "axios"
     import EditIcon from "../../assetComponents/EditIcon.vue"
-    import { AdminEditUserRequest } from "expoll-lib/requestInterfaces"
+    import { editUserAdmin, deleteUserAdmin } from "@/scripts/admin"
 
     @Options({
         props: {
@@ -85,10 +84,7 @@
                         "Do you really want to delete the user " + this.userInfo?.username + "? This cannot be undone"
                     )
                 ) {
-                    await axios.delete("/api/admin/user", {
-                        data: { userID: this.userInfo?.id },
-                        withCredentials: true
-                    })
+                    await deleteUserAdmin(this.userInfo!.id)
                     this.$emit("update")
                 }
             }
@@ -105,10 +101,10 @@
                         "?"
                 )
             ) {
-                await axios.put("/api/admin/users", {
-                    userID: this.userInfo?.id,
+                await editUserAdmin({
+                    userID: this.userInfo!.id,
                     admin: newState
-                } as AdminEditUserRequest)
+                })
                 this.$emit("update")
             }
         }
@@ -116,10 +112,10 @@
         async editEmail() {
             const newMail = prompt(`Provide new email for user ${this.userInfo?.username}`, this.userInfo?.mail)
             if (!newMail) return
-            await axios.put("/api/admin/users", {
-                userID: this.userInfo?.id,
+            await editUserAdmin({
+                userID: this.userInfo!.id,
                 mail: newMail
-            } as AdminEditUserRequest)
+            })
             this.$emit("update")
         }
 
@@ -129,18 +125,18 @@
                 this.userInfo?.firstName
             )
             if (!firstName) return
-            await axios.put("/api/admin/users", {
-                userID: this.userInfo?.id,
+            await editUserAdmin({
+                userID: this.userInfo!.id,
                 firstName: firstName
-            } as AdminEditUserRequest)
+            })
             this.$emit("update")
 
             const lastName = prompt(`Provide new lastname for user ${this.userInfo?.username}`, this.userInfo?.lastName)
             if (!lastName) return
-            await axios.put("/api/admin/users", {
-                userID: this.userInfo?.id,
+            await editUserAdmin({
+                userID: this.userInfo!.id,
                 lastName: lastName
-            } as AdminEditUserRequest)
+            })
             this.$emit("update")
         }
     }

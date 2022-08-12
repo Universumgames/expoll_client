@@ -1,4 +1,5 @@
 import { startAuthentication, startRegistration } from "@simplewebauthn/browser"
+import axios from "axios"
 
 /**
  * Register this device for webauthn
@@ -98,5 +99,46 @@ export async function login(userReq: {
     } else {
         returnData.error = `Oh no, something went wrong! Response: ${JSON.stringify(verificationJSON)}`
         return returnData
+    }
+}
+
+/**
+ * rename a webauthn token
+ * @param {string} credentialID the credential to rename
+ * @param {string} newName the new name for the credential
+ * @return {Promise} returns axios request
+ */
+export async function rename(credentialID: string, newName: string) {
+    return await axios.post(
+        "/api/webauthn/edit",
+        { credentialID: credentialID, newName: newName },
+        { withCredentials: true }
+    )
+}
+
+/**
+ * delete a webauthn token
+ * @param {string} credentialID the credential to delete
+ */
+export async function deleteWebauthn(credentialID: string) {
+    await fetch("/api/webauthn/", {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ credentialID: credentialID })
+    })
+}
+
+/**
+ * get list of webauthn authenticators
+ * @return {any[]} get list of webauthn authenticators
+ */
+export async function getWebauthnList(): Promise<any[]> {
+    try {
+        return (await axios.get("/api/webauthn/list", { withCredentials: true })).data.authenticators
+    } catch (e) {
+        console.warn(e)
+        return []
     }
 }

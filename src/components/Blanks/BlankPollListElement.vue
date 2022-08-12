@@ -24,7 +24,7 @@
 
 <script lang="ts">
     import { Options, Vue } from "vue-class-component"
-    import { languageData } from "../scripts/languageConstruct"
+    import { languageData } from "../../scripts/languageConstruct"
 
     @Options({
         components: {},

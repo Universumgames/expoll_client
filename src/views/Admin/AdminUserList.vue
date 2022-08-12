@@ -21,10 +21,9 @@
     import { UserInfo } from "expoll-lib/adminInterfaces"
     import { languageData } from "../../scripts/languageConstruct"
     import UserRow from "./UserRow.vue"
-    import axios from "axios"
     import LoadingScreen from "../../components/LoadingScreen.vue"
-    import { AdminUserListResponse } from "expoll-lib/requestInterfaces"
     import { getUserData } from "../../scripts/user"
+    import { getAllUser } from "../../scripts/admin"
 
     @Options({
         props: {
@@ -51,7 +50,8 @@
         }
 
         async getData() {
-            const data = (await axios.get("/api/admin/users", { withCredentials: true })).data as AdminUserListResponse
+            const data = await getAllUser()
+            if (data === undefined) return
             this.users = data.users
             this.count = data.totalCount
 
