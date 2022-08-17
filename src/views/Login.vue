@@ -55,7 +55,7 @@
                     <button @click="logoutEverywhere" class="delete">Logout everywhere</button>
 
                     <div
-                        v-for="session in personalizedJSON.sessions"
+                        v-for="session in personalizedJSON?.sessions ?? []"
                         :key="session.expiration"
                         class="session"
                         :style="session.active ? 'color:orange;' : ''"
@@ -90,7 +90,7 @@
     import * as user from "../scripts/user"
     import LoadingScreen from "../components/LoadingScreen.vue"
     import LoginSignupView from "../components/LoginSignupView.vue"
-    import { register, getWebauthnList } from "../scripts/webauthn"
+    import { register, getWebauthnList, logoutAllSessions, deleteSession, logout } from "../scripts/authentication"
     import { browserSupportsWebauthn } from "@simplewebauthn/browser"
     import AuthenticatorDetail from "../components/AuthenticatorDetail.vue"
 
@@ -125,7 +125,9 @@
 
         async getPersonalizedData() {
             this.personalizedJSON = await user.getPersonalizedData()
-            this.personalizedData = JSON.stringify(this.personalizedJSON, null, 2)
+            if (this.personalizedJSON != undefined) {
+                this.personalizedData = JSON.stringify(this.personalizedJSON, null, 2)
+            }
         }
 
         async updateAuthenticators() {
@@ -138,7 +140,7 @@
         }
 
         async logout() {
-            await user.logout()
+            await logout()
             location.reload()
         }
 
@@ -189,14 +191,15 @@
 
         async deleteSession(session: any) {
             if (confirm(this.language?.uiElements.login.loggedIn.deleteSessionPrompt)) {
-                await user.deleteSession(session)
+                await deleteSession(session)
                 await this.getPersonalizedData()
+                await this.updateAuthenticators()
             }
         }
 
         async logoutEverywhere() {
             if (confirm(this.language?.uiElements.login.loggedIn.logoutAllPrompt)) {
-                await user.logoutAllSessions()
+                await logoutAllSessions()
                 location.reload()
             }
         }

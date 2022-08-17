@@ -1,11 +1,14 @@
 import { startAuthentication, startRegistration } from "@simplewebauthn/browser"
 import axios from "axios"
+import { ReturnCode } from "expoll-lib/interfaces"
+
+const base = "/api/auth"
 
 /**
  * Register this device for webauthn
  */
 export async function register(): Promise<{ success: boolean; error?: string }> {
-    const resp = await fetch("/api/webauthn/register")
+    const resp = await fetch(base + "/webauthn/register")
 
     let error = ""
     let success = true
@@ -28,7 +31,7 @@ export async function register(): Promise<{ success: boolean; error?: string }> 
 
     // POST the response to the endpoint that calls
     // @simplewebauthn/server -> verifyRegistrationResponse()
-    const verificationResp = await fetch("/api/webauthn/register", {
+    const verificationResp = await fetch(base + "/webauthn/register", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -59,7 +62,8 @@ export async function login(userReq: {
     mail?: string
 }): Promise<{ success: boolean; error?: string }> {
     const resp = await fetch(
-        "/api/webauthn/authenticate" +
+        base +
+            "/webauthn/authenticate" +
             `?${userReq.username != undefined ? "username=" + userReq.username : "mail=" + userReq.mail}`
     )
 
@@ -79,7 +83,8 @@ export async function login(userReq: {
     // POST the response to the endpoint that calls
     // @simplewebauthn/server -> verifyAuthenticationResponse()
     const verificationResp = await fetch(
-        "/api/webauthn/authenticate" +
+        base +
+            "/webauthn/authenticate" +
             `?${userReq.username != undefined ? "username=" + userReq.username : "mail=" + userReq.mail}`,
         {
             method: "POST",
@@ -110,7 +115,7 @@ export async function login(userReq: {
  */
 export async function rename(credentialID: string, newName: string) {
     return await axios.post(
-        "/api/webauthn/edit",
+        base + "/webauthn/edit",
         { credentialID: credentialID, newName: newName },
         { withCredentials: true }
     )
@@ -121,7 +126,7 @@ export async function rename(credentialID: string, newName: string) {
  * @param {string} credentialID the credential to delete
  */
 export async function deleteWebauthn(credentialID: string) {
-    await fetch("/api/webauthn/", {
+    await fetch(base + "/webauthn/", {
         method: "DELETE",
         headers: {
             "Content-Type": "application/json"
@@ -136,9 +141,69 @@ export async function deleteWebauthn(credentialID: string) {
  */
 export async function getWebauthnList(): Promise<any[]> {
     try {
-        return (await axios.get("/api/webauthn/list", { withCredentials: true })).data.authenticators
+        return (await axios.get(base + "/webauthn/list", { withCredentials: true })).data.authenticators
     } catch (e) {
         console.warn(e)
         return []
+    }
+}
+
+/**
+ * Logout all session from current user (deletes all sessions in database)
+ */
+export async function logoutAllSessions() {
+    try {
+        await fetch(base + "/logoutAll", {
+            method: "DELETE",
+            credentials: "include"
+        })
+    } catch (e) {
+        console.warn(e)
+    }
+}
+
+/**
+ * logout/delete specific session
+ * @param {string} shortKey the first 4 characters of the session that should be deleted
+ */
+export async function deleteSession(shortKey: string) {
+    try {
+        await fetch(base + "/logout", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ shortKey: shortKey }),
+            credentials: "include"
+        })
+    } catch (e) {
+        console.warn(e)
+    }
+}
+
+/**
+ * Logout if logged in
+ */
+export async function logout() {
+    try {
+        await axios.post(base + "/logout", { withCredentials: true })
+    } catch (error) {
+        console.error(error)
+    }
+}
+
+/**
+ * Requesting a loginmail being send to the users mail address
+ * @param {string} mail the registered user's mail address
+ * @return {ReturnCode} returns OK if user exists and mail has been sent, appropriate code otherwise
+ */
+export async function requestLoginMail(mail: string): Promise<ReturnCode> {
+    try {
+        await axios.post(base + "/simple", {
+            mail: mail.toLowerCase().replace(" ", "")
+        })
+        return ReturnCode.OK
+    } catch (e: any) {
+        return e.response.status
     }
 }

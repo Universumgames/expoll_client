@@ -2,13 +2,15 @@ import axios from "axios"
 import { tUserID } from "expoll-lib/interfaces"
 import { AdminEditUserRequest, AdminPollListResponse, AdminUserListResponse } from "expoll-lib/requestInterfaces"
 
+const base = "/api/admin"
+
 /**
  * get all users as admin
  * @return {Promise<AdminUserListResponse> | undefined} list of all users
  */
 export async function getAllUser(): Promise<AdminUserListResponse | undefined> {
     try {
-        return (await axios.get("/api/admin/users", { withCredentials: true })).data
+        return (await axios.get(base + "/users", { withCredentials: true })).data
     } catch (e) {
         console.warn(e)
         return undefined
@@ -21,7 +23,7 @@ export async function getAllUser(): Promise<AdminUserListResponse | undefined> {
  */
 export async function getAllPolls(): Promise<AdminPollListResponse | undefined> {
     try {
-        return (await axios.get("/api/admin/polls", { withCredentials: true })).data
+        return (await axios.get(base + "/polls", { withCredentials: true })).data
     } catch (e) {
         console.warn(e)
         return undefined
@@ -34,7 +36,7 @@ export async function getAllPolls(): Promise<AdminPollListResponse | undefined> 
  */
 export async function editUserAdmin(data: AdminEditUserRequest) {
     try {
-        await axios.put("/api/admin/users", data)
+        await axios.put(base + "/users", data)
     } catch (e) {
         console.warn(e)
     }
@@ -46,7 +48,7 @@ export async function editUserAdmin(data: AdminEditUserRequest) {
  */
 export async function deleteUserAdmin(userID: tUserID) {
     try {
-        await axios.delete("/api/admin/user", {
+        await axios.delete(base + "/user", {
             data: { userID: userID },
             withCredentials: true
         })

@@ -50,7 +50,7 @@
         localeLanguage!: languageData
         failedLoading = false
 
-        frontendVersion = "2.4.0"
+        frontendVersion = "2.5.3"
         backendVersion = "unknown"
 
         async created() {
@@ -206,7 +206,7 @@
 
     .lightVars {
         --text-color: #2c3e50;
-        --bg-color: whitesmoke;
+        --bg-color: #f5f5f5;
         --secondary-color: #dddddd;
         --primary-color: #42b983;
         --blank-text-color: var(--bg-color);

@@ -1,0 +1,15 @@
+{
+    "applinks": {
+        "apps": [],
+        "details": [
+            {
+                "appIDs": [
+                    "98ZXK38P8L.de.universegame.expoll-ios"
+                ],
+                "paths": [
+                    "*"
+                ]
+            }
+        ]
+    }
+}

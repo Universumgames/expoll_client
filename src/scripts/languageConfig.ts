@@ -68,7 +68,7 @@ To participate in any poll you first have to sign up. To get to the signup page 
                         "An email has been sent to your mail address with an login link, " +
                         "receiving may take some minutes",
                     mailNotExist: "Mail address is not registered, please use a valid one or create a new user",
-                    userExists: "Username is already taken"
+                    userExists: "Username or mail is already taken"
                 },
                 loggedIn: {
                     personalizedDBContent: "See what data of you is in our database",

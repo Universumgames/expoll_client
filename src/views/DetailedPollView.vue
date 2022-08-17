@@ -497,8 +497,7 @@
 
         share() {
             // get protocol, hostname and port from window.location
-            const url =
-                window.location.href.substring(0, window.location.href.indexOf("#")) + "share?pollID=" + this.pollID
+            const url = this.poll?.shareURL ?? ""
             if (navigator.share) {
                 navigator
                     .share({

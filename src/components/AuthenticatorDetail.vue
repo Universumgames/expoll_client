@@ -18,7 +18,7 @@
 </template>
 
 <script lang="ts">
-    import { rename, deleteWebauthn } from "@/scripts/webauthn"
+    import { rename, deleteWebauthn } from "@/scripts/authentication"
     import { IUser } from "expoll-lib/interfaces"
     import { Options, Vue } from "vue-class-component"
     import EditIcon from "../assetComponents/EditIcon.vue"

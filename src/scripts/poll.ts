@@ -3,13 +3,15 @@ import { ReturnCode, tPollID, tUserID } from "expoll-lib/interfaces"
 import { CreatePollRequest, DetailedPollResponse, EditPollRequest, PollOverview } from "expoll-lib/requestInterfaces"
 import { replacer } from "./helper"
 
+const base = "/api/poll"
+
 /**
  * Get all polls the user has joined or created
  * @return {PollOverview} an overview over all of the user's polls
  */
 export async function getPollOverviews(): Promise<PollOverview | undefined> {
     try {
-        return (await axios.get("/api/poll")).data as PollOverview
+        return (await axios.get(base)).data as PollOverview
     } catch {
         return undefined
     }
@@ -22,7 +24,7 @@ export async function getPollOverviews(): Promise<PollOverview | undefined> {
  */
 export async function getDetailedPoll(pollID: tPollID): Promise<DetailedPollResponse | undefined> {
     try {
-        return (await axios.get("/api/poll", { params: { pollID: pollID }, withCredentials: true })).data
+        return (await axios.get(base, { params: { pollID: pollID }, withCredentials: true })).data
     } catch (e) {
         console.warn(e)
 
@@ -37,7 +39,7 @@ export async function getDetailedPoll(pollID: tPollID): Promise<DetailedPollResp
 export async function leavePoll(pollID: tPollID) {
     try {
         const data: EditPollRequest = { pollID: pollID, leave: true }
-        await axios.put("/api/poll", data, { withCredentials: true })
+        await axios.put(base, data, { withCredentials: true })
     } catch (e) {
         console.warn(e)
     }
@@ -51,7 +53,7 @@ export async function leavePoll(pollID: tPollID) {
 export async function removeUserFromPoll(pollID: tPollID, userID: tUserID) {
     try {
         const data: EditPollRequest = { pollID: pollID, userRemove: [userID] }
-        await axios.put("/api/poll", data, { withCredentials: true })
+        await axios.put(base, data, { withCredentials: true })
     } catch (e) {
         console.warn(e)
     }
@@ -69,7 +71,7 @@ export async function editUserNote(pollID: tPollID, userID: tUserID, note: strin
             pollID: pollID,
             notes: [{ userID: userID, note: note }]
         }
-        await axios.put("/api/poll", data, {
+        await axios.put(base, data, {
             withCredentials: true
         })
     } catch (e) {
@@ -83,7 +85,7 @@ export async function editUserNote(pollID: tPollID, userID: tUserID, note: strin
  */
 export async function joinPoll(pollID: tPollID) {
     try {
-        await axios.put("/api/poll", { inviteLink: pollID }, { withCredentials: true })
+        await axios.put(base, { inviteLink: pollID }, { withCredentials: true })
     } catch (e) {
         console.warn(e)
     }
@@ -98,7 +100,7 @@ export async function joinPoll(pollID: tPollID) {
 export async function pushPollChanges(pollID: tPollID, changes: EditPollRequest): Promise<ReturnCode> {
     try {
         changes.pollID = pollID
-        const ax = await axios.put("/api/poll", JSON.stringify(changes, replacer), {
+        const ax = await axios.put(base, JSON.stringify(changes, replacer), {
             withCredentials: true,
             headers: {
                 "Content-Type": "application/json;charset=utf-8"
@@ -118,7 +120,7 @@ export async function pushPollChanges(pollID: tPollID, changes: EditPollRequest)
 export async function deletePoll(pollID: tPollID) {
     try {
         const data: EditPollRequest = { pollID: pollID, delete: true }
-        await axios.put("/api/poll", data)
+        await axios.put(base, data)
     } catch (e) {
         console.warn(e)
     }
@@ -131,7 +133,7 @@ export async function deletePoll(pollID: tPollID) {
  */
 export async function createPoll(data: CreatePollRequest): Promise<ReturnCode> {
     try {
-        const retData = await axios.post("/api/poll", JSON.stringify(data, replacer), {
+        const retData = await axios.post(base, JSON.stringify(data, replacer), {
             headers: {
                 "Content-Type": "application/json;charset=utf-8"
             }
