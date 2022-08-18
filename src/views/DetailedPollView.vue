@@ -346,6 +346,7 @@
                 await this.checkAndJoinPoll()
 
                 if (this.poll != undefined) this.changes = { pollID: this.poll.pollID }
+                if (this.poll == undefined) this.loadingFailed = true
 
                 this.$forceUpdate()
 

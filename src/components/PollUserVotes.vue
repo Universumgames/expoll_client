@@ -145,7 +145,7 @@
                 if (this.loggedUserIsSelectedUser()) {
                     await leavePoll(this.pollData.pollID)
                     // @ts-ignore
-                    window.location = "/#/poll"
+                    window.location = "/#/polls"
                 } else {
                     // remove user from poll
                     if (!this.isEditable()) return
