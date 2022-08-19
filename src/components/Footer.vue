@@ -48,8 +48,8 @@
         props: {
             userData: Object,
             language: Object,
-            frontendVersion: Object,
-            backendVersion: Object
+            frontendVersion: String,
+            backendVersion: String
         },
         components: {
             LanguageSelect

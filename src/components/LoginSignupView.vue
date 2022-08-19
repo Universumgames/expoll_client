@@ -224,8 +224,12 @@
 
         displayError(error?: string) {
             this.errorMsg = error ?? ""
-            this.popupTitle = "Error"
-            this.popupText = this.errorMsg
+            this.displayPopup(error, "Error")
+        }
+
+        displayPopup(text?: string, title?: string) {
+            this.popupTitle = title ?? "Info"
+            this.popupText = text ?? ""
             this.showPopup = true
         }
 
@@ -245,15 +249,21 @@
 
         async request() {
             this.requestClicked = true
-            if (this.loginMail == "") return
+            if (this.loginMail == "") {
+                this.displayError(this.language?.uiElements.login.form.validMailNeeded)
+                return
+            }
             this.loginClicked = false
 
             try {
+                this.resetError()
+
                 const rc = await requestLoginMail(this.loginMail)
                 if (rc != ReturnCode.OK) throw new Error()
-                this.loginMsg = this.language?.uiElements.login.messages.mailSent ?? ""
+
+                this.displayPopup(this.language?.uiElements.login.messages.mailSent)
                 this.loggingIn = false
-                this.resetError()
+                this.loginMsg = this.language?.uiElements.login.messages.mailSent ?? ""
             } catch (error) {
                 this.loginMsg = ""
                 this.displayError(this.language?.uiElements.login.messages.mailNotExist)
@@ -341,7 +351,7 @@
                 return
             }
             let data: { username?: string; mail?: string } = { mail: undefined, username: undefined }
-            if (this.loginMail != "") data = { mail: this.loginMail }
+            if (this.loginMail != "" && mailIsAllowed(this.loginMail, this.mailRegex)) data = { mail: this.loginMail }
             else if (this.signupUsername != "") data = { username: this.signupUsername }
 
             const { success, error } = await login(data)
