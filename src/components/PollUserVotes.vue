@@ -112,10 +112,11 @@
                 const rc = await vote(change)
                 if (rc != ReturnCode.OK) {
                     this.errorMsg = this.language?.uiElements.polls.details.errorMsgs.tooMuchVotes ?? ""
-                }
-                this.$forceUpdate()
+                } else {
+                    this.$forceUpdate()
 
-                this.$emit("voteChange")
+                    this.$emit("voteChange")
+                }
             }
         }
 

@@ -1,4 +1,4 @@
-import { languageList } from "./languageConfig"
+import { languageList } from "./languages/languageConfig"
 
 export interface languageData {
     id: number
@@ -13,6 +13,10 @@ export interface languageData {
             siteNotice: string
         }
         home: string
+        appInstall: {
+            title: string
+            belowImage: string
+        }
         login: {
             loggedInAs: (username: string) => string
             notLoggedIn: string
@@ -163,4 +167,4 @@ function getBrowserPresetLang(): string {
     return navigator.language
 }
 
-export * from "./languageConfig"
+export * from "./languages/languageConfig"

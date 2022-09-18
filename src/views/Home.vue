@@ -5,7 +5,6 @@
 </template>
 
 <script lang="ts">
-    import axios from "axios"
     import { Options, Vue } from "vue-class-component"
     import VueMarkdown from "vue-markdown-render"
     import { languageData } from "../scripts/languageConstruct"

@@ -1,5 +1,10 @@
 # Expoll - Umfragen einfach gemacht
 
+## Jetzt als iOS App (beta)
+
+![Logo](./mac64.png)
+Download and install the iOS App via TestFlight: [Get App](/#/app)
+
 ## Warum expoll
 
 Expoll ist eine super simple Abstimmungsplattform ähnlich wie bekannte Umfrageplatformen. Wir versuchen hier beide Lösungen zu einer kleinen, einfach verwendbaren Webseite zu kombinieren. Anders als andere Plattformen, wo Umfragen nach realtiv kurzer Inaktivität gelöscht werden oder man zum Zeitpunkt der Umfrage angemeldet und online sein muss, versuchen wir jede Umfrage so lange wie möglich am laufen zu lassen.

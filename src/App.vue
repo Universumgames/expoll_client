@@ -11,6 +11,7 @@
                 <router-link to="/">{{ localeLanguage?.uiElements.navigation.home }}</router-link>
                 <!-- <router-link to="/about">About</router-link> -->
                 <router-link to="/admin" v-if="userData?.admin">Admin</router-link>
+                <router-link to="/app">iOS App</router-link>
             </div>
         </header>
 
@@ -21,8 +22,7 @@
             :language="localeLanguage"
             :backendVersion="backendVersion"
             :frontendVersion="frontendVersion"
-            :userData="userData"
-        />
+            :userData="userData" />
     </div>
 </template>
 

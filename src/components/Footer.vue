@@ -4,6 +4,10 @@
             <languageSelect @langChange="onLangChange" :language="language" />
         </div>
         <label>Created by universumgames</label><br />
+        <router-link to="/app"
+            >iOS App <br />
+            <img src="/mac64.png" /></router-link
+        ><br />
         <a href="https://universegame.de">Website</a>
         <a href="https://github.com/universumgames">Github</a>
         <a
