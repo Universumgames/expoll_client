@@ -17,11 +17,10 @@ $title = getPollTitle($pollID);
 // set meta tags
 echo '<meta name="og:title" content="' . $title . '">';
 echo '<meta name="og:type" content="website">';
-echo '<meta name="og:image" content="' . "https://" . $_SERVER["HTTP_HOST"] . '/expoll-32.png">';
+echo '<meta name="og:image" content="' . "https://" . $_SERVER["HTTP_HOST"] . '/mac32.png">';
 echo '<meta name="og:url" content="' . "https://" . $_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"] .'">';
 echo "<title>$title</title>";
 
 $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]";
 
 echo "<script>window.location.href = '" . $actual_link . "/#/polls/" . $pollID . "?join=1';</script>";
-?>
