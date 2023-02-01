@@ -1,5 +1,9 @@
 <template>
     <div>
+        <div v-show="isImpersonating">
+            You are currently impersonating {{ impersonatingMail }}
+            <button @click="unimpersonate" class="delete">Stop impersonation</button>
+        </div>
         <header>
             <user-icon :userData="userData" :language="localeLanguage" />
             <div id="nav">
@@ -31,7 +35,7 @@
     import UserIcon from "./components/UserIcon.vue"
     import LanguageSelect from "./components/LanguageSelect.vue"
     import { isDarkMode } from "./scripts/helper"
-    import { IUser } from "expoll-lib/interfaces"
+    import { IUser, ReturnCode } from "expoll-lib/interfaces"
     import { getUserData } from "./scripts/user"
     import getSystemLanguage, { getLanguage, languageData } from "./scripts/languageConstruct"
     import axios from "axios"
@@ -49,8 +53,10 @@
         userData?: IUser
         localeLanguage!: languageData
         failedLoading = false
+        isImpersonating = false
+        impersonatingMail = ""
 
-        frontendVersion = "2.5.8.1"
+        frontendVersion = "2.5.9"
         backendVersion = "unknown"
 
         async created() {
@@ -81,6 +87,8 @@
             this.userData = await startUserGet
             // console.log(this.userData)
             if (this.userData == undefined) this.failedLoading = true
+
+            await this.loadImpersonation()
 
             this.$forceUpdate()
             // this.forceLogin()
@@ -130,6 +138,22 @@
                 }
             }
             return undefined
+        }
+
+        async unimpersonate() {
+            await axios.post("/api/admin/unimpersonate")
+            window.location.reload()
+        }
+
+        async loadImpersonation() {
+            try {
+                const impersonationResult = await axios.get("/api/admin/isImpersonating")
+                this.isImpersonating = impersonationResult.status == ReturnCode.OK
+                this.impersonatingMail = impersonationResult.data.mail ?? ""
+                console.log(impersonationResult.data)
+            } catch (e) {
+                console.log(e)
+            }
         }
     }
 </script>

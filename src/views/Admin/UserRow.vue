@@ -47,6 +47,7 @@
             >
                 Delete User and Votes
             </button>
+            <button @click="impersonate" v-show="!userInfo!.superAdmin && admin!.id != userInfo?.id">Impersonate</button>
         </div>
     </div>
 </template>
@@ -57,6 +58,7 @@
     import { languageData } from "../../scripts/languageConstruct"
     import EditIcon from "../../assetComponents/EditIcon.vue"
     import { editUserAdmin, deleteUserAdmin } from "@/scripts/admin"
+    import axios from "axios"
 
     @Options({
         props: {
@@ -138,6 +140,12 @@
                 lastName: lastName
             })
             this.$emit("update")
+        }
+
+        async impersonate() {
+            if (!confirm("Are you sure you want to impersonate this user?")) return
+            await axios.post("/api/admin/impersonate", {impersonateID: this.userInfo?.id})
+            window.location.reload()
         }
     }
 </script>
