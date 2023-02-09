@@ -31,7 +31,7 @@ export async function getUserData(loginKey?: string): Promise<IUser | undefined>
     try {
         if (loginKey != undefined) {
             // TODO missing transformation to new path
-            return (await axios.post("/api/auth/simple", { loginKey: loginKey })).data as IUser
+            return (await axios.post("/api/auth/simple", { loginKey: loginKey.replace(" ", "") })).data as IUser
         } else return (await axios.get(base, { withCredentials: true })).data as IUser
     } catch (e: any) {
         return undefined

@@ -21,7 +21,7 @@
                         {{ language?.uiElements.login.loggedIn.addAuth }}
                     </button>
 
-                    <div v-show="authenticators != []">
+                    <div v-show="authenticators.length > 0">
                         <authenticator-detail
                             v-for="auth in authenticators"
                             :key="auth.credentialID"
@@ -32,7 +32,7 @@
                         />
                     </div>
                     <div
-                        v-show="authenticators == [] || authenticators == undefined"
+                        v-show="authenticators == undefined || authenticators.length == 0"
                         style="
                             display: flex;
                             flex-wrap: wrap;
@@ -175,7 +175,7 @@
         }
 
         async addAuth() {
-            if (this.authenticators == [] && !this.language) {
+            if (this.authenticators.length == 0 && !this.language) {
                 alert(this.language!.uiElements.login.loggedIn.authDisclaimer)
             }
             const { success, error } = await register()

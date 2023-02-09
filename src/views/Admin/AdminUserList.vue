@@ -95,6 +95,7 @@
                     user.firstName.toLowerCase().includes(this.search.toLowerCase()) ||
                     user.lastName.toLowerCase().includes(this.search.toLowerCase()) ||
                     user.id.toLowerCase().includes(this.search.toLowerCase()) ||
+                    user.username.toLowerCase().includes(this.search.toLowerCase()) ||
                     (user.superAdmin ? "superadmin" : "").includes(this.search.toLowerCase()) ||
                     (user.admin ? "admin" : "").includes(this.search.toLowerCase())
             })
