@@ -194,8 +194,7 @@
                 case VoteValue.yes:
                     return this.language?.uiElements.polls.votes.yes
                 case VoteValue.maybe:
-                    if (this.pollData?.allowsMaybe) return this.language?.uiElements.polls.votes.maybe
-                    else return this.language?.uiElements.polls.votes.no
+                    return this.language?.uiElements.polls.votes.maybe
             }
         }
 

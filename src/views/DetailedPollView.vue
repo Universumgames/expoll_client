@@ -246,7 +246,7 @@
 <script lang="ts">
     import { Options, Vue } from "vue-class-component"
     import { ComplexOption, DetailedPoll, SimpleUser, SimpleUserVotes } from "expoll-lib/extraInterfaces"
-    import { IUser, PollType, ReturnCode, tOptionId, tUserID } from "expoll-lib/interfaces"
+    import { IUser, PollType, ReturnCode, tOptionId, tUserID, VoteValue } from "expoll-lib/interfaces"
     import { languageData } from "../scripts/languageConstruct"
     import SaveIcon from "../assetComponents/SaveIcon.vue"
     import EditIcon from "../assetComponents/EditIcon.vue"
@@ -517,14 +517,16 @@
             window.prompt("Copy to clipboard: Ctrl+C, Enter", text)
         }
 
-        getVotedForCount(optionID: tOptionId): number {
+        getVotedForCount(optionID: tOptionId): string {
             let count = 0
+            let maybeCount = 0
             for (const userVotes of this.poll?.userVotes ?? []) {
                 const vote = userVotes.votes.find((vote) => vote.optionID == optionID) ?? { votedFor: undefined }
 
-                if (vote.votedFor != undefined && vote.votedFor) count++
+                if (vote.votedFor != undefined && vote.votedFor == VoteValue.yes) count++
+                if (vote.votedFor != undefined && vote.votedFor == VoteValue.maybe) maybeCount++
             }
-            return count
+            return "" + count + (maybeCount > 0 ? " (+" + maybeCount + ")" : "")
         }
 
         userKicked(userID: tUserID) {
