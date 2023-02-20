@@ -108,7 +108,7 @@ Tritt der Beta via TestFlight bei und installiere die App: [https://testflight.a
             create: {
                 createPoll: (name: string) => 'Erstellen der Umfrage "' + name + '"',
                 pollNameInputLabel: "Umfragenname",
-                description: "Beschreibung (maximal 255 Zeichen)",
+                description: "Beschreibung (maximal 65535 Zeichen)",
                 maxVoteLabel: "Maximale Anzahl an Stimmen pro Benutzer (-1 für unendlich)",
                 allowsMaybeLabel: '"Vielleicht" als Auswahl erlaubt',
                 allowsEditingLabel: "Umfrage bearbeitbar",

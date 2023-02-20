@@ -13,7 +13,7 @@
     <br />
 
     <label for="pollDescriptionInput">{{ language?.uiElements.polls.create.description }}</label>
-    <textarea type="text" v-model="description" id="pollDescriptionInput" maxlength="255" rows="7" cols="50" /><br />
+    <textarea type="text" v-model="description" id="pollDescriptionInput" maxlength="65535" rows="7" cols="50" /><br />
     <label v-show="clicked && description == ''" class="errorInfo">{{
         language?.uiElements.polls.create.emptyField
     }}</label

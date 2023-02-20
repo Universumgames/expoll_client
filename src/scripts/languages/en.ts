@@ -103,7 +103,7 @@ Join the Beta via TestFlight and install the app: [https://testflight.apple.com/
             create: {
                 createPoll: (name: string) => 'Creating poll "' + name + '"',
                 pollNameInputLabel: "Poll name",
-                description: "Description (255 characters max)",
+                description: "Description (65535 characters max)",
                 maxVoteLabel: "Max number of votes per user (-1 for infinity)",
                 allowsMaybeLabel: '"Maybe" as Vote allowed',
                 allowsEditingLabel: "Allow editing votes and options",
