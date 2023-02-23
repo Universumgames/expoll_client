@@ -299,6 +299,10 @@
 
         displayUsernameInsteadOfFull = false
 
+        isEditing() {
+            return this.addOption || this.changes.name != undefined || this.changes.description != undefined
+        }
+
         async mounted() {
             await this.setup()
 
@@ -342,6 +346,7 @@
 
         async setup() {
             try {
+                if (this.isEditing()) return
                 await this.getPollData()
                 await this.checkAndJoinPoll()
 

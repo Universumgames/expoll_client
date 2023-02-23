@@ -56,7 +56,7 @@
         isImpersonating = false
         impersonatingMail = ""
 
-        frontendVersion = "2.5.16"
+        frontendVersion = "2.5.17"
         backendVersion = "unknown"
 
         async created() {
