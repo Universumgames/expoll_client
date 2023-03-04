@@ -300,7 +300,7 @@
         displayUsernameInsteadOfFull = false
 
         isEditing() {
-            return this.addOption || this.changes.name != undefined || this.changes.description != undefined
+            return (this.addOption || this.changes.name != undefined || this.changes.description != undefined) && this.poll != undefined
         }
 
         async mounted() {

@@ -19,6 +19,11 @@
             </div>
         </header>
 
+        <div id="versionUnmatch" v-show="!clientIsCompatible">
+                <strong>Warning:</strong> Your client is not compatible with the current backend version. Please update your
+                client.
+        </div>
+
         <router-view :userData="userData" :language="localeLanguage" :failedLoading="failedLoading" />
 
         <footer-vue
@@ -58,6 +63,7 @@
 
         frontendVersion = "2.5.17"
         backendVersion = "unknown"
+        clientIsCompatible = true
 
         async created() {
             const cookieLang = this.getCookie("lang")
@@ -76,7 +82,12 @@
                 }
             })
 
-            this.backendVersion = (await axios.get("/api/serverInfo")).data.version
+            try {
+                this.backendVersion = (await axios.get("/api/serverInfo")).data.version
+                this.clientIsCompatible = (await axios.get("/api/compliance?version=" + this.frontendVersion)).data >= 0
+            } catch (e) {
+                console.error(e)
+            }
         }
 
         async mounted() {
@@ -150,9 +161,7 @@
                 const impersonationResult = await axios.get("/api/admin/isImpersonating")
                 this.isImpersonating = impersonationResult.status == ReturnCode.OK
                 this.impersonatingMail = impersonationResult.data.mail ?? ""
-                console.log(impersonationResult.data)
             } catch (e) {
-                console.log(e)
             }
         }
     }
@@ -306,5 +315,13 @@
         white-space: -pre-wrap; /* Opera 4-6 */
         white-space: -o-pre-wrap; /* Opera 7 */
         word-wrap: break-word; /* Internet Explorer 5.5+ */
+    }
+
+    #versionUnmatch{
+        background-color: var(--alert-color);
+        padding: 1ch;
+        position: sticky;
+        top: 0;
+        z-index: 101;
     }
 </style>
