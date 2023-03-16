@@ -13,11 +13,16 @@ module.exports = {
                 pathRewrite: {
                     "^/api": ""
                 }
+            },
+            "^/swagger": {
+                target: "http://localhost:6060",
+                changeOrigin: true,
+                ws: true,
+                disableHostCheck: true
             }
         },
         disableHostCheck: true,
         // https: true,
         port: 8080
-    },
-    indexPath: "index.php"
+    }
 }

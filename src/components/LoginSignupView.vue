@@ -144,7 +144,7 @@
     import LoadingScreen from "../components/LoadingScreen.vue"
     import { ReCaptchaInstance } from "../scripts/recaptcha"
     import Popup from "../components/Popup.vue"
-    import { browserSupportsWebauthn } from "@simplewebauthn/browser"
+    import * as webauthnJson from "@github/webauthn-json"
     import { login, requestLoginMail } from "../scripts/authentication"
     import { mailIsAllowed } from "@/scripts/helper"
     import { MailRegexEntry } from "expoll-lib/extraInterfaces"
@@ -342,7 +342,7 @@
         }
 
         get supportsWebauthn(): boolean {
-            return browserSupportsWebauthn()
+            return webauthnJson.supported()
         }
 
         async webauthLogin() {

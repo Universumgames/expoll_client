@@ -1,4 +1,4 @@
-import { startAuthentication, startRegistration } from "@simplewebauthn/browser"
+import * as webauthnJson from "@github/webauthn-json"
 import axios from "axios"
 import { ReturnCode } from "expoll-lib/interfaces"
 
@@ -13,30 +13,15 @@ export async function register(): Promise<{ success: boolean; error?: string }> 
     let error = ""
     let success = true
 
-    let attResp
-    try {
-        // Pass the options to the authenticator and wait for a response
-        attResp = await startRegistration(await resp.json())
-    } catch (errorC: any) {
-        // Some basic error handling
-        if (errorC.name === "InvalidStateError") {
-            error = "Error: Authenticator was probably already registered by user"
-        } else {
-            error = errorC
-        }
-
-        success = false
-        return { success, error }
-    }
+    const publicKeyCredential = await webauthnJson.create(await resp.json())
 
     // POST the response to the endpoint that calls
-    // @simplewebauthn/server -> verifyRegistrationResponse()
     const verificationResp = await fetch(base + "/webauthn/register", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify(attResp)
+        body: JSON.stringify(publicKeyCredential)
     })
 
     // Wait for the results of verification
@@ -69,16 +54,7 @@ export async function login(userReq: {
 
     const returnData: { success: boolean; error?: string } = { success: true, error: undefined }
 
-    let asseResp
-    try {
-        // Pass the options to the authenticator and wait for a response
-        asseResp = await startAuthentication(await resp.json())
-    } catch (error: any) {
-        // Some basic error handling
-        returnData.error = error
-        returnData.success = false
-        return returnData
-    }
+    const publicKeyCredential = await webauthnJson.get(await resp.json());
 
     // POST the response to the endpoint that calls
     // @simplewebauthn/server -> verifyAuthenticationResponse()
@@ -91,7 +67,7 @@ export async function login(userReq: {
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(asseResp)
+            body: JSON.stringify(publicKeyCredential)
         }
     )
 

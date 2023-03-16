@@ -300,7 +300,7 @@
         displayUsernameInsteadOfFull = false
 
         isEditing() {
-            return (this.addOption || this.changes.name != undefined || this.changes.description != undefined) && this.poll != undefined
+            return (this.addingOption || this.changes.name != undefined || this.changes.description != undefined) && this.poll != undefined
         }
 
         async mounted() {
@@ -322,13 +322,14 @@
             const poll = await getDetailedPoll(this.pollID)
             if (poll == undefined) return
 
+
             if (poll.type == PollType.Date) {
                 poll.options = poll.options.sort((a, b) => {
-                    return new Date(a.dateStart!).getTime() - new Date(b.dateStart!).getTime()
+                    return a.dateStart! - b.dateStart!
                 })
             } else if (poll.type == PollType.DateTime) {
                 poll.options = poll.options.sort((a, b) => {
-                    return new Date(a.dateTimeStart!).getTime() - new Date(b.dateTimeStart!).getTime()
+                    return a.dateTimeStart! - b.dateTimeStart!
                 })
             }
             for (const user of poll.userVotes) {
@@ -351,7 +352,7 @@
                 await this.checkAndJoinPoll()
 
                 if (this.poll != undefined) this.changes = { pollID: this.poll.pollID }
-                if (this.poll == undefined) this.loadingFailed = true
+                this.loadingFailed = this.poll == undefined
 
                 this.$forceUpdate()
 
@@ -378,7 +379,7 @@
         }
 
         get isJoined() {
-            return this.userData?.polls.find((poll) => poll.id == this.pollID) != undefined
+            return this.poll == undefined || (this.poll?.userVotes.find((vote) => vote.user.id == this.userData?.id) != undefined && this.poll?.allowsEditing)
         }
 
         async joinPoll() {
@@ -456,7 +457,7 @@
                 if (ret == ReturnCode.OK) this.changes = { pollID: this.pollID }
                 await this.setup()
             } catch (e) {
-                console.warn(e)
+                console.error(e)
             }
         }
 
@@ -466,12 +467,21 @@
             if (this.poll?.type == PollType.DateTime && this.newOption.dateTimeStart == undefined) return
 
             if (this.changes.options == undefined) this.changes.options = []
-            this.changes.options.push(this.newOption)
+            //  format date to unix timestamp
+            if (this.poll?.type == PollType.Date) {
+                this.newOption.dateStart = new Date(this.newOption.dateStart!).getTime()
+                if (this.newOption.dateEnd != undefined) this.newOption.dateEnd = new Date(this.newOption.dateEnd).getTime()
+            }
+            if (this.poll?.type == PollType.DateTime) {
+                this.newOption.dateTimeStart = new Date(this.newOption.dateTimeStart!).getTime()
+                if (this.newOption.dateTimeEnd != undefined) this.newOption.dateTimeEnd = new Date(this.newOption.dateTimeEnd).getTime()
+            }
 
-            this.pushChanges()
+            this.changes.options.push(this.newOption)
 
             this.addingOption = false
             this.newOption = {}
+            this.pushChanges()
         }
 
         async deleteOption(optionID: tOptionId) {

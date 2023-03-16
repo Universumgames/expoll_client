@@ -113,9 +113,8 @@
                 if (rc != ReturnCode.OK) {
                     this.errorMsg = this.language?.uiElements.polls.details.errorMsgs.tooMuchVotes ?? ""
                 } else {
-                    this.$forceUpdate()
-
                     this.$emit("voteChange")
+                    this.$forceUpdate()
                 }
             }
         }

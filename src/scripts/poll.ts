@@ -85,7 +85,7 @@ export async function editUserNote(pollID: tPollID, userID: tUserID, note: strin
  */
 export async function joinPoll(pollID: tPollID) {
     try {
-        await axios.put(base, { inviteLink: pollID }, { withCredentials: true })
+        await axios.post(base + "/join", { pollID: pollID }, { withCredentials: true })
     } catch (e) {
         console.warn(e)
     }

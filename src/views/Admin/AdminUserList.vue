@@ -113,7 +113,7 @@
 
             if (!confirm("Create user?")) return
 
-            const result = await axios.post("/api/admin/createUser", {
+            const result = await axios.post("/api/admin/user", {
                 username,
                 mail,
                 firstName,

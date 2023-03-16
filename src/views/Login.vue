@@ -61,7 +61,7 @@
                         :style="session.active ? 'color:orange;' : ''"
                     >
                         {{ session.active ? "current Session" : "" }}
-                        Expires: {{ session.expiration }} userAgent: {{ session.userAgent ?? "unknown" }}
+                        Expires: {{ language?.uiElements.dateTimeToString(new Date(session.expiration)) }} userAgent: {{ session.userAgent ?? "unknown" }}
                         <button class="delete" v-show="!session.active" @click="deleteSession(session.shortKey)">
                             Delete
                         </button>
@@ -91,7 +91,8 @@
     import LoadingScreen from "../components/LoadingScreen.vue"
     import LoginSignupView from "../components/LoginSignupView.vue"
     import { register, getWebauthnList, logoutAllSessions, deleteSession, logout } from "../scripts/authentication"
-    import { browserSupportsWebauthn } from "@simplewebauthn/browser"
+    import * as webauthnJson from "@github/webauthn-json"
+
     import AuthenticatorDetail from "../components/AuthenticatorDetail.vue"
 
     @Options({
@@ -171,7 +172,7 @@
         }
 
         get supportsWebauthn(): boolean {
-            return browserSupportsWebauthn()
+            return webauthnJson.supported()
         }
 
         async addAuth() {

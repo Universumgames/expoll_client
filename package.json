@@ -10,7 +10,7 @@
         "build-report": "vue-cli-service build --report"
     },
     "dependencies": {
-        "@simplewebauthn/browser": "^5.2.1",
+        "@github/webauthn-json": "^2.1.1",
         "axios": "^0.24.0",
         "core-js": "^3.20.0",
         "eslint-config-google": "^0.14.0",
@@ -23,7 +23,6 @@
         "vuex": "^4.0.2"
     },
     "devDependencies": {
-        "@simplewebauthn/typescript-types": "^5.2.1",
         "@types/axios": "^0.14.0",
         "@types/grecaptcha": "^3.0.3",
         "@types/markdown-it": "^12.2.3",

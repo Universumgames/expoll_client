@@ -61,7 +61,7 @@
         isImpersonating = false
         impersonatingMail = ""
 
-        frontendVersion = "2.5.17"
+        frontendVersion = "2.5.20"
         backendVersion = "unknown"
         clientIsCompatible = true
 
@@ -84,9 +84,15 @@
 
             try {
                 this.backendVersion = (await axios.get("/api/serverInfo")).data.version
-                this.clientIsCompatible = (await axios.get("/api/compliance?version=" + this.frontendVersion)).data >= 0
+                axios.get("/api/compliance?version=" + this.frontendVersion).then((res: any) => {
+                    if (res.data.code == ReturnCode.OK) {
+                        this.clientIsCompatible = res.data.data
+                    }
+                }).catch((e) => {
+                    this.clientIsCompatible = false
+                })
             } catch (e) {
-                console.error(e)
+                this.backendVersion = "unknown"
             }
         }
 
@@ -152,7 +158,7 @@
         }
 
         async unimpersonate() {
-            await axios.post("/api/admin/unimpersonate")
+            await axios.post("/api/admin/unImpersonate")
             window.location.reload()
         }
 
@@ -161,6 +167,7 @@
                 const impersonationResult = await axios.get("/api/admin/isImpersonating")
                 this.isImpersonating = impersonationResult.status == ReturnCode.OK
                 this.impersonatingMail = impersonationResult.data.mail ?? ""
+                this.$forceUpdate()
             } catch (e) {
             }
         }
