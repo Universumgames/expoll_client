@@ -234,6 +234,12 @@
                     @kickedID="userKicked"
                     @noteChange="noteChangeCallback"
                 />
+
+                <tr v-show="mayEdit()">
+                    <td>
+                    <button @click="addUserClick()">{{ language?.uiElements.polls.details.addUserBtn }}</button>
+                    </td>
+                </tr>
             </table>
         </div>
 
@@ -551,6 +557,13 @@
         }
 
         async noteChangeCallback() {
+            await this.setup()
+        }
+
+        async addUserClick() {
+            const userInfo = prompt(this.language?.uiElements.polls.details.addUserBtn, "id, mail, username")
+            if (userInfo == null || userInfo == "") return
+            await pushPollChanges(this.pollID, { pollID: this.pollID, userAdd: [userInfo] })
             await this.setup()
         }
     }

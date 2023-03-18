@@ -163,7 +163,8 @@ Tritt der Beta via TestFlight bei und installiere die App: [https://testflight.a
                 kickFromPollBtn: "Kick",
                 kickConfirm: (username: string) =>
                     "Sicher, dass du " + username + " rauswerfen willst (die Stimmen werden gelöscht)?",
-                editingDisabled: "Das Bearbeiten ist durch den Admin deaktiviert"
+                editingDisabled: "Das Bearbeiten ist durch den Admin deaktiviert",
+                addUserBtn: "Benutzer hinzufügen"
             },
             votes: {
                 yes: "Ja",

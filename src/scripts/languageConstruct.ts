@@ -120,6 +120,7 @@ export interface languageData {
                 kickFromPollBtn: string
                 kickConfirm: (username: string) => string
                 editingDisabled: string
+                addUserBtn: string
             }
             votes: {
                 yes: string

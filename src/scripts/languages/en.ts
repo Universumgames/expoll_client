@@ -147,11 +147,12 @@ Join the Beta via TestFlight and install the app: [https://testflight.apple.com/
                     tooMuchVotes: "Too much options chosen, deselect one first"
                 },
                 leavePollBtn: "Delete own votes and leave",
-                leaveConfirm: "Sure you want to delete your votes and leave this poll (your votes will be deleted)?",
+                leaveConfirm: "Sure you want to leave this poll?",
                 kickFromPollBtn: "Kick",
                 kickConfirm: (username: string) =>
-                    "Sure you want to kick " + username + " from this poll (all votes will be deleted from this user)?",
-                editingDisabled: "Editing is disabled by the admin"
+                    "Sure you want to kick " + username + " from this poll ( votes will remain and stay saved for when the user rejoins)?",
+                editingDisabled: "Editing is disabled by the admin",
+                addUserBtn: "Add user"
             },
             votes: {
                 yes: "Yes",
