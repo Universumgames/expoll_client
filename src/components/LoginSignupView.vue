@@ -358,6 +358,8 @@
             else if (this.signupUsername != "") data = { username: this.signupUsername }
 
             const { success, error } = await login(data)
+            console.log(success, error);
+
             if (!success) console.error(error)
             else window.location.reload()
         }

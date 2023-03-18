@@ -61,7 +61,7 @@
 
         async deleteAuth() {
             if (!confirm(`Do you really want to delete the authenticator "${this.name}"?`)) return
-            deleteWebauthn(this.authenticator.credentialID)
+            await deleteWebauthn(this.authenticator.credentialID)
             this.$emit("update")
         }
     }

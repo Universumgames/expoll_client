@@ -182,6 +182,7 @@
             const { success, error } = await register()
             if (!success) console.error(error)
             await this.updateAuthenticators()
+            this.$forceUpdate()
         }
 
         async getAuthenticators(): Promise<any[]> {

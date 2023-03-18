@@ -74,6 +74,7 @@ export async function login(userReq: {
     // Wait for the results of verification
     const verificationJSON = await verificationResp.json()
 
+
     // Show UI appropriate for the `verified` status
     if (verificationJSON && verificationJSON.verified) {
         return returnData
