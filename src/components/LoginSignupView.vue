@@ -8,31 +8,26 @@
         <!-- logging in -->
         <div class="column">
             <h2>{{ language?.uiElements.login.form.login }}</h2>
-            <label for="mail">{{ language?.uiElements.login.form.mail }}</label>
-            <input
-                id="mail"
-                type="text"
-                placeholder="max.mustermann@gmail.com"
-                v-model="loginMail"
-                autocomplete="mail"
-                @keyup="mailUpdate()"
-                :style="mailInvalid ? 'color:red' : 'color:green'"
-            />
             <div>
-            <button @click="request">{{ language?.uiElements.login.form.requestBtn }}</button>
-            <button style="margin: 1ch" @click="loginQuestionClick()">?</button>
+                <label for="mail">{{ language?.uiElements.login.form.mail }}</label>
+                <input id="mail" type="text" placeholder="max.mustermann@gmail.com" v-model="loginMail" autocomplete="mail"
+                    @keyup="mailUpdate()" :style="mailInvalid ? 'color:red' : 'color:green'" />
+                <div>
+                    <button @click="request">{{ language?.uiElements.login.form.requestBtn }}</button>
+                    <button style="margin: 1ch" @click="loginQuestionClick()">?</button>
+                </div>
             </div>
-            <button @click="useQuickSignIn = true" v-show="supportsWebauthn" style="font-size: smaller">
-                {{ language?.uiElements.login.form.quickLoginBtn }}
-            </button>
-            <small>{{ language?.uiElements.login.form.quickLoginNote }}</small>
-            <br />
-            <button
-                @click="showAdvancedLogin = !showAdvancedLogin"
-                style="background-color: #00000000; font-size: small"
-            >
-                {{ language?.uiElements.login.form.advancedLogin }}
-            </button>
+            <div style="margin-top: 10ch; border-top: 1px white solid;">
+                <button @click="useQuickSignIn = true" v-show="supportsWebauthn" style="font-size: smaller;display: block;">
+                    {{ language?.uiElements.login.form.quickLoginBtn }}
+                </button>
+                <small>{{ language?.uiElements.login.form.quickLoginNote }}</small>
+                <br />
+                <button @click="showAdvancedLogin = !showAdvancedLogin"
+                    style="background-color: #00000000; font-size: small">
+                    {{ language?.uiElements.login.form.advancedLogin }}
+                </button>
+            </div>
             <div v-show="showAdvancedLogin">
                 <label for="key">{{ language?.uiElements.login.form.loginKey }}</label>
                 <input id="key" type="text" placeholder="key" v-model="loginKey" />
@@ -48,15 +43,8 @@
             <h2>{{ language?.uiElements.login.form.signup }}</h2>
             <label for="mail">{{ language?.uiElements.login.form.mail }}</label>
             <small v-if="mailInvalid" class="errorInfo">{{ language?.uiElements.login.form.validMailNeeded }}</small>
-            <input
-                id="mail"
-                type="text"
-                placeholder="max.mustermann@gmail.com"
-                v-model="loginMail"
-                autocomplete="mail"
-                @keyup="mailUpdate()"
-                :style="mailInvalid ? 'color:red' : 'color:green'"
-            /><br />
+            <input id="mail" type="text" placeholder="max.mustermann@gmail.com" v-model="loginMail" autocomplete="mail"
+                @keyup="mailUpdate()" :style="mailInvalid ? 'color:red' : 'color:green'" /><br />
 
             <label for="first">{{ language?.uiElements.login.form.firstName }}</label>
             <small v-if="signupFirstName == '' && clickedSignup" class="errorInfo">{{
@@ -68,30 +56,18 @@
             <small v-if="signupLastName == '' && clickedSignup" class="errorInfo">{{
                 language?.uiElements.login.form.lastNameNeeded
             }}</small>
-            <input
-                id="last"
-                type="text"
-                placeholder="Mustermann"
-                v-model="signupLastName"
-                autocomplete="family-name"
-            /><br />
+            <input id="last" type="text" placeholder="Mustermann" v-model="signupLastName"
+                autocomplete="family-name" /><br />
 
             <label for="user">{{ language?.uiElements.login.form.username }}</label>
             <small v-if="signupUsername == '' && clickedSignup" class="errorInfo">{{
                 language?.uiElements.login.form.usernameNeeded
             }}</small>
-            <input
-                id="user"
-                type="text"
-                placeholder="mustermannekin001"
-                v-model="signupUsername"
-                autocomplete="username"
-            />
+            <input id="user" type="text" placeholder="mustermannekin001" v-model="signupUsername" autocomplete="username" />
             <button @click="signup">{{ language?.uiElements.login.form.signupBtn }}</button>
             <!-- notes -->
             <div style="margin: 1rem">
-                <small
-                    >By creating a user account you agree that we store your personal information you provide us as well
+                <small>By creating a user account you agree that we store your personal information you provide us as well
                     as storing required cookies when logging in on any of your devices. Information like above (Mail,
                     Full Name, etc.), the polls you create and participate in as well as the votes you commit.
                     Information regarding polls (like participation and votes) are stored as long as the polls exist. If
@@ -100,8 +76,7 @@
                     username and votes will be stored going forward to serve this site's purpose.<br />
                     This site is protected by reCAPTCHA and the Google
                     <a href="https://policies.google.com/privacy">Privacy Policy</a> and
-                    <a href="https://policies.google.com/terms">Terms of Service</a> apply.</small
-                >
+                    <a href="https://policies.google.com/terms">Terms of Service</a> apply.</small>
             </div>
         </div>
     </div>
@@ -113,22 +88,11 @@
         <div class="column">
             <h2>{{ language?.uiElements.login.form.login }}</h2>
             <label for="mail">{{ language?.uiElements.login.form.mail }}</label>
-            <input
-                id="mail"
-                type="text"
-                placeholder="max.mustermann@gmail.com"
-                v-model="loginMail"
-                autocomplete="mail"
-            />
+            <input id="mail" type="text" placeholder="max.mustermann@gmail.com" v-model="loginMail" autocomplete="mail" />
             <p>{{ language?.uiElements.login.form.or }}</p>
             <label for="username">{{ language?.uiElements.login.form.username }}</label>
-            <input
-                id="username"
-                type="text"
-                placeholder="maxmustermann001"
-                v-model="signupUsername"
-                autocomplete="username webauthn"
-            />
+            <input id="username" type="text" placeholder="maxmustermann001" v-model="signupUsername"
+                autocomplete="username webauthn" />
             <button @click="webauthLogin">{{ language?.uiElements.login.form.loginBtn }}</button>
             <small>{{ language?.uiElements.login.form.quickLoginNote }}</small>
             <button @click="useQuickSignIn = false" class="delete">
@@ -358,7 +322,7 @@
             else if (this.signupUsername != "") data = { username: this.signupUsername }
 
             const { success, error } = await login(data)
-            console.log(success, error);
+            console.log(success, error)
 
             if (!success) console.error(error)
             else window.location.reload()
@@ -371,31 +335,31 @@
 </script>
 
 <style scoped>
-    .columnContainer {
-        display: flex;
-        max-width: 80vw;
-        flex-wrap: wrap;
-        flex-direction: columns;
-        background: var(--secondary-color);
-        margin: auto;
-        border-radius: 1rem;
-    }
+.columnContainer {
+    display: flex;
+    max-width: 80vw;
+    flex-wrap: wrap;
+    flex-direction: columns;
+    background: var(--secondary-color);
+    margin: auto;
+    border-radius: 1rem;
+}
 
-    .column {
-        display: flex;
-        flex-direction: column;
-        min-width: 30ch;
-        flex: 1;
-        padding: 1rem;
-    }
+.column {
+    display: flex;
+    flex-direction: column;
+    min-width: 30ch;
+    flex: 1;
+    padding: 1rem;
+}
 
-    button {
-        margin: auto;
-        margin-top: 1rem;
-        margin-bottom: 1rem;
-    }
+button {
+    margin: auto;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
 
-    input {
-        background: var(--bg-color);
-    }
+input {
+    background: var(--bg-color);
+}
 </style>

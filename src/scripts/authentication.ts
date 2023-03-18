@@ -147,7 +147,7 @@ export async function logoutAllSessions() {
 export async function deleteSession(shortKey: string) {
     try {
         await fetch(base + "/logout", {
-            method: "POST",
+            method: "DELETE",
             headers: {
                 "Content-Type": "application/json"
             },
@@ -164,7 +164,7 @@ export async function deleteSession(shortKey: string) {
  */
 export async function logout() {
     try {
-        await axios.post(base + "/logout", { withCredentials: true })
+        await axios.delete(base + "/logout", { withCredentials: true })
     } catch (error) {
         console.error(error)
     }
