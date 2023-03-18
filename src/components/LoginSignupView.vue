@@ -18,7 +18,10 @@
                 @keyup="mailUpdate()"
                 :style="mailInvalid ? 'color:red' : 'color:green'"
             />
+            <div>
             <button @click="request">{{ language?.uiElements.login.form.requestBtn }}</button>
+            <button style="margin: 1ch" @click="loginQuestionClick()">?</button>
+            </div>
             <button @click="useQuickSignIn = true" v-show="supportsWebauthn" style="font-size: smaller">
                 {{ language?.uiElements.login.form.quickLoginBtn }}
             </button>
@@ -357,6 +360,10 @@
             const { success, error } = await login(data)
             if (!success) console.error(error)
             else window.location.reload()
+        }
+
+        loginQuestionClick() {
+            alert(this.language?.uiElements.login.form.loginKeyQuestionAlert)
         }
     }
 </script>

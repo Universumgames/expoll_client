@@ -31,6 +31,7 @@ export interface languageData {
                 mail: string
                 loginKey: string
                 loginBtn: string
+                loginKeyQuestionAlert: string
                 loginMailOrKeyMissing: string
                 signup: string
                 firstName: string

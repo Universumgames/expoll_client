@@ -53,12 +53,13 @@ Tritt der Beta via TestFlight bei und installiere die App: [https://testflight.a
             form: {
                 loggingIn: "Anmelden... dies kann einen Moment dauern",
                 login: "Anmelden",
-                advancedLogin: "Login mit loginkey",
+                advancedLogin: "Login mit Einmalpasswort",
                 requestMail: "Anmeldelink per Email anfragen",
-                requestBtn: "Login-Mail Anfragen",
+                requestBtn: "Einmalpasswort Anfragen",
                 mail: "E-Mail Adresse",
                 loginKey: "Anmeldeschlüssel (loginKey)",
                 loginBtn: "Anmelden",
+                loginKeyQuestionAlert: "Du musst deine Mail Adresse oder ein Einmalpasswort angeben. Sollte die E-Mail Adresse bekannt sein, wird dir ein Einmalpasswort zugesendet.",
                 loginMailOrKeyMissing:
                     "Es muss entweder eine Mail Adresse für einen Anmeldelink " +
                     "oder ein Anmeldeschlüssel angegeben werden",
