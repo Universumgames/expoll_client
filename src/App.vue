@@ -61,7 +61,7 @@
         isImpersonating = false
         impersonatingMail = ""
 
-        frontendVersion = "2.5.21"
+        frontendVersion = "2.5.22"
         backendVersion = "unknown"
         clientIsCompatible = true
 

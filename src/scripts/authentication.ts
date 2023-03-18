@@ -102,8 +102,9 @@ export async function rename(credentialID: string, newName: string) {
  * @param {string} credentialID the credential to delete
  */
 export async function deleteWebauthn(credentialID: string) {
-    await fetch(base + "/webauthn/", {
+    await fetch(base + "/webauthn", {
         method: "DELETE",
+        credentials: "include",
         headers: {
             "Content-Type": "application/json"
         },

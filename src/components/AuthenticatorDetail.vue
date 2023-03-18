@@ -10,7 +10,7 @@
                 ><br />
                 <small>Initiator Platform: {{ platform }}</small>
                 <br />
-                <small>Creation: {{ createdAuth }}</small>
+                <small>Creation: {{ new Date(createdAuth) }}</small>
             </div>
             <button @click="deleteAuth" class="delete">Delete</button>
         </div>
