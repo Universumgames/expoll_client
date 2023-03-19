@@ -62,7 +62,7 @@
                     >
                         {{ session.active ? "current Session" : "" }}
                         Expires: {{ language?.uiElements.dateTimeToString(new Date(session.expiration)) }} userAgent: {{ session.userAgent ?? "unknown" }}
-                        <button class="delete" v-show="!session.active" @click="deleteSession(session.shortKey)">
+                        <button class="delete" v-show="!session.active" @click="deleteSession(session.nonce)">
                             Delete
                         </button>
                     </div>

@@ -1,10 +1,10 @@
 <template>
-    <div v-show="paramLoginKeyExist">
+    <div v-show="paramOTPExist">
         <h1 v-if="loggingIn">{{ language?.uiElements.login.form.loggingIn }}</h1>
-        <div>Loginkey: {{ paramLoginKey }}</div>
+        <div>OTP: {{ paramOTP }}</div>
     </div>
     <popup v-if="showPopup" :text="popupText" :title="popupTitle" @close="showPopup = false" />
-    <div v-show="!paramLoginKeyExist && !loggingIn && !useQuickSignIn" class="columnContainer">
+    <div v-show="!paramOTPExist && !loggingIn && !useQuickSignIn" class="columnContainer">
         <!-- logging in -->
         <div class="column">
             <h2>{{ language?.uiElements.login.form.login }}</h2>
@@ -29,12 +29,12 @@
                 </button>
             </div>
             <div v-show="showAdvancedLogin">
-                <label for="key">{{ language?.uiElements.login.form.loginKey }}</label>
-                <input id="key" type="text" placeholder="key" v-model="loginKey" />
+                <label for="key">{{ language?.uiElements.login.form.otp }}</label>
+                <input id="key" type="text" placeholder="key" v-model="otp" />
                 <button @click="login">{{ language?.uiElements.login.form.loginBtn }}</button>
             </div>
-            <p v-if="(loginKey == '' && loginClicked) || (loginMail == '' && requestClicked)" class="errorInfo">
-                {{ language?.uiElements.login.form.loginMailOrKeyMissing }}
+            <p v-if="(otp == '' && loginClicked) || (loginMail == '' && requestClicked)" class="errorInfo">
+                {{ language?.uiElements.login.form.loginMailOrOTPMissing }}
             </p>
             <p v-if="loginMsg != ''">{{ loginMsg }}</p>
         </div>
@@ -112,7 +112,7 @@
     import { ReCaptchaInstance } from "../scripts/recaptcha"
     import Popup from "../components/Popup.vue"
     import * as webauthnJson from "@github/webauthn-json"
-    import { login, requestLoginMail } from "../scripts/authentication"
+    import { login, otpLogin, requestLoginMail } from "../scripts/authentication"
     import { mailIsAllowed } from "@/scripts/helper"
     import { MailRegexEntry } from "expoll-lib/extraInterfaces"
     import { getLoginRegex } from "../scripts/regex"
@@ -149,7 +149,7 @@
         popupText = ""
 
         loginMail = ""
-        loginKey = ""
+        otp = ""
 
         signupFirstName = ""
         signupLastName = ""
@@ -168,14 +168,14 @@
         mailInvalid = false
 
         async mounted() {
-            if (this.paramLoginKeyExist) {
+            if (this.paramOTPExist) {
                 this.loggingIn = true
                 try {
-                    await getUserData(this.paramLoginKey)
+                    await getUserData()
                     // @ts-ignore
                     window.location = "/"
                 } catch (error) {
-                    this.displayError(this.language?.uiElements.login.messages.loginKeyNotExist)
+                    this.displayError(this.language?.uiElements.login.messages.otpNotExist)
                     this.loggingIn = false
                 }
             }
@@ -205,13 +205,13 @@
             this.showPopup = false
         }
 
-        get paramLoginKey(): string {
+        get paramOTP(): string {
             // @ts-ignore
             return this.$route.query.key
         }
 
-        get paramLoginKeyExist() {
-            return this.paramLoginKey != undefined && this.paramLoginKey != ""
+        get paramOTPExist() {
+            return this.paramOTP != undefined && this.paramOTP != ""
         }
 
         async request() {
@@ -240,18 +240,19 @@
 
         async login() {
             this.loginClicked = true
-            if (this.loginKey == "") return
+            if (this.otp == "") return
             this.requestClicked = false
 
             this.loggingIn = true
 
             this.loginMsg = ""
             try {
-                console.log(this.loginKey)
-                await getUserData(this.loginKey)
+                console.log(this.otp)
+                await otpLogin(this.otp)
+                await getUserData()
                 window.location.reload()
             } catch (error) {
-                this.displayError(this.language?.uiElements.login.messages.loginKeyNotExist)
+                this.displayError(this.language?.uiElements.login.messages.otpNotExist)
                 this.loggingIn = false
             }
         }
@@ -278,7 +279,7 @@
                 captcha: await this.getCaptchaToken()
             })
 
-            switch (rc.code) {
+            switch (rc) {
                 case ReturnCode.USER_EXISTS:
                     this.displayError(this.language?.uiElements.login.messages.userExists)
                     break
@@ -329,7 +330,7 @@
         }
 
         loginQuestionClick() {
-            alert(this.language?.uiElements.login.form.loginKeyQuestionAlert)
+            alert(this.language?.uiElements.login.form.otpQuestionAlert)
         }
     }
 </script>

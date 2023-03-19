@@ -29,10 +29,10 @@ export interface languageData {
                 requestMail: string
                 requestBtn: string
                 mail: string
-                loginKey: string
+                otp: string
                 loginBtn: string
-                loginKeyQuestionAlert: string
-                loginMailOrKeyMissing: string
+                otpQuestionAlert: string
+                loginMailOrOTPMissing: string
                 signup: string
                 firstName: string
                 lastName: string
@@ -52,7 +52,7 @@ export interface languageData {
             alreadyLoggedInAs: (username: string) => string
             logoutBtn: string
             messages: {
-                loginKeyNotExist: string
+                otpNotExist: string
                 mailSent: string
                 mailNotExist: string
                 userExists: string

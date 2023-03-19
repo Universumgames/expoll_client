@@ -56,10 +56,10 @@ Join the Beta via TestFlight and install the app: [https://testflight.apple.com/
                 requestMail: "Request OTP mail",
                 requestBtn: "Request OTP mail",
                 mail: "Mail address",
-                loginKey: "OTP",
+                otp: "OTP",
                 loginBtn: "Login",
-                loginKeyQuestionAlert: "To login you need to provide either your mail address or a one time password. When a mail address is provided you will receive a mail with a one time password.",
-                loginMailOrKeyMissing: "You must either specify your mail address or a one time password",
+                otpQuestionAlert: "To login you need to provide either your mail address or a one time password. When a mail address is provided you will receive a mail with a one time password.",
+                loginMailOrOTPMissing: "You must either specify your mail address or a one time password",
                 signup: "Signup",
                 firstName: "First name",
                 lastName: "Last name",
@@ -79,7 +79,7 @@ Join the Beta via TestFlight and install the app: [https://testflight.apple.com/
             alreadyLoggedInAs: (username: string) => "You are already logged in as " + username,
             logoutBtn: "Logout",
             messages: {
-                loginKeyNotExist: "Loginkey is invalid",
+                otpNotExist: "OTP is invalid",
                 mailSent:
                     "An email has been sent to your mail address with an login link, " +
                     "receiving may take some minutes",

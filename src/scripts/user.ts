@@ -9,31 +9,23 @@ const base = "/api/user"
  * @param {{}} data user login data
  * @return {Promise<{string, ReturnCode }>} login key and response code to check for errors
  */
-export async function signUp(data: CreateUserRequest): Promise<{ loginKey?: string; code: ReturnCode }> {
+export async function signUp(data: CreateUserRequest): Promise<ReturnCode > {
     try {
         const res = await axios.post(base, data, { withCredentials: true })
-        const loginKey = res.data.loginKey
-        return {
-            loginKey: loginKey,
-            code: res.status as ReturnCode
-        }
+        return res.status as ReturnCode
+        
     } catch (e: any) {
-        return { loginKey: undefined, code: e.response.status }
+        return e.response.status
     }
 }
 
 /**
  * Get user data via cookie
- * @param {string?} loginKey if loginkey is not stored as cookie but as raw value, it can be passed here
  * @return {IUser} return user data
  */
-export async function getUserData(loginKey?: string): Promise<IUser | undefined> {
+export async function getUserData(): Promise<IUser | undefined> {
     try {
-        if (loginKey != undefined) {
-            // TODO missing transformation to new path
-            return (await axios.post("/api/auth/simple", {
-                loginKey: loginKey.replaceAll(" ", "").replaceAll("\t", "") })).data as IUser
-        } else return (await axios.get(base, { withCredentials: true })).data as IUser
+        return (await axios.get(base, { withCredentials: true })).data as IUser
     } catch (e: any) {
         return undefined
     }

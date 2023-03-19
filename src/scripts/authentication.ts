@@ -85,6 +85,15 @@ export async function login(userReq: {
 }
 
 /**
+ * Login with otp and receive a session cookie
+ * @param {String} otp the one time password
+ * @return {Promise<number>} returns axios request status
+ */
+export async function otpLogin(otp:string): Promise<number> {
+    return await (await axios.post(base + "/simple", { otp: otp }, { withCredentials: true })).status
+}
+
+/**
  * rename a webauthn token
  * @param {string} credentialID the credential to rename
  * @param {string} newName the new name for the credential
@@ -142,16 +151,16 @@ export async function logoutAllSessions() {
 
 /**
  * logout/delete specific session
- * @param {string} shortKey the first 4 characters of the session that should be deleted
+ * @param {long} nonce the first 4 characters of the session that should be deleted
  */
-export async function deleteSession(shortKey: string) {
+export async function deleteSession(nonce: string) {
     try {
         await fetch(base + "/logout", {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({ shortKey: shortKey }),
+            body: JSON.stringify({ nonce: nonce }),
             credentials: "include"
         })
     } catch (e) {
