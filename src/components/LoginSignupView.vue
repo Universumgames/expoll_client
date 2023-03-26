@@ -291,10 +291,8 @@
                     break
             }
 
-            console.log(rc)
-
             // @ts-ignore
-            if (rc.code == 200) {
+            if (rc == 200) {
                 window.location.reload()
             }
         }
