@@ -171,9 +171,10 @@
             if (this.paramOTPExist) {
                 this.loggingIn = true
                 try {
-                    await getUserData()
+                    this.otp = this.paramOTP
+                    await this.login()
                     // @ts-ignore
-                    window.location = "/"
+                    // window.location = "/"
                 } catch (error) {
                     this.displayError(this.language?.uiElements.login.messages.otpNotExist)
                     this.loggingIn = false
@@ -240,6 +241,7 @@
 
         async login() {
             this.loginClicked = true
+            
             if (this.otp == "") return
             this.requestClicked = false
 

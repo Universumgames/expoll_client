@@ -48,7 +48,7 @@ export async function editUserAdmin(data: AdminEditUserRequest) {
  */
 export async function deleteUserAdmin(userID: tUserID) {
     try {
-        await axios.delete(base + "/user", {
+        await axios.delete(base + "/users", {
             data: { userID: userID },
             withCredentials: true
         })
