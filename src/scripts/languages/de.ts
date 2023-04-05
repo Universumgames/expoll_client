@@ -78,7 +78,8 @@ Tritt der Beta via TestFlight bei und installiere die App: [https://testflight.a
                     "Nur verwendbar wenn Anmeldung mit Security Key oder biometrischer Authentifizierung aufgesetzt ist",
                 leaveQuickLoginBtn: "Zurück zur normalen Anmeldung",
                 or: "oder",
-                invalidMail: "Ungültige Mail Adresse"
+                invalidMail: "Ungültige Mail Adresse",
+                oidc: "Anmelden mit Drittannbieter"
             },
             alreadyLoggedInAs: (username: string) => "Du bist bereits als " + username + " angemeldet",
             logoutBtn: "Abmelden",

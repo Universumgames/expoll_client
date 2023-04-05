@@ -48,6 +48,7 @@ export interface languageData {
                 leaveQuickLoginBtn: string
                 or: string
                 invalidMail: string
+                oidc: String
             }
             alreadyLoggedInAs: (username: string) => string
             logoutBtn: string

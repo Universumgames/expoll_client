@@ -5,6 +5,14 @@
     </div>
     <popup v-if="showPopup" :text="popupText" :title="popupTitle" @close="showPopup = false" />
     <div v-show="!paramOTPExist && !loggingIn && !useQuickSignIn" class="columnContainer">
+        <div class="column">
+            <h2>{{ language?.uiElements.login.form.oidc }}</h2>
+            <div style="margin-top: 5ch; width: 100%;">
+                <a v-for="provider in providers" :key="provider" style="display: block;width: 100%;margin-bottom: 1ch;" :href="'/api/auth/oidc/' + provider">
+                    <img :src="'/oidc/' + provider + '_signin.png'" style="width: 100%;"/>
+                </a>
+            </div>
+        </div>
         <!-- logging in -->
         <div class="column">
             <h2>{{ language?.uiElements.login.form.login }}</h2>
@@ -79,6 +87,7 @@
                     <a href="https://policies.google.com/terms">Terms of Service</a> apply.</small>
             </div>
         </div>
+        
     </div>
     <div v-if="loggingIn">
         <loading-screen />
@@ -116,6 +125,7 @@
     import { mailIsAllowed } from "@/scripts/helper"
     import { MailRegexEntry } from "expoll-lib/extraInterfaces"
     import { getLoginRegex } from "../scripts/regex"
+    import axios from "axios"
 
     declare global {
         // eslint-disable-next-line no-unused-vars
@@ -156,6 +166,7 @@
         signupUsername = ""
 
         mailRegex: MailRegexEntry[] = []
+        providers: String[] = []
 
         clickedSignup = false
         requestClicked = false
@@ -182,6 +193,7 @@
             }
 
             this.mailRegex = await getLoginRegex()
+            this.providers = await axios.get("/api/auth/oidc/providers").then(res => res.data)
         }
 
         mailUpdate() {

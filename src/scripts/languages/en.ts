@@ -74,7 +74,8 @@ Join the Beta via TestFlight and install the app: [https://testflight.apple.com/
                 quickLoginNote: "Only usable when setup with a security key or biometric authentication on this device",
                 leaveQuickLoginBtn: "Back to Nonmal Login",
                 or: "or",
-                invalidMail: "Invalid mail address"
+                invalidMail: "Invalid mail address",
+                oidc: "Third party login"
             },
             alreadyLoggedInAs: (username: string) => "You are already logged in as " + username,
             logoutBtn: "Logout",
