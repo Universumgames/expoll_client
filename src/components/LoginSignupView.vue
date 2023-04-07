@@ -238,6 +238,7 @@ export default class LoginSignupView extends Vue {
             this.loginMsg = ""
             this.loggingIn = false
             this.view = LoginType.SIGNUP
+            this.displayPopup(this.language?.uiElements.login.form.emailNotExistSignupRequired)
         }
     }
 
@@ -254,6 +255,7 @@ export default class LoginSignupView extends Vue {
             console.log(this.otp)
             await otpLogin(this.otp)
             await getUserData()
+            window.location.href = "/#/polls"
             window.location.reload()
         } catch (error) {
             this.displayError(this.language?.uiElements.login.messages.otpNotExist)

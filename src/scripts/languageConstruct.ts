@@ -50,6 +50,7 @@ export interface languageData {
                 invalidMail: string
                 oidc: string
                 tryOtherMail: string
+                emailNotExistSignupRequired: string
             }
             alreadyLoggedInAs: (username: string) => string
             logoutBtn: string
