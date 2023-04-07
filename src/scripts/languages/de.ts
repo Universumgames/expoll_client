@@ -59,7 +59,7 @@ Tritt der Beta via TestFlight bei und installiere die App: [https://testflight.a
                 mail: "E-Mail Adresse",
                 otp: "Anmeldeschlüssel OT)",
                 loginBtn: "Anmelden",
-                otpQuestionAlert: "Du musst deine Mail Adresse oder ein Einmalpasswort angeben. Sollte die E-Mail Adresse bekannt sein, wird dir ein Einmalpasswort zugesendet.",
+                otpQuestionAlert: "Du musst deine Mail Adresse angeben. Sollte die E-Mail Adresse bekannt sein, wird dir ein Einmalpasswort zugesendet anderfalls kannst du einen neuen account erstellen.",
                 loginMailOrOTPMissing:
                     "Es muss entweder eine Mail Adresse für einen Anmeldelink " +
                     "oder ein Anmeldeschlüssel angegeben werden",
@@ -79,7 +79,8 @@ Tritt der Beta via TestFlight bei und installiere die App: [https://testflight.a
                 leaveQuickLoginBtn: "Zurück zur normalen Anmeldung",
                 or: "oder",
                 invalidMail: "Ungültige Mail Adresse",
-                oidc: "Anmelden mit Drittannbieter"
+                oidc: "Anmelden mit Drittannbieter",
+                tryOtherMail: "Versuche eine andere E-Mail Adresse"
             },
             alreadyLoggedInAs: (username: string) => "Du bist bereits als " + username + " angemeldet",
             logoutBtn: "Abmelden",

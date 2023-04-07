@@ -54,17 +54,17 @@
         "comma-dangle": ["error", "never"],
         "no-empty": ["warn", { "allowEmptyCatch": true }],
         "vue/script-indent": [
-            "error",
+            "warn",
             4,
             {
-                "baseIndent": 1,
+                "baseIndent": 0,
                 "switchCase": 1,
-                "ignores": []
+                "ignores": ["VText"]
             }
         ],
         "vue/no-multiple-template-root": 0,
         "new-cap": ["error", { "capIsNewExceptions": ["Options"] }],
-        "operator-linebreak": ["off", "before", { "overrides": { "||": "after", "&&": "after" } }]
+        "operator-linebreak": ["off", "before", { "overrides": { "||": "after", "&&": "after", "+": "after" } }]
     },
     "overrides": [
         {

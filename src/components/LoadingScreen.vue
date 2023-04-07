@@ -3,49 +3,52 @@
 </template>
 
 <script lang="ts">
-    import { Options, Vue } from "vue-class-component"
-    import { IUser } from "expoll-lib/interfaces"
-    import { languageData } from "../scripts/languageConstruct"
+import { Options, Vue } from "vue-class-component"
+import { IUser } from "expoll-lib/interfaces"
+import { languageData } from "../scripts/languageConstruct"
 
-    @Options({
-        props: {
-            userData: Object,
-            language: Object
-        }
-    })
-    export default class LoadingScreen extends Vue {
-        userData: IUser | undefined
-        language?: languageData
-
-        created() {
-            // this.language = getSystemLanguage()
-        }
-
-        mounted() {}
+@Options({
+    props: {
+        userData: Object,
+        language: Object
     }
+})
+export default class LoadingScreen extends Vue {
+    userData: IUser | undefined
+    language?: languageData
+
+    created() {
+        // this.language = getSystemLanguage()
+    }
+
+    mounted() { }
+}
 </script>
 
 <style scoped>
-    .loader {
-        border: 16px solid #f3f3f300; /* Light grey */
-        border-top: 16px solid var(--primary-color); /* Blue */
-        border-radius: 50%;
-        width: 20vw;
-        height: 20vw;
-        animation: spin 2s linear infinite;
-        margin: 0 auto 0 auto;
-        position: absolute;
-        top: 50vh;
-        left: 50vw;
-        transform: translate(50%, 50%);
+.loader {
+    border: 16px solid #f3f3f300;
+    /* Light grey */
+    border-top: 16px solid var(--primary-color);
+    /* Blue */
+    border-radius: 50%;
+    width: 20vw;
+    height: 20vw;
+    animation: spin 2s linear infinite;
+    margin: 0 auto 0 auto;
+    position: absolute;
+    top: 50vh;
+    left: 50vw;
+    transform: translate(50%, 50%);
+}
+
+@keyframes spin {
+    0% {
+        transform: translate(-50%, -50%) rotate(0deg);
     }
 
-    @keyframes spin {
-        0% {
-            transform: translate(-50%, -50%) rotate(0deg);
-        }
-        100% {
-            transform: translate(-50%, -50%) rotate(360deg);
-        }
+    100% {
+        transform: translate(-50%, -50%) rotate(360deg);
     }
+}
 </style>

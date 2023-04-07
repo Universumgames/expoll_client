@@ -4,29 +4,22 @@
         <div>OTP: {{ paramOTP }}</div>
     </div>
     <popup v-if="showPopup" :text="popupText" :title="popupTitle" @close="showPopup = false" />
-    <div v-show="!paramOTPExist && !loggingIn && !useQuickSignIn" class="columnContainer">
-        <div class="column">
-            <h2>{{ language?.uiElements.login.form.oidc }}</h2>
-            <div style="margin-top: 5ch; width: 100%;">
-                <a v-for="provider in providers" :key="provider" style="display: block;width: 100%;margin-bottom: 1ch;" :href="'/api/auth/oidc/' + provider">
-                    <img :src="'/oidc/' + provider + '_signin.png'" style="width: 100%;"/>
-                </a>
-            </div>
-        </div>
+    <div v-show="!paramOTPExist && !loggingIn && view != 2" class="columnContainer">
         <!-- logging in -->
-        <div class="column">
+        <div class="column" v-show="view == 0">
             <h2>{{ language?.uiElements.login.form.login }}</h2>
             <div>
                 <label for="mail">{{ language?.uiElements.login.form.mail }}</label>
                 <input id="mail" type="text" placeholder="max.mustermann@gmail.com" v-model="loginMail" autocomplete="mail"
                     @keyup="mailUpdate()" :style="mailInvalid ? 'color:red' : 'color:green'" />
                 <div>
-                    <button @click="request">{{ language?.uiElements.login.form.requestBtn }}</button>
+                    <button @click="request">{{ language?.uiElements.login.form.loginBtn }}</button>
                     <button style="margin: 1ch" @click="loginQuestionClick()">?</button>
                 </div>
             </div>
+            <OIDC :language="language" />
             <div style="margin-top: 10ch; border-top: 1px white solid;">
-                <button @click="useQuickSignIn = true" v-show="supportsWebauthn" style="font-size: smaller;display: block;">
+                <button @click="view = 2" v-show="supportsWebauthn" style="font-size: smaller;display: block;">
                     {{ language?.uiElements.login.form.quickLoginBtn }}
                 </button>
                 <small>{{ language?.uiElements.login.form.quickLoginNote }}</small>
@@ -47,7 +40,7 @@
             <p v-if="loginMsg != ''">{{ loginMsg }}</p>
         </div>
         <!-- register -->
-        <div class="column">
+        <div class="column" v-show="view == 1">
             <h2>{{ language?.uiElements.login.form.signup }}</h2>
             <label for="mail">{{ language?.uiElements.login.form.mail }}</label>
             <small v-if="mailInvalid" class="errorInfo">{{ language?.uiElements.login.form.validMailNeeded }}</small>
@@ -73,6 +66,7 @@
             }}</small>
             <input id="user" type="text" placeholder="mustermannekin001" v-model="signupUsername" autocomplete="username" />
             <button @click="signup">{{ language?.uiElements.login.form.signupBtn }}</button>
+            <button @click="view = 0" class="delete">{{ language?.uiElements.login.form.tryOtherMail }}</button>
             <!-- notes -->
             <div style="margin: 1rem">
                 <small>By creating a user account you agree that we store your personal information you provide us as well
@@ -87,264 +81,246 @@
                     <a href="https://policies.google.com/terms">Terms of Service</a> apply.</small>
             </div>
         </div>
-        
+
     </div>
     <div v-if="loggingIn">
         <loading-screen />
         <div>{{ language?.uiElements.login.form.loggingIn }}</div>
     </div>
-    <div v-show="useQuickSignIn" class="columnContainer">
-        <div class="column">
-            <h2>{{ language?.uiElements.login.form.login }}</h2>
-            <label for="mail">{{ language?.uiElements.login.form.mail }}</label>
-            <input id="mail" type="text" placeholder="max.mustermann@gmail.com" v-model="loginMail" autocomplete="mail" />
-            <p>{{ language?.uiElements.login.form.or }}</p>
-            <label for="username">{{ language?.uiElements.login.form.username }}</label>
-            <input id="username" type="text" placeholder="maxmustermann001" v-model="signupUsername"
-                autocomplete="username webauthn" />
-            <button @click="webauthLogin">{{ language?.uiElements.login.form.loginBtn }}</button>
-            <small>{{ language?.uiElements.login.form.quickLoginNote }}</small>
-            <button @click="useQuickSignIn = false" class="delete">
-                {{ language?.uiElements.login.form.leaveQuickLoginBtn }}
-            </button>
-        </div>
+    <div v-show="view == 2" class="columnContainer">
+        <Webauthn :language="language" :mailRegex="mailRegex" @return="view = 0" class="column" />
     </div>
     <div v-if="errorMsg != ''" class="errorInfo">{{ errorMsg }}</div>
 </template>
 
 <script lang="ts">
-    import { Options, Vue } from "vue-class-component"
-    import { ReturnCode } from "expoll-lib/interfaces"
-    import { languageData } from "../scripts/languageConstruct"
-    import { getUserData, signUp } from "../scripts/user"
-    import LoadingScreen from "../components/LoadingScreen.vue"
-    import { ReCaptchaInstance } from "../scripts/recaptcha"
-    import Popup from "../components/Popup.vue"
-    import * as webauthnJson from "@github/webauthn-json"
-    import { login, otpLogin, requestLoginMail } from "../scripts/authentication"
-    import { mailIsAllowed } from "@/scripts/helper"
-    import { MailRegexEntry } from "expoll-lib/extraInterfaces"
-    import { getLoginRegex } from "../scripts/regex"
-    import axios from "axios"
+import { Options, Vue } from "vue-class-component"
+import { ReturnCode } from "expoll-lib/interfaces"
+import { languageData } from "../scripts/languageConstruct"
+import { getUserData, signUp } from "../scripts/user"
+import LoadingScreen from "../components/LoadingScreen.vue"
+import { ReCaptchaInstance } from "../scripts/recaptcha"
+import Popup from "../components/Popup.vue"
+import * as webauthnJson from "@github/webauthn-json"
+import { login, otpLogin, requestLoginMail } from "../scripts/authentication"
+import { mailIsAllowed } from "@/scripts/helper"
+import { MailRegexEntry } from "expoll-lib/extraInterfaces"
+import { getLoginRegex } from "../scripts/regex"
+import axios from "axios"
+import OIDC from "./login/OIDC.vue"
+import Webauthn from "./login/Webauthn.vue"
 
-    declare global {
-        // eslint-disable-next-line no-unused-vars
-        interface Window {
-            grecaptcha: ReCaptchaInstance
-            captchaOnLoad: () => void
-        }
+declare global {
+    // eslint-disable-next-line no-unused-vars
+    interface Window {
+        grecaptcha: ReCaptchaInstance
+        captchaOnLoad: () => void
     }
+}
 
-    const captchaKey = "6LcreNsdAAAAAAGYzVEJFg1IcKLQsWDrh_LAYHsB"
+enum LoginType {
+    LOGIN = 0,
+    SIGNUP = 1,
+    WEBAUTHN = 2
+}
 
-    @Options({
-        props: {
-            language: Object
-        },
-        components: {
-            LoadingScreen,
-            Popup
-        }
-    })
-    export default class LoginSignupView extends Vue {
-        language?: languageData
+const captchaKey = "6LcreNsdAAAAAAGYzVEJFg1IcKLQsWDrh_LAYHsB"
 
-        loggingIn: boolean = false
-        loginMissing: boolean = false
-        loginMsg = ""
-        errorMsg = ""
+@Options({
+    props: {
+        language: Object
+    },
+    components: {
+        LoadingScreen,
+        Popup,
+        OIDC,
+        Webauthn
+    }
+})
+export default class LoginSignupView extends Vue {
+    language?: languageData
 
-        showPopup = false
-        popupTitle = ""
-        popupText = ""
+    loggingIn: boolean = false
+    view: LoginType = LoginType.LOGIN
+    loginMissing: boolean = false
+    loginMsg = ""
+    errorMsg = ""
 
-        loginMail = ""
-        otp = ""
+    showPopup = false
+    popupTitle = ""
+    popupText = ""
 
-        signupFirstName = ""
-        signupLastName = ""
-        signupUsername = ""
+    loginMail = ""
+    otp = ""
 
-        mailRegex: MailRegexEntry[] = []
-        providers: String[] = []
+    signupFirstName = ""
+    signupLastName = ""
+    signupUsername = ""
 
-        clickedSignup = false
-        requestClicked = false
-        loginClicked = false
+    mailRegex: MailRegexEntry[] = []
 
-        showAdvancedLogin = false
 
-        useQuickSignIn = false
+    clickedSignup = false
+    requestClicked = false
+    loginClicked = false
 
-        mailInvalid = false
+    showAdvancedLogin = false
 
-        async mounted() {
-            if (this.paramOTPExist) {
-                this.loggingIn = true
-                try {
-                    this.otp = this.paramOTP
-                    await this.login()
-                    // @ts-ignore
-                    // window.location = "/"
-                } catch (error) {
-                    this.displayError(this.language?.uiElements.login.messages.otpNotExist)
-                    this.loggingIn = false
-                }
-            }
+    mailInvalid = false
 
-            this.mailRegex = await getLoginRegex()
-            this.providers = await axios.get("/api/auth/oidc/providers").then(res => res.data)
-        }
-
-        mailUpdate() {
-            if (!mailIsAllowed(this.loginMail, this.mailRegex)) {
-                this.mailInvalid = true
-            } else this.mailInvalid = false
-        }
-
-        displayError(error?: string) {
-            this.errorMsg = error ?? ""
-            this.displayPopup(error, "Error")
-        }
-
-        displayPopup(text?: string, title?: string) {
-            this.popupTitle = title ?? "Info"
-            this.popupText = text ?? ""
-            this.showPopup = true
-        }
-
-        resetError() {
-            this.errorMsg = ""
-            this.showPopup = false
-        }
-
-        get paramOTP(): string {
-            // @ts-ignore
-            return this.$route.query.key
-        }
-
-        get paramOTPExist() {
-            return this.paramOTP != undefined && this.paramOTP != ""
-        }
-
-        async request() {
-            this.requestClicked = true
-            if (this.loginMail == "") {
-                this.displayError(this.language?.uiElements.login.form.validMailNeeded)
-                return
-            }
-            this.loginClicked = false
-
-            try {
-                this.resetError()
-
-                const rc = await requestLoginMail(this.loginMail)
-                if (rc != ReturnCode.OK) throw new Error()
-
-                this.displayPopup(this.language?.uiElements.login.messages.mailSent)
-                this.loggingIn = false
-                this.loginMsg = this.language?.uiElements.login.messages.mailSent ?? ""
-            } catch (error) {
-                this.loginMsg = ""
-                this.displayError(this.language?.uiElements.login.messages.mailNotExist)
-                this.loggingIn = false
-            }
-        }
-
-        async login() {
-            this.loginClicked = true
-            
-            if (this.otp == "") return
-            this.requestClicked = false
-
+    async mounted() {
+        if (this.paramOTPExist) {
             this.loggingIn = true
-
-            this.loginMsg = ""
             try {
-                console.log(this.otp)
-                await otpLogin(this.otp)
-                await getUserData()
-                window.location.reload()
+                this.otp = this.paramOTP
+                await this.login()
+                // @ts-ignore
+                // window.location = "/"
             } catch (error) {
                 this.displayError(this.language?.uiElements.login.messages.otpNotExist)
                 this.loggingIn = false
             }
         }
 
-        async signup() {
-            this.clickedSignup = true
+        this.mailRegex = await getLoginRegex()
 
-            if (
-                this.loginMail == "" ||
-                this.signupUsername == "" ||
-                this.signupLastName == "" ||
-                this.signupFirstName == ""
-            ) {
-                return
-            }
+    }
 
+    mailUpdate() {
+        if (!mailIsAllowed(this.loginMail, this.mailRegex)) {
+            this.mailInvalid = true
+        } else this.mailInvalid = false
+    }
+
+    displayError(error?: string) {
+        this.errorMsg = error ?? ""
+        this.displayPopup(error, "Error")
+    }
+
+    displayPopup(text?: string, title?: string) {
+        this.popupTitle = title ?? "Info"
+        this.popupText = text ?? ""
+        this.showPopup = true
+    }
+
+    resetError() {
+        this.errorMsg = ""
+        this.showPopup = false
+    }
+
+    get paramOTP(): string {
+        // @ts-ignore
+        return this.$route.query.key
+    }
+
+    get paramOTPExist() {
+        return this.paramOTP != undefined && this.paramOTP != ""
+    }
+
+    async request() {
+        this.requestClicked = true
+        if (this.loginMail == "") {
+            this.displayError(this.language?.uiElements.login.form.validMailNeeded)
+            return
+        }
+        this.loginClicked = false
+
+        try {
             this.resetError()
 
-            const rc = await signUp({
-                firstName: this.signupFirstName,
-                lastName: this.signupLastName,
-                username: this.signupUsername,
-                mail: this.loginMail.toLowerCase().replace(" ", ""),
-                captcha: await this.getCaptchaToken()
-            })
+            const rc = await requestLoginMail(this.loginMail)
+            if (rc != ReturnCode.OK) throw new Error()
 
-            switch (rc) {
-                case ReturnCode.USER_EXISTS:
-                    this.displayError(this.language?.uiElements.login.messages.userExists)
-                    break
-                case ReturnCode.INTERNAL_SERVER_ERROR:
-                    this.displayError(this.language?.uiElements.serverError)
-                    break
-                case ReturnCode.CAPTCHA_INVALID:
-                    this.errorMsg = "Captcha invalid"
-                    break
-            }
-
-            // @ts-ignore
-            if (rc == 200) {
-                window.location.reload()
-            }
-        }
-
-        async getCaptchaToken(): Promise<string> {
-            return new Promise((resolve, reject) => {
-                window.grecaptcha.ready(() => {
-                    window.grecaptcha.execute(captchaKey, { action: "signup" }).then((token: string) => {
-                        resolve(token)
-                    })
-                })
-            })
-        }
-
-        get supportsWebauthn(): boolean {
-            return webauthnJson.supported()
-        }
-
-        async webauthLogin() {
-            if (this.loginMail != "" && this.signupUsername != "") {
-                this.signupUsername = ""
-                return
-            }
-            let data: { username?: string; mail?: string } = { mail: undefined, username: undefined }
-            if (this.loginMail != "" && mailIsAllowed(this.loginMail, this.mailRegex)) data = { mail: this.loginMail }
-            else if (this.signupUsername != "") data = { username: this.signupUsername }
-
-            const { success, error } = await login(data)
-            console.log(success, error)
-
-            if (!success) console.error(error)
-            else window.location.reload()
-        }
-
-        loginQuestionClick() {
-            alert(this.language?.uiElements.login.form.otpQuestionAlert)
+            this.displayPopup(this.language?.uiElements.login.messages.mailSent)
+            this.loggingIn = false
+            this.loginMsg = this.language?.uiElements.login.messages.mailSent ?? ""
+        } catch (error) {
+            this.loginMsg = ""
+            this.loggingIn = false
+            this.view = LoginType.SIGNUP
         }
     }
+
+    async login() {
+        this.loginClicked = true
+
+        if (this.otp == "") return
+        this.requestClicked = false
+
+        this.loggingIn = true
+
+        this.loginMsg = ""
+        try {
+            console.log(this.otp)
+            await otpLogin(this.otp)
+            await getUserData()
+            window.location.reload()
+        } catch (error) {
+            this.displayError(this.language?.uiElements.login.messages.otpNotExist)
+            this.loggingIn = false
+        }
+    }
+
+    async signup() {
+        this.clickedSignup = true
+
+        if (
+            this.loginMail == "" ||
+            this.signupUsername == "" ||
+            this.signupLastName == "" ||
+            this.signupFirstName == ""
+        ) {
+            return
+        }
+
+        this.resetError()
+
+        const rc = await signUp({
+            firstName: this.signupFirstName,
+            lastName: this.signupLastName,
+            username: this.signupUsername,
+            mail: this.loginMail.toLowerCase().replace(" ", ""),
+            captcha: await this.getCaptchaToken()
+        })
+
+        switch (rc) {
+            case ReturnCode.USER_EXISTS:
+                this.displayError(this.language?.uiElements.login.messages.userExists)
+                break
+            case ReturnCode.INTERNAL_SERVER_ERROR:
+                this.displayError(this.language?.uiElements.serverError)
+                break
+            case ReturnCode.CAPTCHA_INVALID:
+                this.errorMsg = "Captcha invalid"
+                break
+        }
+
+        // @ts-ignore
+        if (rc == 200) {
+            window.location.reload()
+        }
+    }
+
+    async getCaptchaToken(): Promise<string> {
+        return new Promise((resolve, reject) => {
+            window.grecaptcha.ready(() => {
+                window.grecaptcha.execute(captchaKey, { action: "signup" }).then((token: string) => {
+                    resolve(token)
+                })
+            })
+        })
+    }
+
+    get supportsWebauthn(): boolean {
+        return webauthnJson.supported()
+    }
+
+
+
+    loginQuestionClick() {
+        alert(this.language?.uiElements.login.form.otpQuestionAlert)
+    }
+}
 </script>
 
 <style scoped>

@@ -29,22 +29,17 @@
             </div>
             <div class="info-text">
                 <a>ID: {{ pollID }}</a>
-                <a
-                    >{{
-                        language?.uiElements.polls.details.createdBy(poll?.admin.firstName + " " + poll?.admin.lastName)
-                    }}
+                <a>{{
+                    language?.uiElements.polls.details.createdBy(poll?.admin.firstName + " " + poll?.admin.lastName)
+                }}
                 </a>
             </div>
             <!-- description -->
             <div style="margin-top: 1ch" class="footer">
-                <label
-                    ><b>{{ language?.uiElements.polls.create.description }}</b></label
-                ><button
+                <label><b>{{ language?.uiElements.polls.create.description }}</b></label><button
                     v-show="mayEdit() && changes?.description == undefined"
-                    @click="changes.description = poll?.description"
-                >
-                    <edit-icon class="normalIcon" /></button
-                ><br />
+                    @click="changes.description = poll?.description">
+                    <edit-icon class="normalIcon" /></button><br />
                 <div v-show="changes?.description == undefined">
                     <p>{{ poll?.description }}</p>
                 </div>
@@ -59,13 +54,10 @@
             <!-- max vote count -->
             <div v-show="mayEdit()">
                 <div v-show="changes.maxPerUserVoteCount == undefined">
-                    <label
-                        >{{ language?.uiElements.polls.details.maxPerUserVoteCount }}
-                        <span style="white-space: nowrap"
-                            >{{ language?.uiElements.polls.details.maxPerUserVoteCountDescription }}:
-                            {{ poll?.maxPerUserVoteCount }}</span
-                        ></label
-                    >
+                    <label>{{ language?.uiElements.polls.details.maxPerUserVoteCount }}
+                        <span style="white-space: nowrap">{{
+                            language?.uiElements.polls.details.maxPerUserVoteCountDescription }}:
+                            {{ poll?.maxPerUserVoteCount }}</span></label>
                     <button v-show="mayEdit()" @click="changes.maxPerUserVoteCount = poll?.maxPerUserVoteCount">
                         <edit-icon class="normalIcon" />
                     </button>
@@ -84,8 +76,7 @@
             <!-- Allows Maybe -->
             <div v-show="mayEdit()">
                 <div v-show="changes.allowsMaybe == undefined">
-                    <label
-                        >{{ language?.uiElements.polls.create.allowsMaybeLabel }}:
+                    <label>{{ language?.uiElements.polls.create.allowsMaybeLabel }}:
                         {{ poll?.allowsMaybe }}
                     </label>
                     <button v-show="mayEdit()" @click="changes.allowsMaybe = poll?.allowsMaybe">
@@ -104,8 +95,7 @@
             <!-- allows Editing -->
             <div v-show="mayEditAllowEditing()">
                 <div v-show="changes.allowsEditing == undefined">
-                    <label
-                        >{{ language?.uiElements.polls.create.allowsEditingLabel }}:
+                    <label>{{ language?.uiElements.polls.create.allowsEditingLabel }}:
                         {{ poll?.allowsEditing }}
                     </label>
                     <button v-show="mayEditAllowEditing()" @click="changes.allowsEditing = poll?.allowsEditing">
@@ -125,13 +115,15 @@
 
         <!-- share -->
         <div style="text-align: left; margin-top: 1rem">
-            <a @click="share()"
-                ><h3 style="display: inline">Share <share-icon v-show="!shareLinkCopied" class="normalIcon" /></h3>
-                <h3 style="display: inline" v-show="shareLinkCopied">Copied</h3></a
-            >
+            <a @click="share()">
+                <h3 style="display: inline">Share <share-icon v-show="!shareLinkCopied" class="normalIcon" /></h3>
+                <h3 style="display: inline" v-show="shareLinkCopied">Copied</h3>
+            </a>
         </div>
         <div style="text-align: left; margin-top: 1rem" v-show="!isJoined">
-            <a @click="joinPoll()"><h3 style="display: inline">Join</h3></a>
+            <a @click="joinPoll()">
+                <h3 style="display: inline">Join</h3>
+            </a>
         </div>
         <br />
 
@@ -145,12 +137,7 @@
                             <switch-icon class="normalIcon" />
                         </button>
                     </th>
-                    <th
-                        v-for="option in poll?.options"
-                        :key="option.id"
-                        style="white-space: pre-wrap"
-                        class="stickyRow"
-                    >
+                    <th v-for="option in poll?.options" :key="option.id" style="white-space: pre-wrap" class="stickyRow">
                         {{ optionValue(option) }}
                         <br />
                         ({{ getVotedForCount(option.id ?? 0) }})
@@ -185,19 +172,13 @@
                                 <label :for="newOption.id + 'dateTimeStart'">{{
                                     language?.uiElements.polls.create.optionValue
                                 }}</label>
-                                <input
-                                    v-model="newOption.dateTimeStart"
-                                    :id="newOption.id + 'dateTimeStart'"
-                                    type="datetime-local"
-                                />
+                                <input v-model="newOption.dateTimeStart" :id="newOption.id + 'dateTimeStart'"
+                                    type="datetime-local" />
                                 <label :for="newOption.id + 'dateTimeEnd'">{{
                                     language?.uiElements.polls.create.optionOptEndValue
                                 }}</label>
-                                <input
-                                    v-model="newOption.dateTimeEnd"
-                                    :id="newOption.id + 'dateTimeEnd'"
-                                    type="datetime-local"
-                                />
+                                <input v-model="newOption.dateTimeEnd" :id="newOption.id + 'dateTimeEnd'"
+                                    type="datetime-local" />
                             </div>
                             <button @click="addOption" style="padding: 0.5rem">
                                 <save-icon class="normalIcon" />
@@ -209,35 +190,19 @@
                     </th>
                 </tr>
 
-                <poll-user-vote-row
-                    :userData="userData"
-                    :language="language"
-                    :userVote="getVotesByUser()"
-                    :pollData="poll"
+                <poll-user-vote-row :userData="userData" :language="language" :userVote="getVotesByUser()" :pollData="poll"
                     :note="poll?.userNotes?.find((note) => note.userID == userData?.id)?.note"
-                    :displayUsernameInsteadOfFull="displayUsernameInsteadOfFull"
-                    @voteChange="voteUpdateCallback"
-                    class="currentUserVotes"
-                    @noteChange="noteChangeCallback"
-                />
-                <poll-user-vote-row
-                    v-for="vote in poll?.userVotes"
-                    :key="vote.user.id"
-                    v-show="vote.user.id != userData?.id"
-                    :userData="userData"
-                    :note="poll?.userNotes?.find((note) => note.userID == vote.user.id)?.note"
-                    :language="language"
-                    :userVote="vote"
-                    :pollData="poll"
-                    :displayUsernameInsteadOfFull="displayUsernameInsteadOfFull"
-                    @voteChange="voteUpdateCallback"
-                    @kickedID="userKicked"
-                    @noteChange="noteChangeCallback"
-                />
+                    :displayUsernameInsteadOfFull="displayUsernameInsteadOfFull" @voteChange="voteUpdateCallback"
+                    class="currentUserVotes" @noteChange="noteChangeCallback" />
+                <poll-user-vote-row v-for="vote in poll?.userVotes" :key="vote.user.id"
+                    v-show="vote.user.id != userData?.id" :userData="userData"
+                    :note="poll?.userNotes?.find((note) => note.userID == vote.user.id)?.note" :language="language"
+                    :userVote="vote" :pollData="poll" :displayUsernameInsteadOfFull="displayUsernameInsteadOfFull"
+                    @voteChange="voteUpdateCallback" @kickedID="userKicked" @noteChange="noteChangeCallback" />
 
                 <tr v-show="mayEdit()">
                     <td>
-                    <button @click="addUserClick()">{{ language?.uiElements.polls.details.addUserBtn }}</button>
+                        <button @click="addUserClick()">{{ language?.uiElements.polls.details.addUserBtn }}</button>
                     </td>
                 </tr>
             </table>
@@ -250,405 +215,405 @@
 </template>
 
 <script lang="ts">
-    import { Options, Vue } from "vue-class-component"
-    import { ComplexOption, DetailedPoll, SimpleUser, SimpleUserVotes } from "expoll-lib/extraInterfaces"
-    import { IUser, PollType, ReturnCode, tOptionId, tUserID, VoteValue } from "expoll-lib/interfaces"
-    import { languageData } from "../scripts/languageConstruct"
-    import SaveIcon from "../assetComponents/SaveIcon.vue"
-    import EditIcon from "../assetComponents/EditIcon.vue"
-    import ShareIcon from "../assetComponents/ShareIcon.vue"
-    import PollUserVoteRow from "../components/PollUserVotes.vue"
-    import LoadingScreen from "../components/LoadingScreen.vue"
-    import SwitchIcon from "../assetComponents/SwitchIcon.vue"
-    import { EditPollRequest } from "expoll-lib/requestInterfaces"
-    import LoginSignupView from "../components/LoginSignupView.vue"
-    import BlankDetailedPollView from "../components/Blanks/BlankDetailedPollView.vue"
-    import { joinPoll, pushPollChanges, deletePoll, getDetailedPoll } from "@/scripts/poll"
+import { Options, Vue } from "vue-class-component"
+import { ComplexOption, DetailedPoll, SimpleUser, SimpleUserVotes } from "expoll-lib/extraInterfaces"
+import { IUser, PollType, ReturnCode, tOptionId, tUserID, VoteValue } from "expoll-lib/interfaces"
+import { languageData } from "../scripts/languageConstruct"
+import SaveIcon from "../assetComponents/SaveIcon.vue"
+import EditIcon from "../assetComponents/EditIcon.vue"
+import ShareIcon from "../assetComponents/ShareIcon.vue"
+import PollUserVoteRow from "../components/PollUserVotes.vue"
+import LoadingScreen from "../components/LoadingScreen.vue"
+import SwitchIcon from "../assetComponents/SwitchIcon.vue"
+import { EditPollRequest } from "expoll-lib/requestInterfaces"
+import LoginSignupView from "../components/LoginSignupView.vue"
+import BlankDetailedPollView from "../components/Blanks/BlankDetailedPollView.vue"
+import { joinPoll, pushPollChanges, deletePoll, getDetailedPoll } from "@/scripts/poll"
 
-    /*
-         votes: { user: User; votes: { optionID: tOptionId; votedFor: boolean }
-     */
+/*
+     votes: { user: User; votes: { optionID: tOptionId; votedFor: boolean }
+ */
 
-    @Options({
-        props: {
-            userData: Object,
-            language: Object
-        },
-        components: {
-            SaveIcon,
-            EditIcon,
-            ShareIcon,
-            SwitchIcon,
-            PollUserVoteRow,
-            LoadingScreen,
-            LoginSignupView,
-            BlankDetailedPollView
-        }
-    })
-    export default class DetailedPollView extends Vue {
-        userData?: IUser
-        language?: languageData
+@Options({
+    props: {
+        userData: Object,
+        language: Object
+    },
+    components: {
+        SaveIcon,
+        EditIcon,
+        ShareIcon,
+        SwitchIcon,
+        PollUserVoteRow,
+        LoadingScreen,
+        LoginSignupView,
+        BlankDetailedPollView
+    }
+})
+export default class DetailedPollView extends Vue {
+    userData?: IUser
+    language?: languageData
 
-        loadingMain = true
-        loadingFailed = false
+    loadingMain = true
+    loadingFailed = false
 
-        poll?: DetailedPoll
-        newOption: ComplexOption = {}
+    poll?: DetailedPoll
+    newOption: ComplexOption = {}
 
-        addingOption = false
+    addingOption = false
 
-        changes: EditPollRequest = { pollID: "" }
+    changes: EditPollRequest = { pollID: "" }
 
-        test: string = ""
+    test: string = ""
 
-        shareLinkCopied = false
+    shareLinkCopied = false
 
-        displayUsernameInsteadOfFull = false
+    displayUsernameInsteadOfFull = false
 
-        isEditing() {
-            return (this.addingOption || this.changes.name != undefined || this.changes.description != undefined) && this.poll != undefined
-        }
+    isEditing() {
+        return (this.addingOption || this.changes.name != undefined || this.changes.description != undefined) && this.poll != undefined
+    }
 
-        async mounted() {
-            await this.setup()
+    async mounted() {
+        await this.setup()
 
-            // update votes every 60 seconds
-            let intID: any = 0
-            const that = this
-            intID = setInterval(() => {
-                // @ts-ignore
-                if (that.$route.params.id == undefined && !that.$route.fullPath.includes("polls")) {
-                    clearInterval(intID)
-                }
-                this.setup()
-            }, 60 * 1000)
-        }
-
-        async getPollData() {
-            const poll = await getDetailedPoll(this.pollID)
-            if (poll == undefined) return
-
-
-            if (poll.type == PollType.Date) {
-                poll.options = poll.options.sort((a, b) => {
-                    return a.dateStart! - b.dateStart!
-                })
-            } else if (poll.type == PollType.DateTime) {
-                poll.options = poll.options.sort((a, b) => {
-                    return a.dateTimeStart! - b.dateTimeStart!
-                })
+        // update votes every 60 seconds
+        let intID: any = 0
+        const that = this
+        intID = setInterval(() => {
+            // @ts-ignore
+            if (that.$route.params.id == undefined && !that.$route.fullPath.includes("polls")) {
+                clearInterval(intID)
             }
-            for (const user of poll.userVotes) {
-                user.votes = user.votes.sort((a, b) => {
-                    const aIndex = poll.options.findIndex((option) => option.id == a.optionID)
-                    const bIndex = poll.options.findIndex((option) => option.id == b.optionID)
-                    return aIndex - bIndex
-                })
-            }
+            this.setup()
+        }, 60 * 1000)
+    }
 
-            this.poll = poll
+    async getPollData() {
+        const poll = await getDetailedPoll(this.pollID)
+        if (poll == undefined) return
 
-            document.title = "Expoll - " + poll.name
+
+        if (poll.type == PollType.Date) {
+            poll.options = poll.options.sort((a, b) => {
+                return a.dateStart! - b.dateStart!
+            })
+        } else if (poll.type == PollType.DateTime) {
+            poll.options = poll.options.sort((a, b) => {
+                return a.dateTimeStart! - b.dateTimeStart!
+            })
+        }
+        for (const user of poll.userVotes) {
+            user.votes = user.votes.sort((a, b) => {
+                const aIndex = poll.options.findIndex((option) => option.id == a.optionID)
+                const bIndex = poll.options.findIndex((option) => option.id == b.optionID)
+                return aIndex - bIndex
+            })
         }
 
-        async setup() {
+        this.poll = poll
+
+        document.title = "Expoll - " + poll.name
+    }
+
+    async setup() {
+        try {
+            if (this.isEditing()) return
+            await this.getPollData()
+            await this.checkAndJoinPoll()
+
+            if (this.poll != undefined) this.changes = { pollID: this.poll.pollID }
+            this.loadingFailed = this.poll == undefined
+
+            this.$forceUpdate()
+
+            this.loadingMain = false
+        } catch (e) {
+            this.loadingMain = false
+            this.loadingFailed = true
+            console.warn(e)
+        }
+    }
+
+    async checkAndJoinPoll() {
+        if (
+            // @ts-ignore
+            ((this.$route.query.join == true && !this.isJoined) ?? false) &&
+            (this.poll?.allowsEditing ?? false)
+        ) {
             try {
-                if (this.isEditing()) return
-                await this.getPollData()
-                await this.checkAndJoinPoll()
-
-                if (this.poll != undefined) this.changes = { pollID: this.poll.pollID }
-                this.loadingFailed = this.poll == undefined
-
-                this.$forceUpdate()
-
-                this.loadingMain = false
+                await this.joinPoll()
             } catch (e) {
-                this.loadingMain = false
-                this.loadingFailed = true
                 console.warn(e)
             }
         }
+    }
 
-        async checkAndJoinPoll() {
-            if (
-                // @ts-ignore
-                ((this.$route.query.join == true && !this.isJoined) ?? false) &&
-                (this.poll?.allowsEditing ?? false)
-            ) {
-                try {
-                    await this.joinPoll()
-                } catch (e) {
-                    console.warn(e)
-                }
+    get isJoined() {
+        return this.poll == undefined || (this.poll?.userVotes.find((vote) => vote.user.id == this.userData?.id) != undefined && this.poll?.allowsEditing)
+    }
+
+    async joinPoll() {
+        await joinPoll(this.pollID)
+        // @ts-ignore
+        window.location = "/#/polls/" + this.pollID
+    }
+
+    optionValue(option: any): string {
+        let start: string | undefined = ""
+        let end: string | undefined = ""
+        switch (this.poll?.type) {
+            case PollType.String:
+                return option.value
+
+            case PollType.Date:
+                start = this.language?.uiElements.dateToString(new Date(option.dateStart))
+                end = this.language?.uiElements.dateToString(new Date(option.dateEnd))
+                return (
+                    this.language?.uiElements.polls.details.dateStringFormat(
+                        start,
+                        option.dateEnd == undefined ? undefined : end
+                    ) ?? ""
+                )
+
+            case PollType.DateTime:
+                start = this.language?.uiElements.dateTimeToString(new Date(option.dateTimeStart))
+                end = this.language?.uiElements.dateTimeToString(new Date(option.dateTimeEnd))
+                return (
+                    this.language?.uiElements.polls.details.dateStringFormat(
+                        start,
+                        option.dateTimeEnd == undefined ? undefined : end
+                    ) ?? ""
+                )
+        }
+        return ""
+    }
+
+    getVotesByUser(): SimpleUserVotes {
+        if (this.poll == undefined) {
+            return {
+                user: this.userData ?? ({ id: "", firstName: "", lastName: "", username: "" } as SimpleUser),
+                votes: []
+            } as SimpleUserVotes
+        }
+        const that = this
+        return (
+            this.poll.userVotes.find((vote) => vote.user?.id == this.userData?.id) ?? {
+                user: that.userData ?? { id: "", firstName: "", lastName: "", username: "" },
+                votes: []
             }
-        }
+        )
+    }
 
-        get isJoined() {
-            return this.poll == undefined || (this.poll?.userVotes.find((vote) => vote.user.id == this.userData?.id) != undefined && this.poll?.allowsEditing)
-        }
+    get pollID(): string {
+        // @ts-ignore
+        return this.$route.params.id
+    }
 
-        async joinPoll() {
-            await joinPoll(this.pollID)
-            // @ts-ignore
-            window.location = "/#/polls/" + this.pollID
-        }
+    mayEdit(): boolean {
+        return (
+            ((this.poll?.admin.id == this.userData?.id ?? false) || (this.userData?.admin ?? false)) &&
+            (this.poll?.allowsEditing ?? false)
+        )
+    }
 
-        optionValue(option: any): string {
-            let start: string | undefined = ""
-            let end: string | undefined = ""
-            switch (this.poll?.type) {
-                case PollType.String:
-                    return option.value
+    mayEditAllowEditing(): boolean {
+        return (this.poll?.admin.id == this.userData?.id ?? false) || (this.userData?.admin ?? false)
+    }
 
-                case PollType.Date:
-                    start = this.language?.uiElements.dateToString(new Date(option.dateStart))
-                    end = this.language?.uiElements.dateToString(new Date(option.dateEnd))
-                    return (
-                        this.language?.uiElements.polls.details.dateStringFormat(
-                            start,
-                            option.dateEnd == undefined ? undefined : end
-                        ) ?? ""
-                    )
-
-                case PollType.DateTime:
-                    start = this.language?.uiElements.dateTimeToString(new Date(option.dateTimeStart))
-                    end = this.language?.uiElements.dateTimeToString(new Date(option.dateTimeEnd))
-                    return (
-                        this.language?.uiElements.polls.details.dateStringFormat(
-                            start,
-                            option.dateTimeEnd == undefined ? undefined : end
-                        ) ?? ""
-                    )
-            }
-            return ""
-        }
-
-        getVotesByUser(): SimpleUserVotes {
-            if (this.poll == undefined) {
-                return {
-                    user: this.userData ?? ({ id: "", firstName: "", lastName: "", username: "" } as SimpleUser),
-                    votes: []
-                } as SimpleUserVotes
-            }
-            const that = this
-            return (
-                this.poll.userVotes.find((vote) => vote.user?.id == this.userData?.id) ?? {
-                    user: that.userData ?? { id: "", firstName: "", lastName: "", username: "" },
-                    votes: []
-                }
-            )
-        }
-
-        get pollID(): string {
-            // @ts-ignore
-            return this.$route.params.id
-        }
-
-        mayEdit(): boolean {
-            return (
-                ((this.poll?.admin.id == this.userData?.id ?? false) || (this.userData?.admin ?? false)) &&
-                (this.poll?.allowsEditing ?? false)
-            )
-        }
-
-        mayEditAllowEditing(): boolean {
-            return (this.poll?.admin.id == this.userData?.id ?? false) || (this.userData?.admin ?? false)
-        }
-
-        async pushChanges() {
-            try {
-                if (!this.mayEdit() && !this.mayEditAllowEditing()) return
-                const ret = await pushPollChanges(this.pollID, this.changes)
-                if (ret == ReturnCode.OK) this.changes = { pollID: this.pollID }
-                await this.setup()
-            } catch (e) {
-                console.error(e)
-            }
-        }
-
-        addOption() {
-            if (this.poll?.type == PollType.String && this.newOption.value == undefined) return
-            if (this.poll?.type == PollType.Date && this.newOption.dateStart == undefined) return
-            if (this.poll?.type == PollType.DateTime && this.newOption.dateTimeStart == undefined) return
-
-            if (this.changes.options == undefined) this.changes.options = []
-            //  format date to unix timestamp
-            if (this.poll?.type == PollType.Date) {
-                this.newOption.dateStart = new Date(this.newOption.dateStart!).getTime()
-                if (this.newOption.dateEnd != undefined) this.newOption.dateEnd = new Date(this.newOption.dateEnd).getTime()
-            }
-            if (this.poll?.type == PollType.DateTime) {
-                this.newOption.dateTimeStart = new Date(this.newOption.dateTimeStart!).getTime()
-                if (this.newOption.dateTimeEnd != undefined) this.newOption.dateTimeEnd = new Date(this.newOption.dateTimeEnd).getTime()
-            }
-
-            this.changes.options.push(this.newOption)
-
-            this.addingOption = false
-            this.newOption = {}
-            this.pushChanges()
-        }
-
-        async deleteOption(optionID: tOptionId) {
-            const option = this.poll?.options.find((opt) => opt.id == optionID)
-            if (option == undefined) return
-            const deleteConfirm = confirm(this.language?.uiElements.polls.details.deleteConfirm(JSON.stringify(option)))
-            if (deleteConfirm) {
-                if (this.changes.options == undefined) this.changes.options = []
-                this.changes.options.push({ id: optionID })
-                await this.pushChanges()
-            }
-        }
-
-        async voteUpdateCallback() {
-            await this.getPollData()
-            this.$forceUpdate()
-        }
-
-        async deletePoll() {
-            const confirm1 = confirm(this.language?.uiElements.polls.details.deletePollConfirm)
-            if (!confirm1) return
-            const confirm2 = confirm(this.language?.uiElements.polls.details.deletePollConfirmConfirm)
-            if (!confirm2) return
-
-            await deletePoll(this.pollID)
-            // @ts-ignore
-            window.location = "/"
-        }
-
-        share() {
-            // get protocol, hostname and port from window.location
-            const url = this.poll?.shareURL ?? ""
-            if (navigator.share) {
-                navigator
-                    .share({
-                        title: "Share Poll",
-                        url: url
-                    })
-                    .then(() => {
-                        console.log("Thanks for sharing!")
-                    })
-                    .catch(console.error)
-            } else this.copyToClipboard(url)
-            this.shareLinkCopied = true
-        }
-
-        copyToClipboard(text: string) {
-            window.prompt("Copy to clipboard: Ctrl+C, Enter", text)
-        }
-
-        getVotedForCount(optionID: tOptionId): string {
-            let count = 0
-            let maybeCount = 0
-            for (const userVotes of this.poll?.userVotes ?? []) {
-                const vote = userVotes.votes.find((vote) => vote.optionID == optionID) ?? { votedFor: undefined }
-
-                if (vote.votedFor != undefined && vote.votedFor == VoteValue.yes) count++
-                if (vote.votedFor != undefined && vote.votedFor == VoteValue.maybe) maybeCount++
-            }
-            return "" + count + (maybeCount > 0 ? " (+" + maybeCount + ")" : "")
-        }
-
-        userKicked(userID: tUserID) {
-            if (this.poll == undefined) return
-            this.poll.userVotes = this.poll.userVotes.filter((ele) => ele.user?.id != userID ?? true) ?? []
-            this.$forceUpdate()
-        }
-
-        async noteChangeCallback() {
+    async pushChanges() {
+        try {
+            if (!this.mayEdit() && !this.mayEditAllowEditing()) return
+            const ret = await pushPollChanges(this.pollID, this.changes)
+            if (ret == ReturnCode.OK) this.changes = { pollID: this.pollID }
             await this.setup()
-        }
-
-        async addUserClick() {
-            const userInfo = prompt(this.language?.uiElements.polls.details.addUserBtn, "id, mail, username")
-            if (userInfo == null || userInfo == "") return
-            await pushPollChanges(this.pollID, { pollID: this.pollID, userAdd: [userInfo] })
-            await this.setup()
+        } catch (e) {
+            console.error(e)
         }
     }
+
+    addOption() {
+        if (this.poll?.type == PollType.String && this.newOption.value == undefined) return
+        if (this.poll?.type == PollType.Date && this.newOption.dateStart == undefined) return
+        if (this.poll?.type == PollType.DateTime && this.newOption.dateTimeStart == undefined) return
+
+        if (this.changes.options == undefined) this.changes.options = []
+        //  format date to unix timestamp
+        if (this.poll?.type == PollType.Date) {
+            this.newOption.dateStart = new Date(this.newOption.dateStart!).getTime()
+            if (this.newOption.dateEnd != undefined) this.newOption.dateEnd = new Date(this.newOption.dateEnd).getTime()
+        }
+        if (this.poll?.type == PollType.DateTime) {
+            this.newOption.dateTimeStart = new Date(this.newOption.dateTimeStart!).getTime()
+            if (this.newOption.dateTimeEnd != undefined) this.newOption.dateTimeEnd = new Date(this.newOption.dateTimeEnd).getTime()
+        }
+
+        this.changes.options.push(this.newOption)
+
+        this.addingOption = false
+        this.newOption = {}
+        this.pushChanges()
+    }
+
+    async deleteOption(optionID: tOptionId) {
+        const option = this.poll?.options.find((opt) => opt.id == optionID)
+        if (option == undefined) return
+        const deleteConfirm = confirm(this.language?.uiElements.polls.details.deleteConfirm(JSON.stringify(option)))
+        if (deleteConfirm) {
+            if (this.changes.options == undefined) this.changes.options = []
+            this.changes.options.push({ id: optionID })
+            await this.pushChanges()
+        }
+    }
+
+    async voteUpdateCallback() {
+        await this.getPollData()
+        this.$forceUpdate()
+    }
+
+    async deletePoll() {
+        const confirm1 = confirm(this.language?.uiElements.polls.details.deletePollConfirm)
+        if (!confirm1) return
+        const confirm2 = confirm(this.language?.uiElements.polls.details.deletePollConfirmConfirm)
+        if (!confirm2) return
+
+        await deletePoll(this.pollID)
+        // @ts-ignore
+        window.location = "/"
+    }
+
+    share() {
+        // get protocol, hostname and port from window.location
+        const url = this.poll?.shareURL ?? ""
+        if (navigator.share) {
+            navigator
+                .share({
+                    title: "Share Poll",
+                    url: url
+                })
+                .then(() => {
+                    console.log("Thanks for sharing!")
+                })
+                .catch(console.error)
+        } else this.copyToClipboard(url)
+        this.shareLinkCopied = true
+    }
+
+    copyToClipboard(text: string) {
+        window.prompt("Copy to clipboard: Ctrl+C, Enter", text)
+    }
+
+    getVotedForCount(optionID: tOptionId): string {
+        let count = 0
+        let maybeCount = 0
+        for (const userVotes of this.poll?.userVotes ?? []) {
+            const vote = userVotes.votes.find((vote) => vote.optionID == optionID) ?? { votedFor: undefined }
+
+            if (vote.votedFor != undefined && vote.votedFor == VoteValue.yes) count++
+            if (vote.votedFor != undefined && vote.votedFor == VoteValue.maybe) maybeCount++
+        }
+        return "" + count + (maybeCount > 0 ? " (+" + maybeCount + ")" : "")
+    }
+
+    userKicked(userID: tUserID) {
+        if (this.poll == undefined) return
+        this.poll.userVotes = this.poll.userVotes.filter((ele) => ele.user?.id != userID ?? true) ?? []
+        this.$forceUpdate()
+    }
+
+    async noteChangeCallback() {
+        await this.setup()
+    }
+
+    async addUserClick() {
+        const userInfo = prompt(this.language?.uiElements.polls.details.addUserBtn, "id, mail, username")
+        if (userInfo == null || userInfo == "") return
+        await pushPollChanges(this.pollID, { pollID: this.pollID, userAdd: [userInfo] })
+        await this.setup()
+    }
+}
 </script>
 
 <style scoped>
-    * {
-        color: var(--text-color);
-    }
+* {
+    color: var(--text-color);
+}
 
-    input {
-        background: var(--secondary-color);
-    }
+input {
+    background: var(--secondary-color);
+}
 
-    .addOption,
-    .addOption > div {
-        display: inline;
-    }
+.addOption,
+.addOption>div {
+    display: inline;
+}
 
-    p {
-        margin-top: 0;
-    }
+p {
+    margin-top: 0;
+}
 
-    table {
-        table-layout: fixed;
-    }
+table {
+    table-layout: fixed;
+}
 
-    td > input,
-    th > input,
-    .addOption > div > input {
-        background: var(--bg-color);
-    }
+td>input,
+th>input,
+.addOption>div>input {
+    background: var(--bg-color);
+}
 
-    a {
-        cursor: pointer;
-    }
+a {
+    cursor: pointer;
+}
 
-    .x-scroller {
-        overflow-x: auto;
-    }
+.x-scroller {
+    overflow-x: auto;
+}
 
-    .currentUserVotes {
-        outline: thin solid var(--primary-color);
-    }
+.currentUserVotes {
+    outline: thin solid var(--primary-color);
+}
 
-    .deleteOpt {
-        text-decoration: underline;
-    }
+.deleteOpt {
+    text-decoration: underline;
+}
 
-    .info-text {
-        font-style: italic;
-        font-size: 0.8rem;
-        padding: 0.5rem;
-        display: flex;
-        flex-direction: column;
-        gap: 0.3rem;
-    }
+.info-text {
+    font-style: italic;
+    font-size: 0.8rem;
+    padding: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
 
-    .archived {
-        background-color: var(--alert-color);
-        padding: 1ch;
-        position: sticky;
-        top: 0;
-        z-index: 100;
-    }
+.archived {
+    background-color: var(--alert-color);
+    padding: 1ch;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
 </style>
 
 <style>
-    .stickyCol {
-        position: sticky;
-        left: 0;
-        z-index: 2;
-    }
+.stickyCol {
+    position: sticky;
+    left: 0;
+    z-index: 2;
+}
 
-    .stickyRow {
-        position: sticky;
-        top: 0;
-        z-index: 1;
-    }
+.stickyRow {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
 
-    th:first-child {
-        width: 40vw;
-    }
+th:first-child {
+    width: 40vw;
+}
 
-    th:first-child {
-        border: thin solid var(--text-color);
-    }
+th:first-child {
+    border: thin solid var(--text-color);
+}
 </style>

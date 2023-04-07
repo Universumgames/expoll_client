@@ -20,11 +20,8 @@
             <div v-show="!userInfo?.superAdmin && admin?.admin">
                 <label>Admin: {{ userInfo?.admin ? "yes" : "no" }}</label>
                 <br />
-                <button
-                    v-show="!userInfo?.admin || superAdmin"
-                    @click="toggleAdmin()"
-                    :style="'background-color: var(' + (userInfo?.admin ? '--alert-color' : '--primary-color') + ')'"
-                >
+                <button v-show="!userInfo?.admin || superAdmin" @click="toggleAdmin()"
+                    :style="'background-color: var(' + (userInfo?.admin ? '--alert-color' : '--primary-color') + ')'">
                     {{ userInfo?.admin ? "Demote" : "Promote" }}
                 </button>
             </div>
@@ -32,19 +29,13 @@
         </div>
 
         <div>
-            <button
-                v-show="!userInfo?.admin && userInfo?.active"
-                @click="deleteUser"
-                style="background: var(--alert-color)"
-            >
+            <button v-show="!userInfo?.admin && userInfo?.active" @click="deleteUser"
+                style="background: var(--alert-color)">
                 Delete User
             </button>
             <label v-show="!userInfo?.admin && !userInfo?.active">Already deleted</label>
-            <button
-                v-show="!userInfo?.admin && !userInfo?.active"
-                @click="deleteUser"
-                style="background: var(--alert-color)"
-            >
+            <button v-show="!userInfo?.admin && !userInfo?.active" @click="deleteUser"
+                style="background: var(--alert-color)">
                 Delete User and Votes
             </button>
             <button @click="impersonate" v-show="!userInfo!.superAdmin && admin!.id != userInfo?.id">Impersonate</button>
@@ -53,120 +44,120 @@
 </template>
 
 <script lang="ts">
-    import { Options, Vue } from "vue-class-component"
-    import { UserInfo } from "expoll-lib/adminInterfaces"
-    import { languageData } from "../../scripts/languageConstruct"
-    import EditIcon from "../../assetComponents/EditIcon.vue"
-    import { editUserAdmin, deleteUserAdmin } from "@/scripts/admin"
-    import axios from "axios"
+import { Options, Vue } from "vue-class-component"
+import { UserInfo } from "expoll-lib/adminInterfaces"
+import { languageData } from "../../scripts/languageConstruct"
+import EditIcon from "../../assetComponents/EditIcon.vue"
+import { editUserAdmin, deleteUserAdmin } from "@/scripts/admin"
+import axios from "axios"
 
-    @Options({
-        props: {
-            userInfo: Object,
-            admin: Object,
-            language: Object,
-            superAdmin: Object
-        },
-        components: {
-            EditIcon
-        }
-    })
-    export default class UserRow extends Vue {
-        userInfo: UserInfo | undefined
-        admin: UserInfo | undefined
-        language?: languageData
-        superAdmin?: boolean
+@Options({
+    props: {
+        userInfo: Object,
+        admin: Object,
+        language: Object,
+        superAdmin: Object
+    },
+    components: {
+        EditIcon
+    }
+})
+export default class UserRow extends Vue {
+    userInfo: UserInfo | undefined
+    admin: UserInfo | undefined
+    language?: languageData
+    superAdmin?: boolean
 
-        async deleteUser() {
-            if (
-                confirm("Do you really want to delete the user " + this.userInfo?.username + "? This cannot be undone")
-            ) {
-                if (
-                    confirm(
-                        "Do you really want to delete the user " + this.userInfo?.username + "? This cannot be undone"
-                    )
-                ) {
-                    await deleteUserAdmin(this.userInfo!.id)
-                    this.$emit("update")
-                }
-            }
-        }
-
-        async toggleAdmin() {
-            const newState = !this.userInfo?.admin
+    async deleteUser() {
+        if (
+            confirm("Do you really want to delete the user " + this.userInfo?.username + "? This cannot be undone")
+        ) {
             if (
                 confirm(
-                    "Are you sure you want to " +
-                        (newState ? "PROMOTE" : "DEMOTE") +
-                        " the user " +
-                        this.userInfo?.username +
-                        "?"
+                    "Do you really want to delete the user " + this.userInfo?.username + "? This cannot be undone"
                 )
             ) {
-                await editUserAdmin({
-                    userID: this.userInfo!.id,
-                    admin: newState
-                })
+                await deleteUserAdmin(this.userInfo!.id)
                 this.$emit("update")
             }
         }
+    }
 
-        async editEmail() {
-            const newMail = prompt(`Provide new email for user ${this.userInfo?.username}`, this.userInfo?.mail)
-            if (!newMail) return
-            await editUserAdmin({
-                userID: this.userInfo!.id,
-                mail: newMail
-            })
-            this.$emit("update")
-        }
-
-        async editName() {
-            const firstName = prompt(
-                `Provide new firstname for user ${this.userInfo?.username}`,
-                this.userInfo?.firstName
+    async toggleAdmin() {
+        const newState = !this.userInfo?.admin
+        if (
+            confirm(
+                "Are you sure you want to " +
+                (newState ? "PROMOTE" : "DEMOTE") +
+                " the user " +
+                this.userInfo?.username +
+                "?"
             )
-            if (!firstName) return
+        ) {
             await editUserAdmin({
                 userID: this.userInfo!.id,
-                firstName: firstName
+                admin: newState
             })
             this.$emit("update")
-
-            const lastName = prompt(`Provide new lastname for user ${this.userInfo?.username}`, this.userInfo?.lastName)
-            if (!lastName) return
-            await editUserAdmin({
-                userID: this.userInfo!.id,
-                lastName: lastName
-            })
-            this.$emit("update")
-        }
-
-        async impersonate() {
-            if (!confirm("Are you sure you want to impersonate this user?")) return
-            await axios.post("/api/admin/impersonate", {impersonateID: this.userInfo?.id})
-            window.location.reload()
         }
     }
+
+    async editEmail() {
+        const newMail = prompt(`Provide new email for user ${this.userInfo?.username}`, this.userInfo?.mail)
+        if (!newMail) return
+        await editUserAdmin({
+            userID: this.userInfo!.id,
+            mail: newMail
+        })
+        this.$emit("update")
+    }
+
+    async editName() {
+        const firstName = prompt(
+            `Provide new firstname for user ${this.userInfo?.username}`,
+            this.userInfo?.firstName
+        )
+        if (!firstName) return
+        await editUserAdmin({
+            userID: this.userInfo!.id,
+            firstName: firstName
+        })
+        this.$emit("update")
+
+        const lastName = prompt(`Provide new lastname for user ${this.userInfo?.username}`, this.userInfo?.lastName)
+        if (!lastName) return
+        await editUserAdmin({
+            userID: this.userInfo!.id,
+            lastName: lastName
+        })
+        this.$emit("update")
+    }
+
+    async impersonate() {
+        if (!confirm("Are you sure you want to impersonate this user?")) return
+        await axios.post("/api/admin/impersonate", { impersonateID: this.userInfo?.id })
+        window.location.reload()
+    }
+}
 </script>
 
 <style scoped>
-    .userListContainer {
-        display: flex;
-        flex-wrap: wrap;
-        flex-direction: columns;
-        background: var(--secondary-color);
-        border-radius: 1rem;
-        margin: 1rem;
-        padding: 1ch;
-        text-align: left;
-    }
+.userListContainer {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: columns;
+    background: var(--secondary-color);
+    border-radius: 1rem;
+    margin: 1rem;
+    padding: 1ch;
+    text-align: left;
+}
 
-    .userListContainer > * {
-        display: flex;
-        flex-direction: column;
-        flex: 1 0 auto;
-        padding: 1rem;
-        width: fit-content;
-    }
+.userListContainer>* {
+    display: flex;
+    flex-direction: column;
+    flex: 1 0 auto;
+    padding: 1rem;
+    width: fit-content;
+}
 </style>

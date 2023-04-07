@@ -12,70 +12,70 @@
 </template>
 
 <script lang="ts">
-    import { Options, Vue } from "vue-class-component"
-    import { languageData, languageList } from "../scripts/languageConstruct"
+import { Options, Vue } from "vue-class-component"
+import { languageData, languageList } from "../scripts/languageConstruct"
 
-    @Options({
-        props: {
-            language: Object
-        }
-    })
-    export default class LanguageSelect extends Vue {
-        showSelect = false
-        language?: languageData
-
-        mounted() {}
-
-        get availableLangs() {
-            return languageList
-        }
-
-        changeLang(short: string) {
-            this.$emit("langChange", short)
-            this.showSelect = false
-        }
+@Options({
+    props: {
+        language: Object
     }
+})
+export default class LanguageSelect extends Vue {
+    showSelect = false
+    language?: languageData
+
+    mounted() { }
+
+    get availableLangs() {
+        return languageList
+    }
+
+    changeLang(short: string) {
+        this.$emit("langChange", short)
+        this.showSelect = false
+    }
+}
 </script>
 
 <style scoped>
-    .lang-select {
-        display: flex;
-        flex-flow: column;
-    }
+.lang-select {
+    display: flex;
+    flex-flow: column;
+}
 
-    .lang {
-        cursor: pointer;
-        margin: 0;
-        padding: 0.2rem;
-    }
+.lang {
+    cursor: pointer;
+    margin: 0;
+    padding: 0.2rem;
+}
 
-    .lang:hover {
-        background-color: var(--primary-color);
-    }
+.lang:hover {
+    background-color: var(--primary-color);
+}
 
-    .changeLang {
-        cursor: pointer;
-        border-radius: 1rem;
-        padding: 0.8rem;
-        margin: 0;
-    }
+.changeLang {
+    cursor: pointer;
+    border-radius: 1rem;
+    padding: 0.8rem;
+    margin: 0;
+}
 
-    .changeLangShow {
-        background-color: var(--bg-color);
-        border-radius: 1rem 1rem 0 0;
-    }
+.changeLangShow {
+    background-color: var(--bg-color);
+    border-radius: 1rem 1rem 0 0;
+}
 
-    .changeLang:hover {
-        background-color: var(--primary-color);
-    }
+.changeLang:hover {
+    background-color: var(--primary-color);
+}
 
-    .selec-field {
-        display: flex;
-        flex-flow: column;
-        gap: 0.5rem;
-        background-color: var(--bg-color);
-        border-radius: 0 0 1rem 1rem;
-        padding-bottom: 0.8em;
-        padding-top: 0.3rem;
-    }
+.selec-field {
+    display: flex;
+    flex-flow: column;
+    gap: 0.5rem;
+    background-color: var(--bg-color);
+    border-radius: 0 0 1rem 1rem;
+    padding-bottom: 0.8em;
+    padding-top: 0.3rem;
+}
 </style>

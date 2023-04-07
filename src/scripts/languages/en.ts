@@ -58,7 +58,7 @@ Join the Beta via TestFlight and install the app: [https://testflight.apple.com/
                 mail: "Mail address",
                 otp: "OTP",
                 loginBtn: "Login",
-                otpQuestionAlert: "To login you need to provide either your mail address or a one time password. When a mail address is provided you will receive a mail with a one time password.",
+                otpQuestionAlert: "To login you need to provide your mail address. When the mail address exists you will receive a mail with a one time password otherwise you can create a new account.",
                 loginMailOrOTPMissing: "You must either specify your mail address or a one time password",
                 signup: "Signup",
                 firstName: "First name",
@@ -75,7 +75,8 @@ Join the Beta via TestFlight and install the app: [https://testflight.apple.com/
                 leaveQuickLoginBtn: "Back to Nonmal Login",
                 or: "or",
                 invalidMail: "Invalid mail address",
-                oidc: "Third party login"
+                oidc: "Third party login",
+                tryOtherMail: "Try another mail address"
             },
             alreadyLoggedInAs: (username: string) => "You are already logged in as " + username,
             logoutBtn: "Logout",

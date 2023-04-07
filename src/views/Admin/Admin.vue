@@ -13,19 +13,19 @@
 </template>
 
 <script lang="ts">
-    import { Options, Vue } from "vue-class-component"
-    import { IUser } from "expoll-lib/interfaces"
-    import { languageData } from "../../scripts/languageConstruct"
+import { Options, Vue } from "vue-class-component"
+import { IUser } from "expoll-lib/interfaces"
+import { languageData } from "../../scripts/languageConstruct"
 
-    @Options({
-        props: {
-            userData: Object,
-            language: Object
-        },
-        components: {}
-    })
-    export default class Admin extends Vue {
-        userData: IUser | undefined
-        language?: languageData
-    }
+@Options({
+    props: {
+        userData: Object,
+        language: Object
+    },
+    components: {}
+})
+export default class Admin extends Vue {
+    userData: IUser | undefined
+    language?: languageData
+}
 </script>

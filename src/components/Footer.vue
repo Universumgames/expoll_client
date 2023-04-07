@@ -4,21 +4,15 @@
             <languageSelect @langChange="onLangChange" :language="language" />
         </div>
         <label>Created by universumgames</label><br />
-        <router-link to="/app"
-            >iOS App <br />
-            <img src="/mac64.png" /></router-link
-        ><br />
+        <router-link to="/app">iOS App <br />
+            <img src="/mac64.png" /></router-link><br />
         <a href="https://universegame.de">Website</a>
         <a href="https://github.com/universumgames">Github</a>
-        <a
-            :href="
-                'https://universegame.de/bug?app=expoll&v=' +
-                bugreportVersion +
-                (userData != undefined ? '&mail=' + encodeURIComponent(userData.mail) : '')
-            "
-            target="_blank"
-            >Bugreport</a
-        >
+        <a :href="
+            'https://universegame.de/bug?app=expoll&v=' +
+            bugreportVersion +
+            (userData != undefined ? '&mail=' + encodeURIComponent(userData.mail) : '')
+        " target="_blank">Bugreport</a>
         <router-link to="/privacy">{{ language?.uiElements.navigation.privacyPolicy }}</router-link>
         <router-link to="/siteNotice">{{ language?.uiElements.navigation.siteNotice }}</router-link>
         <a href="https://mt32.net" target="_blank">Blog</a>
@@ -29,14 +23,9 @@
         <a href="/api/swagger" target="_blank">API Documentation</a>
 
         <br />
-        <a href="https://www.buymeacoffee.com/universum" target="_blank"
-            ><img
-                src="https://cdn.buymeacoffee.com/buttons/default-orange.png"
-                alt="Buy Me A Coffee"
-                height="41"
-                width="174"
-                loading="lazy"
-        /></a>
+        <a href="https://www.buymeacoffee.com/universum" target="_blank"><img
+                src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" height="41" width="174"
+                loading="lazy" /></a>
         <br />
         <p>Frontend-Version {{ frontendVersion }}</p>
         <p>Backend-Version {{ backendVersion }}</p>
@@ -44,36 +33,36 @@
 </template>
 
 <script lang="ts">
-    import { IUser } from "expoll-lib/interfaces"
-    import { Options, Vue } from "vue-class-component"
-    import { languageData } from "../scripts/languageConstruct"
-    import LanguageSelect from "./LanguageSelect.vue"
+import { IUser } from "expoll-lib/interfaces"
+import { Options, Vue } from "vue-class-component"
+import { languageData } from "../scripts/languageConstruct"
+import LanguageSelect from "./LanguageSelect.vue"
 
-    @Options({
-        props: {
-            userData: Object,
-            language: Object,
-            frontendVersion: String,
-            backendVersion: String
-        },
-        components: {
-            LanguageSelect
-        }
-    })
-    export default class FooterVue extends Vue {
-        language?: languageData
-
-        userData: IUser | undefined
-
-        frontendVersion?: string
-        backendVersion?: string
-
-        get bugreportVersion() {
-            return encodeURIComponent("Frontend " + this.frontendVersion + ", Backend " + this.backendVersion)
-        }
-
-        onLangChange(short: string) {
-            this.$emit("onLangChange", short)
-        }
+@Options({
+    props: {
+        userData: Object,
+        language: Object,
+        frontendVersion: String,
+        backendVersion: String
+    },
+    components: {
+        LanguageSelect
     }
+})
+export default class FooterVue extends Vue {
+    language?: languageData
+
+    userData: IUser | undefined
+
+    frontendVersion?: string
+    backendVersion?: string
+
+    get bugreportVersion() {
+        return encodeURIComponent("Frontend " + this.frontendVersion + ", Backend " + this.backendVersion)
+    }
+
+    onLangChange(short: string) {
+        this.$emit("onLangChange", short)
+    }
+}
 </script>

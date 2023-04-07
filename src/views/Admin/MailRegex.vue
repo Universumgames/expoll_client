@@ -21,77 +21,77 @@
 </template>
 
 <script lang="ts">
-    import { Options, Vue } from "vue-class-component"
-    import { IUser } from "expoll-lib/interfaces"
-    import { languageData } from "../../scripts/languageConstruct"
-    import UserRow from "./UserRow.vue"
-    import LoadingScreen from "../../components/LoadingScreen.vue"
-    import RegexTest from "./RegexTest.vue"
-    import { MailRegexEntry } from "expoll-lib/extraInterfaces"
-    import { updateRegeAdmin, getRegexAdmin } from "@/scripts/regex"
+import { Options, Vue } from "vue-class-component"
+import { IUser } from "expoll-lib/interfaces"
+import { languageData } from "../../scripts/languageConstruct"
+import UserRow from "./UserRow.vue"
+import LoadingScreen from "../../components/LoadingScreen.vue"
+import RegexTest from "./RegexTest.vue"
+import { MailRegexEntry } from "expoll-lib/extraInterfaces"
+import { updateRegeAdmin, getRegexAdmin } from "@/scripts/regex"
 
-    @Options({
-        props: {
-            userData: Object,
-            language: Object
-        },
-        components: {
-            UserRow,
-            LoadingScreen,
-            RegexTest
-        }
-    })
-    export default class MailRegex extends Vue {
-        userData: IUser | undefined
-        language?: languageData
-
-        regex: Array<MailRegexEntry> = []
-
-        newRegex?: string
-        newRegexBlacklist: boolean = false
-        showNewRegex: boolean = false
-
-        loading = true
-
-        async mounted() {
-            this.getData()
-        }
-
-        async getData() {
-            this.regex = await getRegexAdmin()
-
-            this.$forceUpdate()
-            this.loading = false
-        }
-
-        async addRegex() {
-            if (this.newRegex == undefined || this.newRegex == "") {
-                this.newRegex = undefined
-                return
-            }
-            this.regex.push({
-                regex: this.newRegex,
-                blacklist: this.newRegexBlacklist
-            })
-
-            this.update()
-
-            this.newRegex = undefined
-        }
-
-        async removeRegex(reg: string) {
-            await updateRegeAdmin(this.regex.filter((r) => r.regex != reg))
-
-            await this.getData()
-        }
-
-        async update() {
-            await updateRegeAdmin(this.regex)
-            await this.getData()
-        }
-
-        regexMatchChange(e: any) {
-            return true
-        }
+@Options({
+    props: {
+        userData: Object,
+        language: Object
+    },
+    components: {
+        UserRow,
+        LoadingScreen,
+        RegexTest
     }
+})
+export default class MailRegex extends Vue {
+    userData: IUser | undefined
+    language?: languageData
+
+    regex: Array<MailRegexEntry> = []
+
+    newRegex?: string
+    newRegexBlacklist: boolean = false
+    showNewRegex: boolean = false
+
+    loading = true
+
+    async mounted() {
+        this.getData()
+    }
+
+    async getData() {
+        this.regex = await getRegexAdmin()
+
+        this.$forceUpdate()
+        this.loading = false
+    }
+
+    async addRegex() {
+        if (this.newRegex == undefined || this.newRegex == "") {
+            this.newRegex = undefined
+            return
+        }
+        this.regex.push({
+            regex: this.newRegex,
+            blacklist: this.newRegexBlacklist
+        })
+
+        this.update()
+
+        this.newRegex = undefined
+    }
+
+    async removeRegex(reg: string) {
+        await updateRegeAdmin(this.regex.filter((r) => r.regex != reg))
+
+        await this.getData()
+    }
+
+    async update() {
+        await updateRegeAdmin(this.regex)
+        await this.getData()
+    }
+
+    regexMatchChange(e: any) {
+        return true
+    }
+}
 </script>

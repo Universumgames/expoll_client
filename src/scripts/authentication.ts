@@ -194,3 +194,22 @@ export async function requestLoginMail(mail: string): Promise<ReturnCode> {
         return e.response.status
     }
 }
+
+export interface OIDCConnection {
+    name: string
+    mail: string | undefined
+    subject: string
+}
+
+/**
+ * 
+ * @return {Promise<OIDCConnection[]>} returns a list of OIDC connections
+ */
+export async function getOIDCConnections(): Promise<OIDCConnection[]> {
+    try {
+        return (await axios.get(base + "/oidc/connections", { withCredentials: true })).data
+    } catch (e) {
+        console.warn(e)
+        return []
+    }
+}
