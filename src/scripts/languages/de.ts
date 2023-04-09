@@ -106,7 +106,8 @@ Tritt der Beta via TestFlight bei und installiere die App: [https://testflight.a
                 activeSessions: "Aktive Sitzungen",
                 deleteSessionPrompt: "Möchtest du diese Sitzung wirklich löschen?",
                 logoutAllPrompt: "Möchtest du dich wirklich überall abmelden?",
-                oidcLogins: "Anmeldungen mit Drittanbieter"
+                oidcLogins: "Anmeldungen mit Drittanbieter",
+                loginAppBtn: "Anmelden in der App"
             }
         },
         polls: {

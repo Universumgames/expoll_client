@@ -101,7 +101,8 @@ Join the Beta via TestFlight and install the app: [https://testflight.apple.com/
                 activeSessions: "Active sessions",
                 deleteSessionPrompt: "Do you want to delete this session?",
                 logoutAllPrompt: "Do you want to logout everywhere (Authenticators will not be deleted)?",
-                oidcLogins: "Third party logins"
+                oidcLogins: "Third party logins",
+                loginAppBtn: "Login in App"
             }
         },
         polls: {

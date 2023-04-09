@@ -11,6 +11,10 @@
                 <label>{{ language?.uiElements.login.form.firstName }}: {{ userData?.firstName }}</label><br />
                 <label>{{ language?.uiElements.login.form.lastName }}: {{ userData?.lastName }}</label><br /><br />
 
+                <a href="/api/auth/simple/app" target="_blank">
+                    <button>{{ language?.uiElements.login.loggedIn.loginAppBtn }}</button>
+                </a>
+
                 <details>
                     <summary>{{ language?.uiElements.login.loggedIn.oidcLogins }}</summary>
 
