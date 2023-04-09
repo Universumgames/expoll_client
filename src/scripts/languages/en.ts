@@ -72,7 +72,7 @@ Join the Beta via TestFlight and install the app: [https://testflight.apple.com/
                 quickLoginTitle: "Quick Login with security key",
                 quickLoginBtn: "Login with security key",
                 quickLoginNote: "Only usable when setup with a security key or biometric authentication on this device",
-                leaveQuickLoginBtn: "Back to Nonmal Login",
+                leaveQuickLoginBtn: "Back to Normal Login",
                 or: "or",
                 invalidMail: "Invalid mail address",
                 oidc: "Third party login",
@@ -100,7 +100,8 @@ Join the Beta via TestFlight and install the app: [https://testflight.apple.com/
                 deleteAccount: "Delete your account",
                 activeSessions: "Active sessions",
                 deleteSessionPrompt: "Do you want to delete this session?",
-                logoutAllPrompt: "Do you want to logout everywhere (Authenticators will not be deleted)?"
+                logoutAllPrompt: "Do you want to logout everywhere (Authenticators will not be deleted)?",
+                oidcLogins: "Third party logins"
             }
         },
         polls: {

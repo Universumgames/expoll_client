@@ -70,6 +70,7 @@ export interface languageData {
                 activeSessions: string
                 deleteSessionPrompt: string
                 logoutAllPrompt: string
+                oidcLogins: string
             }
         }
         polls: {

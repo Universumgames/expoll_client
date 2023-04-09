@@ -12,10 +12,12 @@
                 <label>{{ language?.uiElements.login.form.lastName }}: {{ userData?.lastName }}</label><br /><br />
 
                 <details>
-                    <summary>Third party login conncetions</summary>
+                    <summary>{{ language?.uiElements.login.loggedIn.oidcLogins }}</summary>
 
                     <div>
-                        <p v-for="connection in oidcConnections" :key="connection.subject">{{ connection.name }}</p>
+                        <p v-for="connection in oidcConnections" :key="connection.subject">{{
+                            // @ts-ignore
+                            capitalizeFirstLetter(connection.name) }}: {{ connection.mail }}</p>
                     </div>
 
                     <div>
@@ -37,16 +39,7 @@
                         <authenticator-detail v-for="auth in authenticators" :key="auth.credentialID" :language="language"
                             :userData="userData" :authenticator="auth" @update="updateAuthenticators" />
                     </div>
-                    <div v-show="authenticators == undefined || authenticators.length == 0" style="
-                                                        display: flex;
-                                                        flex-wrap: wrap;
-                                                        flex-direction: column;
-                                                        background: var(--secondary-color);
-                                                        border-radius: 1rem;
-                                                        margin: 1rem;
-                                                        padding: 1ch;
-                                                        text-align: left;
-                                                    ">
+                    <div v-show="authenticators == undefined || authenticators.length == 0" id="emptyAuthContainer">
                         {{ language?.uiElements.login.loggedIn.authEmpty }}
                     </div>
 
@@ -95,6 +88,7 @@ import * as webauthnJson from "@github/webauthn-json"
 
 import AuthenticatorDetail from "../components/AuthenticatorDetail.vue"
 import axios from "axios"
+import { capitalizeFirstLetter } from "../scripts/helper"
 
 @Options({
     props: {
@@ -106,6 +100,9 @@ import axios from "axios"
         LoadingScreen,
         LoginSignupView,
         AuthenticatorDetail
+    },
+    methods: {
+        capitalizeFirstLetter
     }
 })
 export default class Login extends Vue {
@@ -257,5 +254,16 @@ pre {
     border-radius: 1ch;
     padding: 0.2rem;
     margin: 0.5rem;
+}
+
+#emptyAuthContainer {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    background: var(--secondary-color);
+    border-radius: 1rem;
+    margin: 1rem;
+    padding: 1ch;
+    text-align: left;
 }
 </style>

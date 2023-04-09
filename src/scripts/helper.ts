@@ -50,3 +50,13 @@ export function mailIsAllowed(mail: string, regexRules: MailRegexEntry[]): boole
     }
     return res
 }
+
+
+/**
+ * Capitalize the first letter of the string
+ * @param {string} string 
+ * @return {string}
+ */
+export function capitalizeFirstLetter(string: string): string {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
