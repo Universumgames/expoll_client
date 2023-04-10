@@ -40,6 +40,13 @@
             </button>
             <button @click="impersonate" v-show="!userInfo!.superAdmin && admin!.id != userInfo?.id">Impersonate</button>
         </div>
+
+        <div class="oidcConnectionContainer">
+            <label>OIDC Connections: </label>
+            <img v-for="connection in userInfo!.oidcConnections" :key="connection"
+                :src="'/oidc/' + connection + '_preview.svg'" :alt="connection" class="oidcConnection" />
+            <label v-show="userInfo!.oidcConnections.length == 0">None</label>
+        </div>
     </div>
 </template>
 
@@ -50,6 +57,7 @@ import { languageData } from "../../scripts/languageConstruct"
 import EditIcon from "../../assetComponents/EditIcon.vue"
 import { editUserAdmin, deleteUserAdmin } from "@/scripts/admin"
 import axios from "axios"
+import { capitalizeFirstLetter } from "@/scripts/helper"
 
 @Options({
     props: {
@@ -60,6 +68,9 @@ import axios from "axios"
     },
     components: {
         EditIcon
+    },
+    methods: {
+        capitalizeFirstLetter
     }
 })
 export default class UserRow extends Vue {
@@ -159,5 +170,18 @@ export default class UserRow extends Vue {
     flex: 1 0 auto;
     padding: 1rem;
     width: fit-content;
+}
+
+.oidcConnection {
+    width: 4ch;
+    display: inline-block;
+}
+
+.oidcConnectionContainer {
+    flex-direction: row;
+}
+
+.oidcConnectionContainer>* {
+    margin: 1ch;
 }
 </style>

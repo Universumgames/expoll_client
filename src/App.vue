@@ -57,7 +57,7 @@ export default class App extends Vue {
     isImpersonating = false
     impersonatingMail = ""
 
-    frontendVersion = "2.8.2"
+    frontendVersion = "2.8.4"
     backendVersion = "unknown"
     clientIsCompatible = true
 
