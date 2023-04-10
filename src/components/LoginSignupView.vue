@@ -182,6 +182,11 @@ export default class LoginSignupView extends Vue {
             }
         }
 
+        if (this.paramMailExist) {
+            this.loginMail = this.paramMail!
+            this.view = LoginType.SIGNUP
+        }
+
         this.mailRegex = await getLoginRegex()
 
     }
@@ -213,8 +218,17 @@ export default class LoginSignupView extends Vue {
         return this.$route.query.key
     }
 
+    get paramMail(): string | undefined {
+        // @ts-ignore
+        return this.$route.query.mail
+    }
+
     get paramOTPExist() {
         return this.paramOTP != undefined && this.paramOTP != ""
+    }
+
+    get paramMailExist() {
+        return this.paramMail != undefined && this.paramMail != ""
     }
 
     async request() {
