@@ -78,12 +78,13 @@
                     <summary>{{ language?.uiElements.login.loggedIn.personalizedDBContent }}</summary>
                     <pre>{{ personalizedData }}</pre>
                 </details>
-                <br />
-                <button @click="deleteUser" class="delete">
-                    {{ language?.uiElements.login.loggedIn.deleteAccount }}
-                </button>
+
                 <br />
                 <button @click="logout">{{ language?.uiElements.login.logoutBtn }}</button>
+                <br />
+                <button @click="deleteUser" class="delete" style="margin-top: 30vh;">
+                    {{ language?.uiElements.login.loggedIn.deleteAccount }}
+                </button>
             </div>
         </div>
     </div>
