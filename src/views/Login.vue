@@ -6,10 +6,19 @@
         <div v-show="userData != undefined && loggedIn">
             <h1>{{ language?.uiElements.login.alreadyLoggedInAs(userData?.username ?? "") }}</h1>
             <div>
-                <label>{{ language?.uiElements.login.form.username }}: {{ userData?.username }}</label><br />
+                <label>{{ language?.uiElements.login.form.username }}: {{ userData?.username }} <button
+                        @click="editUsername">
+                        <edit-icon class="normalIcon" />
+                    </button></label><br />
                 <label>{{ language?.uiElements.login.form.mail }}: {{ userData?.mail }}</label><br />
-                <label>{{ language?.uiElements.login.form.firstName }}: {{ userData?.firstName }}</label><br />
-                <label>{{ language?.uiElements.login.form.lastName }}: {{ userData?.lastName }}</label><br /><br />
+                <label>{{ language?.uiElements.login.form.firstName }}: {{ userData?.firstName }} <button
+                        @click="editFirstName">
+                        <edit-icon class="normalIcon" />
+                    </button></label><br />
+                <label>{{ language?.uiElements.login.form.lastName }}: {{ userData?.lastName }} <button
+                        @click="editLastName">
+                        <edit-icon class="normalIcon" />
+                    </button></label><br /><br />
 
                 <a href="/api/auth/simple/app" target="_blank">
                     <button>{{ language?.uiElements.login.loggedIn.loginAppBtn }}</button>
@@ -93,6 +102,7 @@ import * as webauthnJson from "@github/webauthn-json"
 import AuthenticatorDetail from "../components/AuthenticatorDetail.vue"
 import axios from "axios"
 import { capitalizeFirstLetter } from "../scripts/helper"
+import EditIcon from "@/assetComponents/EditIcon.vue"
 
 @Options({
     props: {
@@ -103,7 +113,8 @@ import { capitalizeFirstLetter } from "../scripts/helper"
     components: {
         LoadingScreen,
         LoginSignupView,
-        AuthenticatorDetail
+        AuthenticatorDetail,
+        EditIcon
     },
     methods: {
         capitalizeFirstLetter
@@ -212,6 +223,35 @@ export default class Login extends Vue {
         if (confirm(this.language?.uiElements.login.loggedIn.logoutAllPrompt)) {
             await logoutAllSessions()
             location.reload()
+        }
+    }
+
+    async editUsername() {
+        const username = prompt(this.language?.uiElements.login.loggedIn.editUsernamePrompt, this.userData?.username)
+        if (username == null) return
+        const result = await axios.put("/api/user", { username }, { withCredentials: true })
+        if (result.status == 200) {
+            window.location.reload()
+        } else {
+            alert("Username already taken")
+        }
+    }
+
+    async editFirstName() {
+        const firstName = prompt(this.language?.uiElements.login.loggedIn.editFirstNamePrompt, this.userData?.firstName)
+        if (firstName == null) return
+        const result = await axios.put("/api/user", { firstName }, { withCredentials: true })
+        if (result.status == 200) {
+            window.location.reload()
+        }
+    }
+
+    async editLastName() {
+        const lastName = prompt(this.language?.uiElements.login.loggedIn.editLastNamePrompt, this.userData?.lastName)
+        if (lastName == null) return
+        const result = await axios.put("/api/user", { lastName }, { withCredentials: true })
+        if (result.status == 200) {
+            window.location.reload()
         }
     }
 }

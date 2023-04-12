@@ -107,7 +107,10 @@ Tritt der Beta via TestFlight bei und installiere die App: [https://testflight.a
                 deleteSessionPrompt: "Möchtest du diese Sitzung wirklich löschen?",
                 logoutAllPrompt: "Möchtest du dich wirklich überall abmelden?",
                 oidcLogins: "Anmeldungen mit Drittanbieter",
-                loginAppBtn: "Anmelden in der App"
+                loginAppBtn: "Anmelden in der App",
+                editUsernamePrompt: "Benutzernamen ändern",
+                editFirstNamePrompt: "Vorname ändern",
+                editLastNamePrompt: "Nachname ändern"
             }
         },
         polls: {

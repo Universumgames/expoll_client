@@ -71,7 +71,10 @@ export interface languageData {
                 deleteSessionPrompt: string
                 logoutAllPrompt: string
                 oidcLogins: string,
-                loginAppBtn: string
+                loginAppBtn: string,
+                editUsernamePrompt: string,
+                editFirstNamePrompt: string,
+                editLastNamePrompt: string
             }
         }
         polls: {
