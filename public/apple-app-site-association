@@ -1,13 +1,21 @@
 {
     "applinks": {
-        "apps": [],
         "details": [
             {
                 "appIDs": [
                     "98ZXK38P8L.de.universegame.expoll-ios"
                 ],
-                "paths": [
-                    "*"
+                "components":[
+                    {
+                        "/": "/",
+                        "comment": "Matches all URLs from webapp (webapp uses fragment (#) for routing)",
+                        "#": "*"
+                    },
+                    {
+                        "/": "/api/*",
+                        "exclude": true,
+                        "comment": "Exclude all API calls"
+                    }
                 ]
             }
         ]
