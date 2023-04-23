@@ -2,8 +2,9 @@
     <div class="container">
         <h2>{{ language?.uiElements.login.form.oidc }}</h2>
         <div class="providers">
-            <a v-for="provider in providers" :key="provider" class="providerLink" :href="'/api/auth/oidc/' + provider">
-                <img :src="'/oidc/' + provider + '_signin.png'" style="width: 100%;" />
+            <a v-for="provider in providers" :key="provider.key" class="providerLink"
+                :href="'/api/auth/oidc/' + provider.key">
+                <img :src="provider.imageURI" style="width: 100%; color: var(--primary-color)" :alt="provider.altName" />
             </a>
         </div>
     </div>
@@ -28,7 +29,7 @@ import axios from "axios"
 })
 export default class OIDC extends Vue {
     language?: languageData
-    providers: string[] = []
+    providers: { key: string, imageURI: string, imageSmallURI: string, altName: string }[] = []
 
     async mounted() {
         this.providers = await axios.get("/api/auth/oidc/providers").then(res => res.data)
