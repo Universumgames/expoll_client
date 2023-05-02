@@ -48,6 +48,9 @@ export default class PollListView extends Vue {
 
     async mounted() {
         const pollData = await getPollOverviews()
+        if (pollData == undefined) {
+            window.location.href = "/#/login"
+        }
         this.polls = pollData?.polls ?? []
 
         this.$forceUpdate()
