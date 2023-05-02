@@ -10,11 +10,10 @@
             <small>{{ noteString }}</small>
         </th>
         <td v-for="voteOpt in userVote?.votes" :key="voteOpt.optionID">
-            <a @click="change(voteOpt.optionID)" @keyup="
-                (e) => {
+            <a @click="change(voteOpt.optionID)" @keyup="(e) => {
                     if (e.keyCode == 13) change(voteOpt.optionID)
                 }
-            " :class="isEditable() ? 'changeable' : ''" tabindex="0">{{ voteString(voteOpt.votedFor) }}</a><br />
+                " :class="isEditable() ? 'changeable' : ''" tabindex="0">{{ voteString(voteOpt.votedFor) }}</a><br />
             <small v-show="errorMsg != '' && voteOpt.votedFor" class="errorInfo">{{ errorMsg }}</small>
         </td>
         <td>
@@ -136,10 +135,13 @@ export default class PollUserVoteRow extends Vue {
                 return
             }
             // leave poll
+
             if (this.loggedUserIsSelectedUser()) {
                 await leavePoll(this.pollData.pollID)
                 // @ts-ignore
                 window.location = "/#/polls"
+                console.log("leaving poll")
+
             } else {
                 // remove user from poll
                 if (!this.isEditable()) return

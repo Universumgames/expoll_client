@@ -38,8 +38,8 @@ export async function getDetailedPoll(pollID: tPollID): Promise<DetailedPollResp
  */
 export async function leavePoll(pollID: tPollID) {
     try {
-        const data: EditPollRequest = { pollID: pollID, leave: true }
-        await axios.put(base, data, { withCredentials: true })
+        const data: EditPollRequest = { pollID: pollID }
+        await axios.post(base + "/leave", data, { withCredentials: true })
     } catch (e) {
         console.warn(e)
     }

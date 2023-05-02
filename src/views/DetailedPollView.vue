@@ -120,10 +120,10 @@
                 <h3 style="display: inline" v-show="shareLinkCopied">Copied</h3>
             </a>
         </div>
-        <div style="text-align: left; margin-top: 1rem" v-show="!isJoined">
-            <a @click="joinPoll()">
-                <h3 style="display: inline">Join</h3>
-            </a>
+        <div style="text-align: left; margin-top: 1rem" v-show="!isJoined && poll != undefined">
+            <button @click="joinPoll()">
+                <h1 style="display: inline">Join</h1>
+            </button>
         </div>
         <br />
 
@@ -273,6 +273,8 @@ export default class DetailedPollView extends Vue {
 
     displayUsernameInsteadOfFull = false
 
+    isJoined = false
+
     isEditing() {
         return (this.addingOption || this.changes.name != undefined || this.changes.description != undefined) && this.poll != undefined
     }
@@ -316,6 +318,10 @@ export default class DetailedPollView extends Vue {
 
         this.poll = poll
 
+        this.isJoined = poll?.userVotes.find((uv) => {
+            return uv.user.id == this.userData?.id
+        }) != undefined
+
         document.title = "Expoll - " + poll.name
     }
 
@@ -324,6 +330,9 @@ export default class DetailedPollView extends Vue {
             if (this.isEditing()) return
             await this.getPollData()
             await this.checkAndJoinPoll()
+            await this.getPollData()
+
+
 
             if (this.poll != undefined) this.changes = { pollID: this.poll.pollID }
             this.loadingFailed = this.poll == undefined
@@ -341,7 +350,8 @@ export default class DetailedPollView extends Vue {
     async checkAndJoinPoll() {
         if (
             // @ts-ignore
-            ((this.$route.query.join == true && !this.isJoined) ?? false) &&
+            this.$route.query.join == "1" &&
+            !this.isJoined &&
             (this.poll?.allowsEditing ?? false)
         ) {
             try {
@@ -352,14 +362,11 @@ export default class DetailedPollView extends Vue {
         }
     }
 
-    get isJoined() {
-        return this.poll == undefined || (this.poll?.userVotes.find((vote) => vote.user.id == this.userData?.id) != undefined && this.poll?.allowsEditing)
-    }
-
     async joinPoll() {
         await joinPoll(this.pollID)
         // @ts-ignore
-        window.location = "/#/polls/" + this.pollID
+        window.location.href = "/#/polls/" + this.pollID
+        window.location.reload()
     }
 
     optionValue(option: any): string {
