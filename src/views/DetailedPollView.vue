@@ -162,6 +162,7 @@
                                     language?.uiElements.polls.create.optionValue
                                 }}</label>
                                 <input v-model="newOption.dateStart" :id="newOption.id + 'dateStart'" type="date" />
+                                <br />
                                 <label :for="newOption.id + 'dateEnd'">{{
                                     language?.uiElements.polls.create.optionOptEndValue
                                 }}</label>
@@ -174,12 +175,14 @@
                                 }}</label>
                                 <input v-model="newOption.dateTimeStart" :id="newOption.id + 'dateTimeStart'"
                                     type="datetime-local" />
+                                <br />
                                 <label :for="newOption.id + 'dateTimeEnd'">{{
                                     language?.uiElements.polls.create.optionOptEndValue
                                 }}</label>
                                 <input v-model="newOption.dateTimeEnd" :id="newOption.id + 'dateTimeEnd'"
                                     type="datetime-local" />
                             </div>
+                            <br />
                             <button @click="addOption" style="padding: 0.5rem">
                                 <save-icon class="normalIcon" />
                             </button>
@@ -479,7 +482,7 @@ export default class DetailedPollView extends Vue {
 
         await deletePoll(this.pollID)
         // @ts-ignore
-        window.location = "/"
+        window.location = "/#/polls"
     }
 
     share() {

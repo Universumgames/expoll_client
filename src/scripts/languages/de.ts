@@ -139,7 +139,8 @@ Tritt der Beta via TestFlight bei und installiere die App: [https://testflight.a
                 notEditableAfterCreation: "Die Option kann nach dem Erstellen nicht mehr bearbeitet werden"
             },
             list: {
-                lastUpdate: (timeString: string) => "Zuletzt aktualisiert am " + timeString
+                lastUpdate: (timeString: string) => "Zuletzt aktualisiert am " + timeString,
+                createBtn: "Umfrage erstellen"
             },
             details: {
                 createdBy: (username: string) => "Erstellt von " + username,

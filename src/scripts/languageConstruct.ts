@@ -103,7 +103,8 @@ export interface languageData {
                 notEditableAfterCreation: string
             }
             list: {
-                lastUpdate: (timeString: string) => string
+                lastUpdate: (timeString: string) => string,
+                createBtn: string
             }
             details: {
                 createdBy: (username: string) => string

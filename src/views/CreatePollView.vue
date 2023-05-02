@@ -140,6 +140,28 @@ export default class CreatePollView extends Vue {
         if (this.description == "") return
         if (this.options[0] == undefined) return
 
+        // convert html/js date and datetime to unix timestamp in millis
+        if (this.type == PollType.Date) {
+            this.options.forEach((ele) => {
+                if (ele.dateStart != undefined) {
+                    ele.dateStart = new Date(ele.dateStart).getTime()
+                }
+                if (ele.dateEnd != undefined) {
+                    ele.dateEnd = new Date(ele.dateEnd).getTime()
+                }
+            })
+        } else if (this.type == PollType.DateTime) {
+            this.options.forEach((ele) => {
+                if (ele.dateTimeStart != undefined) {
+                    ele.dateTimeStart = new Date(ele.dateTimeStart).getTime()
+                }
+                if (ele.dateTimeEnd != undefined) {
+                    ele.dateTimeEnd = new Date(ele.dateTimeEnd).getTime()
+                }
+            })
+        }
+
+
         const data: CreatePollRequest = {
             name: this.pollName,
             maxPerUserVoteCount: this.maxVoteCount,

@@ -134,7 +134,8 @@ Join the Beta via TestFlight and install the app: [https://testflight.apple.com/
                 notEditableAfterCreation: "You can't edit this option after saving"
             },
             list: {
-                lastUpdate: (timeString: string) => "Last update on " + timeString
+                lastUpdate: (timeString: string) => "Last update on " + timeString,
+                createBtn: "Create poll"
             },
             details: {
                 createdBy: (username: string) => "Created by " + username,

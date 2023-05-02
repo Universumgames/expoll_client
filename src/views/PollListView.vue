@@ -4,11 +4,13 @@
             <blank-poll-list-element v-for="n in 20" v-bind:key="n" :language="language" />
         </div>
         <loading-screen v-show="loading" />
+        <router-link to="/create"><button><span title="Create Poll">+ {{ language?.uiElements.polls.list.createBtn
+        }}</span></button></router-link>
         <div v-for="poll in polls" :key="poll.pollID">
             <poll-list-element :poll="poll" :language="language" />
         </div>
 
-        <router-link to="/create"><button><span title="Create Poll">+</span></button></router-link>
+
     </div>
 </template>
 
@@ -71,10 +73,9 @@ export default class PollListView extends Vue {
 }
 
 button {
-    border-radius: 50%;
+    border-radius: 1ch;
     padding: 1ch;
-    width: 3rem;
-    height: 3rem;
+
 }
 
 .createPoll {
