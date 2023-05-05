@@ -24,8 +24,10 @@
                     <button>{{ language?.uiElements.login.loggedIn.loginAppBtn }}</button>
                 </a>
 
-                <details>
+                <details open>
                     <summary>{{ language?.uiElements.login.loggedIn.oidcLogins }}</summary>
+
+
 
                     <div>
                         <p v-for="connection in oidcConnections" :key="connection.subject">{{
@@ -33,8 +35,11 @@
                             capitalizeFirstLetter(connection.name) }}: {{ connection.mail }}</p>
                     </div>
 
-                    <div>
-                        <a v-for="provider in missingProviders" :key="provider" style="max-width: 20ch;"
+                    <h3 v-show="missingProviders.length != 0">{{ language?.uiElements.login.loggedIn.oidcConnectionNote }}
+                    </h3>
+
+                    <div v-for="provider in missingProviders" :key="provider">
+                        <a style="min-width: 25ch; width: 40vw; max-width: 60ch;"
                             :href="'/api/auth/oidc/addConnection/' + provider">
                             <img :src="'/oidc/' + provider + '_signin.png'" style="width: 100%;" />
                         </a>
@@ -133,7 +138,8 @@ export default class Login extends Vue {
 
     authenticators: any[] = []
     oidcConnections: OIDCConnection[] = []
-    providers: string[] = []
+    providers: { key: string, imageURI: string, imageSmallURI: string, altName: string }[] = []
+
     missingProviders: string[] = []
 
     async mounted() {
@@ -142,8 +148,10 @@ export default class Login extends Vue {
         this.oidcConnections = await getOIDCConnections()
         this.providers = await axios.get("/api/auth/oidc/providers").then(res => res.data)
         const existingProviders = this.oidcConnections.map(t => t.name)
-        this.missingProviders = this.providers.filter(prov => !existingProviders.includes(prov))
-        console.log(this.missingProviders)
+
+        this.missingProviders = this.providers
+            .filter(prov => !existingProviders.includes(prov.key))
+            .map(prov => prov.key)
 
     }
 

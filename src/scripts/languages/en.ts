@@ -105,7 +105,8 @@ Join the Beta via TestFlight and install the app: [https://testflight.apple.com/
                 loginAppBtn: "Login in App",
                 editUsernamePrompt: "Edit your username",
                 editFirstNamePrompt: "Edit your first name",
-                editLastNamePrompt: "Edit your last name"
+                editLastNamePrompt: "Edit your last name",
+                oidcConnectionNote: "Add alternative login methods to sign in quicker"
             }
         },
         polls: {

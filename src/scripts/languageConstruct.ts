@@ -74,7 +74,8 @@ export interface languageData {
                 loginAppBtn: string,
                 editUsernamePrompt: string,
                 editFirstNamePrompt: string,
-                editLastNamePrompt: string
+                editLastNamePrompt: string,
+                oidcConnectionNote: string,
             }
         }
         polls: {

@@ -110,7 +110,8 @@ Tritt der Beta via TestFlight bei und installiere die App: [https://testflight.a
                 loginAppBtn: "Anmelden in der App",
                 editUsernamePrompt: "Benutzernamen ändern",
                 editFirstNamePrompt: "Vorname ändern",
-                editLastNamePrompt: "Nachname ändern"
+                editLastNamePrompt: "Nachname ändern",
+                oidcConnectionNote: "Füge eine alterantive Anmeldemethode hinzu um dich schneller anzumelden"
             }
         },
         polls: {

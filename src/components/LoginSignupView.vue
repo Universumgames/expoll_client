@@ -31,7 +31,7 @@
             </div>
             <div v-show="showAdvancedLogin">
                 <label for="key">{{ language?.uiElements.login.form.otp }}</label>
-                <input id="key" type="text" placeholder="key" v-model="otp" />
+                <input id="key" type="text" placeholder="key" v-model="otp" autocomplete="one-time-code" />
                 <button @click="login">{{ language?.uiElements.login.form.loginBtn }}</button>
             </div>
             <p v-if="(otp == '' && loginClicked) || (loginMail == '' && requestClicked)" class="errorInfo">
