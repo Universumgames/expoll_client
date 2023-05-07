@@ -6,7 +6,8 @@ const routes = [
         name: "Polls",
         component: () => import("../views/PollListView.vue"),
         meta: {
-            title: "Polls"
+            title: "Polls",
+            appPath: "polls"
         }
     },
     {
@@ -14,7 +15,8 @@ const routes = [
         name: "Poll Details",
         component: () => import("../views/DetailedPollView.vue"),
         meta: {
-            title: "Poll Detail"
+            title: "Poll Detail",
+            appPath: "poll/:id"
         }
     },
     {
@@ -76,7 +78,8 @@ const routes = [
         name: "Login Page",
         component: () => import("../views/Login.vue"),
         meta: {
-            title: "Login - expoll"
+            title: "Login - expoll",
+            appPath: "userinfo"
         }
     },
     {

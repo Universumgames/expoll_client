@@ -57,7 +57,7 @@ export default class App extends Vue {
     isImpersonating = false
     impersonatingMail = ""
 
-    frontendVersion = "2.9.3"
+    frontendVersion = "2.9.4"
     backendVersion = "unknown"
     clientIsCompatible = true
 
@@ -70,7 +70,23 @@ export default class App extends Vue {
         }
         // @ts-ignore
         this.$router.beforeEach(async (to) => {
+            // update title
             document.title = to.meta.title != undefined ? (to.meta.title as string) : "404 Page not found"
+            // update apple universal links to deep link
+            const bannerMetaTag = document.querySelector('meta[name="apple-itunes-app"]')
+            const appID = bannerMetaTag?.getAttribute("content")?.split(",").find((e) => e.includes("app-id"))
+            let appPath = "app-argument=expoll://" + to.meta.appPath
+            // replace :id in appPath with the actual id in the route
+            if (to.params.id != undefined) {
+                // @ts-ignore
+                appPath = appPath.replace(":id", to.params.id)
+            }
+            if (appID != undefined && to.meta.appPath != undefined) {
+                bannerMetaTag?.setAttribute("content", appID + "," + appPath)
+            } else if (appID != undefined) {
+                bannerMetaTag?.setAttribute("content", appID)
+            }
+            // update grecaptcha visibility
             const badges = document.getElementsByClassName("grecaptcha-badge")
             for (let i = 0; i < badges.length; i++) {
                 // @ts-ignore
