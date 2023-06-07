@@ -7,12 +7,14 @@
                 ],
                 "components":[
                     {
-                        "comment": "Matches all URLs from webapp (webapp uses fragment (#) for routing)"
-                    },
-                    {
                         "/": "/api/*",
                         "exclude": true,
                         "comment": "Exclude all API calls"
+                    },
+                    {
+                        "/": "/",
+                        "#": "*",
+                        "comment": "Matches all URLs from webapp (webapp uses fragment (#) for routing)"
                     }
                 ]
             }
