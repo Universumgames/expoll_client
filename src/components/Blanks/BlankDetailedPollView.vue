@@ -2,36 +2,36 @@
     <div>
         <div style="text-align: left">
             <!-- name -->
-            <div class="blank" id="name"></div>
+            <div id="name" class="blank" />
 
-            <div class="blank" id="id"></div>
-            <div class="blank" id="created"></div>
+            <div id="id" class="blank" />
+            <div id="created" class="blank" />
             <!-- description -->
             <div style="margin-top: 1ch">
-                <div class="blank" id="descTitle"></div>
-                <div class="blank" id="descText"></div>
+                <div id="descTitle" class="blank" />
+                <div id="descText" class="blank" />
             </div>
 
             <!-- max vote count -->
-            <div class="blank" id="voteCount"></div>
+            <div id="voteCount" class="blank" />
         </div>
         <!-- share -->
         <div style="text-align: left; margin-top: 1rem">
-            <div class="blank" id="share"></div>
+            <div id="share" class="blank" />
         </div>
-        <br />
+        <br>
 
         <!-- Poll options and results -->
         <div class="x-scroller">
             <table>
                 <tr>
-                    <th class="tableBox"></th>
-                    <th style="white-space: pre-wrap" class="tableBox" v-for="n in 4" v-bind:key="n"></th>
-                    <th style="padding: 1rem" class="tableBox"></th>
+                    <th class="tableBox" />
+                    <th v-for="n in 4" :key="n" style="white-space: pre-wrap" class="tableBox" />
+                    <th style="padding: 1rem" class="tableBox" />
                 </tr>
 
-                <tr v-for="m in 6" v-bind:key="m">
-                    <td class="tableBox" v-for="n in 6" v-bind:key="n"></td>
+                <tr v-for="m in 6" :key="m">
+                    <td v-for="n in 6" :key="n" class="tableBox" />
                 </tr>
             </table>
         </div>
@@ -39,131 +39,126 @@
 </template>
 
 <script lang="ts">
-    import { Options, Vue } from "vue-class-component"
-    import { languageData } from "../../scripts/languageConstruct"
-    import SaveIcon from "../../assetComponents/SaveIcon.vue"
-    import EditIcon from "../../assetComponents/EditIcon.vue"
-    import ShareIcon from "../../assetComponents/ShareIcon.vue"
-    import PollUserVoteRow from "../../components/PollUserVotes.vue"
-    import LoadingScreen from "../../components/LoadingScreen.vue"
-    import SwitchIcon from "../../assetComponents/SwitchIcon.vue"
-    import LoginSignupView from "../../components/LoginSignupView.vue"
+import { Options, Vue } from "vue-class-component"
+import { languageData } from "../../scripts/languageConstruct"
+import SaveIcon from "../../assetComponents/SaveIcon.vue"
+import EditIcon from "../../assetComponents/EditIcon.vue"
+import ShareIcon from "../../assetComponents/ShareIcon.vue"
+import PollUserVoteRow from "../../components/PollUserVotes.vue"
+import LoadingScreen from "../../components/LoadingScreen.vue"
+import SwitchIcon from "../../assetComponents/SwitchIcon.vue"
+import LoginSignupView from "../../components/LoginSignupView.vue"
 
-    /*
-         votes: { user: User; votes: { optionID: tOptionId; votedFor: boolean }
-     */
+/*
+     votes: { user: User; votes: { optionID: tOptionId; votedFor: boolean }
+ */
 
-    @Options({
-        props: {},
-        components: {
-            SaveIcon,
-            EditIcon,
-            ShareIcon,
-            SwitchIcon,
-            PollUserVoteRow,
-            LoadingScreen,
-            LoginSignupView
-        }
-    })
-    export default class BlankDetailedPollView extends Vue {
-        language?: languageData
-
-        async mounted() {
-            await this.setup()
-        }
-
-        async setup() {}
+@Options({
+    props: {},
+    components: {
+        SaveIcon,
+        EditIcon,
+        ShareIcon,
+        SwitchIcon,
+        PollUserVoteRow,
+        LoadingScreen,
+        LoginSignupView
     }
+})
+export default class BlankDetailedPollView extends Vue {
+    language?: languageData
+
+}
 </script>
 
 <style scoped>
-    * {
-        color: var(--text-color);
-    }
+* {
+    color: var(--text-color);
+}
 
-    input {
-        background: var(--secondary-color);
-    }
+input {
+    background: var(--secondary-color);
+}
 
-    .addOption,
-    .addOption > div {
-        display: inline;
-    }
+.addOption,
+.addOption > div {
+    display: inline;
+}
 
-    p {
-        margin-top: 0;
-    }
+p {
+    margin-top: 0;
+}
 
-    td > input,
-    th > input,
-    .addOption > div > input {
-        background: var(--bg-color);
-    }
+td > input,
+th > input,
+.addOption > div > input {
+    background: var(--bg-color);
+}
 
-    a {
-        cursor: pointer;
-    }
+a {
+    cursor: pointer;
+}
 
-    .x-scroller {
-        width: 98vw;
-        overflow-x: auto;
-    }
+.x-scroller {
+    width: 98vw;
+    overflow-x: auto;
+}
 
-    .currentUserVotes {
-        outline: thin solid var(--primary-color);
-    }
+.currentUserVotes {
+    outline: thin solid var(--primary-color);
+}
 
-    .deleteOpt {
-        text-decoration: underline;
-    }
+.deleteOpt {
+    text-decoration: underline;
+}
 
-    .blank {
-        background-color: var(--secondary-color);
-        content: "";
-        height: 2ch;
-        border-radius: 0.5ch;
-        display: block;
-        margin-top: 0.5ch;
-    }
+.blank {
+    background-color: var(--secondary-color);
+    content: "";
+    height: 2ch;
+    border-radius: 0.5ch;
+    display: block;
+    margin-top: 0.5ch;
+}
 
-    #name {
-        width: 15ch;
-        height: 3ch;
-    }
+#name {
+    width: 15ch;
+    height: 3ch;
+}
 
-    #id {
-        width: 25ch;
-        height: 1ch;
-    }
+#id {
+    width: 25ch;
+    height: 1ch;
+}
 
-    #created {
-        width: 20ch;
-        height: 1.5ch;
-    }
+#created {
+    width: 20ch;
+    height: 1.5ch;
+}
 
-    #descTitle {
-        width: 15ch;
-        margin-top: 2ch;
-    }
+#descTitle {
+    width: 15ch;
+    margin-top: 2ch;
+}
 
-    #descText {
-        width: 40ch;
-        height: 15ch;
-    }
+#descText {
+    width: 40ch;
+    height: 15ch;
+}
 
-    #voteCount {
-        width: 60ch;
-        margin-top: 1ch;
-    }
+#voteCount {
+    width: 60ch;
+    margin-top: 1ch;
+}
 
-    #share {
-        width: 10ch;
-        height: 4ch;
-    }
+#share {
+    width: 10ch;
+    height: 4ch;
+}
 
-    .tableBox {
-        width: 10ch;
-        height: 3ch;
-        content: "";
-    }
+.tableBox {
+    width: 10ch;
+    height: 3ch;
+    content: "";
+}
 </style>

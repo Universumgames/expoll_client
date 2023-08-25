@@ -32,7 +32,7 @@ export default class AdminPollList extends Vue {
     language?: languageData
 
     polls: SimplePoll[] = []
-    count: number = 0
+    count = 0
     loading = true
 
     async mounted() {

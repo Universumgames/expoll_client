@@ -1,7 +1,7 @@
 <template>
     <svg
-        version="1.1"
         id="Capa_1"
+        version="1.1"
         xmlns="http://www.w3.org/2000/svg"
         xmlns:xlink="http://www.w3.org/1999/xlink"
         x="0px"
@@ -18,42 +18,42 @@
                 d="M132.189,117.092c-4.142,0-7.5,3.357-7.5,7.5v54.844H15.001V69.748h54.844c4.142,0,7.5-3.357,7.5-7.5s-3.358-7.5-7.5-7.5   H7.501c-4.142,0-7.5,3.357-7.5,7.5v124.687c0,4.143,3.358,7.5,7.5,7.5h124.687c4.142,0,7.5-3.357,7.5-7.5v-62.344   C139.689,120.449,136.331,117.092,132.189,117.092z"
             />
         </g>
-        <g></g>
-        <g></g>
-        <g></g>
-        <g></g>
-        <g></g>
-        <g></g>
-        <g></g>
-        <g></g>
-        <g></g>
-        <g></g>
-        <g></g>
-        <g></g>
-        <g></g>
-        <g></g>
-        <g></g>
+        <g />
+        <g />
+        <g />
+        <g />
+        <g />
+        <g />
+        <g />
+        <g />
+        <g />
+        <g />
+        <g />
+        <g />
+        <g />
+        <g />
+        <g />
     </svg>
 </template>
 
 <script lang="ts">
-    import { Options, Vue } from "vue-class-component"
+import { Options, Vue } from "vue-class-component"
 
-    @Options({
-        props: {
-            fill: String
-        }
-    })
-    export default class EditIcon extends Vue {
-        fill?: string = "white"
+@Options({
+    props: {
+        fill: String
     }
+})
+export default class EditIcon extends Vue {
+    fill?: string = "white"
+}
 </script>
 
 <style type="text/css">
-    .st0 {
-        fill-rule: evenodd;
-        clip-rule: evenodd;
-        fill: var(--text-color);
-        stroke-width: 4;
-    }
+.st0 {
+    fill-rule: evenodd;
+    clip-rule: evenodd;
+    fill: var(--text-color);
+    stroke-width: 4;
+}
 </style>

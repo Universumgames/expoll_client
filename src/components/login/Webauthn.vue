@@ -2,14 +2,23 @@
     <div>
         <h2>{{ language?.uiElements.login.form.login }}</h2>
         <label for="mail">{{ language?.uiElements.login.form.mail }}</label>
-        <input id="mail" type="text" placeholder="max.mustermann@gmail.com" v-model="loginMail" autocomplete="mail" />
+        <input
+            id="mail" v-model="loginMail"
+            type="text" placeholder="max.mustermann@gmail.com"
+            autocomplete="mail"
+        >
         <p>{{ language?.uiElements.login.form.or }}</p>
         <label for="username">{{ language?.uiElements.login.form.username }}</label>
-        <input id="username" type="text" placeholder="maxmustermann001" v-model="signupUsername"
-            autocomplete="username webauthn" />
-        <button @click="webauthLogin">{{ language?.uiElements.login.form.loginBtn }}</button>
+        <input
+            id="username" v-model="signupUsername"
+            type="text" placeholder="maxmustermann001"
+            autocomplete="username webauthn"
+        >
+        <button @click="webauthLogin">
+            {{ language?.uiElements.login.form.loginBtn }}
+        </button>
         <small>{{ language?.uiElements.login.form.quickLoginNote }}</small>
-        <button @click="$emit('return')" class="delete">
+        <button class="delete" @click="$emit('return')">
             {{ language?.uiElements.login.form.leaveQuickLoginBtn }}
         </button>
     </div>
@@ -27,8 +36,7 @@ import { MailRegexEntry } from "expoll-lib/extraInterfaces"
         language: Object,
         mailRegex: Array
     },
-    components: {
-    }
+    components: {}
 })
 export default class Webauthn extends Vue {
     language?: languageData

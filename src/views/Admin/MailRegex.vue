@@ -6,17 +6,25 @@
 
     <!-- regex entries -->
     <div>
-        <RegexTest v-for="reg of regex" :key="reg.regex" :reg="reg" @remove="removeRegex(reg.regex)" @update="update" />
+        <RegexTest
+            v-for="reg of regex" :key="reg.regex"
+            :reg="reg" @remove="removeRegex(reg.regex)"
+            @update="update"
+        />
     </div>
 
-    <button @click="showNewRegex = !showNewRegex">New Regex Rule</button>
+    <button @click="showNewRegex = !showNewRegex">
+        New Regex Rule
+    </button>
 
     <div v-show="showNewRegex">
         <label>New Regex:</label>
-        <input type="text" v-model="newRegex" />
+        <input v-model="newRegex" type="text">
         <label>Blacklist/Whitelist</label>
-        <input type="checkbox" v-model="newRegexBlacklist" />
-        <button @click="addRegex">Add</button>
+        <input v-model="newRegexBlacklist" type="checkbox">
+        <button @click="addRegex">
+            Add
+        </button>
     </div>
 </template>
 
@@ -28,7 +36,7 @@ import UserRow from "./UserRow.vue"
 import LoadingScreen from "../../components/LoadingScreen.vue"
 import RegexTest from "./RegexTest.vue"
 import { MailRegexEntry } from "expoll-lib/extraInterfaces"
-import { updateRegeAdmin, getRegexAdmin } from "@/scripts/regex"
+import { getRegexAdmin, updateRegeAdmin } from "@/scripts/regex"
 
 @Options({
     props: {
@@ -48,8 +56,8 @@ export default class MailRegex extends Vue {
     regex: Array<MailRegexEntry> = []
 
     newRegex?: string
-    newRegexBlacklist: boolean = false
-    showNewRegex: boolean = false
+    newRegexBlacklist = false
+    showNewRegex = false
 
     loading = true
 

@@ -1,27 +1,33 @@
 <template>
     <loading-screen v-show="loadingMain" />
     <div v-show="!loadingMain && loadingFailed">
-        <h2 class="errorInfo">{{ language?.uiElements.login.loginFirst }}</h2>
+        <h2 class="errorInfo">
+            {{ language?.uiElements.login.loginFirst }}
+        </h2>
         <login-signup-view :language="language" />
     </div>
-    <blank-detailed-poll-view :language="language" v-show="loadingMain" />
+    <blank-detailed-poll-view v-show="loadingMain" :language="language" />
     <div v-show="!loadingMain && !loadingFailed">
-        <div class="archived" v-show="!poll?.allowsEditing">
+        <div v-show="!poll?.allowsEditing" class="archived">
             {{ language?.uiElements.polls.details.editingDisabled }}
         </div>
         <div style="text-align: left">
             <!-- name -->
             <div style="padding: 1ch">
                 <div v-show="changes.name == undefined">
-                    <h2 style="display: inline">{{ poll?.name }}</h2>
+                    <h2 style="display: inline">
+                        {{ poll?.name }}
+                    </h2>
                     <button v-show="mayEdit()" @click="changes.name = poll?.name">
                         <edit-icon class="normalIcon" />
                     </button>
                 </div>
                 <div v-show="mayEdit() && changes.name != undefined">
                     <label for="nameChange">{{ language?.uiElements.polls.details.pollName }}</label>
-                    <input type="text" id="nameChange" v-model="changes.name" />
-                    <button @click="pushChanges">{{ language?.uiElements.polls.details.save }}</button>
+                    <input id="nameChange" v-model="changes.name" type="text">
+                    <button @click="pushChanges">
+                        {{ language?.uiElements.polls.details.save }}
+                    </button>
                     <button @click="changes.name = undefined">
                         {{ language?.uiElements.polls.details.cancel }}
                     </button>
@@ -36,16 +42,22 @@
             </div>
             <!-- description -->
             <div style="margin-top: 1ch" class="footer">
-                <label><b>{{ language?.uiElements.polls.create.description }}</b></label><button
+                <label><b>{{ language?.uiElements.polls.create.description }}</b></label>
+                <button
                     v-show="mayEdit() && changes?.description == undefined"
-                    @click="changes.description = poll?.description">
-                    <edit-icon class="normalIcon" /></button><br />
+                    @click="changes.description = poll?.description"
+                >
+                    <edit-icon class="normalIcon" />
+                </button>
+                <br>
                 <div v-show="changes?.description == undefined">
                     <p>{{ poll?.description }}</p>
                 </div>
                 <div v-show="mayEdit() && changes?.description != undefined">
-                    <textarea name="description" cols="60" rows="10" v-model="changes.description"></textarea><br />
-                    <button @click="pushChanges">{{ language?.uiElements.polls.details.save }}</button>
+                    <textarea v-model="changes.description" name="description" cols="60" rows="10" /><br>
+                    <button @click="pushChanges">
+                        {{ language?.uiElements.polls.details.save }}
+                    </button>
                     <button @click="changes.description = undefined">
                         {{ language?.uiElements.polls.details.cancel }}
                     </button>
@@ -56,7 +68,8 @@
                 <div v-show="changes.maxPerUserVoteCount == undefined">
                     <label>{{ language?.uiElements.polls.details.maxPerUserVoteCount }}
                         <span style="white-space: nowrap">{{
-                            language?.uiElements.polls.details.maxPerUserVoteCountDescription }}:
+                            language?.uiElements.polls.details.maxPerUserVoteCountDescription
+                        }}:
                             {{ poll?.maxPerUserVoteCount }}</span></label>
                     <button v-show="mayEdit()" @click="changes.maxPerUserVoteCount = poll?.maxPerUserVoteCount">
                         <edit-icon class="normalIcon" />
@@ -66,8 +79,10 @@
                     <label for="maxPerUserVoteCount">{{
                         language?.uiElements.polls.details.maxPerUserVoteCount
                     }}</label>
-                    <input id="maxPerUserVoteCount" type="number" min="-1" v-model="changes.maxPerUserVoteCount" />
-                    <button @click="pushChanges">{{ language?.uiElements.polls.details.save }}</button>
+                    <input id="maxPerUserVoteCount" v-model="changes.maxPerUserVoteCount" type="number" min="-1">
+                    <button @click="pushChanges">
+                        {{ language?.uiElements.polls.details.save }}
+                    </button>
                     <button @click="changes.maxPerUserVoteCount = undefined">
                         {{ language?.uiElements.polls.details.cancel }}
                     </button>
@@ -85,8 +100,10 @@
                 </div>
                 <div v-show="mayEdit() && changes.allowsMaybe != undefined">
                     <label for="allowsMaybe">{{ language?.uiElements.polls.create.allowsMaybeLabel }}</label>
-                    <input id="allowsMaybe" type="checkbox" v-model="changes.allowsMaybe" />
-                    <button @click="pushChanges">{{ language?.uiElements.polls.details.save }}</button>
+                    <input id="allowsMaybe" v-model="changes.allowsMaybe" type="checkbox">
+                    <button @click="pushChanges">
+                        {{ language?.uiElements.polls.details.save }}
+                    </button>
                     <button @click="changes.allowsMaybe = undefined">
                         {{ language?.uiElements.polls.details.cancel }}
                     </button>
@@ -104,8 +121,10 @@
                 </div>
                 <div v-show="mayEditAllowEditing() && changes.allowsEditing != undefined">
                     <label for="allowsEditing">{{ language?.uiElements.polls.create.allowsEditingLabel }}</label>
-                    <input id="allowsEditing" type="checkbox" v-model="changes.allowsEditing" />
-                    <button @click="pushChanges">{{ language?.uiElements.polls.details.save }}</button>
+                    <input id="allowsEditing" v-model="changes.allowsEditing" type="checkbox">
+                    <button @click="pushChanges">
+                        {{ language?.uiElements.polls.details.save }}
+                    </button>
                     <button @click="changes.allowsEditing = undefined">
                         {{ language?.uiElements.polls.details.cancel }}
                     </button>
@@ -116,16 +135,20 @@
         <!-- share -->
         <div style="text-align: left; margin-top: 1rem">
             <a @click="share()">
-                <h3 style="display: inline">Share <share-icon v-show="!shareLinkCopied" class="normalIcon" /></h3>
-                <h3 style="display: inline" v-show="shareLinkCopied">Copied</h3>
+                <h3 style="display: inline">Share
+                    <share-icon v-show="!shareLinkCopied" class="normalIcon" />
+                </h3>
+                <h3 v-show="shareLinkCopied" style="display: inline">Copied</h3>
             </a>
         </div>
-        <div style="text-align: left; margin-top: 1rem" v-show="!isJoined && poll != undefined">
+        <div v-show="!isJoined && poll != undefined" style="text-align: left; margin-top: 1rem">
             <button @click="joinPoll()">
-                <h1 style="display: inline">Join</h1>
+                <h1 style="display: inline">
+                    Join
+                </h1>
             </button>
         </div>
-        <br />
+        <br>
 
         <!-- Poll options and results -->
         <div class="x-scroller poll-main">
@@ -137,53 +160,63 @@
                             <switch-icon class="normalIcon" />
                         </button>
                     </th>
-                    <th v-for="option in poll?.options" :key="option.id" style="white-space: pre-wrap" class="stickyRow">
+                    <th
+                        v-for="option in poll?.options" :key="option.id"
+                        style="white-space: pre-wrap"
+                        class="stickyRow"
+                    >
                         {{ optionValue(option) }}
-                        <br />
+                        <br>
                         ({{ getVotedForCount(option.id ?? 0) }})
-                        <br />
-                        <a v-show="mayEdit()" @click="deleteOption(option.id ?? 0)" class="deleteOpt">
+                        <br>
+                        <a v-show="mayEdit()" class="deleteOpt" @click="deleteOption(option.id ?? 0)">
                             <small>{{ language?.uiElements.polls.details.delete }}</small>
                         </a>
                     </th>
-                    <th style="padding: 1rem" v-show="mayEdit()">
-                        <button v-show="!addingOption" @click="addingOption = true">+</button>
+                    <th v-show="mayEdit()" style="padding: 1rem">
+                        <button v-show="!addingOption" @click="addingOption = true">
+                            +
+                        </button>
                         <div v-show="addingOption" class="addOption">
                             <!-- String poll options -->
                             <div v-show="poll?.type == 0">
                                 <label :for="newOption.id + 'value'">{{
                                     language?.uiElements.polls.create.optionValue
                                 }}</label>
-                                <input v-model="newOption.value" :id="newOption.id + 'value'" type="text" />
+                                <input :id="newOption.id + 'value'" v-model="newOption.value" type="text">
                             </div>
                             <!-- Date options -->
                             <div v-show="poll?.type == 1">
                                 <label :for="newOption.id + 'dateStart'">{{
                                     language?.uiElements.polls.create.optionValue
                                 }}</label>
-                                <input v-model="newOption.dateStart" :id="newOption.id + 'dateStart'" type="date" />
-                                <br />
+                                <input :id="newOption.id + 'dateStart'" v-model="newOption.dateStart" type="date">
+                                <br>
                                 <label :for="newOption.id + 'dateEnd'">{{
                                     language?.uiElements.polls.create.optionOptEndValue
                                 }}</label>
-                                <input v-model="newOption.dateEnd" :id="newOption.id + 'dateEnd'" type="date" />
+                                <input :id="newOption.id + 'dateEnd'" v-model="newOption.dateEnd" type="date">
                             </div>
                             <!-- Date time options -->
                             <div v-show="poll?.type == 2">
                                 <label :for="newOption.id + 'dateTimeStart'">{{
                                     language?.uiElements.polls.create.optionValue
                                 }}</label>
-                                <input v-model="newOption.dateTimeStart" :id="newOption.id + 'dateTimeStart'"
-                                    type="datetime-local" />
-                                <br />
+                                <input
+                                    :id="newOption.id + 'dateTimeStart'" v-model="newOption.dateTimeStart"
+                                    type="datetime-local"
+                                >
+                                <br>
                                 <label :for="newOption.id + 'dateTimeEnd'">{{
                                     language?.uiElements.polls.create.optionOptEndValue
                                 }}</label>
-                                <input v-model="newOption.dateTimeEnd" :id="newOption.id + 'dateTimeEnd'"
-                                    type="datetime-local" />
+                                <input
+                                    :id="newOption.id + 'dateTimeEnd'" v-model="newOption.dateTimeEnd"
+                                    type="datetime-local"
+                                >
                             </div>
-                            <br />
-                            <button @click="addOption" style="padding: 0.5rem">
+                            <br>
+                            <button style="padding: 0.5rem" @click="addOption">
                                 <save-icon class="normalIcon" />
                             </button>
                             <button @click="addingOption = false">
@@ -193,19 +226,31 @@
                     </th>
                 </tr>
 
-                <poll-user-vote-row :userData="userData" :language="language" :userVote="getVotesByUser()" :pollData="poll"
+                <poll-user-vote-row
+                    :user-data="userData" :language="language"
+                    :user-vote="getVotesByUser()"
+                    :poll-data="poll"
                     :note="poll?.userNotes?.find((note) => note.userID == userData?.id)?.note"
-                    :displayUsernameInsteadOfFull="displayUsernameInsteadOfFull" @voteChange="voteUpdateCallback"
-                    class="currentUserVotes" @noteChange="noteChangeCallback" />
-                <poll-user-vote-row v-for="vote in poll?.userVotes" :key="vote.user.id"
-                    v-show="vote.user.id != userData?.id" :userData="userData"
-                    :note="poll?.userNotes?.find((note) => note.userID == vote.user.id)?.note" :language="language"
-                    :userVote="vote" :pollData="poll" :displayUsernameInsteadOfFull="displayUsernameInsteadOfFull"
-                    @voteChange="voteUpdateCallback" @kickedID="userKicked" @noteChange="noteChangeCallback" />
+                    :display-username-instead-of-full="displayUsernameInsteadOfFull"
+                    class="currentUserVotes"
+                    @voteChange="voteUpdateCallback" @noteChange="noteChangeCallback"
+                />
+                <poll-user-vote-row
+                    v-for="vote in poll?.userVotes" v-show="vote.user.id != userData?.id"
+                    :key="vote.user.id" :user-data="userData"
+                    :note="poll?.userNotes?.find((note) => note.userID == vote.user.id)?.note"
+                    :language="language"
+                    :user-vote="vote" :poll-data="poll"
+                    :display-username-instead-of-full="displayUsernameInsteadOfFull"
+                    @voteChange="voteUpdateCallback" @kickedID="userKicked"
+                    @noteChange="noteChangeCallback"
+                />
 
                 <tr v-show="mayEdit()">
                     <td>
-                        <button @click="addUserClick()">{{ language?.uiElements.polls.details.addUserBtn }}</button>
+                        <button @click="addUserClick()">
+                            {{ language?.uiElements.polls.details.addUserBtn }}
+                        </button>
                     </td>
                 </tr>
             </table>
@@ -231,7 +276,7 @@ import SwitchIcon from "../assetComponents/SwitchIcon.vue"
 import { EditPollRequest } from "expoll-lib/requestInterfaces"
 import LoginSignupView from "../components/LoginSignupView.vue"
 import BlankDetailedPollView from "../components/Blanks/BlankDetailedPollView.vue"
-import { joinPoll, pushPollChanges, deletePoll, getDetailedPoll } from "@/scripts/poll"
+import { deletePoll, getDetailedPoll, joinPoll, pushPollChanges } from "@/scripts/poll"
 
 /*
      votes: { user: User; votes: { optionID: tOptionId; votedFor: boolean }
@@ -267,7 +312,7 @@ export default class DetailedPollView extends Vue {
 
     changes: EditPollRequest = { pollID: "" }
 
-    test: string = ""
+    test = ""
 
     shareLinkCopied = false
 
@@ -331,7 +376,6 @@ export default class DetailedPollView extends Vue {
             await this.getPollData()
             await this.checkAndJoinPoll()
             await this.getPollData()
-
 
 
             if (this.poll != undefined) this.changes = { pollID: this.poll.pollID }
@@ -554,7 +598,7 @@ input {
 }
 
 .addOption,
-.addOption>div {
+.addOption > div {
     display: inline;
 }
 
@@ -566,9 +610,9 @@ table {
     table-layout: fixed;
 }
 
-td>input,
-th>input,
-.addOption>div>input {
+td > input,
+th > input,
+.addOption > div > input {
     background: var(--bg-color);
 }
 

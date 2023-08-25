@@ -17,7 +17,7 @@ const en: languageData = {
 
 ## Now as iOS App (beta)
 
-![Logo](./mac64.png)
+![Logo](./logo_rounded_128.png)
 Download and install the iOS App via TestFlight: [Get the App](/#/app)
 
 ## Why expoll
@@ -111,11 +111,11 @@ Join the Beta via TestFlight and install the app: [https://testflight.apple.com/
         },
         polls: {
             create: {
-                createPoll: (name: string) => 'Creating poll "' + name + '"',
+                createPoll: (name: string) => "Creating poll \"" + name + "\"",
                 pollNameInputLabel: "Poll name",
                 description: "Description (65535 characters max)",
                 maxVoteLabel: "Max number of votes per user (-1 for infinity)",
-                allowsMaybeLabel: '"Maybe" as Vote allowed',
+                allowsMaybeLabel: "\"Maybe\" as Vote allowed",
                 allowsEditingLabel: "Allow editing votes and options",
                 typeSelect: {
                     label: "Poll type",
@@ -174,20 +174,20 @@ Join the Beta via TestFlight and install the app: [https://testflight.apple.com/
         serverError: "An error on our side occurred",
         dateToString: (d?: Date) =>
             d?.getFullYear() +
-                "-" +
-                ((d?.getMonth() ?? 0) + 1).toString().padStart(2, "0") +
-                "-" +
-                d?.getDate().toString().padStart(2, "0") ?? "",
+            "-" +
+            ((d?.getMonth() ?? 0) + 1).toString().padStart(2, "0") +
+            "-" +
+            d?.getDate().toString().padStart(2, "0") ?? "",
         dateTimeToString: (dt?: Date) =>
             dt?.getFullYear() +
-                "-" +
-                ((dt?.getMonth() ?? 0) + 1).toString().padStart(2, "0") +
-                "-" +
-                dt?.getDate().toString().padStart(2, "0") +
-                " at " +
-                dt?.getHours().toString().padStart(2, "0") +
-                ":" +
-                dt?.getMinutes().toString().padStart(2, "0") ?? ""
+            "-" +
+            ((dt?.getMonth() ?? 0) + 1).toString().padStart(2, "0") +
+            "-" +
+            dt?.getDate().toString().padStart(2, "0") +
+            " at " +
+            dt?.getHours().toString().padStart(2, "0") +
+            ":" +
+            dt?.getMinutes().toString().padStart(2, "0") ?? ""
     }
 }
 

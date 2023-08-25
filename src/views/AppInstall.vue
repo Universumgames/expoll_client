@@ -1,6 +1,6 @@
 <template>
     <h1>{{ language?.uiElements.appInstall.title }}</h1>
-    <a href="https://testflight.apple.com/join/OpUycQnW"> <img src="../assets/onTestflight.png" /></a>
+    <a href="https://testflight.apple.com/join/OpUycQnW"> <img src="../assets/onTestflight.png"></a>
     <vue-markdown class="text" :source="markdown" style="text-align: center" />
 </template>
 
@@ -18,14 +18,15 @@ import { languageData } from "@/scripts/languageConstruct"
     }
 })
 export default class AppInstall extends Vue {
-    markdown: string = ""
+    markdown = ""
     language?: languageData
 
     async created() {
         this.markdown = this.language?.uiElements.appInstall.belowImage ?? ""
     }
 
-    mounted() { }
+    mounted() {
+    }
 }
 </script>
 

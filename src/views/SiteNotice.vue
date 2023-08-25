@@ -1,5 +1,5 @@
 <template>
-    <vue-markdown class="text" :source="markdown" />
+    <vue-markdown :source="markdown" class="text" />
 </template>
 
 <script lang="ts">
@@ -16,15 +16,13 @@ import axios from "axios"
     }
 })
 export default class SiteNotice extends Vue {
-    markdown: string = ""
+    markdown = ""
 
-    async created() {
+    async created(): Promise<void> {
         this.loadMarkdown()
     }
 
-    mounted() { }
-
-    async loadMarkdown() {
+    async loadMarkdown(): Promise<void> {
         const filename = "/en_site_notice.md"
         this.markdown = (await axios.get(filename)).data
     }

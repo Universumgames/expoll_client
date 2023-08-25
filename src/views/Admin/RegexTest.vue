@@ -2,13 +2,18 @@
     <div class="container">
         {{ reg?.regex }}
         <small style="color: var(--primary-color)">{{ reg?.blacklist ? "Blacklist" : "Required" }}</small>
-        <input type="checkbox" v-model="reg!.blacklist" @change="$emit('update')" />
-        <button @click="$emit('remove')" class="delete">Remove</button>
+        <input v-model="reg!.blacklist" type="checkbox" @change="$emit('update')">
+        <button class="delete" @click="$emit('remove')">
+            Remove
+        </button>
 
         <label>Test regex</label>
-        <input type="text" v-model="test" :style="!matches ? 'color:green' : 'color:red'"
+        <input
+            v-model="test" type="text"
+            :style="!matches ? 'color:green' : 'color:red'"
             style="background-color: var(--bg-color)"
-            @keyup="matches = (test.match(reg!.regex) && reg!.blacklist) || (!test.match(reg!.regex) && !reg!.blacklist)" />
+            @keyup="matches = (test.match(reg!.regex) && reg!.blacklist) || (!test.match(reg!.regex) && !reg!.blacklist)"
+        >
     </div>
 </template>
 
@@ -25,7 +30,7 @@ import { Options, Vue } from "vue-class-component"
 export default class MailRegex extends Vue {
     reg?: MailRegexEntry
 
-    test: string = ""
+    test = ""
 
     matches = false
 }

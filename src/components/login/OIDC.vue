@@ -2,9 +2,12 @@
     <div class="container">
         <h2>{{ language?.uiElements.login.form.oidc }}</h2>
         <div class="providers">
-            <a v-for="provider in providers" :key="provider.key" class="providerLink"
-                :href="'/api/auth/oidc/' + provider.key">
-                <img :src="provider.imageURI" style="width: 100%; color: var(--primary-color)" :alt="provider.altName" />
+            <a
+                v-for="provider in providers" :key="provider.key"
+                class="providerLink"
+                :href="'/api/auth/oidc/' + provider.key"
+            >
+                <img :src="provider.imageURI" style="width: 100%; color: var(--primary-color)" :alt="provider.altName">
             </a>
         </div>
     </div>
@@ -41,7 +44,8 @@ export default class OIDC extends Vue {
 </script>
 
 <style scoped>
-.container {}
+.container {
+}
 
 .providers {
     display: flex;

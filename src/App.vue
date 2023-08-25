@@ -2,32 +2,45 @@
     <div>
         <div v-show="isImpersonating">
             You are currently impersonating {{ impersonatingMail }}
-            <button @click="unimpersonate" class="delete">Stop impersonation</button>
+            <button class="delete" @click="unimpersonate">
+                Stop impersonation
+            </button>
         </div>
         <header>
-            <user-icon :userData="userData" :language="localeLanguage" />
+            <user-icon :user-data="userData" :language="localeLanguage" />
             <div id="nav">
                 <a style="float: left" :href="userData != undefined ? '/#/polls' : '/'">Expoll</a>
 
-                <router-link v-show="userData != undefined" to="/polls">{{
-                    localeLanguage?.uiElements.navigation.polls
-                }}</router-link>
-                <router-link to="/">{{ localeLanguage?.uiElements.navigation.home }}</router-link>
+                <router-link v-show="userData != undefined" to="/polls">
+                    {{
+                        localeLanguage?.uiElements.navigation.polls
+                    }}
+                </router-link>
+                <router-link to="/">
+                    {{ localeLanguage?.uiElements.navigation.home }}
+                </router-link>
                 <!-- <router-link to="/about">About</router-link> -->
-                <router-link to="/admin" v-if="userData?.admin">Admin</router-link>
-                <router-link to="/app">iOS App</router-link>
+                <router-link v-if="userData?.admin" to="/admin">
+                    Admin
+                </router-link>
+                <router-link to="/app">
+                    iOS App
+                </router-link>
             </div>
         </header>
 
-        <div id="versionUnmatch" v-show="!clientIsCompatible">
+        <div v-show="!clientIsCompatible" id="versionUnmatch">
             <strong>Warning:</strong> Your client is not compatible with the current backend version. Please update your
             client.
         </div>
 
-        <router-view :userData="userData" :language="localeLanguage" :failedLoading="failedLoading" />
+        <router-view :user-data="userData" :language="localeLanguage" :failed-loading="failedLoading" />
 
-        <footer-vue @onLangChange="onLangChange" :language="localeLanguage" :backendVersion="backendVersion"
-            :frontendVersion="frontendVersion" :userData="userData" />
+        <footer-vue
+            :language="localeLanguage" :backend-version="backendVersion"
+            :frontend-version="frontendVersion"
+            :user-data="userData" @onLangChange="onLangChange"
+        />
     </div>
 </template>
 
@@ -50,7 +63,7 @@ import FooterVue from "./components/Footer.vue"
     }
 })
 export default class App extends Vue {
-    isDark: boolean = false
+    isDark = false
     userData?: IUser
     localeLanguage!: languageData
     failedLoading = false
@@ -73,7 +86,7 @@ export default class App extends Vue {
             // update title
             document.title = to.meta.title != undefined ? (to.meta.title as string) : "404 Page not found"
             // update apple universal links to deep link
-            const bannerMetaTag = document.querySelector('meta[name="apple-itunes-app"]')
+            const bannerMetaTag = document.querySelector("meta[name=\"apple-itunes-app\"]")
             const appID = bannerMetaTag?.getAttribute("content")?.split(",").find((e) => e.includes("app-id"))
             let appPath = "app-argument=expoll://" + to.meta.appPath
             // replace :id in appPath with the actual id in the route
@@ -307,7 +320,7 @@ th {
     margin: 1ch auto 1ch auto;
 }
 
-.footer>* {
+.footer > * {
     margin: 1ch;
 }
 

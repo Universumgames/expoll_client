@@ -1,10 +1,10 @@
 <template>
     <div class="lang-select">
-        <p @click="showSelect = !showSelect" class="changeLang" :class="showSelect ? 'changeLangShow' : ''">
+        <p class="changeLang" :class="showSelect ? 'changeLangShow' : ''" @click="showSelect = !showSelect">
             {{ language?.uiElements.navigation.changeLanguageButton }}
         </p>
         <div v-show="showSelect" class="selec-field">
-            <p class="lang" v-for="lang in availableLangs" :key="lang.short" @click="changeLang(lang.short)">
+            <p v-for="lang in availableLangs" :key="lang.short" class="lang" @click="changeLang(lang.short)">
                 {{ lang.name[0] }}
             </p>
         </div>
@@ -24,7 +24,8 @@ export default class LanguageSelect extends Vue {
     showSelect = false
     language?: languageData
 
-    mounted() { }
+    mounted() {
+    }
 
     get availableLangs() {
         return languageList

@@ -16,13 +16,14 @@ import axios from "axios"
     }
 })
 export default class PrivacyPolicy extends Vue {
-    markdown: string = ""
+    markdown = ""
 
     async created() {
         this.loadMarkdown()
     }
 
-    mounted() { }
+    mounted() {
+    }
 
     async loadMarkdown() {
         const filename = "/en_privacy.md"

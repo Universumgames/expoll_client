@@ -1,29 +1,15 @@
 <template>
     <div class="home">
-        <vue-markdown class="text" :source="language.uiElements.home" />
+        <VueMarkdown class="text" :source="language.uiElements.home" />
     </div>
 </template>
 
-<script lang="ts">
-import { Options, Vue } from "vue-class-component"
+<script setup lang="ts">
 import VueMarkdown from "vue-markdown-render"
-import { languageData } from "../scripts/languageConstruct"
+import { languageData } from "@/scripts/languageConstruct"
 
-@Options({
-    components: {
-        VueMarkdown
-    },
-    props: {
-        language: Object
-    }
-})
-export default class Home extends Vue {
-    language!: languageData
+const props = defineProps<{ language: languageData }>()
 
-    async created() { }
-
-    mounted() { }
-}
 </script>
 
 <style scoped>

@@ -9,11 +9,11 @@ const base = "/api/user"
  * @param {{}} data user login data
  * @return {Promise<{string, ReturnCode }>} login key and response code to check for errors
  */
-export async function signUp(data: CreateUserRequest): Promise<ReturnCode > {
+export async function signUp(data: CreateUserRequest): Promise<ReturnCode> {
     try {
         const res = await axios.post(base, data, { withCredentials: true })
         return res.status as ReturnCode
-        
+
     } catch (e: any) {
         return e.response.status
     }

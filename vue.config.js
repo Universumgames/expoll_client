@@ -9,7 +9,6 @@ module.exports = {
                 target: "http://localhost:6060",
                 changeOrigin: true,
                 ws: true,
-                disableHostCheck: true,
                 pathRewrite: {
                     "^/api": ""
                 }
@@ -18,10 +17,8 @@ module.exports = {
                 target: "http://localhost:6060",
                 changeOrigin: true,
                 ws: true,
-                disableHostCheck: true
             }
         },
-        disableHostCheck: true,
         // https: true,
         port: 8080
     }

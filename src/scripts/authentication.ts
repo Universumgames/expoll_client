@@ -48,20 +48,20 @@ export async function login(userReq: {
 }): Promise<{ success: boolean; error?: string }> {
     const resp = await fetch(
         base +
-            "/webauthn/authenticate" +
-            `?${userReq.username != undefined ? "username=" + userReq.username : "mail=" + userReq.mail}`
+        "/webauthn/authenticate" +
+        `?${userReq.username != undefined ? "username=" + userReq.username : "mail=" + userReq.mail}`
     )
 
     const returnData: { success: boolean; error?: string } = { success: true, error: undefined }
 
-    const publicKeyCredential = await webauthnJson.get(await resp.json());
+    const publicKeyCredential = await webauthnJson.get(await resp.json())
 
     // POST the response to the endpoint that calls
     // @simplewebauthn/server -> verifyAuthenticationResponse()
     const verificationResp = await fetch(
         base +
-            "/webauthn/authenticate" +
-            `?${userReq.username != undefined ? "username=" + userReq.username : "mail=" + userReq.mail}`,
+        "/webauthn/authenticate" +
+        `?${userReq.username != undefined ? "username=" + userReq.username : "mail=" + userReq.mail}`,
         {
             method: "POST",
             headers: {
@@ -89,7 +89,7 @@ export async function login(userReq: {
  * @param {String} otp the one time password
  * @return {Promise<number>} returns axios request status
  */
-export async function otpLogin(otp:string): Promise<number> {
+export async function otpLogin(otp: string): Promise<number> {
     return await (await axios.post(base + "/simple", { otp: otp }, { withCredentials: true })).status
 }
 
@@ -202,7 +202,7 @@ export interface OIDCConnection {
 }
 
 /**
- * 
+ *
  * @return {Promise<OIDCConnection[]>} returns a list of OIDC connections
  */
 export async function getOIDCConnections(): Promise<OIDCConnection[]> {

@@ -1,5 +1,5 @@
 <template>
-    <div class="loader"></div>
+    <div class="loader" />
 </template>
 
 <script lang="ts">
@@ -21,7 +21,8 @@ export default class LoadingScreen extends Vue {
         // this.language = getSystemLanguage()
     }
 
-    mounted() { }
+    mounted() {
+    }
 }
 </script>
 

@@ -19,9 +19,12 @@
         <div>
             <div v-show="!userInfo?.superAdmin && admin?.admin">
                 <label>Admin: {{ userInfo?.admin ? "yes" : "no" }}</label>
-                <br />
-                <button v-show="!userInfo?.admin || superAdmin" @click="toggleAdmin()"
-                    :style="'background-color: var(' + (userInfo?.admin ? '--alert-color' : '--primary-color') + ')'">
+                <br>
+                <button
+                    v-show="!userInfo?.admin || superAdmin"
+                    :style="'background-color: var(' + (userInfo?.admin ? '--alert-color' : '--primary-color') + ')'"
+                    @click="toggleAdmin()"
+                >
                     {{ userInfo?.admin ? "Demote" : "Promote" }}
                 </button>
             </div>
@@ -29,22 +32,31 @@
         </div>
 
         <div>
-            <button v-show="!userInfo?.admin && userInfo?.active" @click="deleteUser"
-                style="background: var(--alert-color)">
+            <button
+                v-show="!userInfo?.admin && userInfo?.active" style="background: var(--alert-color)"
+                @click="deleteUser"
+            >
                 Delete User
             </button>
             <label v-show="!userInfo?.admin && !userInfo?.active">Already deleted</label>
-            <button v-show="!userInfo?.admin && !userInfo?.active" @click="deleteUser"
-                style="background: var(--alert-color)">
+            <button
+                v-show="!userInfo?.admin && !userInfo?.active" style="background: var(--alert-color)"
+                @click="deleteUser"
+            >
                 Delete User and Votes
             </button>
-            <button @click="impersonate" v-show="!userInfo!.superAdmin && admin!.id != userInfo?.id">Impersonate</button>
+            <button v-show="!userInfo!.superAdmin && admin!.id != userInfo?.id" @click="impersonate">
+                Impersonate
+            </button>
         </div>
 
         <div class="oidcConnectionContainer">
             <label>OIDC Connections: </label>
-            <img v-for="connection in userInfo!.oidcConnections" :key="connection"
-                :src="'/oidc/' + connection + '_preview.svg'" :alt="connection" class="oidcConnection" />
+            <img
+                v-for="connection in userInfo!.oidcConnections" :key="connection"
+                :src="'/oidc/' + connection + '_preview.svg'" :alt="connection"
+                class="oidcConnection"
+            >
             <label v-show="userInfo!.oidcConnections.length == 0">None</label>
         </div>
     </div>
@@ -55,7 +67,7 @@ import { Options, Vue } from "vue-class-component"
 import { UserInfo } from "expoll-lib/adminInterfaces"
 import { languageData } from "../../scripts/languageConstruct"
 import EditIcon from "../../assetComponents/EditIcon.vue"
-import { editUserAdmin, deleteUserAdmin } from "@/scripts/admin"
+import { deleteUserAdmin, editUserAdmin } from "@/scripts/admin"
 import axios from "axios"
 import { capitalizeFirstLetter } from "@/scripts/helper"
 
@@ -99,10 +111,10 @@ export default class UserRow extends Vue {
         if (
             confirm(
                 "Are you sure you want to " +
-                (newState ? "PROMOTE" : "DEMOTE") +
-                " the user " +
-                this.userInfo?.username +
-                "?"
+                    (newState ? "PROMOTE" : "DEMOTE") +
+                    " the user " +
+                    this.userInfo?.username +
+                    "?"
             )
         ) {
             await editUserAdmin({
@@ -164,7 +176,7 @@ export default class UserRow extends Vue {
     text-align: left;
 }
 
-.userListContainer>* {
+.userListContainer > * {
     display: flex;
     flex-direction: column;
     flex: 1 0 auto;
@@ -181,7 +193,7 @@ export default class UserRow extends Vue {
     flex-direction: row;
 }
 
-.oidcConnectionContainer>* {
+.oidcConnectionContainer > * {
     margin: 1ch;
 }
 </style>

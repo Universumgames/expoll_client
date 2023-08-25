@@ -1,12 +1,14 @@
 <template>
-    <span id="userico" :title="
-        loggedIn
-            ? language?.uiElements.login.loggedInAs(userData?.username ?? '')
-            : language?.uiElements.login.notLoggedIn
-    ">
+    <span
+        id="userico" :title="
+            loggedIn
+                ? language?.uiElements.login.loggedInAs(userData?.username ?? '')
+                : language?.uiElements.login.notLoggedIn
+        "
+    >
         <router-link to="/login">
             <div v-show="loggedIn" id="userIcoImg">
-                <img src="../assets/userIcon.svg" alt="" loading="lazy" />
+                <img src="../assets/userIcon.svg" alt="" loading="lazy">
             </div>
             <div v-show="!loggedIn" id="loginText">{{ language?.uiElements.login.loginLink }}</div>
         </router-link>
@@ -32,7 +34,8 @@ export default class UserIcon extends Vue {
         // this.language = getSystemLanguage()
     }
 
-    mounted() { }
+    mounted() {
+    }
 
     get loggedIn() {
         return this.userData != undefined

@@ -1,7 +1,7 @@
 <template>
     <svg
-        version="1.1"
         id="Layer_1"
+        version="1.1"
         xmlns="http://www.w3.org/2000/svg"
         xmlns:xlink="http://www.w3.org/1999/xlink"
         x="0px"
@@ -18,42 +18,42 @@
                 />
             </g>
         </g>
-        <g></g>
-        <g></g>
-        <g></g>
-        <g></g>
-        <g></g>
-        <g></g>
-        <g></g>
-        <g></g>
-        <g></g>
-        <g></g>
-        <g></g>
-        <g></g>
-        <g></g>
-        <g></g>
-        <g></g>
+        <g />
+        <g />
+        <g />
+        <g />
+        <g />
+        <g />
+        <g />
+        <g />
+        <g />
+        <g />
+        <g />
+        <g />
+        <g />
+        <g />
+        <g />
     </svg>
 </template>
 
 <script lang="ts">
-    import { Options, Vue } from "vue-class-component"
+import { Options, Vue } from "vue-class-component"
 
-    @Options({
-        props: {
-            fill: String
-        }
-    })
-    export default class ShareIcon extends Vue {
-        fill?: string = "white"
+@Options({
+    props: {
+        fill: String
     }
+})
+export default class ShareIcon extends Vue {
+    fill?: string = "white"
+}
 </script>
 
 <style type="text/css">
-    .st0 {
-        fill-rule: evenodd;
-        clip-rule: evenodd;
-        fill: var(--text-color);
-        stroke-width: 4;
-    }
+.st0 {
+    fill-rule: evenodd;
+    clip-rule: evenodd;
+    fill: var(--text-color);
+    stroke-width: 4;
+}
 </style>

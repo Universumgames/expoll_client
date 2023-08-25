@@ -6,19 +6,28 @@
         <div v-show="userData != undefined && loggedIn">
             <h1>{{ language?.uiElements.login.alreadyLoggedInAs(userData?.username ?? "") }}</h1>
             <div>
-                <label>{{ language?.uiElements.login.form.username }}: {{ userData?.username }} <button
-                        @click="editUsername">
+                <label>{{ language?.uiElements.login.form.username }}: {{ userData?.username }}
+                    <button
+                        @click="editUsername"
+                    >
                         <edit-icon class="normalIcon" />
-                    </button></label><br />
-                <label>{{ language?.uiElements.login.form.mail }}: {{ userData?.mail }}</label><br />
-                <label>{{ language?.uiElements.login.form.firstName }}: {{ userData?.firstName }} <button
-                        @click="editFirstName">
+                    </button>
+                </label><br>
+                <label>{{ language?.uiElements.login.form.mail }}: {{ userData?.mail }}</label><br>
+                <label>{{ language?.uiElements.login.form.firstName }}: {{ userData?.firstName }}
+                    <button
+                        @click="editFirstName"
+                    >
                         <edit-icon class="normalIcon" />
-                    </button></label><br />
-                <label>{{ language?.uiElements.login.form.lastName }}: {{ userData?.lastName }} <button
-                        @click="editLastName">
+                    </button>
+                </label><br>
+                <label>{{ language?.uiElements.login.form.lastName }}: {{ userData?.lastName }}
+                    <button
+                        @click="editLastName"
+                    >
                         <edit-icon class="normalIcon" />
-                    </button></label><br /><br />
+                    </button>
+                </label><br><br>
 
                 <a href="/api/auth/simple/app" target="_blank">
                     <button>{{ language?.uiElements.login.loggedIn.loginAppBtn }}</button>
@@ -28,34 +37,45 @@
                     <summary>{{ language?.uiElements.login.loggedIn.oidcLogins }}</summary>
 
 
-
                     <div>
-                        <p v-for="connection in oidcConnections" :key="connection.subject">{{
-                            // @ts-ignore
-                            capitalizeFirstLetter(connection.name) }}: {{ connection.mail }}</p>
+                        <p v-for="connection in oidcConnections" :key="connection.subject">
+                            {{
+                                // @ts-ignore
+                                capitalizeFirstLetter(connection.name)
+                            }}: {{ connection.mail }}
+                        </p>
                     </div>
 
-                    <h3 v-show="missingProviders.length != 0">{{ language?.uiElements.login.loggedIn.oidcConnectionNote }}
+                    <h3 v-show="missingProviders.length != 0">
+                        {{
+                            language?.uiElements.login.loggedIn.oidcConnectionNote
+                        }}
                     </h3>
 
                     <div v-for="provider in missingProviders" :key="provider">
-                        <a style="min-width: 25ch; width: 40vw; max-width: 60ch;"
-                            :href="'/api/auth/oidc/addConnection/' + provider">
-                            <img :src="'/oidc/' + provider + '_signin.png'" style="width: 100%;" />
+                        <a
+                            style="min-width: 25ch; width: 40vw; max-width: 60ch;"
+                            :href="'/api/auth/oidc/addConnection/' + provider"
+                        >
+                            <img :src="'/oidc/' + provider + '_signin.png'" style="width: 100%;">
                         </a>
                     </div>
                 </details>
-                <br />
+                <br>
 
                 <details>
                     <summary>{{ language?.uiElements.login.loggedIn.viewAuth }}</summary>
-                    <button @click="addAuth()" v-show="supportsWebauthn">
+                    <button v-show="supportsWebauthn" @click="addAuth()">
                         {{ language?.uiElements.login.loggedIn.addAuth }}
                     </button>
 
                     <div v-show="authenticators.length > 0">
-                        <authenticator-detail v-for="auth in authenticators" :key="auth.credentialID" :language="language"
-                            :userData="userData" :authenticator="auth" @update="updateAuthenticators" />
+                        <authenticator-detail
+                            v-for="auth in authenticators" :key="auth.credentialID"
+                            :language="language"
+                            :user-data="userData" :authenticator="auth"
+                            @update="updateAuthenticators"
+                        />
                     </div>
                     <div v-show="authenticators == undefined || authenticators.length == 0" id="emptyAuthContainer">
                         {{ language?.uiElements.login.loggedIn.authEmpty }}
@@ -63,31 +83,39 @@
 
                     <div>{{ language?.uiElements.login.loggedIn.authDisclaimer }}</div>
                 </details>
-                <br />
+                <br>
                 <details>
                     <summary>{{ language?.uiElements.login.loggedIn.activeSessions }}</summary>
-                    <button @click="logoutEverywhere" class="delete">Logout everywhere</button>
+                    <button class="delete" @click="logoutEverywhere">
+                        Logout everywhere
+                    </button>
 
-                    <div v-for="session in personalizedJSON?.sessions ?? []" :key="session.expiration" class="session"
-                        :style="session.active ? 'color:orange;' : ''">
+                    <div
+                        v-for="session in personalizedJSON?.sessions ?? []" :key="session.expiration"
+                        class="session"
+                        :style="session.active ? 'color:orange;' : ''"
+                    >
                         {{ session.active ? "current Session" : "" }}
                         Expires: {{ language?.uiElements.dateTimeToString(new Date(session.expiration)) }} userAgent: {{
-                            session.userAgent ?? "unknown" }}
-                        <button class="delete" v-show="!session.active" @click="deleteSession(session.nonce)">
+                            session.userAgent ?? "unknown"
+                        }}
+                        <button v-show="!session.active" class="delete" @click="deleteSession(session.nonce)">
                             Delete
                         </button>
                     </div>
                 </details>
-                <br />
+                <br>
                 <details>
                     <summary>{{ language?.uiElements.login.loggedIn.personalizedDBContent }}</summary>
                     <pre>{{ personalizedData }}</pre>
                 </details>
 
-                <br />
-                <button @click="logout">{{ language?.uiElements.login.logoutBtn }}</button>
-                <br />
-                <button @click="deleteUser" class="delete" style="margin-top: 30vh;">
+                <br>
+                <button @click="logout">
+                    {{ language?.uiElements.login.logoutBtn }}
+                </button>
+                <br>
+                <button class="delete" style="margin-top: 30vh;" @click="deleteUser">
                     {{ language?.uiElements.login.loggedIn.deleteAccount }}
                 </button>
             </div>
@@ -102,7 +130,15 @@ import { languageData } from "../scripts/languageConstruct"
 import * as user from "../scripts/user"
 import LoadingScreen from "../components/LoadingScreen.vue"
 import LoginSignupView from "../components/LoginSignupView.vue"
-import { register, getWebauthnList, logoutAllSessions, deleteSession, logout, OIDCConnection, getOIDCConnections } from "../scripts/authentication"
+import {
+    deleteSession,
+    getOIDCConnections,
+    getWebauthnList,
+    logout,
+    logoutAllSessions,
+    OIDCConnection,
+    register
+} from "../scripts/authentication"
 import * as webauthnJson from "@github/webauthn-json"
 
 import AuthenticatorDetail from "../components/AuthenticatorDetail.vue"
@@ -130,10 +166,10 @@ export default class Login extends Vue {
     language?: languageData
 
     userData: IUser | undefined
-    loggingIn: boolean = false
+    loggingIn = false
     failedLoading?: boolean
 
-    personalizedData: string = ""
+    personalizedData = ""
     personalizedJSON: any = {}
 
     authenticators: any[] = []

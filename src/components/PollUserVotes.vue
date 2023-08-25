@@ -1,34 +1,37 @@
 <template>
     <tr>
-        <th @click="editNote" class="stickyCol">
+        <th class="stickyCol" @click="editNote">
             {{
                 displayUsernameInsteadOfFull
-                ? userVote?.user?.username
-                : userVote?.user?.firstName + " " + userVote?.user?.lastName
+                    ? userVote?.user?.username
+                    : userVote?.user?.firstName + " " + userVote?.user?.lastName
             }}
             <small>{{ pollData?.admin.id == userVote?.user?.id ?? false ? "(admin)" : "" }}</small>
             <small>{{ noteString }}</small>
         </th>
         <td v-for="voteOpt in userVote?.votes" :key="voteOpt.optionID">
-            <a @click="change(voteOpt.optionID)" @keyup="(e) => {
+            <a
+                :class="isEditable() ? 'changeable' : ''" tabindex="0"
+                @click="change(voteOpt.optionID)" @keyup="(e) => {
                     if (e.keyCode == 13) change(voteOpt.optionID)
                 }
-                " :class="isEditable() ? 'changeable' : ''" tabindex="0">{{ voteString(voteOpt.votedFor) }}</a><br />
+                "
+            >{{ voteString(voteOpt.votedFor) }}</a><br>
             <small v-show="errorMsg != '' && voteOpt.votedFor" class="errorInfo">{{ errorMsg }}</small>
         </td>
         <td>
-            <button class="leaveBtn" @click="removeUser" v-show="removeUserBtnVisible">
+            <button v-show="removeUserBtnVisible" class="leaveBtn" @click="removeUser">
                 {{
                     loggedUserIsSelectedUser()
-                    ? language?.uiElements.polls.details.leavePollBtn
-                    : language?.uiElements.polls.details.kickFromPollBtn
+                        ? language?.uiElements.polls.details.leavePollBtn
+                        : language?.uiElements.polls.details.kickFromPollBtn
                 }}
             </button>
-            <button class="leaveBtn btn-disabled" @click="editingDisabledNote" v-show="!removeUserBtnVisible">
+            <button v-show="!removeUserBtnVisible" class="leaveBtn btn-disabled" @click="editingDisabledNote">
                 {{
                     loggedUserIsSelectedUser()
-                    ? language?.uiElements.polls.details.leavePollBtn
-                    : language?.uiElements.polls.details.kickFromPollBtn
+                        ? language?.uiElements.polls.details.leavePollBtn
+                        : language?.uiElements.polls.details.kickFromPollBtn
                 }}
             </button>
         </td>
@@ -42,7 +45,7 @@ import { IUser, ReturnCode, tOptionId, VoteValue } from "expoll-lib/interfaces"
 import { languageData } from "../scripts/languageConstruct"
 import { vote } from "../scripts/vote"
 import { VoteRequest } from "expoll-lib/requestInterfaces"
-import { leavePoll, removeUserFromPoll, editUserNote } from "@/scripts/poll"
+import { editUserNote, leavePoll, removeUserFromPoll } from "@/scripts/poll"
 
 @Options({
     props: {
@@ -68,13 +71,14 @@ export default class PollUserVoteRow extends Vue {
 
     note?: string
 
-    errorMsg: string = ""
+    errorMsg = ""
 
     created() {
         // this.language = getSystemLanguage()
     }
 
-    mounted() { }
+    mounted() {
+    }
 
     async change(optionID: tOptionId) {
         if (this.pollData == undefined) return
@@ -214,9 +218,9 @@ export default class PollUserVoteRow extends Vue {
 </script>
 
 <style scoped>
-td>input,
-th>input,
-.addOption>div>input {
+td > input,
+th > input,
+.addOption > div > input {
     background: var(--bg-color);
 }
 

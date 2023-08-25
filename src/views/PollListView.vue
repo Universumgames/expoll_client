@@ -1,16 +1,19 @@
 <template>
     <div class="listContainer">
         <div v-show="loading">
-            <blank-poll-list-element v-for="n in 20" v-bind:key="n" :language="language" />
+            <blank-poll-list-element v-for="n in 20" :key="n" :language="language" />
         </div>
         <loading-screen v-show="loading" />
-        <router-link to="/create"><button><span title="Create Poll">+ {{ language?.uiElements.polls.list.createBtn
-        }}</span></button></router-link>
+        <router-link to="/create">
+            <button>
+                <span title="Create Poll">+ {{
+                    language?.uiElements.polls.list.createBtn
+                }}</span>
+            </button>
+        </router-link>
         <div v-for="poll in polls" :key="poll.pollID">
             <poll-list-element :poll="poll" :language="language" />
         </div>
-
-
     </div>
 </template>
 
@@ -46,7 +49,7 @@ export default class PollListView extends Vue {
 
     language?: languageData
 
-    create: boolean = false
+    create = false
 
     async mounted() {
         const pollData = await getPollOverviews()

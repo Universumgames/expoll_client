@@ -4,13 +4,23 @@
         <label>User count: {{ count }}</label>
     </div>
 
-    <input v-if="!loading" type="text" placeholder="Search" v-model="search" @input="updateFilteredUsers"
-        @change="updateFilteredUsers" />
+    <input
+        v-if="!loading" v-model="search"
+        type="text" placeholder="Search"
+        @input="updateFilteredUsers"
+        @change="updateFilteredUsers"
+    >
 
-    <button @click="createUser">Create new User</button>
+    <button @click="createUser">
+        Create new User
+    </button>
 
-    <user-row v-for="user in filteredUsers" :key="user.id" :userInfo="user" :language="language" @update="getData"
-        :admin="userData" :superAdmin="adminIsSuper" />
+    <user-row
+        v-for="user in filteredUsers" :key="user.id"
+        :user-info="user" :language="language"
+        :admin="userData"
+        :super-admin="adminIsSuper" @update="getData"
+    />
 </template>
 
 <script lang="ts">

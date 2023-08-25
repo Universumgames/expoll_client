@@ -1,23 +1,29 @@
 <template>
     <div class="auth-container">
         <div>
-            <h3 style="display: inline">{{ name }}</h3>
-            <button @click="rename"><edit-icon class="normalIcon" /></button>
+            <h3 style="display: inline">
+                {{ name }}
+            </h3>
+            <button @click="rename">
+                <edit-icon class="normalIcon" />
+            </button>
         </div>
         <div>
             <div>
-                <small>CredentialID: {{ authenticator.credentialID }}</small><br />
+                <small>CredentialID: {{ authenticator.credentialID }}</small><br>
                 <small>Initiator Platform: {{ platform }}</small>
-                <br />
+                <br>
                 <small>Creation: {{ new Date(createdAuth) }}</small>
             </div>
-            <button @click="deleteAuth" class="delete">Delete</button>
+            <button class="delete" @click="deleteAuth">
+                Delete
+            </button>
         </div>
     </div>
 </template>
 
 <script lang="ts">
-import { rename, deleteWebauthn } from "@/scripts/authentication"
+import { deleteWebauthn, rename } from "@/scripts/authentication"
 import { IUser } from "expoll-lib/interfaces"
 import { Options, Vue } from "vue-class-component"
 import EditIcon from "../assetComponents/EditIcon.vue"

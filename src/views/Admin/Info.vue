@@ -4,7 +4,7 @@
 
 <script lang="ts">
 import axios from "axios"
-import { Options, Vue } from "vue-class-component"
+import { Vue } from "vue-class-component"
 
 export default class InfoView extends Vue {
     info = ""

@@ -6,49 +6,62 @@
     </div>
 
     <label for="pollNameInput">{{ language?.uiElements.polls.create.pollNameInputLabel }}</label>
-    <input type="text" v-model="pollName" id="pollNameInput" />
+    <input id="pollNameInput" v-model="pollName" type="text">
     <label v-show="clicked && pollName == ''" class="errorInfo">{{
         language?.uiElements.polls.create.emptyField
     }}</label>
-    <br />
+    <br>
 
     <label for="pollDescriptionInput">{{ language?.uiElements.polls.create.description }}</label>
-    <textarea type="text" v-model="description" id="pollDescriptionInput" maxlength="65535" rows="7" cols="50" /><br />
+    <textarea
+        id="pollDescriptionInput" v-model="description"
+        type="text" maxlength="65535"
+        rows="7" cols="50"
+    /><br>
     <label v-show="clicked && description == ''" class="errorInfo">{{
         language?.uiElements.polls.create.emptyField
-    }}</label><br />
+    }}</label><br>
 
     <label for="typeSelect"> {{ language?.uiElements.polls.create.typeSelect.label }}* </label>
 
-    <select v-model="type" id="typeSelect">
-        <option value="0">{{ language?.uiElements.polls.create.typeSelect.stringOption }}</option>
-        <option value="1">{{ language?.uiElements.polls.create.typeSelect.dateOption }}</option>
+    <select id="typeSelect" v-model="type">
+        <option value="0">
+            {{ language?.uiElements.polls.create.typeSelect.stringOption }}
+        </option>
+        <option value="1">
+            {{ language?.uiElements.polls.create.typeSelect.dateOption }}
+        </option>
         <option value="2">
             {{ language?.uiElements.polls.create.typeSelect.dateTimeOption }}
         </option>
     </select>
 
-    <br />
+    <br>
 
     <label for="pollMaxVote">{{ language?.uiElements.polls.create.maxVoteLabel }}</label>
-    <input type="number" v-model="maxVoteCount" id="pollMaxVote" min="-1" /><br />
+    <input id="pollMaxVote" v-model="maxVoteCount" type="number" min="-1"><br>
 
     <label for="allowsMaybe">{{ language?.uiElements.polls.create.allowsMaybeLabel }}</label>
-    <input type="checkbox" v-model="allowsMaybe" id="allowsMaybe" /><br />
+    <input id="allowsMaybe" v-model="allowsMaybe" type="checkbox"><br>
 
     <div style="margin-top: 5ch">
         <label>{{ language?.uiElements.polls.create.optionList }}</label>
-        <br />
-        <button @click="addOption">{{ language?.uiElements.polls.create.optionListAddOption }}</button><br />
+        <br>
+        <button @click="addOption">
+            {{ language?.uiElements.polls.create.optionListAddOption }}
+        </button>
+        <br>
 
         <div>
             <div v-for="option in options" :key="option.id" class="optionElement">
                 <label>{{ language?.uiElements.polls.create.optionName(option.id ?? 0) }}</label>
-                <button @click="removeOption(option.id ?? 0)">-</button>
+                <button @click="removeOption(option.id ?? 0)">
+                    -
+                </button>
                 <!-- String poll options -->
                 <div v-show="type == 0">
                     <label :for="option.id + 'value'">{{ language?.uiElements.polls.create.optionValue }}</label>
-                    <input v-model="option.value" :id="option.id + 'value'" type="text" />
+                    <input :id="option.id + 'value'" v-model="option.value" type="text">
                     <label v-show="clicked && option.value == ''" class="errorInfo">{{
                         language?.uiElements.polls.create.emptyField
                     }}</label>
@@ -56,35 +69,37 @@
                 <!-- Date options -->
                 <div v-show="type == 1">
                     <label :for="option.id + 'dateStart'">{{ language?.uiElements.polls.create.optionValue }}</label>
-                    <input v-model="option.dateStart" :id="option.id + 'dateStart'" type="date" />
+                    <input :id="option.id + 'dateStart'" v-model="option.dateStart" type="date">
                     <label v-show="clicked && option.dateStart == undefined" class="errorInfo">{{
                         language?.uiElements.polls.create.emptyField
                     }}</label>
                     <label :for="option.id + 'dateEnd'">{{
                         language?.uiElements.polls.create.optionOptEndValue
                     }}</label>
-                    <input v-model="option.dateEnd" :id="option.id + 'dateEnd'" type="date" />
+                    <input :id="option.id + 'dateEnd'" v-model="option.dateEnd" type="date">
                 </div>
                 <!-- Date time options -->
                 <div v-show="type == 2">
                     <label :for="option.id + 'dateTimeStart'">{{
                         language?.uiElements.polls.create.optionValue
                     }}</label>
-                    <input v-model="option.dateTimeStart" :id="option.id + 'dateTimeStart'" type="datetime-local" />
+                    <input :id="option.id + 'dateTimeStart'" v-model="option.dateTimeStart" type="datetime-local">
                     <label v-show="clicked && option.dateTimeStart == undefined" class="errorInfo">{{
                         language?.uiElements.polls.create.emptyField
                     }}</label>
                     <label :for="option.id + 'dateTimeEnd'">{{
                         language?.uiElements.polls.create.optionOptEndValue
                     }}</label>
-                    <input v-model="option.dateTimeEnd" :id="option.id + 'dateTimeEnd'" type="datetime-local" />
+                    <input :id="option.id + 'dateTimeEnd'" v-model="option.dateTimeEnd" type="datetime-local">
                 </div>
             </div>
         </div>
     </div>
-    <br />
-    <button @click="create">{{ language?.uiElements.polls.create.createBtn }}</button>
-    <label class="errorInfo" v-show="errorMsg != ''">{{ errorMsg }}</label>
+    <br>
+    <button @click="create">
+        {{ language?.uiElements.polls.create.createBtn }}
+    </button>
+    <label v-show="errorMsg != ''" class="errorInfo">{{ errorMsg }}</label>
 </template>
 
 <script lang="ts">
@@ -106,11 +121,11 @@ export default class CreatePollView extends Vue {
     language?: languageData
     userData?: IUser
 
-    pollName: string = ""
-    maxVoteCount: number = -1
-    allowsMaybe: boolean = true
+    pollName = ""
+    maxVoteCount = -1
+    allowsMaybe = true
     type: PollType = PollType.String
-    description: string = ""
+    description = ""
 
     options: ComplexOption[] = []
     currentID = 0
@@ -193,15 +208,15 @@ button {
     margin: 1ch;
 }
 
-.optionElement>button {
+.optionElement > button {
     padding: 0.5ch 1ch;
 }
 
-.optionElement>div {
+.optionElement > div {
     display: inline;
 }
 
-.optionElement>div>input {
+.optionElement > div > input {
     background: var(--bg-color);
 }
 
