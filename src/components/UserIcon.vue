@@ -50,19 +50,16 @@ img {
 }
 
 #userico {
-    position: absolute;
-    top: 0;
-    right: 0;
-    margin: 1.5ch;
+    float: right;
 }
 
 #userIcoImg {
     /* background: var(--secondary-color); */
     clip-path: circle(1.5rem at center);
+    transform: translateY(-25%);
 }
 
 #loginText {
-    transform: translateY(50%);
 }
 
 a {

@@ -7,7 +7,6 @@
             </button>
         </div>
         <header>
-            <user-icon :user-data="userData" :language="localeLanguage" />
             <div id="nav">
                 <a style="float: left" :href="userData != undefined ? '/#/polls' : '/'">Expoll</a>
 
@@ -26,6 +25,8 @@
                 <router-link to="/app">
                     iOS App
                 </router-link>
+
+                <user-icon :user-data="userData" :language="localeLanguage" />
             </div>
         </header>
 
@@ -295,7 +296,6 @@ header {
 
 #nav {
     padding: 3ch;
-    margin: 2ch;
 }
 
 .errorInfo {
