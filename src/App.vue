@@ -115,6 +115,7 @@ const created = async () => {
 }
 
 onMounted(async () => {
+    created()
     const startUserGet = getUserData()
     manageDarkMode()
 
