@@ -151,7 +151,7 @@
         <br>
 
         <!-- Poll options and results -->
-        <div class="x-scroller poll-main">
+        <div v-if="poll != undefined" class="x-scroller poll-main">
             <table>
                 <tr>
                     <th class="stickyCol">
@@ -226,27 +226,25 @@
                     </th>
                 </tr>
 
-                <div v-if="poll != undefined">
-                    <poll-user-vote-row
-                        :user-data="userData" :language="language"
-                        :user-vote="getVotesByUser()"
-                        :poll-data="poll"
-                        :note="poll.userNotes?.find((note) => note.userID == userData?.id)"
-                        :display-username-instead-of-full="displayUsernameInsteadOfFull"
-                        class="currentUserVotes"
-                        @voteChange="voteUpdateCallback" @noteChange="noteChangeCallback"
-                    />
-                    <poll-user-vote-row
-                        v-for="vote in poll?.userVotes" v-show="vote.user.id != userData?.id"
-                        :key="vote.user.id" :user-data="userData"
-                        :note="poll.userNotes?.find((note) => note.userID == vote.user.id)"
-                        :language="language"
-                        :user-vote="vote" :poll-data="poll"
-                        :display-username-instead-of-full="displayUsernameInsteadOfFull"
-                        @voteChange="voteUpdateCallback" @kickedID="userKicked"
-                        @noteChange="noteChangeCallback"
-                    />
-                </div>
+                <poll-user-vote-row
+                    :user-data="userData" :language="language"
+                    :user-vote="getVotesByUser()"
+                    :poll-data="poll"
+                    :note="poll.userNotes?.find((note) => note.userID == userData?.id)"
+                    :display-username-instead-of-full="displayUsernameInsteadOfFull"
+                    class="currentUserVotes"
+                    @voteChange="voteUpdateCallback" @noteChange="noteChangeCallback"
+                />
+                <poll-user-vote-row
+                    v-for="vote in poll?.userVotes" v-show="vote.user.id != userData?.id"
+                    :key="vote.user.id" :user-data="userData"
+                    :note="poll.userNotes?.find((note) => note.userID == vote.user.id)"
+                    :language="language"
+                    :user-vote="vote" :poll-data="poll"
+                    :display-username-instead-of-full="displayUsernameInsteadOfFull"
+                    @voteChange="voteUpdateCallback" @kickedID="userKicked"
+                    @noteChange="noteChangeCallback"
+                />
                 <tr v-show="mayEdit()">
                     <td>
                         <button @click="addUserClick()">
