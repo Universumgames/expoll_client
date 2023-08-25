@@ -8,42 +8,27 @@
     </div>
 </template>
 
-<script lang="ts">
-import { Options, Vue } from "vue-class-component"
+<script setup lang="ts">
 import { IUser } from "expoll-lib/interfaces"
-import { languageData } from "../../scripts/languageConstruct"
-import LoadingScreen from "../../components/LoadingScreen.vue"
-import PollListElement from "../../components/PollListElement.vue"
+import { languageData } from "@/scripts/languageConstruct"
+import LoadingScreen from "@/components/LoadingScreen.vue"
+import PollListElement from "@/components/PollListElement.vue"
 import { SimplePoll } from "expoll-lib/extraInterfaces"
 import { getAllPolls } from "@/scripts/admin"
+import { onMounted, ref } from "vue"
 
-@Options({
-    props: {
-        userData: Object,
-        language: Object
-    },
-    components: {
-        LoadingScreen,
-        PollListElement
-    }
+const props = defineProps<{ userData?: IUser, language: languageData }>()
+
+const polls = ref<SimplePoll[]>([])
+const count = ref(0)
+const loading = ref(true)
+
+onMounted(async () => {
+    const data = await getAllPolls()
+    if (data == undefined) return
+    polls.value = data.polls
+    count.value = data.totalCount
+
+    loading.value = false
 })
-export default class AdminPollList extends Vue {
-    userData: IUser | undefined
-    language?: languageData
-
-    polls: SimplePoll[] = []
-    count = 0
-    loading = true
-
-    async mounted() {
-        const data = await getAllPolls()
-        if (data == undefined) return
-        this.polls = data.polls
-        this.count = data.totalCount
-
-        this.$forceUpdate()
-
-        this.loading = false
-    }
-}
 </script>

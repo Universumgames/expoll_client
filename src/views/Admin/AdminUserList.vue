@@ -23,106 +23,86 @@
     />
 </template>
 
-<script lang="ts">
-import { Options, Vue } from "vue-class-component"
+<script setup lang="ts">
 import { IUser } from "expoll-lib/interfaces"
 import { UserInfo } from "expoll-lib/adminInterfaces"
-import { languageData } from "../../scripts/languageConstruct"
+import { languageData } from "@/scripts/languageConstruct"
 import UserRow from "./UserRow.vue"
-import LoadingScreen from "../../components/LoadingScreen.vue"
-import { getUserData } from "../../scripts/user"
-import { getAllUser } from "../../scripts/admin"
+import LoadingScreen from "@/components/LoadingScreen.vue"
+import { getUserData } from "@/scripts/user"
+import { getAllUser } from "@/scripts/admin"
 import axios from "axios"
+import { onMounted, ref } from "vue"
 
-@Options({
-    props: {
-        userData: Object,
-        language: Object
-    },
-    components: {
-        UserRow,
-        LoadingScreen
+const props = defineProps<{ userData?: IUser, language: languageData }>()
+
+const adminIsSuper = ref(false)
+const users = ref<UserInfo[]>()
+const filteredUsers = ref<UserInfo[]>([])
+const count = ref(0)
+const loading = ref(true)
+
+const search = ref("")
+
+const getData = async () => {
+    const data = await getAllUser()
+    if (data === undefined) return
+    users.value = data.users
+    count.value = data.totalCount
+
+    const u = await getUserData()
+
+    if (u != undefined && users.value != undefined) {
+        adminIsSuper.value =
+            users.value.find((user) => {
+                return user.id == u.id
+            })?.superAdmin ?? false
     }
+
+    updateFilteredUsers()
+
+    loading.value = false
+}
+
+onMounted(async () => {
+    getData()
 })
-export default class AdminUserList extends Vue {
-    userData: IUser | undefined
-    language?: languageData
-    adminIsSuper = false
 
-    users?: UserInfo[]
-    filteredUsers: UserInfo[] = []
-    count = 0
+const updateFilteredUsers = () => {
+    if (users.value == undefined) return
+    filteredUsers.value = users.value.filter((user) => {
+        return (
+            user.username.toLowerCase().includes(search.value.toLowerCase()) ||
+            user.mail.toLowerCase().includes(search.value.toLowerCase()) ||
+            user.firstName.toLowerCase().includes(search.value.toLowerCase()) ||
+            user.lastName.toLowerCase().includes(search.value.toLowerCase())
+        )
+    })
+}
 
-    loading = true
+const createUser = async () => {
+    const username = prompt("Provide a Username")
+    if (username == null || username == "") return
+    const mail = prompt("Provide the mail address")
+    if (mail == null || mail == "") return
+    const firstName = prompt("Provide the first name")
+    if (firstName == null || firstName == "") return
+    const lastName = prompt("Provide the last name")
+    if (lastName == null || lastName == "") return
 
-    search = ""
+    if (!confirm("Create user?")) return
 
-    async mounted() {
-        this.getData()
-    }
-
-    async getData() {
-        const data = await getAllUser()
-        if (data === undefined) return
-        this.users = data.users
-        this.count = data.totalCount
-
-        const u = await getUserData()
-
-        if (u != undefined && this.users != undefined) {
-            this.adminIsSuper =
-                this.users?.find((user) => {
-                    return user.id == u.id
-                })?.superAdmin ?? false
-        }
-
-        this.updateFilteredUsers()
-
-        this.$forceUpdate()
-        this.loading = false
-    }
-
-    updateFilteredUsers() {
-        if (this.users == undefined) return []
-        if (this.search == "") {
-            this.filteredUsers = this.users
-            return
-        }
-        this.filteredUsers = this.users.filter((user) => {
-            return user.mail.toLowerCase().includes(this.search.toLowerCase()) ||
-                user.firstName.toLowerCase().includes(this.search.toLowerCase()) ||
-                user.lastName.toLowerCase().includes(this.search.toLowerCase()) ||
-                user.id.toLowerCase().includes(this.search.toLowerCase()) ||
-                user.username.toLowerCase().includes(this.search.toLowerCase()) ||
-                (user.superAdmin ? "superadmin" : "").includes(this.search.toLowerCase()) ||
-                (user.admin ? "admin" : "").includes(this.search.toLowerCase())
-        })
-    }
-
-    async createUser() {
-        const username = prompt("Provide a Username")
-        if (username == null || username == "") return
-        const mail = prompt("Provide the mail address")
-        if (mail == null || mail == "") return
-        const firstName = prompt("Provide the first name")
-        if (firstName == null || firstName == "") return
-        const lastName = prompt("Provide the last name")
-        if (lastName == null || lastName == "") return
-
-        if (!confirm("Create user?")) return
-
-        const result = await axios.post("/api/admin/user", {
-            username,
-            mail,
-            firstName,
-            lastName
-        })
-        if (result.status == 200) {
-            alert("User created")
-            this.getData()
-        } else {
-            alert("Error creating user")
-        }
+    const result = await axios.post("/api/admin/user", {
+        username,
+        mail,
+        firstName,
+        lastName
+    })
+    if (result.status == 200) {
+        alert("User created")
+        getData()
+    } else {
+        alert("Error creating user")
     }
 }
 </script>

@@ -28,78 +28,52 @@
     </div>
 </template>
 
-<script lang="ts">
-import { Options, Vue } from "vue-class-component"
+<script setup lang="ts">
 import { IUser } from "expoll-lib/interfaces"
-import { languageData } from "../../scripts/languageConstruct"
-import UserRow from "./UserRow.vue"
-import LoadingScreen from "../../components/LoadingScreen.vue"
+import { languageData } from "@/scripts/languageConstruct"
+import LoadingScreen from "@/components/LoadingScreen.vue"
 import RegexTest from "./RegexTest.vue"
 import { MailRegexEntry } from "expoll-lib/extraInterfaces"
 import { getRegexAdmin, updateRegeAdmin } from "@/scripts/regex"
+import { ref } from "vue"
 
-@Options({
-    props: {
-        userData: Object,
-        language: Object
-    },
-    components: {
-        UserRow,
-        LoadingScreen,
-        RegexTest
+const props = defineProps<{ userData?: IUser, language: languageData }>()
+
+const regex = ref<MailRegexEntry[]>([])
+const newRegex = ref<string>()
+const newRegexBlacklist = ref(false)
+const showNewRegex = ref(false)
+
+const loading = ref(true)
+
+const getData = async () => {
+    regex.value = await getRegexAdmin()
+    loading.value = false
+}
+
+const addRegex = async () => {
+    if (newRegex.value == undefined || newRegex.value == "") {
+        newRegex.value = undefined
+        return
     }
-})
-export default class MailRegex extends Vue {
-    userData: IUser | undefined
-    language?: languageData
+    regex.value.push({
+        regex: newRegex.value,
+        blacklist: newRegexBlacklist.value
+    })
 
-    regex: Array<MailRegexEntry> = []
+    update()
 
-    newRegex?: string
-    newRegexBlacklist = false
-    showNewRegex = false
+    newRegex.value = undefined
+}
 
-    loading = true
+const removeRegex = async (reg: string) => {
+    await updateRegeAdmin(regex.value.filter((r) => r.regex != reg))
 
-    async mounted() {
-        this.getData()
-    }
+    await getData()
+}
 
-    async getData() {
-        this.regex = await getRegexAdmin()
-
-        this.$forceUpdate()
-        this.loading = false
-    }
-
-    async addRegex() {
-        if (this.newRegex == undefined || this.newRegex == "") {
-            this.newRegex = undefined
-            return
-        }
-        this.regex.push({
-            regex: this.newRegex,
-            blacklist: this.newRegexBlacklist
-        })
-
-        this.update()
-
-        this.newRegex = undefined
-    }
-
-    async removeRegex(reg: string) {
-        await updateRegeAdmin(this.regex.filter((r) => r.regex != reg))
-
-        await this.getData()
-    }
-
-    async update() {
-        await updateRegeAdmin(this.regex)
-        await this.getData()
-    }
-
-    regexMatchChange(e: any) {
-        return true
-    }
+const update = async () => {
+    await updateRegeAdmin(regex.value)
+    await getData()
 }
 </script>

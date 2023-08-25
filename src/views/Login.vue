@@ -40,7 +40,6 @@
                     <div>
                         <p v-for="connection in oidcConnections" :key="connection.subject">
                             {{
-                                // @ts-ignore
                                 capitalizeFirstLetter(connection.name)
                             }}: {{ connection.mail }}
                         </p>
@@ -123,181 +122,147 @@
     </div>
 </template>
 
-<script lang="ts">
-import { Options, Vue } from "vue-class-component"
+<script setup lang="ts">
 import { IUser } from "expoll-lib/interfaces"
-import { languageData } from "../scripts/languageConstruct"
+import { languageData } from "@/scripts/languageConstruct"
 import * as user from "../scripts/user"
 import LoadingScreen from "../components/LoadingScreen.vue"
 import LoginSignupView from "../components/LoginSignupView.vue"
-import {
-    deleteSession,
-    getOIDCConnections,
-    getWebauthnList,
-    logout,
-    logoutAllSessions,
-    OIDCConnection,
-    register
-} from "../scripts/authentication"
+import * as auth from "@/scripts/authentication"
 import * as webauthnJson from "@github/webauthn-json"
 
 import AuthenticatorDetail from "../components/AuthenticatorDetail.vue"
 import axios from "axios"
-import { capitalizeFirstLetter } from "../scripts/helper"
+import { capitalizeFirstLetter } from "@/scripts/helper"
 import EditIcon from "@/assetComponents/EditIcon.vue"
+import { computed, onMounted, ref } from "vue"
 
-@Options({
-    props: {
-        userData: Object,
-        language: Object,
-        failedLoading: Boolean
-    },
-    components: {
-        LoadingScreen,
-        LoginSignupView,
-        AuthenticatorDetail,
-        EditIcon
-    },
-    methods: {
-        capitalizeFirstLetter
-    }
+const props = defineProps<{ userData: IUser, language: languageData, failedLoading: boolean }>()
+
+const personalizedData = ref("")
+const personalizedJSON = ref<any>({})
+
+const authenticators = ref<any[]>([])
+const oidcConnections = ref<auth.OIDCConnection[]>([])
+const providers = ref<{ key: string, imageURI: string, imageSmallURI: string, altName: string }[]>([])
+const missingProviders = ref<string[]>([])
+
+onMounted(async () => {
+    await getPersonalizedData()
+    await updateAuthenticators()
+    oidcConnections.value = await auth.getOIDCConnections()
+    providers.value = await axios.get("/api/auth/oidc/providers").then(res => res.data)
+    const existingProviders = oidcConnections.value.map(t => t.name)
+
+    missingProviders.value = providers.value
+        .filter(prov => !existingProviders.includes(prov.key))
+        .map(prov => prov.key)
 })
-export default class Login extends Vue {
-    language?: languageData
 
-    userData: IUser | undefined
-    loggingIn = false
-    failedLoading?: boolean
-
-    personalizedData = ""
-    personalizedJSON: any = {}
-
-    authenticators: any[] = []
-    oidcConnections: OIDCConnection[] = []
-    providers: { key: string, imageURI: string, imageSmallURI: string, altName: string }[] = []
-
-    missingProviders: string[] = []
-
-    async mounted() {
-        await this.getPersonalizedData()
-        await this.updateAuthenticators()
-        this.oidcConnections = await getOIDCConnections()
-        this.providers = await axios.get("/api/auth/oidc/providers").then(res => res.data)
-        const existingProviders = this.oidcConnections.map(t => t.name)
-
-        this.missingProviders = this.providers
-            .filter(prov => !existingProviders.includes(prov.key))
-            .map(prov => prov.key)
-
+const getPersonalizedData = async () => {
+    personalizedJSON.value = await user.getPersonalizedData()
+    if (personalizedJSON.value != undefined) {
+        personalizedData.value = JSON.stringify(personalizedJSON.value, null, 2)
     }
+}
 
-    async getPersonalizedData() {
-        this.personalizedJSON = await user.getPersonalizedData()
-        if (this.personalizedJSON != undefined) {
-            this.personalizedData = JSON.stringify(this.personalizedJSON, null, 2)
-        }
+const updateAuthenticators = async () => {
+    authenticators.value = await getAuthenticators()
+}
+
+const loggedIn = computed(() => {
+    return props.userData != undefined
+})
+
+const logout = async () => {
+    await logout()
+    location.reload()
+}
+
+const deleteUser = async () => {
+    if (props.userData == undefined) return
+    if (props.userData!.admin) {
+        alert("You are an admin, you cannot delete your account")
+        return
     }
-
-    async updateAuthenticators() {
-        this.authenticators = await this.getAuthenticators()
-        this.$forceUpdate()
-    }
-
-    get loggedIn() {
-        return this.userData != undefined
-    }
-
-    async logout() {
-        await logout()
-        location.reload()
-    }
-
-    async deleteUser() {
-        if (this.userData == undefined) return
-        if (this.userData!.admin) {
-            alert("You are an admin, you cannot delete your account")
-            return
-        }
+    if (
+        confirm(
+            "Are you sure you want to delete your user account? You loose your access to the account and your personal information will be deleted"
+        )
+    ) {
         if (
             confirm(
-                "Are you sure you want to delete your user account? You loose your access to the account and your personal information will be deleted"
+                "Deleting your user account will remove your access  to your votes and polls, are you sure you want to continue?"
             )
         ) {
-            if (
-                confirm(
-                    "Deleting your user account will remove your access  to your votes and polls, are you sure you want to continue?"
-                )
-            ) {
-                if (confirm("A confirmation email will be delivered, once opened this action cannot be undone")) {
-                    await user.deleteUser()
-                    location.reload()
-                }
+            if (confirm("A confirmation email will be delivered, once opened this action cannot be undone")) {
+                await user.deleteUser()
+                location.reload()
             }
         }
     }
+}
 
-    get supportsWebauthn(): boolean {
-        return webauthnJson.supported()
+const supportsWebauthn = async () => {
+    return webauthnJson.supported()
+}
+
+const addAuth = async () => {
+    if (authenticators.value.length == 0 && props.language) {
+        alert(props.language.uiElements.login.loggedIn.authDisclaimer)
     }
+    const { success, error } = await auth.register()
+    if (!success) console.error(error)
+    await updateAuthenticators()
+}
 
-    async addAuth() {
-        if (this.authenticators.length == 0 && !this.language) {
-            alert(this.language!.uiElements.login.loggedIn.authDisclaimer)
-        }
-        const { success, error } = await register()
-        if (!success) console.error(error)
-        await this.updateAuthenticators()
-        this.$forceUpdate()
+const getAuthenticators = async () => {
+    return (await auth.getWebauthnList()).sort((a: any, b: any) => {
+        return a.created < b.created ? 1 : -1
+    })
+}
+
+const deleteSession = async (session: any) => {
+    if (confirm(props.language?.uiElements.login.loggedIn.deleteSessionPrompt)) {
+        await deleteSession(session)
+        await getPersonalizedData()
+        await updateAuthenticators()
     }
+}
 
-    async getAuthenticators(): Promise<any[]> {
-        return (await getWebauthnList()).sort((a: any, b: any) => {
-            return a.created < b.created ? 1 : -1
-        })
+const logoutEverywhere = async () => {
+    if (confirm(props.language?.uiElements.login.loggedIn.logoutAllPrompt)) {
+        await auth.logoutAllSessions()
+        location.reload()
     }
+}
 
-    async deleteSession(session: any) {
-        if (confirm(this.language?.uiElements.login.loggedIn.deleteSessionPrompt)) {
-            await deleteSession(session)
-            await this.getPersonalizedData()
-            await this.updateAuthenticators()
-        }
+const editUsername = async () => {
+    const username = prompt(props.language?.uiElements.login.loggedIn.editUsernamePrompt, props.userData?.username)
+    if (username == null) return
+    const result = await axios.put("/api/user", { username }, { withCredentials: true })
+    if (result.status == 200) {
+        window.location.reload()
+    } else {
+        alert("Username already taken")
     }
+}
 
-    async logoutEverywhere() {
-        if (confirm(this.language?.uiElements.login.loggedIn.logoutAllPrompt)) {
-            await logoutAllSessions()
-            location.reload()
-        }
+const editFirstName = async () => {
+    const firstName = prompt(props.language?.uiElements.login.loggedIn.editFirstNamePrompt, props.userData?.firstName)
+    if (firstName == null) return
+    const result = await axios.put("/api/user", { firstName }, { withCredentials: true })
+    if (result.status == 200) {
+        window.location.reload()
     }
+}
 
-    async editUsername() {
-        const username = prompt(this.language?.uiElements.login.loggedIn.editUsernamePrompt, this.userData?.username)
-        if (username == null) return
-        const result = await axios.put("/api/user", { username }, { withCredentials: true })
-        if (result.status == 200) {
-            window.location.reload()
-        } else {
-            alert("Username already taken")
-        }
-    }
-
-    async editFirstName() {
-        const firstName = prompt(this.language?.uiElements.login.loggedIn.editFirstNamePrompt, this.userData?.firstName)
-        if (firstName == null) return
-        const result = await axios.put("/api/user", { firstName }, { withCredentials: true })
-        if (result.status == 200) {
-            window.location.reload()
-        }
-    }
-
-    async editLastName() {
-        const lastName = prompt(this.language?.uiElements.login.loggedIn.editLastNamePrompt, this.userData?.lastName)
-        if (lastName == null) return
-        const result = await axios.put("/api/user", { lastName }, { withCredentials: true })
-        if (result.status == 200) {
-            window.location.reload()
-        }
+const editLastName = async () => {
+    const lastName = prompt(props.language?.uiElements.login.loggedIn.editLastNamePrompt, props.userData?.lastName)
+    if (lastName == null) return
+    const result = await axios.put("/api/user", { lastName }, { withCredentials: true })
+    if (result.status == 200) {
+        window.location.reload()
     }
 }
 </script>
@@ -307,7 +272,7 @@ export default class Login extends Vue {
     display: flex;
     max-width: 80vw;
     flex-wrap: wrap;
-    flex-direction: columns;
+    flex-direction: row;
     background: var(--secondary-color);
     margin: auto;
     border-radius: 1rem;

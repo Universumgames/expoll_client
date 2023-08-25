@@ -47,6 +47,7 @@ Tritt der Beta via TestFlight bei und installiere die App: [https://testflight.a
         },
         login: {
             loggedInAs: (username: string) => "Angemeldet als " + username,
+            loggedInText: "Konto",
             notLoggedIn: "Nicht angemeldet",
             loginLink: "Anmelden",
             loginFirst: "Du musst dich zuerst anmelden",

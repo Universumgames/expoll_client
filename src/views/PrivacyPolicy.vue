@@ -2,34 +2,20 @@
     <vue-markdown class="text" :source="markdown" />
 </template>
 
-<script lang="ts">
-import { Options, Vue } from "vue-class-component"
+<script setup lang="ts">
 import VueMarkdown from "vue-markdown-render"
 import axios from "axios"
+import { languageData } from "@/scripts/languageConstruct"
+import { onMounted, ref } from "vue"
 
-@Options({
-    components: {
-        VueMarkdown
-    },
-    props: {
-        language: Object
-    }
+const props = defineProps<{ language: languageData }>()
+
+const markdown = ref("")
+
+onMounted(async () => {
+    const filename = "/en_privacy.md"
+    markdown.value = (await axios.get(filename)).data
 })
-export default class PrivacyPolicy extends Vue {
-    markdown = ""
-
-    async created() {
-        this.loadMarkdown()
-    }
-
-    mounted() {
-    }
-
-    async loadMarkdown() {
-        const filename = "/en_privacy.md"
-        this.markdown = (await axios.get(filename)).data
-    }
-}
 </script>
 
 <style scoped>

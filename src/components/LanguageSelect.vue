@@ -4,37 +4,25 @@
             {{ language?.uiElements.navigation.changeLanguageButton }}
         </p>
         <div v-show="showSelect" class="selec-field">
-            <p v-for="lang in availableLangs" :key="lang.short" class="lang" @click="changeLang(lang.short)">
+            <p v-for="lang in languageList" :key="lang.short" class="lang" @click="changeLang(lang.short)">
                 {{ lang.name[0] }}
             </p>
         </div>
     </div>
 </template>
 
-<script lang="ts">
-import { Options, Vue } from "vue-class-component"
-import { languageData, languageList } from "../scripts/languageConstruct"
+<script setup lang="ts">
+import { languageData, languageList } from "@/scripts/languageConstruct"
+import { ref } from "vue"
 
-@Options({
-    props: {
-        language: Object
-    }
-})
-export default class LanguageSelect extends Vue {
-    showSelect = false
-    language?: languageData
+const props = defineProps<{ language: languageData }>()
+const emit = defineEmits(["langChange"])
 
-    mounted() {
-    }
+const showSelect = ref(false)
 
-    get availableLangs() {
-        return languageList
-    }
-
-    changeLang(short: string) {
-        this.$emit("langChange", short)
-        this.showSelect = false
-    }
+const changeLang = (short: string) => {
+    emit("langChange", short)
+    showSelect.value = false
 }
 </script>
 

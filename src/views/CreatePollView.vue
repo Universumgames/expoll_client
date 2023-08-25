@@ -102,98 +102,89 @@
     <label v-show="errorMsg != ''" class="errorInfo">{{ errorMsg }}</label>
 </template>
 
-<script lang="ts">
-import { Options, Vue } from "vue-class-component"
+<script setup lang="ts">
 import { IUser, PollType, ReturnCode } from "expoll-lib/interfaces"
-import { languageData } from "../scripts/languageConstruct"
+import { languageData } from "@/scripts/languageConstruct"
 import { ComplexOption, empty } from "expoll-lib/extraInterfaces"
 import { CreatePollRequest } from "expoll-lib/requestInterfaces"
 import { createPoll } from "@/scripts/poll"
+import { onMounted, ref } from "vue"
 
-@Options({
-    components: {},
-    props: {
-        userData: Object,
-        language: Object
-    }
+const props = defineProps<{ userData: IUser; language: languageData }>()
+
+const pollName = ref("")
+const maxVoteCount = ref(-1)
+const allowsMaybe = ref(true)
+const type = ref(PollType.String)
+const description = ref("")
+
+const options = ref<ComplexOption[]>([])
+const currentID = ref(0)
+
+const clicked = ref(false)
+
+const errorMsg = ref("")
+
+onMounted(() => {
+    addOption()
 })
-export default class CreatePollView extends Vue {
-    language?: languageData
-    userData?: IUser
 
-    pollName = ""
-    maxVoteCount = -1
-    allowsMaybe = true
-    type: PollType = PollType.String
-    description = ""
 
-    options: ComplexOption[] = []
-    currentID = 0
+const addOption = () => {
+    const ele = Object.assign({}, empty)
+    ele.id = currentID.value
+    currentID.value++
+    options.value.push(ele)
+}
 
-    clicked = false
+const removeOption = (id: number) => {
 
-    errorMsg = ""
+    options.value = options.value.filter((ele) => ele.id != id)
+}
 
-    async mounted() {
-        this.addOption()
+const create = async () => {
+    clicked.value = true
+    if (pollName.value == "") return
+    if (description.value == "") return
+    if (options.value[0] == undefined) return
+
+    // convert html/js date and datetime to unix timestamp in millis
+    if (type.value == PollType.Date) {
+        options.value.forEach((ele) => {
+            if (ele.dateStart != undefined) {
+                ele.dateStart = new Date(ele.dateStart).getTime()
+            }
+            if (ele.dateEnd != undefined) {
+                ele.dateEnd = new Date(ele.dateEnd).getTime()
+            }
+        })
+    } else if (type.value == PollType.DateTime) {
+        options.value.forEach((ele) => {
+            if (ele.dateTimeStart != undefined) {
+                ele.dateTimeStart = new Date(ele.dateTimeStart).getTime()
+            }
+            if (ele.dateTimeEnd != undefined) {
+                ele.dateTimeEnd = new Date(ele.dateTimeEnd).getTime()
+            }
+        })
     }
 
-    addOption() {
-        const ele = Object.assign({}, empty)
-        ele.id = this.currentID
-        this.currentID++
-        this.options.push(ele)
+
+    const data: CreatePollRequest = {
+        name: pollName.value,
+        maxPerUserVoteCount: maxVoteCount.value,
+        description: description.value,
+        type: type.value,
+        options: options.value,
+        allowsMaybe: allowsMaybe.value,
+        allowsEditing: true
     }
+    const retDat = await createPoll(data)
 
-    removeOption(id: number) {
-        this.options = this.options.filter((ele) => ele.id != id)
-    }
-
-    async create() {
-        this.clicked = true
-        if (this.pollName == "") return
-        if (this.description == "") return
-        if (this.options[0] == undefined) return
-
-        // convert html/js date and datetime to unix timestamp in millis
-        if (this.type == PollType.Date) {
-            this.options.forEach((ele) => {
-                if (ele.dateStart != undefined) {
-                    ele.dateStart = new Date(ele.dateStart).getTime()
-                }
-                if (ele.dateEnd != undefined) {
-                    ele.dateEnd = new Date(ele.dateEnd).getTime()
-                }
-            })
-        } else if (this.type == PollType.DateTime) {
-            this.options.forEach((ele) => {
-                if (ele.dateTimeStart != undefined) {
-                    ele.dateTimeStart = new Date(ele.dateTimeStart).getTime()
-                }
-                if (ele.dateTimeEnd != undefined) {
-                    ele.dateTimeEnd = new Date(ele.dateTimeEnd).getTime()
-                }
-            })
-        }
-
-
-        const data: CreatePollRequest = {
-            name: this.pollName,
-            maxPerUserVoteCount: this.maxVoteCount,
-            description: this.description,
-            type: this.type,
-            options: this.options,
-            allowsMaybe: this.allowsMaybe,
-            allowsEditing: true
-        }
-        const retDat = await createPoll(data)
-
-        if (retDat == 200) {
-            // @ts-ignore
-            window.location = "/#/polls"
-        } else if (retDat == ReturnCode.TOO_MANY_POLLS) {
-            this.errorMsg = this.language?.uiElements.polls.create.maxCountExceeded ?? ""
-        }
+    if (retDat == 200) {
+        window.location.href = "/#/polls"
+    } else if (retDat == ReturnCode.TOO_MANY_POLLS) {
+        errorMsg.value = props.language?.uiElements.polls.create.maxCountExceeded ?? ""
     }
 }
 </script>

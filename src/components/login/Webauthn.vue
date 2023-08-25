@@ -24,41 +24,36 @@
     </div>
 </template>
 
-<script lang="ts">
-import { Options, Vue } from "vue-class-component"
+<script setup lang="ts">
 import { languageData } from "../../scripts/languageConstruct"
 import { login } from "../../scripts/authentication"
 import { mailIsAllowed } from "@/scripts/helper"
 import { MailRegexEntry } from "expoll-lib/extraInterfaces"
+import { ref } from "vue"
 
-@Options({
-    props: {
-        language: Object,
-        mailRegex: Array
-    },
-    components: {}
-})
-export default class Webauthn extends Vue {
+const props = defineProps<{
     language?: languageData
-    loginMail = ""
-    signupUsername = ""
-    mailRegex: MailRegexEntry[] = []
+    mailRegex: MailRegexEntry[]
+}>()
 
-    async webauthLogin() {
-        if (this.loginMail != "" && this.signupUsername != "") {
-            this.signupUsername = ""
-            return
-        }
-        let data: { username?: string; mail?: string } = { mail: undefined, username: undefined }
-        if (this.loginMail != "" && mailIsAllowed(this.loginMail, this.mailRegex)) data = { mail: this.loginMail }
-        else if (this.signupUsername != "") data = { username: this.signupUsername }
+const loginMail = ref("")
+const signupUsername = ref("")
+const mailRegex = ref<MailRegexEntry[]>([])
 
-        const { success, error } = await login(data)
-        console.log(success, error)
-
-        if (!success) console.error(error)
-        else window.location.reload()
+const webauthLogin = async () => {
+    if (loginMail.value != "" && signupUsername.value != "") {
+        signupUsername.value = ""
+        return
     }
+    let data: { username?: string; mail?: string } = { mail: undefined, username: undefined }
+    if (loginMail.value != "" && mailIsAllowed(loginMail.value, mailRegex.value)) data = { mail: loginMail.value }
+    else if (signupUsername.value != "") data = { username: signupUsername.value }
+
+    const { success, error } = await login(data)
+    console.log(success, error)
+
+    if (!success) console.error(error)
+    else window.location.reload()
 }
 </script>
 

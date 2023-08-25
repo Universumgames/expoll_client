@@ -28,7 +28,7 @@
                 </svg>
             </div>
             <div>
-                {{ lastUpdated() }}
+                {{ lastUpdated }}
             </div>
             <div>
                 Admin:
@@ -38,34 +38,21 @@
     </router-link>
 </template>
 
-<script lang="ts">
-import { Options, Vue } from "vue-class-component"
-import { languageData } from "../scripts/languageConstruct"
+<script setup lang="ts">
+import { languageData } from "@/scripts/languageConstruct"
 import { SimplePoll } from "expoll-lib/extraInterfaces"
+import { computed } from "vue"
 
-@Options({
-    components: {},
-    props: {
-        poll: Object,
-        language: Object
-    }
-})
-export default class PollListElement extends Vue {
-    poll!: SimplePoll
-    language?: languageData
+const props = defineProps<{
+    poll: SimplePoll,
+    language: languageData
+}>()
 
-    async mounted() {
-    }
-
-    lastUpdated(): string {
-        return (
-            this.language?.uiElements.polls.list.lastUpdate(
-                // @ts-ignore
-                this.language?.uiElements.dateTimeToString(new Date(this.poll?.lastUpdated))
-            ) ?? ""
-        )
-    }
-}
+const lastUpdated = computed(() => (
+    props.language?.uiElements.polls.list.lastUpdate(
+        props.language?.uiElements.dateTimeToString(new Date(props.poll?.lastUpdated))
+    ) ?? ""
+))
 </script>
 
 <style scoped>

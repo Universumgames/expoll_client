@@ -1,46 +1,34 @@
 <template>
     <span
-        id="userico" :title="
-            loggedIn
-                ? language?.uiElements.login.loggedInAs(userData?.username ?? '')
-                : language?.uiElements.login.notLoggedIn
-        "
+        id="userico" :title="title"
+        :style="loggedIn? '' : 'float: right;'"
     >
         <router-link to="/login">
-            <div v-show="loggedIn" id="userIcoImg">
-                <img src="../assets/userIcon.svg" alt="" loading="lazy">
+            <div v-show="loggedIn" id="userText">
+                <!--<img src="../assets/userIcon.svg" alt="" loading="lazy">-->
+                {{ language.uiElements.login.loggedInText }}
             </div>
             <div v-show="!loggedIn" id="loginText">{{ language?.uiElements.login.loginLink }}</div>
         </router-link>
     </span>
 </template>
 
-<script lang="ts">
-import { Options, Vue } from "vue-class-component"
+<script setup lang="ts">
 import { IUser } from "expoll-lib/interfaces"
-import { languageData } from "../scripts/languageConstruct"
+import { languageData } from "@/scripts/languageConstruct"
+import { computed } from "vue"
 
-@Options({
-    props: {
-        userData: Object,
-        language: Object
-    }
+const props = defineProps<{ userData?: IUser, language: languageData }>()
+
+const loggedIn = computed(() => props.userData != undefined)
+
+const title = computed(() => {
+    if (loggedIn.value)
+        return props.language?.uiElements.login.loggedInAs(props.userData?.username ?? "")
+    else
+        return props.language?.uiElements.login.notLoggedIn
+
 })
-export default class UserIcon extends Vue {
-    userData: IUser | undefined
-    language?: languageData
-
-    created() {
-        // this.language = getSystemLanguage()
-    }
-
-    mounted() {
-    }
-
-    get loggedIn() {
-        return this.userData != undefined
-    }
-}
 </script>
 
 <style scoped>
@@ -50,16 +38,11 @@ img {
 }
 
 #userico {
-    float: right;
-}
-
-#userIcoImg {
-    /* background: var(--secondary-color); */
-    clip-path: circle(1.5rem at center);
-    transform: translateY(-25%);
+    margin-left: 1ch;
 }
 
 #loginText {
+
 }
 
 a {

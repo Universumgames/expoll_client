@@ -38,183 +38,162 @@
     </tr>
 </template>
 
-<script lang="ts">
-import { Options, Vue } from "vue-class-component"
+<script setup lang="ts">
 import { DetailedPoll, SimpleUserNote, SimpleUserVotes } from "expoll-lib/extraInterfaces"
 import { IUser, ReturnCode, tOptionId, VoteValue } from "expoll-lib/interfaces"
-import { languageData } from "../scripts/languageConstruct"
-import { vote } from "../scripts/vote"
+import { languageData } from "@/scripts/languageConstruct"
+import { vote } from "@/scripts/vote"
 import { VoteRequest } from "expoll-lib/requestInterfaces"
 import { editUserNote, leavePoll, removeUserFromPoll } from "@/scripts/poll"
+import { computed, ref } from "vue"
 
-@Options({
-    props: {
-        userData: Object,
-        language: Object,
-        userVote: Object,
-        pollData: Object,
-        note: Object,
-        displayUsernameInsteadOfFull: Boolean
-    },
-    emits: {
-        voteChange: null,
-        kickedID: String
-    }
-})
-export default class PollUserVoteRow extends Vue {
-    userData: IUser | undefined
+interface Props {
+    userData: IUser
     language?: languageData
-    userVote?: SimpleUserVotes
-    pollData?: DetailedPoll
-    notes?: SimpleUserNote[]
-    displayUsernameInsteadOfFull?: boolean
+    userVote: SimpleUserVotes
+    pollData: DetailedPoll
+    note?: SimpleUserNote
+    displayUsernameInsteadOfFull: boolean
+}
 
-    note?: string
+const props = defineProps<Props>()
+const emit = defineEmits(["voteChange", "kickedID", "noteChange"])
 
-    errorMsg = ""
+const displayUsernameInsteadOfFull = ref<boolean>(false)
+const errorMsg = ref<string>("")
 
-    created() {
-        // this.language = getSystemLanguage()
-    }
+const change = async (optionID: tOptionId) => {
+    if (props.pollData == undefined) return
+    if (props.userVote == undefined) return
+    if (props.userVote.user == undefined) return
 
-    mounted() {
-    }
+    if (!props.pollData.allowsEditing) editingDisabledNote()
 
-    async change(optionID: tOptionId) {
-        if (this.pollData == undefined) return
-        if (this.userVote == undefined) return
-        if (this.userVote.user == undefined) return
+    if (isEditable()) {
+        // const maxCount = this.maxAcceptableVoteCount
 
-        if (!this.pollData.allowsEditing) this.editingDisabledNote()
+        const option = props.userVote?.votes.find((vote) => vote.optionID == optionID)
+        if (option == undefined) return
+        errorMsg.value = ""
 
-        if (this.isEditable()) {
-            // const maxCount = this.maxAcceptableVoteCount
+        // const oldState: boolean | undefined = option.votedFor
+        if (option.votedFor == undefined) option.votedFor = VoteValue.yes
+        else option.votedFor = props.pollData.allowsMaybe ? (option.votedFor + 1) % 3 : (option.votedFor + 1) % 2
 
-            const option = this.userVote?.votes.find((vote) => vote.optionID == optionID)
-            if (option == undefined) return
-            this.errorMsg = ""
-
-            // const oldState: boolean | undefined = option.votedFor
-            if (option.votedFor == undefined) option.votedFor = VoteValue.yes
-            else option.votedFor = this.pollData.allowsMaybe ? (option.votedFor + 1) % 3 : (option.votedFor + 1) % 2
-            this.$forceUpdate()
-
-            const change: VoteRequest = {
-                pollID: this.pollData.pollID,
-                optionID: optionID,
-                votedFor: option.votedFor,
-                userID: this.userVote.user.id
-            }
-
-            const rc = await vote(change)
-            if (rc != ReturnCode.OK) {
-                this.errorMsg = this.language?.uiElements.polls.details.errorMsgs.tooMuchVotes ?? ""
-            } else {
-                this.$emit("voteChange")
-                this.$forceUpdate()
-            }
+        const change: VoteRequest = {
+            pollID: props.pollData.pollID,
+            optionID: optionID,
+            votedFor: option.votedFor,
+            userID: props.userVote.user.id
         }
-    }
 
-    get removeUserBtnVisible() {
-        return (
-            (this.userData?.id == this.userVote?.user.id ||
-                this.userData?.admin ||
-                this.pollData?.admin.id == this.userData?.id) &&
-            this.pollData?.allowsEditing
-        )
-    }
-
-    async removeUser() {
-        if (this.pollData == undefined || this.userVote == undefined || !this.pollData.allowsEditing) return
-        try {
-            const askName = this.userVote?.user.firstName + " " + this.userVote?.user.lastName ?? ""
-            if (
-                !confirm(
-                    this.loggedUserIsSelectedUser()
-                        ? this.language?.uiElements.polls.details.leaveConfirm ?? ""
-                        : this.language?.uiElements.polls.details.kickConfirm(askName) ?? ""
-                )
-            ) {
-                return
-            }
-            // leave poll
-
-            if (this.loggedUserIsSelectedUser()) {
-                await leavePoll(this.pollData.pollID)
-                // @ts-ignore
-                window.location = "/#/polls"
-                console.log("leaving poll")
-
-            } else {
-                // remove user from poll
-                if (!this.isEditable()) return
-                if (this.userVote.user == undefined) return
-                await removeUserFromPoll(this.pollData.pollID, this.userVote.user?.id)
-                this.$emit("kickedID", this.userVote.user.id)
-            }
-        } catch (e) {
-            console.error(e)
+        const rc = await vote(change)
+        if (rc != ReturnCode.OK) {
+            errorMsg.value = props.language?.uiElements.polls.details.errorMsgs.tooMuchVotes ?? ""
+        } else {
+            emit("voteChange")
         }
-    }
-
-    get maxAcceptableVoteCount(): number {
-        return this.pollData?.maxPerUserVoteCount ?? -1
-    }
-
-    voteCountTrue(): number {
-        let count = 0
-        for (const vote of this.userVote?.votes ?? []) {
-            if (vote.votedFor == VoteValue.yes || vote.votedFor == VoteValue.maybe) count++
-        }
-        return count
-    }
-
-    isEditable(): boolean {
-        return (
-            ((this.userVote?.user?.id == this.userData?.id ||
-                this.pollData?.admin.id == this.userData?.id ||
-                this.userData?.admin) ??
-                false) &&
-            (this.pollData?.allowsEditing ?? false)
-        )
-    }
-
-    loggedUserIsSelectedUser() {
-        return this.userData?.id == this.userVote?.user?.id ?? false
-    }
-
-    voteString(value: VoteValue | undefined) {
-        if (value == undefined) return this.language?.uiElements.polls.votes.unknown
-
-        switch (value) {
-            case VoteValue.no:
-                return this.language?.uiElements.polls.votes.no
-            case VoteValue.yes:
-                return this.language?.uiElements.polls.votes.yes
-            case VoteValue.maybe:
-                return this.language?.uiElements.polls.votes.maybe
-        }
-    }
-
-    async editNote() {
-        if (!this.pollData?.allowsEditing) this.editingDisabledNote()
-        if (this.isEditable()) {
-            const note = prompt("Note for user", this.note)
-            if (this.pollData == undefined || this.userVote?.user == undefined || note == undefined) return
-            await editUserNote(this.pollData.pollID, this.userVote.user.id, note)
-            this.$emit("noteChange")
-        }
-    }
-
-    get noteString() {
-        return " " + this.language?.uiElements.polls.details.userNotesByAdmin(this.note)
-    }
-
-    editingDisabledNote() {
-        alert(this.language?.uiElements.polls.details.editingDisabled ?? "Editing is not allowed by the admin")
     }
 }
+
+const removeUserBtnVisible = computed(() => {
+    return (
+        (props.userData?.id == props.userVote?.user.id ||
+            props.userData?.admin ||
+            props.pollData?.admin.id == props.userData?.id) &&
+        props.pollData?.allowsEditing
+    )
+})
+
+const removeUser = async () => {
+    if (props.pollData == undefined || props.userVote == undefined || !props.pollData.allowsEditing) return
+    try {
+        const askName = props.userVote?.user.firstName + " " + props.userVote?.user.lastName ?? ""
+        if (
+            !confirm(
+                loggedUserIsSelectedUser()
+                    ? props.language?.uiElements.polls.details.leaveConfirm ?? ""
+                    : props.language?.uiElements.polls.details.kickConfirm(askName) ?? ""
+            )
+        ) {
+            return
+        }
+        // leave poll
+
+        if (loggedUserIsSelectedUser()) {
+            await leavePoll(props.pollData.pollID)
+            window.location.href = "/#/polls"
+            console.log("leaving poll")
+
+        } else {
+            // remove user from poll
+            if (!isEditable()) return
+            if (props.userVote.user == undefined) return
+            await removeUserFromPoll(props.pollData.pollID, props.userVote.user?.id)
+            emit("kickedID", props.userVote.user.id)
+        }
+    } catch (e) {
+        console.error(e)
+    }
+}
+
+const maxAcceptableVoteCount = computed(() => {
+    return props.pollData?.maxPerUserVoteCount ?? -1
+})
+
+const voteCountTrue = () => {
+    let count = 0
+    for (const vote of props.userVote?.votes ?? []) {
+        if (vote.votedFor == VoteValue.yes || vote.votedFor == VoteValue.maybe) count++
+    }
+    return count
+}
+
+const isEditable = () => {
+    return (
+        ((props.userVote?.user?.id == props.userData?.id ||
+            props.pollData?.admin.id == props.userData?.id ||
+            props.userData?.admin) ??
+            false) &&
+        (props.pollData?.allowsEditing ?? false)
+    )
+}
+
+const loggedUserIsSelectedUser = () => {
+    return props.userData?.id == props.userVote?.user?.id ?? false
+}
+
+const voteString = (value: VoteValue | undefined) => {
+    if (value == undefined) return props.language?.uiElements.polls.votes.unknown
+
+    switch (value) {
+        case VoteValue.no:
+            return props.language?.uiElements.polls.votes.no
+        case VoteValue.yes:
+            return props.language?.uiElements.polls.votes.yes
+        case VoteValue.maybe:
+            return props.language?.uiElements.polls.votes.maybe
+    }
+}
+
+const editNote = async () => {
+    if (!props.pollData?.allowsEditing) editingDisabledNote()
+    if (isEditable()) {
+        const note = prompt("Note for user", props.note?.note ?? "")
+        if (props.pollData == undefined || props.userVote?.user == undefined || note == undefined) return
+        await editUserNote(props.pollData.pollID, props.userVote.user.id, note)
+        emit("noteChange")
+    }
+}
+
+const noteString = computed(() => {
+    return " " + props.language?.uiElements.polls.details.userNotesByAdmin(props.note?.note)
+})
+
+const editingDisabledNote = () => {
+    alert(props.language?.uiElements.polls.details.editingDisabled ?? "Editing is not allowed by the admin")
+}
+
 </script>
 
 <style scoped>

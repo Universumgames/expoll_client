@@ -2,28 +2,11 @@
     <div class="loader" />
 </template>
 
-<script lang="ts">
-import { Options, Vue } from "vue-class-component"
+<script setup lang="ts">
 import { IUser } from "expoll-lib/interfaces"
-import { languageData } from "../scripts/languageConstruct"
+import { languageData } from "@/scripts/languageConstruct"
 
-@Options({
-    props: {
-        userData: Object,
-        language: Object
-    }
-})
-export default class LoadingScreen extends Vue {
-    userData: IUser | undefined
-    language?: languageData
-
-    created() {
-        // this.language = getSystemLanguage()
-    }
-
-    mounted() {
-    }
-}
+const props = defineProps<{ userData: IUser, language: languageData }>()
 </script>
 
 <style scoped>

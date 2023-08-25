@@ -13,33 +13,30 @@
     </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 
-import { Options, Vue } from "vue-class-component"
-import { languageData } from "../../scripts/languageConstruct"
-import LoadingScreen from "../LoadingScreen.vue"
-import Popup from "../Popup.vue"
+import { languageData } from "@/scripts/languageConstruct"
 import axios from "axios"
+import { onMounted, Ref, ref } from "vue"
 
-@Options({
-    props: {
-        language: Object
-    },
-    components: {
-        LoadingScreen,
-        Popup
-    }
-})
-export default class OIDC extends Vue {
-    language?: languageData
-    providers: { key: string, imageURI: string, imageSmallURI: string, altName: string }[] = []
-
-    async mounted() {
-        this.providers = await axios.get("/api/auth/oidc/providers").then(res => res.data)
-        this.$forceUpdate()
-    }
+interface Provider {
+    key: string,
+    imageURI: string,
+    imageSmallURI: string,
+    altName: string
 }
 
+const props = withDefaults(defineProps<{
+    language?: languageData
+}>(), {
+    language: undefined
+})
+
+const providers: Ref<Provider[]> = ref([])
+
+onMounted(async () => {
+    providers.value = await axios.get("/api/auth/oidc/providers").then(res => res.data)
+})
 
 </script>
 

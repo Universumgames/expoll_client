@@ -2,17 +2,15 @@
     <pre>{{ JSON.stringify(info, null, 2) }}</pre>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import axios from "axios"
-import { Vue } from "vue-class-component"
+import { onMounted, ref } from "vue"
 
-export default class InfoView extends Vue {
-    info = ""
+const info = ref("")
 
-    async created() {
-        this.info = (await axios.get("/api/metaInfo")).data
-    }
-}
+onMounted(async () => {
+    info.value = (await axios.get("/api/metaInfo")).data
+})
 </script>
 
 <style scoped>

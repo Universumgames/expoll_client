@@ -22,26 +22,13 @@
     </div>
 </template>
 
-<script lang="ts">
-import { Options, Vue } from "vue-class-component"
-import { languageData } from "../../scripts/languageConstruct"
+<script setup lang="ts">
+import { languageData } from "@/scripts/languageConstruct"
+import { computed } from "vue"
 
-@Options({
-    components: {},
-    props: {
-        language: Object
-    }
-})
-export default class BlankPollListElement extends Vue {
-    language?: languageData
+const props = defineProps<{ language: languageData }>()
 
-    async mounted() {
-    }
-
-    lastUpdated(): string {
-        return this.language?.uiElements.polls.list.lastUpdate("") ?? ""
-    }
-}
+const lastUpdated = computed(() => props.language?.uiElements.polls.list.lastUpdate("") ?? "")
 </script>
 
 <style scoped>

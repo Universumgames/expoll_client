@@ -62,113 +62,94 @@
     </div>
 </template>
 
-<script lang="ts">
-import { Options, Vue } from "vue-class-component"
+<script setup lang="ts">
 import { UserInfo } from "expoll-lib/adminInterfaces"
-import { languageData } from "../../scripts/languageConstruct"
-import EditIcon from "../../assetComponents/EditIcon.vue"
+import { languageData } from "@/scripts/languageConstruct"
+import EditIcon from "@/assetComponents/EditIcon.vue"
 import { deleteUserAdmin, editUserAdmin } from "@/scripts/admin"
 import axios from "axios"
-import { capitalizeFirstLetter } from "@/scripts/helper"
 
-@Options({
-    props: {
-        userInfo: Object,
-        admin: Object,
-        language: Object,
-        superAdmin: Object
-    },
-    components: {
-        EditIcon
-    },
-    methods: {
-        capitalizeFirstLetter
-    }
-})
-export default class UserRow extends Vue {
-    userInfo: UserInfo | undefined
-    admin: UserInfo | undefined
-    language?: languageData
-    superAdmin?: boolean
+const props = defineProps<{ userInfo: UserInfo; admin: UserInfo; language: languageData; superAdmin: boolean }>()
+const emit = defineEmits(["update"])
 
-    async deleteUser() {
-        if (
-            confirm("Do you really want to delete the user " + this.userInfo?.username + "? This cannot be undone")
-        ) {
-            if (
-                confirm(
-                    "Do you really want to delete the user " + this.userInfo?.username + "? This cannot be undone"
-                )
-            ) {
-                await deleteUserAdmin(this.userInfo!.id)
-                this.$emit("update")
-            }
-        }
-    }
-
-    async toggleAdmin() {
-        const newState = !this.userInfo?.admin
+const deleteUser = async () => {
+    if (
+        confirm("Do you really want to delete the user " + props.userInfo?.username + "? This cannot be undone")
+    ) {
         if (
             confirm(
-                "Are you sure you want to " +
-                    (newState ? "PROMOTE" : "DEMOTE") +
-                    " the user " +
-                    this.userInfo?.username +
-                    "?"
+                "Do you really want to delete the user " + props.userInfo?.username + "? This cannot be undone"
             )
         ) {
-            await editUserAdmin({
-                userID: this.userInfo!.id,
-                admin: newState
-            })
-            this.$emit("update")
+            await deleteUserAdmin(props.userInfo.id)
+            emit("update")
         }
     }
+}
 
-    async editEmail() {
-        const newMail = prompt(`Provide new email for user ${this.userInfo?.username}`, this.userInfo?.mail)
-        if (!newMail) return
-        await editUserAdmin({
-            userID: this.userInfo!.id,
-            mail: newMail
-        })
-        this.$emit("update")
-    }
-
-    async editName() {
-        const firstName = prompt(
-            `Provide new firstname for user ${this.userInfo?.username}`,
-            this.userInfo?.firstName
+const toggleAdmin = async () => {
+    const newState = !props.userInfo?.admin
+    if (
+        confirm(
+            "Are you sure you want to " +
+                (newState ? "PROMOTE" : "DEMOTE") +
+                " the user " +
+                props.userInfo?.username +
+                "?"
         )
-        if (!firstName) return
+    ) {
         await editUserAdmin({
-            userID: this.userInfo!.id,
-            firstName: firstName
+            userID: props.userInfo!.id,
+            admin: newState
         })
-        this.$emit("update")
-
-        const lastName = prompt(`Provide new lastname for user ${this.userInfo?.username}`, this.userInfo?.lastName)
-        if (!lastName) return
-        await editUserAdmin({
-            userID: this.userInfo!.id,
-            lastName: lastName
-        })
-        this.$emit("update")
-    }
-
-    async impersonate() {
-        if (!confirm("Are you sure you want to impersonate this user?")) return
-        await axios.post("/api/admin/impersonate", { impersonateID: this.userInfo?.id })
-        window.location.reload()
+        emit("update")
     }
 }
+
+const editEmail = async () => {
+    const newMail = prompt(`Provide new email for user ${props.userInfo?.username}`, props.userInfo?.mail)
+    if (!newMail) return
+    await editUserAdmin({
+        userID: props.userInfo!.id,
+        mail: newMail
+    })
+    emit("update")
+}
+
+const editName = async () => {
+    const firstName = prompt(
+        `Provide new firstname for user ${props.userInfo?.username}`,
+        props.userInfo?.firstName
+    )
+    if (!firstName) return
+    await editUserAdmin({
+        userID: props.userInfo!.id,
+        firstName: firstName
+    })
+    emit("update")
+
+    const lastName = prompt(`Provide new lastname for user ${props.userInfo?.username}`, props.userInfo?.lastName)
+    if (!lastName) return
+    await editUserAdmin({
+        userID: props.userInfo!.id,
+        lastName: lastName
+    })
+    emit("update")
+}
+
+const impersonate = async () => {
+    if (!confirm("Are you sure you want to impersonate this user?")) return
+    await axios.post("/api/admin/impersonate", { impersonateID: props.userInfo?.id })
+    window.location.reload()
+}
+
 </script>
 
 <style scoped>
 .userListContainer {
     display: flex;
     flex-wrap: wrap;
-    flex-direction: columns;
+    flex-direction: row;
     background: var(--secondary-color);
     border-radius: 1rem;
     margin: 1rem;

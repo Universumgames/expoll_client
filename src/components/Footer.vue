@@ -53,37 +53,28 @@
     </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import { IUser } from "expoll-lib/interfaces"
-import { Options, Vue } from "vue-class-component"
 import { languageData } from "@/scripts/languageConstruct"
 import LanguageSelect from "./LanguageSelect.vue"
+import { computed } from "vue"
 
-@Options({
-    props: {
-        userData: Object,
-        language: Object,
-        frontendVersion: String,
-        backendVersion: String
-    },
-    components: {
-        LanguageSelect
-    }
-})
-export default class FooterVue extends Vue {
-    language?: languageData
-
-    userData: IUser | undefined
-
-    frontendVersion?: string
-    backendVersion?: string
-
-    get bugreportVersion() {
-        return encodeURIComponent("Frontend " + this.frontendVersion + ", Backend " + this.backendVersion)
-    }
-
-    onLangChange(short: string) {
-        this.$emit("onLangChange", short)
-    }
+interface Props {
+    userData: IUser
+    language: languageData
+    frontendVersion: string
+    backendVersion: string
 }
+
+const props = defineProps<Props>()
+const emit = defineEmits(["onLangChange"])
+
+const bugreportVersion = computed(() =>
+    encodeURIComponent("Frontend " + props.frontendVersion + ", Backend " + props.backendVersion)
+)
+
+const onLangChange = (short: string) => {
+    emit("onLangChange", short)
+}
+
 </script>

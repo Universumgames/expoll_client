@@ -226,26 +226,27 @@
                     </th>
                 </tr>
 
-                <poll-user-vote-row
-                    :user-data="userData" :language="language"
-                    :user-vote="getVotesByUser()"
-                    :poll-data="poll"
-                    :note="poll?.userNotes?.find((note) => note.userID == userData?.id)?.note"
-                    :display-username-instead-of-full="displayUsernameInsteadOfFull"
-                    class="currentUserVotes"
-                    @voteChange="voteUpdateCallback" @noteChange="noteChangeCallback"
-                />
-                <poll-user-vote-row
-                    v-for="vote in poll?.userVotes" v-show="vote.user.id != userData?.id"
-                    :key="vote.user.id" :user-data="userData"
-                    :note="poll?.userNotes?.find((note) => note.userID == vote.user.id)?.note"
-                    :language="language"
-                    :user-vote="vote" :poll-data="poll"
-                    :display-username-instead-of-full="displayUsernameInsteadOfFull"
-                    @voteChange="voteUpdateCallback" @kickedID="userKicked"
-                    @noteChange="noteChangeCallback"
-                />
-
+                <div v-if="poll != undefined">
+                    <poll-user-vote-row
+                        :user-data="userData" :language="language"
+                        :user-vote="getVotesByUser()"
+                        :poll-data="poll"
+                        :note="poll.userNotes?.find((note) => note.userID == userData?.id)"
+                        :display-username-instead-of-full="displayUsernameInsteadOfFull"
+                        class="currentUserVotes"
+                        @voteChange="voteUpdateCallback" @noteChange="noteChangeCallback"
+                    />
+                    <poll-user-vote-row
+                        v-for="vote in poll?.userVotes" v-show="vote.user.id != userData?.id"
+                        :key="vote.user.id" :user-data="userData"
+                        :note="poll.userNotes?.find((note) => note.userID == vote.user.id)"
+                        :language="language"
+                        :user-vote="vote" :poll-data="poll"
+                        :display-username-instead-of-full="displayUsernameInsteadOfFull"
+                        @voteChange="voteUpdateCallback" @kickedID="userKicked"
+                        @noteChange="noteChangeCallback"
+                    />
+                </div>
                 <tr v-show="mayEdit()">
                     <td>
                         <button @click="addUserClick()">
@@ -262,11 +263,10 @@
     </div>
 </template>
 
-<script lang="ts">
-import { Options, Vue } from "vue-class-component"
+<script setup lang="ts">
 import { ComplexOption, DetailedPoll, SimpleUser, SimpleUserVotes } from "expoll-lib/extraInterfaces"
 import { IUser, PollType, ReturnCode, tOptionId, tUserID, VoteValue } from "expoll-lib/interfaces"
-import { languageData } from "../scripts/languageConstruct"
+import { languageData } from "@/scripts/languageConstruct"
 import SaveIcon from "../assetComponents/SaveIcon.vue"
 import EditIcon from "../assetComponents/EditIcon.vue"
 import ShareIcon from "../assetComponents/ShareIcon.vue"
@@ -276,315 +276,287 @@ import SwitchIcon from "../assetComponents/SwitchIcon.vue"
 import { EditPollRequest } from "expoll-lib/requestInterfaces"
 import LoginSignupView from "../components/LoginSignupView.vue"
 import BlankDetailedPollView from "../components/Blanks/BlankDetailedPollView.vue"
-import { deletePoll, getDetailedPoll, joinPoll, pushPollChanges } from "@/scripts/poll"
+import * as pollMethods from "@/scripts/poll"
+import { onMounted, ref } from "vue"
+import { useRoute } from "vue-router"
 
-/*
-     votes: { user: User; votes: { optionID: tOptionId; votedFor: boolean }
- */
+const props = defineProps<{ userData: IUser, language: languageData }>()
+const route = useRoute()
 
-@Options({
-    props: {
-        userData: Object,
-        language: Object
-    },
-    components: {
-        SaveIcon,
-        EditIcon,
-        ShareIcon,
-        SwitchIcon,
-        PollUserVoteRow,
-        LoadingScreen,
-        LoginSignupView,
-        BlankDetailedPollView
-    }
+const loadingMain = ref(true)
+const loadingFailed = ref(false)
+
+const poll = ref<DetailedPoll>()
+const newOption = ref<ComplexOption>({})
+
+const addingOption = ref(false)
+
+const changes = ref<EditPollRequest>({ pollID: "" })
+
+const shareLinkCopied = ref(false)
+
+const displayUsernameInsteadOfFull = ref(false)
+
+const isJoined = ref(false)
+
+const isEditing = () => {
+    return (addingOption.value || changes.value.name != undefined || changes.value.description != undefined) &&
+        poll.value != undefined
+}
+
+onMounted(async () => {
+    await setup()
+
+    // update votes every 60 seconds
+    let intID: any = 0
+    intID = setInterval(() => {
+        if (route.params.id == undefined && !route.fullPath.includes("polls")) {
+            clearInterval(intID)
+        }
+        setup()
+    }, 60 * 1000)
 })
-export default class DetailedPollView extends Vue {
-    userData?: IUser
-    language?: languageData
 
-    loadingMain = true
-    loadingFailed = false
 
-    poll?: DetailedPoll
-    newOption: ComplexOption = {}
+const getPollData = async () => {
+    const pollData = await pollMethods.getDetailedPoll(pollID())
+    if (pollData == undefined) return
 
-    addingOption = false
 
-    changes: EditPollRequest = { pollID: "" }
-
-    test = ""
-
-    shareLinkCopied = false
-
-    displayUsernameInsteadOfFull = false
-
-    isJoined = false
-
-    isEditing() {
-        return (this.addingOption || this.changes.name != undefined || this.changes.description != undefined) && this.poll != undefined
+    if (pollData.type == PollType.Date) {
+        pollData.options = pollData.options.sort((a, b) => {
+            return a.dateStart! - b.dateStart!
+        })
+    } else if (pollData.type == PollType.DateTime) {
+        pollData.options = pollData.options.sort((a, b) => {
+            return a.dateTimeStart! - b.dateTimeStart!
+        })
+    }
+    for (const user of pollData.userVotes) {
+        user.votes = user.votes.sort((a, b) => {
+            const aIndex = pollData.options.findIndex((option) => option.id == a.optionID)
+            const bIndex = pollData.options.findIndex((option) => option.id == b.optionID)
+            return aIndex - bIndex
+        })
     }
 
-    async mounted() {
-        await this.setup()
+    poll.value = pollData
 
-        // update votes every 60 seconds
-        let intID: any = 0
-        const that = this
-        intID = setInterval(() => {
-            // @ts-ignore
-            if (that.$route.params.id == undefined && !that.$route.fullPath.includes("polls")) {
-                clearInterval(intID)
-            }
-            this.setup()
-        }, 60 * 1000)
+    isJoined.value = pollData?.userVotes.find((uv) => {
+        return uv.user.id == props.userData?.id
+    }) != undefined
+
+    document.title = "Expoll - " + pollData.name
+}
+
+const setup = async () => {
+    try {
+        if (isEditing()) return
+        await getPollData()
+        await checkAndJoinPoll()
+
+        await getPollData()
+
+
+        if (poll.value != undefined) changes.value = { pollID: poll.value.pollID }
+        loadingFailed.value = poll.value == undefined
+
+
+        loadingMain.value = false
+
+    } catch (e) {
+        loadingMain.value = false
+        loadingFailed.value = true
+        console.warn(e)
     }
+}
 
-    async getPollData() {
-        const poll = await getDetailedPoll(this.pollID)
-        if (poll == undefined) return
-
-
-        if (poll.type == PollType.Date) {
-            poll.options = poll.options.sort((a, b) => {
-                return a.dateStart! - b.dateStart!
-            })
-        } else if (poll.type == PollType.DateTime) {
-            poll.options = poll.options.sort((a, b) => {
-                return a.dateTimeStart! - b.dateTimeStart!
-            })
-        }
-        for (const user of poll.userVotes) {
-            user.votes = user.votes.sort((a, b) => {
-                const aIndex = poll.options.findIndex((option) => option.id == a.optionID)
-                const bIndex = poll.options.findIndex((option) => option.id == b.optionID)
-                return aIndex - bIndex
-            })
-        }
-
-        this.poll = poll
-
-        this.isJoined = poll?.userVotes.find((uv) => {
-            return uv.user.id == this.userData?.id
-        }) != undefined
-
-        document.title = "Expoll - " + poll.name
-    }
-
-    async setup() {
+const checkAndJoinPoll = async () => {
+    if (
+        route.query.join == "1" &&
+        !isJoined.value &&
+        (poll.value?.allowsEditing ?? false)
+    ) {
         try {
-            if (this.isEditing()) return
-            await this.getPollData()
-            await this.checkAndJoinPoll()
-            await this.getPollData()
-
-
-            if (this.poll != undefined) this.changes = { pollID: this.poll.pollID }
-            this.loadingFailed = this.poll == undefined
-
-            this.$forceUpdate()
-
-            this.loadingMain = false
+            await joinPoll()
         } catch (e) {
-            this.loadingMain = false
-            this.loadingFailed = true
             console.warn(e)
         }
     }
+}
 
-    async checkAndJoinPoll() {
-        if (
-            // @ts-ignore
-            this.$route.query.join == "1" &&
-            !this.isJoined &&
-            (this.poll?.allowsEditing ?? false)
-        ) {
-            try {
-                await this.joinPoll()
-            } catch (e) {
-                console.warn(e)
-            }
+const joinPoll = async () => {
+    await pollMethods.joinPoll(pollID())
+    window.location.href = "/#/polls/" + poll.value?.pollID
+    window.location.reload()
+}
+
+const optionValue = (option: any) => {
+    let start: string | undefined = ""
+    let end: string | undefined = ""
+    switch (poll.value?.type) {
+        case PollType.String:
+            return option.value
+
+        case PollType.Date:
+            start = props.language?.uiElements.dateToString(new Date(option.dateStart))
+            end = props.language?.uiElements.dateToString(new Date(option.dateEnd))
+            return (
+                props.language?.uiElements.polls.details.dateStringFormat(
+                    start,
+                    option.dateEnd == undefined ? undefined : end
+                ) ?? ""
+            )
+
+        case PollType.DateTime:
+            start = props.language?.uiElements.dateTimeToString(new Date(option.dateTimeStart))
+            end = props.language?.uiElements.dateTimeToString(new Date(option.dateTimeEnd))
+            return (
+                props.language?.uiElements.polls.details.dateStringFormat(
+                    start,
+                    option.dateTimeEnd == undefined ? undefined : end
+                ) ?? ""
+            )
+    }
+    return ""
+}
+
+const getVotesByUser = () => {
+    if (poll.value == undefined) {
+        return {
+            user: props.userData ?? ({ id: "", firstName: "", lastName: "", username: "" } as SimpleUser),
+            votes: []
+        } as SimpleUserVotes
+    }
+    return (
+        poll.value.userVotes.find((vote) => vote.user?.id == props.userData?.id) ?? {
+            user: props.userData ?? { id: "", firstName: "", lastName: "", username: "" },
+            votes: []
         }
+    )
+}
+
+const pollID = () => {
+    return route.params.id as string
+}
+
+const mayEdit = () => {
+    return (
+        ((poll.value?.admin.id == props.userData?.id ?? false) || (props.userData?.admin ?? false)) &&
+        (poll.value?.allowsEditing ?? false)
+    )
+}
+
+const mayEditAllowEditing = () => {
+    return (poll.value?.admin.id == props.userData?.id ?? false) || (props.userData?.admin ?? false)
+}
+
+const pushChanges = async () => {
+    try {
+        if (!mayEdit() && !mayEditAllowEditing()) return
+        const ret = await pollMethods.pushPollChanges(pollID(), changes.value)
+        if (ret == ReturnCode.OK) changes.value = { pollID: pollID() }
+        await setup()
+    } catch (e) {
+        console.error(e)
+    }
+}
+
+const addOption = () => {
+    if (poll.value?.type == PollType.String && newOption.value.value == undefined) return
+    if (poll.value?.type == PollType.Date && newOption.value.dateStart == undefined) return
+    if (poll.value?.type == PollType.DateTime && newOption.value.dateTimeStart == undefined) return
+
+    if (changes.value.options == undefined) changes.value.options = []
+    //  format date to unix timestamp
+    if (poll.value?.type == PollType.Date) {
+        newOption.value.dateStart = new Date(newOption.value.dateStart!).getTime()
+        if (newOption.value.dateEnd != undefined) newOption.value.dateEnd = new Date(newOption.value.dateEnd).getTime()
+    }
+    if (poll.value?.type == PollType.DateTime) {
+        newOption.value.dateTimeStart = new Date(newOption.value.dateTimeStart!).getTime()
+        if (newOption.value.dateTimeEnd != undefined) newOption.value.dateTimeEnd = new Date(newOption.value.dateTimeEnd).getTime()
     }
 
-    async joinPoll() {
-        await joinPoll(this.pollID)
-        // @ts-ignore
-        window.location.href = "/#/polls/" + this.pollID
-        window.location.reload()
+    changes.value.options.push(newOption.value)
+
+    addingOption.value = false
+    newOption.value = {}
+    pushChanges()
+}
+
+const deleteOption = async (optionID: tOptionId) => {
+    const option = poll.value?.options.find((opt) => opt.id == optionID)
+    if (option == undefined) return
+    const deleteConfirm = confirm(props.language?.uiElements.polls.details.deleteConfirm(JSON.stringify(option)))
+    if (deleteConfirm) {
+        if (changes.value.options == undefined) changes.value.options = []
+        changes.value.options.push({ id: optionID })
+        await pushChanges()
     }
+}
 
-    optionValue(option: any): string {
-        let start: string | undefined = ""
-        let end: string | undefined = ""
-        switch (this.poll?.type) {
-            case PollType.String:
-                return option.value
+const voteUpdateCallback = async () => {
+    await getPollData()
+}
 
-            case PollType.Date:
-                start = this.language?.uiElements.dateToString(new Date(option.dateStart))
-                end = this.language?.uiElements.dateToString(new Date(option.dateEnd))
-                return (
-                    this.language?.uiElements.polls.details.dateStringFormat(
-                        start,
-                        option.dateEnd == undefined ? undefined : end
-                    ) ?? ""
-                )
+const deletePoll = async () => {
+    const confirm1 = confirm(props.language?.uiElements.polls.details.deletePollConfirm)
+    if (!confirm1) return
+    const confirm2 = confirm(props.language?.uiElements.polls.details.deletePollConfirmConfirm)
+    if (!confirm2) return
 
-            case PollType.DateTime:
-                start = this.language?.uiElements.dateTimeToString(new Date(option.dateTimeStart))
-                end = this.language?.uiElements.dateTimeToString(new Date(option.dateTimeEnd))
-                return (
-                    this.language?.uiElements.polls.details.dateStringFormat(
-                        start,
-                        option.dateTimeEnd == undefined ? undefined : end
-                    ) ?? ""
-                )
-        }
-        return ""
+    await pollMethods.deletePoll(pollID())
+    window.location.href = "/#/polls"
+}
+
+const share = () => {
+    // get protocol, hostname and port from window.location
+    const url = poll.value?.shareURL ?? ""
+    if (navigator.share) {
+        navigator
+            .share({
+                title: "Share Poll",
+                url: url
+            })
+            .then(() => {
+                console.log("Thanks for sharing!")
+            })
+            .catch(console.error)
+    } else copyToClipboard(url)
+    shareLinkCopied.value = true
+}
+
+const copyToClipboard = (text: string) => {
+    window.prompt("Copy to clipboard: Ctrl+C, Enter", text)
+}
+
+const getVotedForCount = (optionID: tOptionId) => {
+    let count = 0
+    let maybeCount = 0
+    for (const userVotes of poll.value?.userVotes ?? []) {
+        const vote = userVotes.votes.find((vote) => vote.optionID == optionID) ?? { votedFor: undefined }
+
+        if (vote.votedFor != undefined && vote.votedFor == VoteValue.yes) count++
+        if (vote.votedFor != undefined && vote.votedFor == VoteValue.maybe) maybeCount++
     }
+    return "" + count + (maybeCount > 0 ? " (+" + maybeCount + ")" : "")
+}
 
-    getVotesByUser(): SimpleUserVotes {
-        if (this.poll == undefined) {
-            return {
-                user: this.userData ?? ({ id: "", firstName: "", lastName: "", username: "" } as SimpleUser),
-                votes: []
-            } as SimpleUserVotes
-        }
-        const that = this
-        return (
-            this.poll.userVotes.find((vote) => vote.user?.id == this.userData?.id) ?? {
-                user: that.userData ?? { id: "", firstName: "", lastName: "", username: "" },
-                votes: []
-            }
-        )
-    }
+const userKicked = (userID: tUserID) => {
+    if (poll.value == undefined) return
+    poll.value.userVotes = poll.value.userVotes.filter((ele) => ele.user?.id != userID ?? true) ?? []
+}
 
-    get pollID(): string {
-        // @ts-ignore
-        return this.$route.params.id
-    }
+const noteChangeCallback = async () => {
+    await setup()
+}
 
-    mayEdit(): boolean {
-        return (
-            ((this.poll?.admin.id == this.userData?.id ?? false) || (this.userData?.admin ?? false)) &&
-            (this.poll?.allowsEditing ?? false)
-        )
-    }
-
-    mayEditAllowEditing(): boolean {
-        return (this.poll?.admin.id == this.userData?.id ?? false) || (this.userData?.admin ?? false)
-    }
-
-    async pushChanges() {
-        try {
-            if (!this.mayEdit() && !this.mayEditAllowEditing()) return
-            const ret = await pushPollChanges(this.pollID, this.changes)
-            if (ret == ReturnCode.OK) this.changes = { pollID: this.pollID }
-            await this.setup()
-        } catch (e) {
-            console.error(e)
-        }
-    }
-
-    addOption() {
-        if (this.poll?.type == PollType.String && this.newOption.value == undefined) return
-        if (this.poll?.type == PollType.Date && this.newOption.dateStart == undefined) return
-        if (this.poll?.type == PollType.DateTime && this.newOption.dateTimeStart == undefined) return
-
-        if (this.changes.options == undefined) this.changes.options = []
-        //  format date to unix timestamp
-        if (this.poll?.type == PollType.Date) {
-            this.newOption.dateStart = new Date(this.newOption.dateStart!).getTime()
-            if (this.newOption.dateEnd != undefined) this.newOption.dateEnd = new Date(this.newOption.dateEnd).getTime()
-        }
-        if (this.poll?.type == PollType.DateTime) {
-            this.newOption.dateTimeStart = new Date(this.newOption.dateTimeStart!).getTime()
-            if (this.newOption.dateTimeEnd != undefined) this.newOption.dateTimeEnd = new Date(this.newOption.dateTimeEnd).getTime()
-        }
-
-        this.changes.options.push(this.newOption)
-
-        this.addingOption = false
-        this.newOption = {}
-        this.pushChanges()
-    }
-
-    async deleteOption(optionID: tOptionId) {
-        const option = this.poll?.options.find((opt) => opt.id == optionID)
-        if (option == undefined) return
-        const deleteConfirm = confirm(this.language?.uiElements.polls.details.deleteConfirm(JSON.stringify(option)))
-        if (deleteConfirm) {
-            if (this.changes.options == undefined) this.changes.options = []
-            this.changes.options.push({ id: optionID })
-            await this.pushChanges()
-        }
-    }
-
-    async voteUpdateCallback() {
-        await this.getPollData()
-        this.$forceUpdate()
-    }
-
-    async deletePoll() {
-        const confirm1 = confirm(this.language?.uiElements.polls.details.deletePollConfirm)
-        if (!confirm1) return
-        const confirm2 = confirm(this.language?.uiElements.polls.details.deletePollConfirmConfirm)
-        if (!confirm2) return
-
-        await deletePoll(this.pollID)
-        // @ts-ignore
-        window.location = "/#/polls"
-    }
-
-    share() {
-        // get protocol, hostname and port from window.location
-        const url = this.poll?.shareURL ?? ""
-        if (navigator.share) {
-            navigator
-                .share({
-                    title: "Share Poll",
-                    url: url
-                })
-                .then(() => {
-                    console.log("Thanks for sharing!")
-                })
-                .catch(console.error)
-        } else this.copyToClipboard(url)
-        this.shareLinkCopied = true
-    }
-
-    copyToClipboard(text: string) {
-        window.prompt("Copy to clipboard: Ctrl+C, Enter", text)
-    }
-
-    getVotedForCount(optionID: tOptionId): string {
-        let count = 0
-        let maybeCount = 0
-        for (const userVotes of this.poll?.userVotes ?? []) {
-            const vote = userVotes.votes.find((vote) => vote.optionID == optionID) ?? { votedFor: undefined }
-
-            if (vote.votedFor != undefined && vote.votedFor == VoteValue.yes) count++
-            if (vote.votedFor != undefined && vote.votedFor == VoteValue.maybe) maybeCount++
-        }
-        return "" + count + (maybeCount > 0 ? " (+" + maybeCount + ")" : "")
-    }
-
-    userKicked(userID: tUserID) {
-        if (this.poll == undefined) return
-        this.poll.userVotes = this.poll.userVotes.filter((ele) => ele.user?.id != userID ?? true) ?? []
-        this.$forceUpdate()
-    }
-
-    async noteChangeCallback() {
-        await this.setup()
-    }
-
-    async addUserClick() {
-        const userInfo = prompt(this.language?.uiElements.polls.details.addUserBtn, "id, mail, username")
-        if (userInfo == null || userInfo == "") return
-        await pushPollChanges(this.pollID, { pollID: this.pollID, userAdd: [userInfo] })
-        await this.setup()
-    }
+const addUserClick = async () => {
+    const userInfo = prompt(props.language?.uiElements.polls.details.addUserBtn, "id, mail, username")
+    if (userInfo == null || userInfo == "") return
+    await pollMethods.pushPollChanges(pollID(), { pollID: pollID(), userAdd: [userInfo] })
+    await setup()
 }
 </script>
 

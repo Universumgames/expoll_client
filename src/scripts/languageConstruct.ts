@@ -19,6 +19,7 @@ export interface languageData {
         }
         login: {
             loggedInAs: (username: string) => string
+            loggedInText: string
             notLoggedIn: string
             loginLink: string
             loginFirst: string

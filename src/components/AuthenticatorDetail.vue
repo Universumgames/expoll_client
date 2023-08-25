@@ -22,53 +22,31 @@
     </div>
 </template>
 
-<script lang="ts">
-import { deleteWebauthn, rename } from "@/scripts/authentication"
+<script setup lang="ts">
+import * as auth from "@/scripts/authentication"
 import { IUser } from "expoll-lib/interfaces"
-import { Options, Vue } from "vue-class-component"
 import EditIcon from "../assetComponents/EditIcon.vue"
-import { languageData } from "../scripts/languageConstruct"
+import { languageData } from "@/scripts/languageConstruct"
+import { computed } from "vue"
 
-@Options({
-    props: {
-        userData: Object,
-        language: Object,
-        authenticator: Object
-    },
-    components: {
-        EditIcon
-    }
-})
-export default class AuthenticatorDetails extends Vue {
-    authenticator: any
-    language?: languageData
+const props = defineProps<{ userData: IUser, language?: languageData, authenticator: any }>()
+const emit = defineEmits(["update"])
 
-    userData: IUser | undefined
+const name = computed(() => props.authenticator.name == "" ? "unnamed" : props.authenticator.name)
+const platform = computed(() => props.authenticator.initiatorPlatform == "" ? "unknown" : props.authenticator.initiatorPlatform)
+const createdAuth = computed(() => props.authenticator.created == undefined ? "unknown" : props.authenticator.created)
 
-    get name() {
-        return this.authenticator.name == "" ? "unnamed" : this.authenticator.name
-    }
+const rename = async () => {
+    const newName = prompt("New name for this authenticator (leave empty for cancel)", "")
+    if (!newName || newName == "") return
+    await auth.rename(props.authenticator.credentialID, newName)
+    emit("update")
+}
 
-    get platform() {
-        return this.authenticator.initiatorPlatform == "" ? "unknown" : this.authenticator.initiatorPlatform
-    }
-
-    get createdAuth(): Date | string {
-        return this.authenticator.created == undefined ? "unknown" : this.authenticator.created
-    }
-
-    async rename() {
-        const newName = prompt("New name for this authenticator (leave empty for cancel)", "")
-        if (!newName || newName == "") return
-        await rename(this.authenticator.credentialID, newName)
-        this.$emit("update")
-    }
-
-    async deleteAuth() {
-        if (!confirm(`Do you really want to delete the authenticator "${this.name}"?`)) return
-        await deleteWebauthn(this.authenticator.credentialID)
-        this.$emit("update")
-    }
+const deleteAuth = async () => {
+    if (!confirm(`Do you really want to delete the authenticator "${name.value}"?`)) return
+    await auth.deleteWebauthn(props.authenticator.credentialID)
+    emit("update")
 }
 </script>
 

@@ -2,31 +2,20 @@
     <vue-markdown :source="markdown" class="text" />
 </template>
 
-<script lang="ts">
-import { Options, Vue } from "vue-class-component"
+<script setup lang="ts">
 import VueMarkdown from "vue-markdown-render"
 import axios from "axios"
+import { languageData } from "@/scripts/languageConstruct"
+import { onMounted, ref } from "vue"
 
-@Options({
-    components: {
-        VueMarkdown
-    },
-    props: {
-        language: Object
-    }
+const props = defineProps<{ language: languageData }>()
+
+const markdown = ref("")
+
+onMounted(async () => {
+    const filename = "/en_site_notice.md"
+    markdown.value = (await axios.get(filename)).data
 })
-export default class SiteNotice extends Vue {
-    markdown = ""
-
-    async created(): Promise<void> {
-        this.loadMarkdown()
-    }
-
-    async loadMarkdown(): Promise<void> {
-        const filename = "/en_site_notice.md"
-        this.markdown = (await axios.get(filename)).data
-    }
-}
 </script>
 
 <style scoped>

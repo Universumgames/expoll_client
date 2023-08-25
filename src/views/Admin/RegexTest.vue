@@ -2,8 +2,8 @@
     <div class="container">
         {{ reg?.regex }}
         <small style="color: var(--primary-color)">{{ reg?.blacklist ? "Blacklist" : "Required" }}</small>
-        <input v-model="reg!.blacklist" type="checkbox" @change="$emit('update')">
-        <button class="delete" @click="$emit('remove')">
+        <input v-model="reg!.blacklist" type="checkbox" @change="emit('update')">
+        <button class="delete" @click="emit('remove')">
             Remove
         </button>
 
@@ -17,23 +17,17 @@
     </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import { MailRegexEntry } from "expoll-lib/extraInterfaces"
-import { Options, Vue } from "vue-class-component"
+import { ref } from "vue"
 
-@Options({
-    props: {
-        reg: String
-    },
-    components: {}
-})
-export default class MailRegex extends Vue {
-    reg?: MailRegexEntry
+const props = defineProps<{ reg?: MailRegexEntry }>()
+const emit = defineEmits(["remove", "update"])
 
-    test = ""
+const test = ref("")
 
-    matches = false
-}
+const matches = ref(false)
+
 </script>
 
 <style scoped>

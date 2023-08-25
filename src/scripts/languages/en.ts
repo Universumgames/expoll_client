@@ -46,6 +46,7 @@ Join the Beta via TestFlight and install the app: [https://testflight.apple.com/
         },
         login: {
             loggedInAs: (username: string) => "Logged in as " + username,
+            loggedInText: "Account",
             notLoggedIn: "Not logged in",
             loginLink: "Login",
             loginFirst: "You first need to login",

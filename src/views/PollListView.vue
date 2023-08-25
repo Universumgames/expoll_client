@@ -17,56 +17,35 @@
     </div>
 </template>
 
-<script lang="ts">
-import { Options, Vue } from "vue-class-component"
-import PollListElement from "../components/PollListElement.vue" // @ is an alias to /src
+<script setup lang="ts">
+import PollListElement from "../components/PollListElement.vue"
 import LoadingScreen from "../components/LoadingScreen.vue"
 import BlankPollListElement from "../components/Blanks/BlankPollListElement.vue"
 
 import { IUser } from "expoll-lib/interfaces"
-import { languageData } from "../scripts/languageConstruct"
+import { languageData } from "@/scripts/languageConstruct"
 import { SimplePoll } from "expoll-lib/extraInterfaces"
-import { getPollOverviews } from "../scripts/poll"
+import { getPollOverviews } from "@/scripts/poll"
+import { onMounted, ref } from "vue"
 
-@Options({
-    components: {
-        PollListElement,
-        LoadingScreen,
-        BlankPollListElement
-    },
-    props: {
-        userData: Object,
-        language: Object,
-        tryAdminView: Boolean
-    }
-})
-export default class PollListView extends Vue {
-    userData!: IUser
-    polls: SimplePoll[] = []
+const props = defineProps<{
+    userData: IUser
+    language: languageData
     tryAdminView?: boolean
+}>()
 
-    loading = true
+const polls = ref<SimplePoll[]>([])
+const loading = ref(true)
 
-    language?: languageData
-
-    create = false
-
-    async mounted() {
-        const pollData = await getPollOverviews()
-        if (pollData == undefined) {
-            window.location.href = "/#/login"
-        }
-        this.polls = pollData?.polls ?? []
-
-        this.$forceUpdate()
-
-        this.loading = false
+onMounted(async () => {
+    const pollData = await getPollOverviews()
+    if (pollData == undefined) {
+        window.location.href = "/#/login"
     }
+    polls.value = pollData?.polls ?? []
 
-    createPoll() {
-        this.create = true
-    }
-}
+    loading.value = false
+})
 </script>
 
 <style scoped>

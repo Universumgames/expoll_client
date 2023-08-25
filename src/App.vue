@@ -40,162 +40,146 @@
         <footer-vue
             :language="localeLanguage" :backend-version="backendVersion"
             :frontend-version="frontendVersion"
-            :user-data="userData" @onLangChange="onLangChange"
+            :user-data="userData!" @onLangChange="onLangChange"
         />
     </div>
 </template>
 
-<script lang="ts">
-import { Options, Vue } from "vue-class-component"
+<script setup lang="ts">
 import UserIcon from "./components/UserIcon.vue"
-import LanguageSelect from "./components/LanguageSelect.vue"
 import { isDarkMode } from "./scripts/helper"
 import { IUser, ReturnCode } from "expoll-lib/interfaces"
 import { getUserData } from "./scripts/user"
 import getSystemLanguage, { getLanguage, languageData } from "./scripts/languageConstruct"
 import axios from "axios"
 import FooterVue from "./components/Footer.vue"
+import { onMounted, ref } from "vue"
+import { useRoute, useRouter } from "vue-router"
 
-@Options({
-    components: {
-        UserIcon,
-        LanguageSelect,
-        FooterVue
+const route = useRoute()
+const router = useRouter()
+
+const isDark = ref(false)
+const userData = ref<IUser>()
+const localeLanguage = ref<languageData>(getSystemLanguage())
+const failedLoading = ref(false)
+const isImpersonating = ref(false)
+const impersonatingMail = ref("")
+
+const frontendVersion = ref("2.9.4")
+const backendVersion = ref("unknown")
+const clientIsCompatible = ref(true)
+
+const created = async () => {
+    const cookieLang = getCookie("lang")
+    if (cookieLang == undefined) {
+        localeLanguage.value = getSystemLanguage()
+    } else {
+        localeLanguage.value = getLanguage({ short: cookieLang })
     }
+    router.beforeEach(async (to) => {
+        // update title
+        document.title = to.meta.title != undefined ? (to.meta.title as string) : "404 Page not found"
+        // update apple universal links to deep link
+        const bannerMetaTag = document.querySelector("meta[name=\"apple-itunes-app\"]")
+        const appID = bannerMetaTag?.getAttribute("content")?.split(",").find((e) => e.includes("app-id"))
+        let appPath = "app-argument=expoll://" + to.meta.appPath
+        // replace :id in appPath with the actual id in the route
+        if (to.params.id != undefined) {
+            appPath = appPath.replace(":id", to.params.id as string)
+        }
+        if (appID != undefined && to.meta.appPath != undefined) {
+            bannerMetaTag?.setAttribute("content", appID + "," + appPath)
+        } else if (appID != undefined) {
+            bannerMetaTag?.setAttribute("content", appID)
+        }
+        // update grecaptcha visibility
+        const badges = document.getElementsByClassName("grecaptcha-badge")
+        for (let i = 0; i < badges.length; i++) {
+            (badges[i] as HTMLElement).style.visibility = to.path == "/login" ? "visible" : "hidden"
+        }
+    })
+
+    try {
+        backendVersion.value = (await axios.get("/api/serverInfo")).data.version
+        axios.get("/api/compliance?version=" + frontendVersion.value).then((res: any) => {
+            if (res.data.code == ReturnCode.OK) {
+                clientIsCompatible.value = res.data.data
+            }
+        }).catch((e) => {
+            clientIsCompatible.value = false
+        })
+    } catch (e) {
+        backendVersion.value = "unknown"
+    }
+}
+
+onMounted(async () => {
+    const startUserGet = getUserData()
+    manageDarkMode()
+
+    // this.userData = await getUserData("d3303768-c3d1-4ada-97cb-e433c9c45d25")
+    userData.value = await startUserGet
+    // console.log(this.userData)
+    if (userData.value == undefined) failedLoading.value = true
+
+    await loadImpersonation()
+    // this.forceLogin()
 })
-export default class App extends Vue {
-    isDark = false
-    userData?: IUser
-    localeLanguage!: languageData
-    failedLoading = false
-    isImpersonating = false
-    impersonatingMail = ""
 
-    frontendVersion = "2.9.4"
-    backendVersion = "unknown"
-    clientIsCompatible = true
-
-    async created() {
-        const cookieLang = this.getCookie("lang")
-        if (cookieLang == undefined) {
-            this.localeLanguage = getSystemLanguage()
-        } else {
-            this.localeLanguage = getLanguage({ short: cookieLang })
-        }
-        // @ts-ignore
-        this.$router.beforeEach(async (to) => {
-            // update title
-            document.title = to.meta.title != undefined ? (to.meta.title as string) : "404 Page not found"
-            // update apple universal links to deep link
-            const bannerMetaTag = document.querySelector("meta[name=\"apple-itunes-app\"]")
-            const appID = bannerMetaTag?.getAttribute("content")?.split(",").find((e) => e.includes("app-id"))
-            let appPath = "app-argument=expoll://" + to.meta.appPath
-            // replace :id in appPath with the actual id in the route
-            if (to.params.id != undefined) {
-                // @ts-ignore
-                appPath = appPath.replace(":id", to.params.id)
-            }
-            if (appID != undefined && to.meta.appPath != undefined) {
-                bannerMetaTag?.setAttribute("content", appID + "," + appPath)
-            } else if (appID != undefined) {
-                bannerMetaTag?.setAttribute("content", appID)
-            }
-            // update grecaptcha visibility
-            const badges = document.getElementsByClassName("grecaptcha-badge")
-            for (let i = 0; i < badges.length; i++) {
-                // @ts-ignore
-                badges[i].style.visibility = to.path == "/login" ? "visible" : "hidden"
-            }
-        })
-
-        try {
-            this.backendVersion = (await axios.get("/api/serverInfo")).data.version
-            axios.get("/api/compliance?version=" + this.frontendVersion).then((res: any) => {
-                if (res.data.code == ReturnCode.OK) {
-                    this.clientIsCompatible = res.data.data
-                }
-            }).catch((e) => {
-                this.clientIsCompatible = false
-            })
-        } catch (e) {
-            this.backendVersion = "unknown"
-        }
+const forceLogin = () => {
+    if (userData.value == undefined) {
+        router.push({ path: "/login" })
     }
+}
 
-    async mounted() {
-        const startUserGet = getUserData()
-        this.manageDarkMode()
+const manageDarkMode = () => {
+    isDark.value = isDarkMode()
+    // watch for darkmode changes
+    window.matchMedia("(prefers-color-scheme: dark)").addListener((e) => {
+        isDark.value = isDarkMode()
+        document.body.classList.remove(!isDark.value ? "darkVars" : "lightVars")
+        document.body.classList.add(isDark.value ? "darkVars" : "lightVars")
+    })
+    document.body.classList.add(isDark.value ? "darkVars" : "lightVars")
+}
 
-        // this.userData = await getUserData("d3303768-c3d1-4ada-97cb-e433c9c45d25")
-        this.userData = await startUserGet
-        // console.log(this.userData)
-        if (this.userData == undefined) this.failedLoading = true
-
-        await this.loadImpersonation()
-
-        this.$forceUpdate()
-        // this.forceLogin()
-    }
-
-    forceLogin() {
-        // @ts-ignore
-        if (this.userData == undefined) {
-            // @ts-ignore
-            this.$router.push({ path: "/login" })
-        }
-    }
-
-    manageDarkMode() {
-        this.isDark = isDarkMode()
-        // watch for darkmode changes
-        window.matchMedia("(prefers-color-scheme: dark)").addListener((e) => {
-            this.isDark = isDarkMode()
-            document.body.classList.remove(!this.isDark ? "darkVars" : "lightVars")
-            document.body.classList.add(this.isDark ? "darkVars" : "lightVars")
-        })
-        document.body.classList.add(this.isDark ? "darkVars" : "lightVars")
-    }
-
-    onLangChange(short: string) {
-        this.localeLanguage = getLanguage({ short: short })
-        console.log("Changed language to " + short)
-        document.cookie = "lang=" + short
-        this.$forceUpdate()
-        // @ts-ignore
-        if (this.$route.name == "Home") {
-            window.location.reload()
-        }
-    }
-
-    getCookie(cname: string): string | undefined {
-        const name = cname + "="
-        const decodedCookie = decodeURIComponent(document.cookie)
-        const ca = decodedCookie.split(";")
-        for (let i = 0; i < ca.length; i++) {
-            let c = ca[i]
-            while (c.charAt(0) == " ") {
-                c = c.substring(1)
-            }
-            if (c.indexOf(name) == 0) {
-                return c.substring(name.length, c.length)
-            }
-        }
-        return undefined
-    }
-
-    async unimpersonate() {
-        await axios.post("/api/admin/unImpersonate")
+const onLangChange = (short: string) => {
+    localeLanguage.value = getLanguage({ short: short })
+    console.log("Changed language to " + short)
+    document.cookie = "lang=" + short
+    if (route.name == "Home") {
         window.location.reload()
     }
+}
 
-    async loadImpersonation() {
-        try {
-            const impersonationResult = await axios.get("/api/admin/isImpersonating")
-            this.isImpersonating = impersonationResult.status == ReturnCode.OK
-            this.impersonatingMail = impersonationResult.data.mail ?? ""
-            this.$forceUpdate()
-        } catch (e) {
+const getCookie = (cname: string) => {
+    const name = cname + "="
+    const decodedCookie = decodeURIComponent(document.cookie)
+    const ca = decodedCookie.split(";")
+    for (let i = 0; i < ca.length; i++) {
+        let c = ca[i]
+        while (c.charAt(0) == " ") {
+            c = c.substring(1)
         }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length)
+        }
+    }
+    return undefined
+}
+
+const unimpersonate = async () => {
+    await axios.post("/api/admin/unImpersonate")
+    window.location.reload()
+}
+
+const loadImpersonation = async () => {
+    try {
+        const impersonationResult = await axios.get("/api/admin/isImpersonating")
+        isImpersonating.value = impersonationResult.status == ReturnCode.OK
+        impersonatingMail.value = impersonationResult.data.mail ?? ""
+    } catch (e) {
     }
 }
 </script>
@@ -334,7 +318,7 @@ th {
 }
 
 .btn-disabled {
-    background-color: gray !important;
+    background-color: grey !important;
 }
 
 .delete {

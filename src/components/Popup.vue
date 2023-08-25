@@ -9,19 +9,12 @@
     </div>
 </template>
 
-<script lang="ts">
-import { Options, Vue } from "vue-class-component"
+<script setup lang="ts">
 
-@Options({
-    props: {
-        title: Object,
-        text: Object
-    }
-})
-export default class Popup extends Vue {
+const props = defineProps<{
     title?: string
     text?: string
-}
+}>()
 </script>
 
 <style scoped>

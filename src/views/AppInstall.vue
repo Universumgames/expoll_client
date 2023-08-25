@@ -4,30 +4,18 @@
     <vue-markdown class="text" :source="markdown" style="text-align: center" />
 </template>
 
-<script lang="ts">
-import { Options, Vue } from "vue-class-component"
+<script setup lang="ts">
 import VueMarkdown from "vue-markdown-render"
 import { languageData } from "@/scripts/languageConstruct"
+import { onMounted, ref } from "vue"
 
-@Options({
-    components: {
-        VueMarkdown
-    },
-    props: {
-        language: Object
-    }
+const props = defineProps<{ language: languageData }>()
+
+const markdown = ref("")
+
+onMounted(async () => {
+    markdown.value = props.language?.uiElements.appInstall.belowImage ?? ""
 })
-export default class AppInstall extends Vue {
-    markdown = ""
-    language?: languageData
-
-    async created() {
-        this.markdown = this.language?.uiElements.appInstall.belowImage ?? ""
-    }
-
-    mounted() {
-    }
-}
 </script>
 
 <style scoped>

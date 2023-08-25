@@ -38,37 +38,14 @@
     </div>
 </template>
 
-<script lang="ts">
-import { Options, Vue } from "vue-class-component"
-import { languageData } from "../../scripts/languageConstruct"
-import SaveIcon from "../../assetComponents/SaveIcon.vue"
-import EditIcon from "../../assetComponents/EditIcon.vue"
-import ShareIcon from "../../assetComponents/ShareIcon.vue"
-import PollUserVoteRow from "../../components/PollUserVotes.vue"
-import LoadingScreen from "../../components/LoadingScreen.vue"
-import SwitchIcon from "../../assetComponents/SwitchIcon.vue"
-import LoginSignupView from "../../components/LoginSignupView.vue"
+<script setup lang="ts">
+import { languageData } from "@/scripts/languageConstruct"
 
 /*
      votes: { user: User; votes: { optionID: tOptionId; votedFor: boolean }
  */
 
-@Options({
-    props: {},
-    components: {
-        SaveIcon,
-        EditIcon,
-        ShareIcon,
-        SwitchIcon,
-        PollUserVoteRow,
-        LoadingScreen,
-        LoginSignupView
-    }
-})
-export default class BlankDetailedPollView extends Vue {
-    language?: languageData
-
-}
+defineProps<{ language: languageData }>()
 </script>
 
 <style scoped>
