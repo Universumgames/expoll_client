@@ -175,7 +175,7 @@ const loggedIn = computed(() => {
 })
 
 const logout = async () => {
-    await logout()
+    await auth.logout()
     location.reload()
 }
 

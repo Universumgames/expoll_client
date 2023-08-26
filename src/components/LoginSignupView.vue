@@ -196,6 +196,9 @@ onMounted(async () => {
             otp.value = paramOTP.value
             await login()
             // window.location = "/"
+            if (paramForAppExist.value) {
+                window.open("/api/auth/simple/app", "_blank")
+            }
         } catch (error) {
             displayError(props.language?.uiElements.login.messages.otpNotExist)
             loggingIn.value = false
@@ -240,12 +243,20 @@ const paramMail = computed(() => {
     return route.query.mail as string
 })
 
+const paramForApp = computed(() => {
+    return (route.query.forApp as string == "1")
+})
+
 const paramOTPExist = computed(() => {
     return paramOTP.value != undefined && paramOTP.value != ""
 })
 
 const paramMailExist = computed(() => {
     return paramMail.value != undefined && paramMail.value != ""
+})
+
+const paramForAppExist = computed(() => {
+    return paramForApp.value != undefined
 })
 
 const request = async () => {
