@@ -107,7 +107,8 @@ Join the Beta via TestFlight and install the app: [https://testflight.apple.com/
                 editUsernamePrompt: "Edit your username",
                 editFirstNamePrompt: "Edit your first name",
                 editLastNamePrompt: "Edit your last name",
-                oidcConnectionNote: "Add alternative login methods to sign in quicker"
+                oidcConnectionNote: "Add alternative login methods to sign in quicker",
+                createdOn: "Account created on"
             }
         },
         polls: {
@@ -129,6 +130,8 @@ Join the Beta via TestFlight and install the app: [https://testflight.apple.com/
                 optionName: (id: number) => "Option nr." + id,
                 optionValue: "Value",
                 optionOptEndValue: "Optional end value",
+                optionAdd: "Add option +",
+                optionRemove: "Remove",
                 createBtn: "Create poll",
                 maxCountExceeded: "You have already created too much polls",
                 emptyField: "This field shouldn't be empty",
@@ -146,7 +149,10 @@ Join the Beta via TestFlight and install the app: [https://testflight.apple.com/
                 pollName: "Name",
                 maxPerUserVoteCount: "Maximum number of votes each user can do",
                 maxPerUserVoteCountDescription: "(-1 for infinity)",
-                dateStringFormat: (start?: string, end?: string) => start + (end != undefined ? " \nto " + end : ""),
+                dateStringFormat: (start?: string, end?: string) => {
+                    if (end != undefined) return "From " + start + " to " + end
+                    return "On " + start
+                },
                 save: "save",
                 cancel: "cancel",
                 delete: "delete",
@@ -159,11 +165,12 @@ Join the Beta via TestFlight and install the app: [https://testflight.apple.com/
                 },
                 leavePollBtn: "Delete own votes and leave",
                 leaveConfirm: "Sure you want to leave this poll?",
-                kickFromPollBtn: "Kick",
+                kickFromPollBtn: "Kick User",
                 kickConfirm: (username: string) =>
                     "Sure you want to kick " + username + " from this poll ( votes will remain and stay saved for when the user rejoins)?",
                 editingDisabled: "Editing is disabled by the admin",
-                addUserBtn: "Add user"
+                addUserBtn: "Add user",
+                description: "Description"
             },
             votes: {
                 yes: "Yes",
@@ -174,21 +181,9 @@ Join the Beta via TestFlight and install the app: [https://testflight.apple.com/
         },
         serverError: "An error on our side occurred",
         dateToString: (d?: Date) =>
-            d?.getFullYear() +
-            "-" +
-            ((d?.getMonth() ?? 0) + 1).toString().padStart(2, "0") +
-            "-" +
-            d?.getDate().toString().padStart(2, "0") ?? "",
+            d?.toLocaleString(undefined, { dateStyle: "long" }) ?? "",
         dateTimeToString: (dt?: Date) =>
-            dt?.getFullYear() +
-            "-" +
-            ((dt?.getMonth() ?? 0) + 1).toString().padStart(2, "0") +
-            "-" +
-            dt?.getDate().toString().padStart(2, "0") +
-            " at " +
-            dt?.getHours().toString().padStart(2, "0") +
-            ":" +
-            dt?.getMinutes().toString().padStart(2, "0") ?? ""
+            dt?.toLocaleString(undefined, { timeStyle: "short", dateStyle: "long" }) ?? ""
     }
 }
 

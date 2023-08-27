@@ -136,15 +136,15 @@
 </template>
 
 <script lang="ts" setup>
-import { ReturnCode } from "expoll-lib/interfaces"
+import { ReturnCode } from "@/lib/interfaces"
 import { languageData } from "@/scripts/languageConstruct"
 import { getUserData, signUp } from "@/scripts/user"
 import LoadingScreen from "../components/LoadingScreen.vue"
-import Popup from "../components/Popup.vue"
+import Popup from "./TextPopup.vue"
 import * as webauthnJson from "@github/webauthn-json"
 import { otpLogin, requestLoginMail } from "@/scripts/authentication"
 import { mailIsAllowed } from "@/scripts/helper"
-import { MailRegexEntry } from "expoll-lib/extraInterfaces"
+import { MailRegexEntry } from "@/lib/extraInterfaces"
 import { getLoginRegex } from "@/scripts/regex"
 import OIDC from "./login/OIDC.vue"
 import Webauthn from "./login/Webauthn.vue"
@@ -196,7 +196,7 @@ onMounted(async () => {
             otp.value = paramOTP.value
             await login()
             // window.location = "/"
-            if (paramForAppExist.value) {
+            if (paramForApp.value) {
                 window.open("/api/auth/simple/app", "_blank")
             }
         } catch (error) {
@@ -255,10 +255,6 @@ const paramMailExist = computed(() => {
     return paramMail.value != undefined && paramMail.value != ""
 })
 
-const paramForAppExist = computed(() => {
-    return paramForApp.value != undefined
-})
-
 const request = async () => {
     requestClicked.value = true
     if (loginMail.value == "") {
@@ -297,7 +293,7 @@ const login = async () => {
         console.log(otp.value)
         await otpLogin(otp.value)
         await getUserData()
-        window.location.href = "/#/polls"
+        window.location.href = "/#/account"
         window.location.reload()
     } catch (error) {
         displayError(props.language?.uiElements.login.messages.otpNotExist)

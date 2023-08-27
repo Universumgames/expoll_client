@@ -1,6 +1,6 @@
 import * as webauthnJson from "@github/webauthn-json"
 import axios from "axios"
-import { ReturnCode } from "expoll-lib/interfaces"
+import { ReturnCode } from "@/lib/interfaces"
 
 const base = "/api/auth"
 

@@ -1,12 +1,8 @@
 <template>
     <tr>
         <th class="stickyCol" @click="editNote">
-            {{
-                displayUsernameInsteadOfFull
-                    ? userVote?.user?.username
-                    : userVote?.user?.firstName + " " + userVote?.user?.lastName
-            }}
-            <small>{{ pollData?.admin.id == userVote?.user?.id ?? false ? "(admin)" : "" }}</small>
+            {{ displayName }}
+            <small>{{ pollData?.admin.id == userVote?.user?.id ?? false ? "(admin)" : "" }}</small><br>
             <small>{{ noteString }}</small>
         </th>
         <td v-for="voteOpt in userVote?.votes" :key="voteOpt.optionID">
@@ -19,7 +15,7 @@
             >{{ voteString(voteOpt.votedFor) }}</a><br>
             <small v-show="errorMsg != '' && voteOpt.votedFor" class="errorInfo">{{ errorMsg }}</small>
         </td>
-        <td>
+        <td v-show="loggedUserIsSelectedUser() || pollData.admin.id == userData.id || userData.admin">
             <button v-show="removeUserBtnVisible" class="leaveBtn" @click="removeUser">
                 {{
                     loggedUserIsSelectedUser()
@@ -39,11 +35,11 @@
 </template>
 
 <script setup lang="ts">
-import { DetailedPoll, SimpleUserNote, SimpleUserVotes } from "expoll-lib/extraInterfaces"
-import { IUser, ReturnCode, tOptionId, VoteValue } from "expoll-lib/interfaces"
+import { DetailedPoll, SimpleUserNote, SimpleUserVotes } from "@/lib/extraInterfaces"
+import { IUser, ReturnCode, tOptionId, VoteValue } from "@/lib/interfaces"
 import { languageData } from "@/scripts/languageConstruct"
 import { vote } from "@/scripts/vote"
-import { VoteRequest } from "expoll-lib/requestInterfaces"
+import { VoteRequest } from "@/lib/requestInterfaces"
 import { editUserNote, leavePoll, removeUserFromPoll } from "@/scripts/poll"
 import { computed, ref } from "vue"
 
@@ -193,6 +189,10 @@ const noteString = computed(() => {
 const editingDisabledNote = () => {
     alert(props.language?.uiElements.polls.details.editingDisabled ?? "Editing is not allowed by the admin")
 }
+
+const displayName = computed(() => props.displayUsernameInsteadOfFull
+    ? props.userVote.user.username
+    : props.userVote.user.firstName + " " + props.userVote.user.lastName)
 
 </script>
 

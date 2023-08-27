@@ -18,7 +18,7 @@
 </template>
 
 <script setup lang="ts">
-import { MailRegexEntry } from "expoll-lib/extraInterfaces"
+import { MailRegexEntry } from "@/lib/extraInterfaces"
 import { ref } from "vue"
 
 const props = defineProps<{ reg?: MailRegexEntry }>()

@@ -77,6 +77,7 @@ export interface languageData {
                 editFirstNamePrompt: string,
                 editLastNamePrompt: string,
                 oidcConnectionNote: string,
+                createdOn: string,
             }
         }
         polls: {
@@ -98,6 +99,8 @@ export interface languageData {
                 optionName: (id: number) => string
                 optionValue: string
                 optionOptEndValue: string
+                optionAdd: string
+                optionRemove: string
                 createBtn: string
                 maxCountExceeded: string
                 emptyField: string
@@ -132,6 +135,7 @@ export interface languageData {
                 kickConfirm: (username: string) => string
                 editingDisabled: string
                 addUserBtn: string
+                description: string
             }
             votes: {
                 yes: string

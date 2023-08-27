@@ -24,8 +24,8 @@
 </template>
 
 <script setup lang="ts">
-import { IUser } from "expoll-lib/interfaces"
-import { UserInfo } from "expoll-lib/adminInterfaces"
+import { IUser } from "@/lib/interfaces"
+import { UserInfo } from "@/lib/adminInterfaces"
 import { languageData } from "@/scripts/languageConstruct"
 import UserRow from "./UserRow.vue"
 import LoadingScreen from "@/components/LoadingScreen.vue"

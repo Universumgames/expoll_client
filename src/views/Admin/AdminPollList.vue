@@ -9,11 +9,11 @@
 </template>
 
 <script setup lang="ts">
-import { IUser } from "expoll-lib/interfaces"
+import { IUser } from "@/lib/interfaces"
 import { languageData } from "@/scripts/languageConstruct"
 import LoadingScreen from "@/components/LoadingScreen.vue"
 import PollListElement from "@/components/PollListElement.vue"
-import { SimplePoll } from "expoll-lib/extraInterfaces"
+import { SimplePoll } from "@/lib/extraInterfaces"
 import { getAllPolls } from "@/scripts/admin"
 import { onMounted, ref } from "vue"
 

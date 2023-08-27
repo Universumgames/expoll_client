@@ -23,7 +23,7 @@
 
         <!-- Poll options and results -->
         <div class="x-scroller">
-            <table>
+            <table style="border-spacing: 0.5rem">
                 <tr>
                     <th class="tableBox" />
                     <th v-for="n in 4" :key="n" style="white-space: pre-wrap" class="tableBox" />

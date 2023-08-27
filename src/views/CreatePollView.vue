@@ -103,10 +103,10 @@
 </template>
 
 <script setup lang="ts">
-import { IUser, PollType, ReturnCode } from "expoll-lib/interfaces"
+import { IUser, PollType, ReturnCode } from "@/lib/interfaces"
 import { languageData } from "@/scripts/languageConstruct"
-import { ComplexOption, empty } from "expoll-lib/extraInterfaces"
-import { CreatePollRequest } from "expoll-lib/requestInterfaces"
+import { ComplexOption, empty } from "@/lib/extraInterfaces"
+import { CreatePollRequest } from "@/lib/requestInterfaces"
 import { createPoll } from "@/scripts/poll"
 import { onMounted, ref } from "vue"
 

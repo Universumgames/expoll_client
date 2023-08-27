@@ -1,5 +1,5 @@
 import axios from "axios"
-import { MailRegexEntry } from "expoll-lib/extraInterfaces"
+import { MailRegexEntry } from "@/lib/extraInterfaces"
 
 /**
  * retrive regex rules for login and signup

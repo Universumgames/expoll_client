@@ -22,9 +22,9 @@ import PollListElement from "../components/PollListElement.vue"
 import LoadingScreen from "../components/LoadingScreen.vue"
 import BlankPollListElement from "../components/Blanks/BlankPollListElement.vue"
 
-import { IUser } from "expoll-lib/interfaces"
+import { IUser } from "@/lib/interfaces"
 import { languageData } from "@/scripts/languageConstruct"
-import { SimplePoll } from "expoll-lib/extraInterfaces"
+import { SimplePoll } from "@/lib/extraInterfaces"
 import { getPollOverviews } from "@/scripts/poll"
 import { onMounted, ref } from "vue"
 
@@ -50,17 +50,13 @@ onMounted(async () => {
 
 <style scoped>
 .listContainer {
-    margin-left: auto;
-    margin-right: auto;
+    margin: 0;
+    padding: 0;
 }
 
 button {
     border-radius: 1ch;
     padding: 1ch;
 
-}
-
-.createPoll {
-    margin-top: 1rem;
 }
 </style>

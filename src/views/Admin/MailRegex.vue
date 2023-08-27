@@ -29,13 +29,13 @@
 </template>
 
 <script setup lang="ts">
-import { IUser } from "expoll-lib/interfaces"
+import { IUser } from "@/lib/interfaces"
 import { languageData } from "@/scripts/languageConstruct"
 import LoadingScreen from "@/components/LoadingScreen.vue"
 import RegexTest from "./RegexTest.vue"
-import { MailRegexEntry } from "expoll-lib/extraInterfaces"
+import { MailRegexEntry } from "@/lib/extraInterfaces"
 import { getRegexAdmin, updateRegeAdmin } from "@/scripts/regex"
-import { ref } from "vue"
+import { onMounted, ref } from "vue"
 
 const props = defineProps<{ userData?: IUser, language: languageData }>()
 
@@ -76,4 +76,8 @@ const update = async () => {
     await updateRegeAdmin(regex.value)
     await getData()
 }
+
+onMounted(() => {
+    getData()
+})
 </script>

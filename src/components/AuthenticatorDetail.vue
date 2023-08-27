@@ -24,7 +24,7 @@
 
 <script setup lang="ts">
 import * as auth from "@/scripts/authentication"
-import { IUser } from "expoll-lib/interfaces"
+import { IUser } from "@/lib/interfaces"
 import EditIcon from "../assetComponents/EditIcon.vue"
 import { languageData } from "@/scripts/languageConstruct"
 import { computed } from "vue"

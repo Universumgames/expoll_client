@@ -3,6 +3,7 @@
         <div>
             <label>{{ userInfo?.username }}</label>
             <small>ID: {{ userInfo?.id }}</small>
+            <small>Created at {{ new Date(userInfo.createdTimestamp).toLocaleString() }}</small>
         </div>
         <label>
             Name: <span style="white-space: nowrap">{{ userInfo?.firstName }} {{ userInfo?.lastName }}</span>
@@ -63,7 +64,7 @@
 </template>
 
 <script setup lang="ts">
-import { UserInfo } from "expoll-lib/adminInterfaces"
+import { UserInfo } from "@/lib/adminInterfaces"
 import { languageData } from "@/scripts/languageConstruct"
 import EditIcon from "@/assetComponents/EditIcon.vue"
 import { deleteUserAdmin, editUserAdmin } from "@/scripts/admin"

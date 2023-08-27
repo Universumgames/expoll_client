@@ -1,6 +1,6 @@
 import axios from "axios"
-import { IUser, ReturnCode } from "expoll-lib/interfaces"
-import { CreateUserRequest } from "expoll-lib/requestInterfaces"
+import { IUser, ReturnCode } from "@/lib/interfaces"
+import { CreateUserRequest } from "@/lib/requestInterfaces"
 
 const base = "/api/user"
 

@@ -1,42 +1,74 @@
 <template>
-    <div id="popupBG" />
-    <div id="popup">
-        <h2>{{ title }}</h2>
-        <p>{{ text }}</p>
-        <button @click="$emit('close')">
-            OK
-        </button>
+    <div class="popupContainer">
+        <div class="popupContent">
+            <div class="popupHeader">
+                <slot name="header">
+                    <button @click="emit('close')">
+                        Cancel
+                    </button>
+                </slot>
+            </div>
+            <slot />
+        </div>
     </div>
 </template>
 
 <script setup lang="ts">
 
-const props = defineProps<{
-    title?: string
-    text?: string
-}>()
+import { onMounted, onUnmounted } from "vue"
+
+const props = withDefaults(defineProps<{ padding: string, cornerRadius: string, backdropColor: string, backgroundColor: string }>(), {
+    padding: "3rem",
+    cornerRadius: "2ch",
+    backdropColor: "rgba(50, 50, 50, 0.7)",
+    backgroundColor: "var(--bg-color)"
+})
+
+const emit = defineEmits(["close"])
+
+onMounted(() => {
+    document.body.style.overflow = "hidden"
+})
+
+onUnmounted(() => {
+    document.body.style.overflow = "auto"
+})
+
 </script>
 
-<style scoped>
-#popup {
-    position: absolute;
-    z-index: 100;
-    top: 50vh;
-    left: 50vw;
-    transform: translate(-50%, -50%);
-    background-color: var(--bg-color);
-    padding: 5ch;
-    border-radius: 1ch;
-}
-
-#popupBG {
+<style>
+.popupContainer {
     position: fixed;
     top: 0;
     left: 0;
-    bottom: 0;
-    right: 0;
-    z-index: 99;
-    background-color: rgba(50, 50, 50, 0.8);
-    backdrop-filter: blur(10);
+    width: 100%;
+    height: 100%;
+    background-color: v-bind(backdropColor);
+    z-index: 100;
+}
+
+.popupContent {
+    width: min(max(80vw, 50ch), 95vw);
+    height: 90vh;
+    margin: auto;
+    position: relative;
+    overflow: auto;
+    top: 1vh;
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+    border-radius: v-bind(cornerRadius);
+    background-color: v-bind(backgroundColor);
+    padding: v-bind(padding);
+}
+
+.popupContent::-webkit-scrollbar {
+    display: none;
+}
+
+.popupHeader {
+    position: sticky;
+    top: -2ch;
+    background-color: v-bind(backgroundColor);
+    z-index: 5000;
 }
 </style>

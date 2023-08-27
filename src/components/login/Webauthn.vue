@@ -28,7 +28,7 @@
 import { languageData } from "../../scripts/languageConstruct"
 import { login } from "../../scripts/authentication"
 import { mailIsAllowed } from "@/scripts/helper"
-import { MailRegexEntry } from "expoll-lib/extraInterfaces"
+import { MailRegexEntry } from "@/lib/extraInterfaces"
 import { ref } from "vue"
 
 const props = defineProps<{

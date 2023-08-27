@@ -3,7 +3,7 @@
 </template>
 
 <script setup lang="ts">
-import { IUser } from "expoll-lib/interfaces"
+import { IUser } from "@/lib/interfaces"
 import { languageData } from "@/scripts/languageConstruct"
 
 const props = defineProps<{ userData: IUser, language: languageData }>()

@@ -3,18 +3,20 @@
         id="userico" :title="title"
         :style="loggedIn? '' : 'float: right;'"
     >
-        <router-link to="/login">
-            <div v-show="loggedIn" id="userText">
+        <router-link v-show="loggedIn" to="/account">
+            <div id="userText">
                 <!--<img src="../assets/userIcon.svg" alt="" loading="lazy">-->
                 {{ language.uiElements.login.loggedInText }}
             </div>
-            <div v-show="!loggedIn" id="loginText">{{ language?.uiElements.login.loginLink }}</div>
+        </router-link>
+        <router-link v-show="!loggedIn" to="/login">
+            <div id="loginText">{{ language?.uiElements.login.loginLink }}</div>
         </router-link>
     </span>
 </template>
 
 <script setup lang="ts">
-import { IUser } from "expoll-lib/interfaces"
+import { IUser } from "@/lib/interfaces"
 import { languageData } from "@/scripts/languageConstruct"
 import { computed } from "vue"
 

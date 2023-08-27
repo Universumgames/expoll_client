@@ -1,6 +1,6 @@
 <template>
     <div v-if="userData?.admin">
-        <div>
+        <div id="adminNav">
             <h3>Administration</h3>
             <router-link to="/admin/users">
                 Users
@@ -21,8 +21,14 @@
 </template>
 
 <script setup lang="ts">
-import { IUser } from "expoll-lib/interfaces"
+import { IUser } from "@/lib/interfaces"
 import { languageData } from "@/scripts/languageConstruct"
 
 const props = defineProps<{ userData?: IUser, language: languageData }>()
 </script>
+
+<style>
+#adminNav > a {
+    margin: 1ch;
+}
+</style>

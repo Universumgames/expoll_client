@@ -112,7 +112,8 @@ Tritt der Beta via TestFlight bei und installiere die App: [https://testflight.a
                 editUsernamePrompt: "Benutzernamen ändern",
                 editFirstNamePrompt: "Vorname ändern",
                 editLastNamePrompt: "Nachname ändern",
-                oidcConnectionNote: "Füge eine alterantive Anmeldemethode hinzu um dich schneller anzumelden"
+                oidcConnectionNote: "Füge eine alterantive Anmeldemethode hinzu um dich schneller anzumelden",
+                createdOn: "Konto erstellt am"
             }
         },
         polls: {
@@ -134,6 +135,8 @@ Tritt der Beta via TestFlight bei und installiere die App: [https://testflight.a
                 optionName: (id: number) => "Option Nr. " + id,
                 optionValue: "Wert",
                 optionOptEndValue: "Optionales Ende",
+                optionAdd: "Option hinzufügen +",
+                optionRemove: "Entfernen",
                 createBtn: "Erstellen",
                 maxCountExceeded: "Du hast bereits zu viele Umfragen erstellt",
                 emptyField: "Dieses Feld darf nicht leer sein",
@@ -152,7 +155,8 @@ Tritt der Beta via TestFlight bei und installiere die App: [https://testflight.a
                 maxPerUserVoteCount: "Maximal Anzahl an ausgewählten Optionen",
                 maxPerUserVoteCountDescription: "(-1 für unendlich)",
                 dateStringFormat: (start?: string, end?: string) => {
-                    return start + (end != undefined ? " \nbis " + end : "")
+                    if (end != undefined) return "Vom " + start + " bis " + end
+                    return "Am " + start
                 },
                 save: "Speichern",
                 cancel: "Abbrechen",
@@ -175,7 +179,8 @@ Tritt der Beta via TestFlight bei und installiere die App: [https://testflight.a
                 kickConfirm: (username: string) =>
                     "Sicher, dass du " + username + " rauswerfen willst (die Stimmen werden gelöscht)?",
                 editingDisabled: "Das Bearbeiten ist durch den Admin deaktiviert",
-                addUserBtn: "Benutzer hinzufügen"
+                addUserBtn: "Benutzer hinzufügen",
+                description: "Beschreibung"
             },
             votes: {
                 yes: "Ja",
@@ -186,21 +191,9 @@ Tritt der Beta via TestFlight bei und installiere die App: [https://testflight.a
         },
         serverError: "Ein Fehler beim Server ist aufgetreten",
         dateToString: (d?: Date) =>
-            d?.getDate().toString().padStart(2, "0") +
-            "." +
-            ((d?.getMonth() ?? 0) + 1).toString().padStart(2, "0") +
-            "." +
-            d?.getFullYear() ?? "",
+            d?.toLocaleString(undefined, { dateStyle: "long" }) ?? "",
         dateTimeToString: (dt?: Date) =>
-            dt?.getDate().toString().padStart(2, "0") +
-            "." +
-            ((dt?.getMonth() ?? 0) + 1).toString().padStart(2, "0") +
-            "." +
-            dt?.getFullYear() +
-            " um " +
-            dt?.getHours().toString().padStart(2, "0") +
-            ":" +
-            dt?.getMinutes().toString().padStart(2, "0") ?? ""
+            dt?.toLocaleString(undefined, { timeStyle: "short", dateStyle: "long" }) ?? ""
     }
 }
 

@@ -1,6 +1,6 @@
 import axios from "axios"
-import { tUserID } from "expoll-lib/interfaces"
-import { AdminEditUserRequest, AdminPollListResponse, AdminUserListResponse } from "expoll-lib/requestInterfaces"
+import { tUserID } from "@/lib/interfaces"
+import { AdminEditUserRequest, AdminPollListResponse, AdminUserListResponse } from "@/lib/requestInterfaces"
 
 const base = "/api/admin"
 

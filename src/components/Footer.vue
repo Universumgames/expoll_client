@@ -54,7 +54,7 @@
 </template>
 
 <script setup lang="ts">
-import { IUser } from "expoll-lib/interfaces"
+import { IUser } from "@/lib/interfaces"
 import { languageData } from "@/scripts/languageConstruct"
 import LanguageSelect from "./LanguageSelect.vue"
 import { computed } from "vue"

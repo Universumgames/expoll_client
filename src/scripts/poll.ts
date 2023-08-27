@@ -1,7 +1,9 @@
 import axios from "axios"
-import { ReturnCode, tPollID, tUserID } from "expoll-lib/interfaces"
-import { CreatePollRequest, DetailedPollResponse, EditPollRequest, PollOverview } from "expoll-lib/requestInterfaces"
+import { PollType, ReturnCode, tPollID, tUserID } from "@/lib/interfaces"
+import { CreatePollRequest, DetailedPollResponse, EditPollRequest, PollOverview } from "@/lib/requestInterfaces"
 import { replacer } from "./helper"
+import { ComplexOption, DetailedPoll } from "@/lib/extraInterfaces"
+import { languageData } from "@/scripts/languageConstruct"
 
 const base = "/api/poll"
 
@@ -142,5 +144,34 @@ export async function createPoll(data: CreatePollRequest): Promise<ReturnCode> {
     } catch (e: any) {
         console.warn(e)
         return e.response.status
+    }
+}
+
+
+export function optionToString(option: ComplexOption, pollData: DetailedPoll, language: languageData): string {
+    let start: string | undefined = ""
+    let end: string | undefined = ""
+    switch (pollData.type) {
+        case PollType.String:
+            return option.value!
+        case PollType.Date:
+            start = language.uiElements.dateToString(new Date(option.dateStart!))
+            end = language.uiElements.dateToString(new Date(option.dateEnd ?? 0))
+            return (
+                language.uiElements.polls.details.dateStringFormat(
+                    start,
+                    option.dateEnd == undefined ? undefined : end
+                ) ?? ""
+            )
+
+        case PollType.DateTime:
+            start = language.uiElements.dateTimeToString(new Date(option.dateTimeStart!))
+            end = language.uiElements.dateTimeToString(new Date(option.dateTimeEnd ?? 0))
+            return (
+                language.uiElements.polls.details.dateStringFormat(
+                    start,
+                    option.dateTimeEnd == undefined ? undefined : end
+                ) ?? ""
+            )
     }
 }

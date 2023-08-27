@@ -1,6 +1,6 @@
 import axios from "axios"
-import { ReturnCode } from "expoll-lib/interfaces"
-import { VoteRequest } from "expoll-lib/requestInterfaces"
+import { ReturnCode } from "@/lib/interfaces"
+import { VoteRequest } from "@/lib/requestInterfaces"
 
 /**
  * Helper method to vote

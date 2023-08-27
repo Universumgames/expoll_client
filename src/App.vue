@@ -48,7 +48,7 @@
 <script setup lang="ts">
 import UserIcon from "./components/UserIcon.vue"
 import { isDarkMode } from "./scripts/helper"
-import { IUser, ReturnCode } from "expoll-lib/interfaces"
+import { IUser, ReturnCode } from "@/lib/interfaces"
 import { getUserData } from "./scripts/user"
 import getSystemLanguage, { getLanguage, languageData } from "./scripts/languageConstruct"
 import axios from "axios"
@@ -66,7 +66,7 @@ const failedLoading = ref(false)
 const isImpersonating = ref(false)
 const impersonatingMail = ref("")
 
-const frontendVersion = ref("3.0.1")
+const frontendVersion = ref("3.1.0")
 const backendVersion = ref("unknown")
 const clientIsCompatible = ref(true)
 
@@ -247,7 +247,6 @@ a {
     font-weight: bold;
     color: var(--text-color);
     text-decoration: none;
-    margin-left: 1ch;
     display: inline-block;
 }
 
@@ -281,6 +280,10 @@ header {
 
 #nav {
     padding: 3ch;
+}
+
+#nav > a {
+    margin: 1ch;
 }
 
 .errorInfo {
