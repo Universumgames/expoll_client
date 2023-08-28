@@ -196,9 +196,7 @@ onMounted(async () => {
             otp.value = paramOTP.value
             await login()
             // window.location = "/"
-            if (paramForApp.value) {
-                window.open("/api/auth/simple/app", "_blank")
-            }
+
         } catch (error) {
             displayError(props.language?.uiElements.login.messages.otpNotExist)
             loggingIn.value = false
@@ -293,6 +291,9 @@ const login = async () => {
         console.log(otp.value)
         await otpLogin(otp.value)
         await getUserData()
+        if (paramForApp.value) {
+            window.open("/api/auth/simple/app", "_blank")
+        }
         window.location.href = "/#/account"
         window.location.reload()
     } catch (error) {
