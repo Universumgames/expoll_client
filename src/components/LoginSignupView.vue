@@ -136,7 +136,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ReturnCode } from "@/lib/interfaces"
+import { IUser, ReturnCode } from "@/lib/interfaces"
 import { languageData } from "@/scripts/languageConstruct"
 import { getUserData, signUp } from "@/scripts/user"
 import LoadingScreen from "../components/LoadingScreen.vue"
@@ -160,7 +160,7 @@ enum LoginType {
 
 const captchaKey = "6LcreNsdAAAAAAGYzVEJFg1IcKLQsWDrh_LAYHsB"
 
-const props = defineProps<{ language: languageData }>()
+const props = defineProps<{ language: languageData, userData?: IUser }>()
 const route = useRoute()
 
 const loggingIn = ref(false)

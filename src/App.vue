@@ -66,7 +66,7 @@ const failedLoading = ref(false)
 const isImpersonating = ref(false)
 const impersonatingMail = ref("")
 
-const frontendVersion = ref("3.1.0")
+const frontendVersion = ref("3.1.1")
 const backendVersion = ref("unknown")
 const clientIsCompatible = ref(true)
 
@@ -98,6 +98,10 @@ const created = async () => {
         for (let i = 0; i < badges.length; i++) {
             (badges[i] as HTMLElement).style.visibility = to.path == "/login" ? "visible" : "hidden"
         }
+
+        if (to.path == "/login" && userData.value != undefined) {
+            router.push({ path: "/account" })
+        }
     })
 
     try {
@@ -117,6 +121,9 @@ const created = async () => {
 onMounted(async () => {
     created()
     const startUserGet = getUserData()
+    if (startUserGet != undefined && route.path == "/login") {
+        router.push({ path: "/account" })
+    }
     manageDarkMode()
 
     // this.userData = await getUserData("d3303768-c3d1-4ada-97cb-e433c9c45d25")

@@ -1,5 +1,5 @@
 <template>
-    <login-signup-view :language="language" />
+    <login-signup-view :language="language" :user-data="userData" />
 </template>
 
 <script setup lang="ts">
@@ -10,7 +10,7 @@ import { IUser } from "@/lib/interfaces"
 import { useRouter } from "vue-router"
 
 const props = defineProps<{
-    userData: IUser,
+    userData?: IUser,
     language: languageData
 }>()
 
