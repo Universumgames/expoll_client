@@ -210,6 +210,10 @@ const getPollData = async () => {
         })
     }
 
+    pollData.userVotes = pollData.userVotes.sort((a, b) =>
+        a.user.joinedTimestamp - b.user.joinedTimestamp
+    )
+
     poll.value = pollData
 
     isJoined.value = pollData?.userVotes.find((uv) => {

@@ -36,8 +36,12 @@ export interface SimpleUser {
     username: string
 }
 
+export interface PollSimpleUser extends SimpleUser {
+    joinedTimestamp: number
+}
+
 export interface SimpleUserVotes {
-    user: SimpleUser
+    user: PollSimpleUser
     votes: simpleVote[]
 }
 
@@ -62,6 +66,11 @@ export interface DetailedPoll {
     allowsMaybe: boolean
     allowsEditing: boolean
     shareURL: string
+}
+
+export interface JoinedTimestamp {
+    userID: tUserID
+    timestamp: tDateTime
 }
 
 export interface simpleVote {
