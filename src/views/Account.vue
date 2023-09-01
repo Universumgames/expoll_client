@@ -97,7 +97,7 @@
                 >
                     {{ session.active ? "current Session" : "" }}
                     Expires: {{ language?.uiElements.dateTimeToString(new Date(session.expiration)) }} userAgent: {{
-                        session.userAgent ?? "unknown"
+                        limitLength(session.userAgent ?? "unknown", 40)
                     }}
                     <button v-show="!session.active" class="delete" @click="deleteSession(session.nonce)">
                         Delete
@@ -132,12 +132,12 @@ import * as webauthnJson from "@github/webauthn-json"
 
 import AuthenticatorDetail from "../components/AuthenticatorDetail.vue"
 import axios from "axios"
-import { capitalizeFirstLetter } from "@/scripts/helper"
+import { capitalizeFirstLetter, limitLength } from "@/scripts/helper"
 import EditIcon from "@/assetComponents/EditIcon.vue"
 import { computed, onMounted, ref } from "vue"
 import { useRouter } from "vue-router"
 
-const props = defineProps<{ userData?: IUser, language: languageData, failedLoading: boolean }>()
+const props = defineProps<{ userData: IUser, language: languageData, failedLoading: boolean }>()
 const router = useRouter()
 
 const personalizedData = ref("")

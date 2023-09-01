@@ -55,7 +55,6 @@ interface Props {
 const props = defineProps<Props>()
 const emit = defineEmits(["voteChange", "kickedID", "noteChange"])
 
-const displayUsernameInsteadOfFull = ref<boolean>(false)
 const errorMsg = ref<string>("")
 
 const change = async (optionID: tOptionId) => {
@@ -155,6 +154,13 @@ const isEditable = () => {
     )
 }
 
+const isNoteEditable = () => {
+    return (
+        (props.pollData?.admin.id == props.userData?.id || props.userData?.admin) &&
+        (props.pollData?.allowsEditing ?? false)
+    )
+}
+
 const loggedUserIsSelectedUser = () => {
     return props.userData?.id == props.userVote?.user?.id ?? false
 }
@@ -174,7 +180,7 @@ const voteString = (value: VoteValue | undefined) => {
 
 const editNote = async () => {
     if (!props.pollData?.allowsEditing) editingDisabledNote()
-    if (isEditable()) {
+    if (isNoteEditable()) {
         const note = prompt("Note for user", props.note?.note ?? "")
         if (props.pollData == undefined || props.userVote?.user == undefined || note == undefined) return
         await editUserNote(props.pollData.pollID, props.userVote.user.id, note)

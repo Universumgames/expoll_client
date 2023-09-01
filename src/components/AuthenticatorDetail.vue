@@ -11,7 +11,7 @@
         <div>
             <div>
                 <small>CredentialID: {{ authenticator.credentialID }}</small><br>
-                <small>Initiator Platform: {{ platform }}</small>
+                <small>Initiator Platform: {{ limitLength(platform, 50) }}</small>
                 <br>
                 <small>Creation: {{ new Date(createdAuth) }}</small>
             </div>
@@ -28,6 +28,7 @@ import { IUser } from "@/lib/interfaces"
 import EditIcon from "../assetComponents/EditIcon.vue"
 import { languageData } from "@/scripts/languageConstruct"
 import { computed } from "vue"
+import { limitLength } from "../scripts/helper"
 
 const props = defineProps<{ userData: IUser, language?: languageData, authenticator: any }>()
 const emit = defineEmits(["update"])
@@ -50,7 +51,7 @@ const deleteAuth = async () => {
 }
 </script>
 
-<style scoped>
+<style>
 .auth-container {
     display: flex;
     flex-wrap: wrap;
@@ -59,10 +60,5 @@ const deleteAuth = async () => {
     border-radius: 1rem;
     margin: 1rem;
     padding: 1ch;
-    text-align: left;
-}
-
-.delete {
-    background-color: var(--alert-color);
 }
 </style>

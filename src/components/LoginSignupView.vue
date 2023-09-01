@@ -292,7 +292,8 @@ const login = async () => {
         await otpLogin(otp.value)
         await getUserData()
         if (paramForApp.value) {
-            window.open("/api/auth/simple/app", "_blank")
+            window.location.href = "/api/auth/simple/app"
+            return
         }
         window.location.href = "/#/account"
         window.location.reload()

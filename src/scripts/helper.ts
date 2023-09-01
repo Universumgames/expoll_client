@@ -60,3 +60,16 @@ export function mailIsAllowed(mail: string, regexRules: MailRegexEntry[]): boole
 export function capitalizeFirstLetter(string: string): string {
     return string.charAt(0).toUpperCase() + string.slice(1)
 }
+
+
+/**
+ * If text is longer than maxLength, it will be shortened to maxLength-3 and "..." will be appended
+ * @param text
+ * @param maxLength
+ */
+export function limitLength(text: string, maxLength: number): string {
+    if (text.length > maxLength) {
+        return text.substring(0, maxLength - 3) + "..."
+    }
+    return text
+}
