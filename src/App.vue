@@ -66,7 +66,7 @@ const failedLoading = ref(false)
 const isImpersonating = ref(false)
 const impersonatingMail = ref("")
 
-const frontendVersion = ref("3.1.3")
+const frontendVersion = ref("3.1.4")
 const backendVersion = ref("unknown")
 const clientIsCompatible = ref(true)
 
@@ -106,10 +106,14 @@ const created = async () => {
 
     try {
         backendVersion.value = (await axios.get("/api/serverInfo")).data.version
-        axios.get("/api/compliance?version=" + frontendVersion.value).then((res: any) => {
-            if (res.data.code == ReturnCode.OK) {
-                clientIsCompatible.value = res.data.data
-            }
+        fetch("/api/compliance", {
+            method: "OPTIONS",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ version: frontendVersion.value, platform: "web" })
+        }).then((res) => {
+            clientIsCompatible.value = res.status == ReturnCode.OK
         }).catch((e) => {
             clientIsCompatible.value = false
         })

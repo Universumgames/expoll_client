@@ -133,7 +133,7 @@
 </template>
 
 <script setup lang="ts">
-import { ComplexOption, DetailedPoll, SimpleUser, SimpleUserVotes } from "@/lib/extraInterfaces"
+import { ComplexOption, DetailedPoll, PollSimpleUser, SimpleUserVotes } from "@/lib/extraInterfaces"
 import { IUser, PollType, tOptionId, tUserID, VoteValue } from "@/lib/interfaces"
 import { languageData } from "@/scripts/languageConstruct"
 import ShareIcon from "../assetComponents/ShareIcon.vue"
@@ -272,9 +272,15 @@ const optionValue = (option: ComplexOption) => {
 const getVotesByUser = () => {
     if (poll.value == undefined) {
         return {
-            user: props.userData ?? ({ id: "", firstName: "", lastName: "", username: "" } as SimpleUser),
+            user: props.userData ?? ({
+                id: "",
+                firstName: "",
+                lastName: "",
+                username: "",
+                joinedTimestamp: 0
+            } as PollSimpleUser),
             votes: []
-        } as SimpleUserVotes
+        } as unknown as SimpleUserVotes
     }
     return (
         poll.value.userVotes.find((vote) => vote.user?.id == props.userData?.id) ?? {
