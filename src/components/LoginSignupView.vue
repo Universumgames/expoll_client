@@ -289,9 +289,9 @@ const login = async () => {
     loginMsg.value = ""
     try {
         console.log(otp.value)
-        await otpLogin(otp.value)
+        const { returnCode, forApp } = await otpLogin(otp.value)
         await getUserData()
-        if (paramForApp.value) {
+        if (paramForApp.value || forApp) {
             window.location.href = "/api/auth/simple/app"
             return
         }

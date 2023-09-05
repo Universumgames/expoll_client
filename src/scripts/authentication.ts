@@ -89,8 +89,9 @@ export async function login(userReq: {
  * @param {String} otp the one time password
  * @return {Promise<number>} returns axios request status
  */
-export async function otpLogin(otp: string): Promise<number> {
-    return await (await axios.post(base + "/simple", { otp: otp }, { withCredentials: true })).status
+export async function otpLogin(otp: string): Promise<{ returnCode: number, forApp: boolean }> {
+    const response = (await axios.post(base + "/simple", { otp: otp }, { withCredentials: true }))
+    return { returnCode: response.status, forApp: response.headers.forapp == "true" }
 }
 
 /**
