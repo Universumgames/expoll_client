@@ -17,7 +17,7 @@ const de: languageData = {
 
 ## Jetzt als iOS App (beta)
 
-![Logo](./logo_rounded_128.png)
+![Logo](./app_icons/mac128.png)
 Installiere jetzt die App auf deinen Geräten: [Hol dir die App](/#/app)
 
 ## Warum expoll

@@ -6,7 +6,7 @@
         <label>Created by universumgames</label><br>
         <router-link to="/app">
             iOS App <br>
-            <img src="/logo_rounded_128.png">
+            <img src="/app_icons/mac128.png">
         </router-link>
         <br>
         <a href="https://universegame.de">Website</a>

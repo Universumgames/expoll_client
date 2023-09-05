@@ -66,7 +66,7 @@ const failedLoading = ref(false)
 const isImpersonating = ref(false)
 const impersonatingMail = ref("")
 
-const frontendVersion = ref("3.1.4")
+const frontendVersion = ref("3.1.5")
 const backendVersion = ref("unknown")
 const clientIsCompatible = ref(true)
 

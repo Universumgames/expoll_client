@@ -17,7 +17,7 @@ const en: languageData = {
 
 ## Now as iOS App (beta)
 
-![Logo](./logo_rounded_128.png)
+![Logo](./app_icons/mac128.png)
 Download and install the iOS App via TestFlight: [Get the App](/#/app)
 
 ## Why expoll
