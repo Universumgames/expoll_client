@@ -109,6 +109,14 @@ Join the Beta via TestFlight and install the app: [https://testflight.apple.com/
                 editLastNamePrompt: "Edit your last name",
                 oidcConnectionNote: "Add alternative login methods to sign in quicker",
                 createdOn: "Account created on"
+            },
+            userAccountDeletion: {
+                disclaimer: "This will delete your account and all data associated with it. This cannot be undone.",
+                deleteBtn: "Delete account",
+                cancelBtn: "Cancel",
+                deleteConfirm: "Are you sure you want to delete your account?",
+                errorNotSameUser: "You can only delete your own account. Login as the user you want to delete first.",
+                errorTimeout: "You took too long to confirm the deletion. Please try again."
             }
         },
         polls: {

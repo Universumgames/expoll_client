@@ -114,6 +114,14 @@ Tritt der Beta via TestFlight bei und installiere die App: [https://testflight.a
                 editLastNamePrompt: "Nachname ändern",
                 oidcConnectionNote: "Füge eine alterantive Anmeldemethode hinzu um dich schneller anzumelden",
                 createdOn: "Konto erstellt am"
+            },
+            userAccountDeletion: {
+                disclaimer: "Achtung, du bist derzeit dabei deinen Account zu löschen: Dies kann nicht rückgängig gemacht werden",
+                deleteBtn: "Account löschen",
+                cancelBtn: "Abbrechen",
+                deleteConfirm: "Bist du sicher, dass du deinen Account löschen willst?",
+                errorNotSameUser: "Du kannst nur deinen eigenen Account löschen",
+                errorTimeout: "Der Token ist abgelaufen, bitte versuche es erneut"
             }
         },
         polls: {

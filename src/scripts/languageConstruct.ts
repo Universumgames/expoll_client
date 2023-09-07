@@ -78,6 +78,14 @@ export interface languageData {
                 editLastNamePrompt: string,
                 oidcConnectionNote: string,
                 createdOn: string,
+            },
+            userAccountDeletion: {
+                disclaimer: string,
+                deleteBtn: string,
+                cancelBtn: string,
+                deleteConfirm: string,
+                errorNotSameUser: string,
+                errorTimeout: string,
             }
         }
         polls: {

@@ -134,6 +134,13 @@ const routes = [
         ]
     },
     {
+        path: "/delete/:key",
+        component: () => import("../views/DeleteConfirmation.vue"),
+        meta: {
+            title: "Delete Account"
+        }
+    },
+    {
         path: "/:pathMatch(.*)*",
         component: () => import("../views/NotFound.vue")
     }
