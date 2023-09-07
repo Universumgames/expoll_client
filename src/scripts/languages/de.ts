@@ -9,6 +9,7 @@ const de: languageData = {
             polls: "Umfragen",
             home: "Startseite",
             changeLanguageButton: "Sprache ändern",
+            changeColorSchemeButton: "Farbschema ändern",
             privacyPolicy: "Privatsphäre",
             siteNotice: "Impressum"
         },

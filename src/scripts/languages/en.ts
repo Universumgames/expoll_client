@@ -9,6 +9,7 @@ const en: languageData = {
             polls: "Polls",
             home: "Home",
             changeLanguageButton: "Change language",
+            changeColorSchemeButton: "Change color scheme",
             privacyPolicy: "Privacy Policy",
             siteNotice: "Site Notice"
         },

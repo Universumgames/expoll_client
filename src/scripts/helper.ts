@@ -1,5 +1,6 @@
 import axios from "axios"
 import { MailRegexEntry } from "@/lib/extraInterfaces"
+import { getCookie } from "@/scripts/cookie"
 
 /**
  * get meta info from /api/metaInfo endpoint
@@ -14,6 +15,10 @@ export async function getMetaInfo(): Promise<any> {
  * @return {boolean} returns true when darkmode is enabled
  */
 export function isDarkMode(): boolean {
+    const cookie = getCookie("colorMode")
+    if (cookie != undefined) {
+        return cookie == "dark"
+    }
     return window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches
 }
 

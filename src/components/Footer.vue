@@ -2,6 +2,7 @@
     <div class="footer">
         <div class="footer-center">
             <languageSelect :language="language" @langChange="onLangChange" />
+            <color-mode-select :language="language" @colorChange="changeColor" />
         </div>
         <label>Created by universumgames</label><br>
         <router-link to="/app">
@@ -58,6 +59,7 @@ import { IUser } from "@/lib/interfaces"
 import { languageData } from "@/scripts/languageConstruct"
 import LanguageSelect from "./LanguageSelect.vue"
 import { computed } from "vue"
+import ColorModeSelect from "@/components/ColorModeSelect.vue"
 
 interface Props {
     userData: IUser
@@ -67,7 +69,7 @@ interface Props {
 }
 
 const props = defineProps<Props>()
-const emit = defineEmits(["onLangChange"])
+const emit = defineEmits(["onLangChange", "colorChange"])
 
 const bugreportVersion = computed(() =>
     encodeURIComponent("Frontend " + props.frontendVersion + ", Backend " + props.backendVersion)
@@ -75,6 +77,10 @@ const bugreportVersion = computed(() =>
 
 const onLangChange = (short: string) => {
     emit("onLangChange", short)
+}
+
+const changeColor = (short: string | undefined) => {
+    emit("colorChange", short)
 }
 
 </script>

@@ -41,6 +41,7 @@
             :language="localeLanguage" :backend-version="backendVersion"
             :frontend-version="frontendVersion"
             :user-data="userData!" @onLangChange="onLangChange"
+            @colorChange="changeColor"
         />
     </div>
 </template>
@@ -55,6 +56,7 @@ import axios from "axios"
 import FooterVue from "./components/Footer.vue"
 import { onMounted, ref } from "vue"
 import { useRoute, useRouter } from "vue-router"
+import { getCookie } from "@/scripts/cookie"
 
 const route = useRoute()
 const router = useRouter()
@@ -66,7 +68,7 @@ const failedLoading = ref(false)
 const isImpersonating = ref(false)
 const impersonatingMail = ref("")
 
-const frontendVersion = ref("3.1.5")
+const frontendVersion = ref("3.1.6")
 const backendVersion = ref("unknown")
 const clientIsCompatible = ref(true)
 
@@ -156,6 +158,12 @@ const manageDarkMode = () => {
     document.body.classList.add(isDark.value ? "darkVars" : "lightVars")
 }
 
+const changeColor = (short: string) => {
+    isDark.value = isDarkMode()
+    document.body.classList.remove(!isDark.value ? "darkVars" : "lightVars")
+    document.body.classList.add(isDark.value ? "darkVars" : "lightVars")
+}
+
 const onLangChange = (short: string) => {
     localeLanguage.value = getLanguage({ short: short })
     console.log("Changed language to " + short)
@@ -165,21 +173,6 @@ const onLangChange = (short: string) => {
     }
 }
 
-const getCookie = (cname: string) => {
-    const name = cname + "="
-    const decodedCookie = decodeURIComponent(document.cookie)
-    const ca = decodedCookie.split(";")
-    for (let i = 0; i < ca.length; i++) {
-        let c = ca[i]
-        while (c.charAt(0) == " ") {
-            c = c.substring(1)
-        }
-        if (c.indexOf(name) == 0) {
-            return c.substring(name.length, c.length)
-        }
-    }
-    return undefined
-}
 
 const unimpersonate = async () => {
     await axios.post("/api/admin/unImpersonate")

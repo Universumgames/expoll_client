@@ -3,7 +3,7 @@
         <p class="changeLang" :class="showSelect ? 'changeLangShow' : ''" @click="showSelect = !showSelect">
             {{ language?.uiElements.navigation.changeLanguageButton }}
         </p>
-        <div v-show="showSelect" class="selec-field">
+        <div v-show="showSelect" class="select-field">
             <p v-for="lang in languageList" :key="lang.short" class="lang" @click="changeLang(lang.short)">
                 {{ lang.name[0] }}
             </p>
@@ -58,7 +58,7 @@ const changeLang = (short: string) => {
     background-color: var(--primary-color);
 }
 
-.selec-field {
+.select-field {
     display: flex;
     flex-flow: column;
     gap: 0.5rem;

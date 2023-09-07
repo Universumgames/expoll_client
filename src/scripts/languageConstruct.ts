@@ -9,6 +9,7 @@ export interface languageData {
             polls: string
             home: string
             changeLanguageButton: string
+            changeColorSchemeButton: string
             privacyPolicy: string
             siteNotice: string
         }
