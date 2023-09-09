@@ -190,6 +190,11 @@ const loadImpersonation = async () => {
 </script>
 
 <style>
+
+html {
+    scroll-behavior: smooth;
+}
+
 body {
     background: var(--bg-color);
     margin: 0;

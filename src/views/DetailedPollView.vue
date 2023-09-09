@@ -91,7 +91,8 @@
                         </button>
                     </th>
                     <th
-                        v-for="option in poll?.options" :key="option.id"
+                        v-for="option in poll?.options" :id="'option' + option.id"
+                        :key="option.id"
                         style="white-space: pre-wrap"
                         class="stickyRow"
                     >
@@ -176,6 +177,13 @@ const isEditing = () => {
 
 onMounted(async () => {
     await setup()
+
+    /*const optionToScrollTo: HTMLElement = document.getElementById("option" + route.query.optionID ?? "") ?? document.body
+    optionToScrollTo.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+        inline: "nearest"
+    })*/
 
     // update votes every 60 seconds
     let intID: any = 0

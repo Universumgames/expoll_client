@@ -1,9 +1,14 @@
 <template>
     <div class="userListContainer">
         <div>
-            <label>{{ userInfo?.username }}</label>
+            <label style="word-wrap: anywhere">{{ userInfo?.username }}</label>
             <small>ID: {{ userInfo?.id }}</small>
             <small>Created at {{ new Date(userInfo.createdTimestamp).toLocaleString() }}</small>
+            <img
+                v-for="connection in userInfo!.oidcConnections" :key="connection"
+                :src="'/oidc/' + connection + '_preview.svg'" :alt="connection"
+                class="oidcConnection"
+            >
         </div>
         <label>
             Name: <span style="white-space: nowrap">{{ userInfo?.firstName }} {{ userInfo?.lastName }}</span>
@@ -51,7 +56,7 @@
             </button>
         </div>
 
-        <div class="oidcConnectionContainer">
+        <!--<div class="oidcConnectionContainer">
             <label>OIDC Connections: </label>
             <img
                 v-for="connection in userInfo!.oidcConnections" :key="connection"
@@ -59,7 +64,7 @@
                 class="oidcConnection"
             >
             <label v-show="userInfo!.oidcConnections.length == 0">None</label>
-        </div>
+        </div>-->
     </div>
 </template>
 
@@ -146,7 +151,7 @@ const impersonate = async () => {
 
 </script>
 
-<style scoped>
+<style>
 .userListContainer {
     display: flex;
     flex-wrap: wrap;
@@ -172,7 +177,8 @@ const impersonate = async () => {
 }
 
 .oidcConnectionContainer {
-    flex-direction: row;
+    flex-direction: unset;
+    align-items: center;
 }
 
 .oidcConnectionContainer > * {
