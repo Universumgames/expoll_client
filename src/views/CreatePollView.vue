@@ -46,11 +46,6 @@
 
     <div style="margin-top: 5ch">
         <label>{{ language?.uiElements.polls.create.optionList }}</label>
-        <br>
-        <button @click="addOption">
-            {{ language?.uiElements.polls.create.optionListAddOption }}
-        </button>
-        <br>
 
         <div>
             <div v-for="option in options" :key="option.id" class="optionElement">
@@ -94,6 +89,11 @@
                 </div>
             </div>
         </div>
+        <br>
+        <button @click="addOption">
+            {{ language?.uiElements.polls.create.optionListAddOption }}
+        </button>
+        <br>
     </div>
     <br>
     <button @click="create">
