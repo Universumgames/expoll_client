@@ -5,6 +5,7 @@ export interface languageData {
     name: string[]
     short: string
     uiElements: {
+        appBanner: string,
         navigation: {
             polls: string
             home: string

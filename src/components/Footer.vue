@@ -5,9 +5,13 @@
             <color-mode-select :language="language" @colorChange="changeColor" />
         </div>
         <label>Created by universumgames</label><br>
-        <router-link to="/app">
+        <a href="https://apps.apple.com/app/expoll/id1639799209">
             iOS App <br>
             <img src="/app_icons/mac128.png">
+        </a>
+        <br>
+        <router-link to="/app">
+            <small>iOS Beta</small>
         </router-link>
         <br>
         <a href="https://universegame.de">Website</a>
@@ -36,7 +40,6 @@
             target="_blank"
         >Server Source</a>
         <a href="https://git.mt32.net/universum/expoll_client" target="_blank">Client Source</a>
-        <a href="https://git.mt32.net/universum/expoll_lib" target="_blank">Library Source</a>
         <a href="/api/swagger" target="_blank">API Documentation</a>
 
         <br>

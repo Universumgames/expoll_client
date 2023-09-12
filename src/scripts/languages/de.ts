@@ -5,6 +5,7 @@ const de: languageData = {
     name: ["Deutsch", "German"],
     short: "DE",
     uiElements: {
+        appBanner: "Jetzt als iOS App verfügbar",
         navigation: {
             polls: "Umfragen",
             home: "Startseite",
@@ -16,10 +17,10 @@ const de: languageData = {
         home: `
 # Expoll - Umfragen einfach gemacht
 
-## Jetzt als iOS App (beta)
+## Jetzt als iOS App
 
 ![Logo](./app_icons/mac128.png)
-Installiere jetzt die App auf deinen Geräten: [Hol dir die App](/#/app)
+Installiere jetzt die App auf deinen Geräten: [Hol dir die App](https://apps.apple.com/us/app/expoll/id1639799209)
 
 ## Warum expoll
 

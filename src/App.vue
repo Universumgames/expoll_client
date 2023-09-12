@@ -22,9 +22,7 @@
                 <router-link v-if="userData?.admin" to="/admin">
                     Admin
                 </router-link>
-                <router-link to="/app">
-                    iOS App
-                </router-link>
+                <a href="https://apps.apple.com/app/expoll/id1639799209">iOS App</a>
 
                 <user-icon :user-data="userData" :language="localeLanguage" />
             </div>
@@ -68,7 +66,7 @@ const failedLoading = ref(false)
 const isImpersonating = ref(false)
 const impersonatingMail = ref("")
 
-const frontendVersion = ref("3.1.6")
+const frontendVersion = ref("3.1.7")
 const backendVersion = ref("unknown")
 const clientIsCompatible = ref(true)
 
@@ -357,5 +355,10 @@ pre {
     position: sticky;
     top: 0;
     z-index: 101;
+}
+
+.bannerContainer {
+    width: 100%;
+    position: sticky;
 }
 </style>

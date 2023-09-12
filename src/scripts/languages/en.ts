@@ -5,6 +5,7 @@ const en: languageData = {
     name: ["English"],
     short: "EN",
     uiElements: {
+        appBanner: "Now available as iOS App",
         navigation: {
             polls: "Polls",
             home: "Home",
@@ -16,10 +17,10 @@ const en: languageData = {
         home: `
 # Expoll - Polling made easy
 
-## Now as iOS App (beta)
+## Now as iOS App
 
 ![Logo](./app_icons/mac128.png)
-Download and install the iOS App via TestFlight: [Get the App](/#/app)
+Download and install the iOS App: [Get the App](https://apps.apple.com/app/expoll/id1639799209)
 
 ## Why expoll
 
