@@ -151,6 +151,7 @@ import Webauthn from "./login/Webauthn.vue"
 import { computed, onMounted, ref } from "vue"
 import { ReCaptchaInstance } from "@/scripts/recaptcha"
 import { useRoute } from "vue-router"
+import axios from "axios"
 
 enum LoginType {
     LOGIN = 0,
@@ -290,7 +291,11 @@ const login = async () => {
     try {
         console.log(otp.value)
         const { returnCode, forApp } = await otpLogin(otp.value)
-        await getUserData()
+        const user = await getUserData()
+        if (route.query.isNewUser == "1") {
+            const newUsername = prompt(props.language.uiElements.login.form.defineUsernameAfterOIDC, user?.username)
+            const result = await axios.put("/api/user", { username: newUsername }, { withCredentials: true })
+        }
         if (paramForApp.value || forApp) {
             window.location.href = "/api/auth/simple/app"
             return
@@ -372,30 +377,30 @@ const loginQuestionClick = () => {
 
 <style scoped>
 .columnContainer {
-    display: flex;
-    max-width: 80vw;
-    flex-wrap: wrap;
-    flex-direction: column;
-    background: var(--secondary-color);
-    margin: auto;
-    border-radius: 1rem;
+  display: flex;
+  max-width: 80vw;
+  flex-wrap: wrap;
+  flex-direction: column;
+  background: var(--secondary-color);
+  margin: auto;
+  border-radius: 1rem;
 }
 
 .column {
-    display: flex;
-    flex-direction: column;
-    min-width: 30ch;
-    flex: 1;
-    padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  min-width: 30ch;
+  flex: 1;
+  padding: 1rem;
 }
 
 button {
-    margin: auto;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
+  margin: auto;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
 }
 
 input {
-    background: var(--bg-color);
+  background: var(--bg-color);
 }
 </style>
