@@ -40,7 +40,7 @@
             target="_blank"
         >Server Source</a>
         <a href="https://git.mt32.net/universum/expoll_client" target="_blank">Client Source</a>
-        <a href="/api/swagger" target="_blank">API Documentation</a>
+        <a href="/api/openapi" target="_blank">API Documentation</a>
 
         <br>
         <a href="https://www.buymeacoffee.com/universum" target="_blank">
