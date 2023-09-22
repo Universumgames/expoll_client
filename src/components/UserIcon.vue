@@ -40,7 +40,6 @@ img {
 }
 
 #userico {
-    margin-top: 1ch;
 }
 
 #loginText {

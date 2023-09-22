@@ -78,3 +78,11 @@ export function limitLength(text: string, maxLength: number): string {
     }
     return text
 }
+
+/**
+ * Check if the user is on a mobile device
+ * @return {boolean} returns true if user is on mobile device
+ */
+export function isMobile(): boolean {
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+}

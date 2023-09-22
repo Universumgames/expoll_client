@@ -6,47 +6,26 @@
                 Stop impersonation
             </button>
         </div>
-        <header>
-            <div id="nav">
-                <a style="float: left" :href="userData != undefined ? '/#/polls' : '/'">Expoll</a>
-
-                <router-link v-show="userData != undefined" to="/polls">
-                    {{
-                        localeLanguage?.uiElements.navigation.polls
-                    }}
-                </router-link>
-                <router-link to="/">
-                    {{ localeLanguage?.uiElements.navigation.home }}
-                </router-link>
-                <!-- <router-link to="/about">About</router-link> -->
-                <router-link v-if="userData?.admin" to="/admin">
-                    Admin
-                </router-link>
-                <a href="https://apps.apple.com/app/expoll/id1639799209">iOS App</a>
-
-                <user-icon :user-data="userData" :language="localeLanguage" />
-            </div>
-        </header>
+        <nav-bar :language="localeLanguage" :user-data="userData" />
 
         <div v-show="!clientIsCompatible" id="versionUnmatch">
             <strong>Warning:</strong> Your client is not compatible with the current backend version. Please update your
             client.
         </div>
 
-        <router-view :user-data="userData" :language="localeLanguage" :failed-loading="failedLoading" />
+        <router-view :failed-loading="failedLoading" :language="localeLanguage" :user-data="userData" />
 
         <footer-vue
-            :language="localeLanguage" :backend-version="backendVersion"
-            :frontend-version="frontendVersion"
-            :user-data="userData!" @onLangChange="onLangChange"
-            @colorChange="changeColor"
+            :backend-version="backendVersion" :frontend-version="frontendVersion"
+            :language="localeLanguage"
+            :user-data="userData!" @colorChange="changeColor"
+            @onLangChange="onLangChange"
         />
     </div>
 </template>
 
-<script setup lang="ts">
-import UserIcon from "./components/UserIcon.vue"
-import { isDarkMode } from "./scripts/helper"
+<script lang="ts" setup>
+import { isDarkMode, isMobile } from "./scripts/helper"
 import { IUser, ReturnCode } from "@/lib/interfaces"
 import { getUserData } from "./scripts/user"
 import getSystemLanguage, { getLanguage, languageData } from "./scripts/languageConstruct"
@@ -55,6 +34,7 @@ import FooterVue from "./components/Footer.vue"
 import { onMounted, ref } from "vue"
 import { useRoute, useRouter } from "vue-router"
 import { getCookie } from "@/scripts/cookie"
+import NavBar from "@/components/NavBar.vue"
 
 const route = useRoute()
 const router = useRouter()
@@ -66,7 +46,7 @@ const failedLoading = ref(false)
 const isImpersonating = ref(false)
 const impersonatingMail = ref("")
 
-const frontendVersion = ref("3.1.8")
+const frontendVersion = ref("3.2.0")
 const backendVersion = ref("unknown")
 const clientIsCompatible = ref(true)
 
@@ -190,175 +170,167 @@ const loadImpersonation = async () => {
 <style>
 
 html {
-    scroll-behavior: smooth;
+  scroll-behavior: smooth;
 }
 
 body {
-    background: var(--bg-color);
-    margin: 0;
-    padding: 0;
+  background: var(--bg-color);
+  margin: 0;
+  padding: 0;
 }
 
 p {
-    white-space: pre-wrap;
+  white-space: pre-wrap;
 }
 
 #app {
-    font-family: Avenir, Helvetica, Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-align: center;
-    color: var(--text-color);
-    position: relative;
-    margin: 2ch;
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: var(--text-color);
+  position: relative;
+  margin: 2ch;
 }
 
 button {
-    background: #42b983;
-    border: none;
-    padding: 0.5rem;
-    border-radius: 1ch;
-    color: var(--text-color);
-    font-weight: bold;
-    font-size: 1rem;
-    cursor: pointer;
-    width: fit-content;
-    transition-duration: 0.4s;
-    margin: 1ch;
+  background: #42b983;
+  border: none;
+  padding: 0.5rem;
+  border-radius: 1ch;
+  color: var(--text-color);
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+  width: fit-content;
+  transition-duration: 0.4s;
+  margin: 1ch;
 }
 
 button:hover {
-    filter: invert(100%);
+  filter: invert(100%);
 }
 
 input,
 textarea {
-    color: var(--text-color);
-    padding: 1ch;
-    background: var(--secondary-color);
-    border: none;
-    margin: 1ch;
-    border-radius: 1ch;
+  color: var(--text-color);
+  padding: 1ch;
+  background: var(--secondary-color);
+  border: none;
+  margin: 1ch;
+  border-radius: 1ch;
 }
 
 select {
-    border: none;
-    background: var(--secondary-color);
-    color: var(--text-color);
-    margin: 1ch;
-    padding: 1ch;
-    border-radius: 1ch;
+  border: none;
+  background: var(--secondary-color);
+  color: var(--text-color);
+  margin: 1ch;
+  padding: 1ch;
+  border-radius: 1ch;
 }
 
 a {
-    font-weight: bold;
-    color: var(--text-color);
-    text-decoration: none;
-    display: inline-block;
+  font-weight: bold;
+  color: var(--text-color);
+  text-decoration: none;
+  display: inline-block;
 }
 
 a.router-link-exact-active {
-    color: #42b983;
+  color: #42b983;
 }
 
 .lightVars {
-    --text-color: #2c3e50;
-    --bg-color: #f5f5f5;
-    --secondary-color: #dddddd;
-    --primary-color: #42b983;
-    --blank-text-color: var(--bg-color);
-    --alert-color: #ba4b4a;
+  --text-color: #2c3e50;
+  --bg-color: #f5f5f5;
+  --secondary-color: #dddddd;
+  --primary-color: #42b983;
+  --blank-text-color: var(--bg-color);
+  --alert-color: #ba4b4a;
 }
 
 .darkVars {
-    --text-color: whitesmoke;
-    --bg-color: #2c3e50;
-    --secondary-color: #314961;
-    --primary-color: #42b983;
-    --blank-text-color: var(--bg-color);
-    --alert-color: #ba4b4a;
-}
-
-header {
-    background: var(--secondary-color);
-    border-radius: 1ch;
-    margin-bottom: 2rem;
-}
-
-#nav {
-    padding: 3ch;
-}
-
-#nav > a {
-    margin: 1ch;
+  --text-color: whitesmoke;
+  --bg-color: #2c3e50;
+  --secondary-color: #314961;
+  --primary-color: #42b983;
+  --blank-text-color: var(--bg-color);
+  --alert-color: #ba4b4a;
 }
 
 .errorInfo {
-    color: var(--alert-color);
+  color: var(--alert-color);
 }
 
 .normalIcon {
-    width: 1rem;
-    height: 1rem;
+  width: 1rem;
+  height: 1rem;
 }
 
 td,
 th {
-    padding: 0.5rem;
-    background: var(--secondary-color);
+  padding: 0.5rem;
+  background: var(--secondary-color);
 }
 
 .footer {
-    background: var(--secondary-color);
-    padding: 1rem;
-    border-radius: 1ch;
-    margin: 1ch auto 1ch auto;
+  background: var(--secondary-color);
+  padding: 1rem;
+  border-radius: 1ch;
+  margin: 1ch auto 1ch auto;
 }
 
 .footer > * {
-    margin: 1ch;
+  margin: 1ch;
 }
 
 .grecaptcha-badge {
-    visibility: hidden;
+  visibility: hidden;
 }
 
 .footer-center {
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
 }
 
 .btn-disabled {
-    background-color: grey !important;
+  background-color: grey !important;
 }
 
 .delete {
-    background-color: var(--alert-color);
+  background-color: var(--alert-color);
 }
 
 pre {
-    white-space: pre-wrap;
-    /* Since CSS 2.1 */
-    white-space: -moz-pre-wrap;
-    /* Mozilla, since 1999 */
-    white-space: -pre-wrap;
-    /* Opera 4-6 */
-    white-space: -o-pre-wrap;
-    /* Opera 7 */
-    word-wrap: break-word;
-    /* Internet Explorer 5.5+ */
+  white-space: pre-wrap;
+  /* Since CSS 2.1 */
+  white-space: -moz-pre-wrap;
+  /* Mozilla, since 1999 */
+  white-space: -pre-wrap;
+  /* Opera 4-6 */
+  white-space: -o-pre-wrap;
+  /* Opera 7 */
+  word-wrap: break-word;
+  /* Internet Explorer 5.5+ */
 }
 
 #versionUnmatch {
-    background-color: var(--alert-color);
-    padding: 1ch;
-    position: sticky;
-    top: 0;
-    z-index: 101;
+  background-color: var(--alert-color);
+  padding: 1ch;
+  position: sticky;
+  top: 0;
+  z-index: 101;
 }
 
 .bannerContainer {
-    width: 100%;
-    position: sticky;
+  width: 100%;
+  position: sticky;
+}
+
+.evenlySpacedChildsContainer{
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
 }
 </style>
