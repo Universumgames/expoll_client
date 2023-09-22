@@ -123,6 +123,8 @@ header {
 }
 
 #mediumNav .navigationTitle {
-  font-size: 1.5rem; display: inline-block; font-weight: bold; margin: 0
+  font-size: 1.5rem;
+  display: inline-block;
+  margin: 0;
 }
 </style>

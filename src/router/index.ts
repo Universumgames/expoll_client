@@ -48,7 +48,7 @@ const routes = [
         name: "Home",
         component: () => import("../views/Home.vue"),
         meta: {
-            title: "Home - expoll"
+            title: "Home"
         }
     },
     {
@@ -59,7 +59,7 @@ const routes = [
         // which is lazy-loaded when the route is visited.
         component: () => import(/* webpackChunkName: "about" */ "../views/AppInstall.vue"),
         meta: {
-            title: "App - expoll"
+            title: "App"
         }
     },
     {
@@ -67,7 +67,7 @@ const routes = [
         name: "Login Page",
         component: () => import("../views/Login.vue"),
         meta: {
-            title: "Login - expoll",
+            title: "Login",
             appPath: "userinfo"
         }
     },
