@@ -12,6 +12,18 @@ export default class ExpollStorage {
         localStorage.setItem("jwt", jwt)
     }
 
+    static get originalJwt(): string | null {
+        return localStorage.getItem("originalJwt")
+    }
+
+    static set originalJwt(jwt: string| null) {
+        if (jwt == null) {
+            localStorage.removeItem("originalJwt")
+            return
+        }
+        localStorage.setItem("originalJwt", jwt)
+    }
+
     static get darkMode(): boolean| null {
         const darkMode = localStorage.getItem("darkMode")
         if (darkMode == null) {

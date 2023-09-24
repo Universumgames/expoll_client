@@ -162,16 +162,23 @@ const unimpersonate = async () => {
     await fetch("/api/admin/unImpersonate", {
         method: "POST"
     })
+    ExpollStorage.jwt = ExpollStorage.originalJwt
+    ExpollStorage.originalJwt = null
     window.location.reload()
 }
 
 const loadImpersonation = async () => {
     try {
-        const impersonationResult = await(await fetch("/api/admin/impersonation", {
-            method: "GET"
-        })).json()
-        isImpersonating.value = impersonationResult.status == ReturnCode.OK
-        impersonatingMail.value = impersonationResult.data.mail ?? ""
+        const response = (await fetch("/api/admin/isImpersonating", {
+            method: "GET",
+            headers: {
+                "Authorization": "Bearer " + ExpollStorage.jwt,
+                "originalJWT": ExpollStorage.originalJwt ?? ""
+            }
+        }))
+        const impersonationResult = await response.json()
+        isImpersonating.value = response.ok
+        impersonatingMail.value = impersonationResult.mail ?? ""
     } catch (e) {
     }
 }

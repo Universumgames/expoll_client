@@ -147,7 +147,7 @@ const impersonate = async () => {
     if (!confirm("Are you sure you want to impersonate this user?")) return
     const jwt = ExpollStorage.jwt
     if(!jwt) return
-    await fetch("/api/admin/impersonate", {
+    const result = await fetch("/api/admin/impersonate", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -157,6 +157,12 @@ const impersonate = async () => {
             impersonateID: props.userInfo?.id
         })
     })
+
+    if(result.ok){
+        const jwt = await result.text()
+        ExpollStorage.originalJwt = ExpollStorage.jwt
+        ExpollStorage.jwt = jwt
+    }
     window.location.reload()
 }
 

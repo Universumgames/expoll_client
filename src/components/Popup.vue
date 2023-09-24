@@ -44,7 +44,7 @@ onUnmounted(() => {
     width: 100%;
     height: 100%;
     background-color: v-bind(backdropColor);
-    z-index: 100;
+    z-index: 99999;
 }
 
 .popupContent {

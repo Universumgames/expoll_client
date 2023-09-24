@@ -160,7 +160,11 @@ export async function logoutAllSessions() {
     try {
         await fetch(base + "/logoutAll", {
             method: "DELETE",
-            credentials: "include"
+            credentials: "include",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + ExpollStorage.jwt
+            }
         })
     } catch (e) {
         console.error(e)
@@ -176,7 +180,8 @@ export async function deleteSession(nonce: string) {
         await fetch(base + "/logout", {
             method: "DELETE",
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + ExpollStorage.jwt
             },
             body: JSON.stringify({ nonce: nonce }),
             credentials: "include"
@@ -238,7 +243,8 @@ export async function getOIDCConnections(): Promise<OIDCConnection[]> {
     try {
         return await fetch(base + "/oidc/connections", {
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + ExpollStorage.jwt
             }
         }).then(res => res.json())
     } catch (e) {
@@ -250,7 +256,7 @@ export async function getOIDCConnections(): Promise<OIDCConnection[]> {
 /**
  * get a list of available OIDC providers
  */
-export async function getAvailableOIDCProviders():Promise<any>{
+export async function getAvailableOIDCProviders(): Promise<any> {
     try {
         return await fetch("/api/auth/oidc/providers", {
             headers: {
