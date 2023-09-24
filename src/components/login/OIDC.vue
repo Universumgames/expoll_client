@@ -16,7 +16,6 @@
 <script setup lang="ts">
 
 import { languageData } from "@/scripts/languageConstruct"
-import axios from "axios"
 import { onMounted, Ref, ref } from "vue"
 
 interface Provider {
@@ -35,7 +34,12 @@ const props = withDefaults(defineProps<{
 const providers: Ref<Provider[]> = ref([])
 
 onMounted(async () => {
-    providers.value = await axios.get("/api/auth/oidc/providers").then(res => res.data)
+    const response = await fetch("/api/auth/oidc/providers")
+    if (response.ok) {
+        providers.value = await response.json()
+    } else {
+        console.error("Error: " + response.status + " " + response.statusText)
+    }
 })
 
 </script>

@@ -151,7 +151,7 @@ import Webauthn from "./login/Webauthn.vue"
 import { computed, onMounted, ref } from "vue"
 import { ReCaptchaInstance } from "@/scripts/recaptcha"
 import { useRoute } from "vue-router"
-import axios from "axios"
+import ExpollStorage from "@/scripts/storage"
 
 enum LoginType {
     LOGIN = 0,
@@ -294,7 +294,18 @@ const login = async () => {
         const user = await getUserData()
         if (route.query.isNewUser == "1") {
             const newUsername = prompt(props.language.uiElements.login.form.defineUsernameAfterOIDC, user?.username)
-            const result = await axios.put("/api/user", { username: newUsername }, { withCredentials: true })
+            const jwt = ExpollStorage.jwt
+            if(jwt == null) return
+            const result = await fetch("/api/user", {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + jwt
+                },
+                body: JSON.stringify({
+                    username: newUsername
+                })
+            })
         }
         if (paramForApp.value || forApp) {
             window.location.href = "/api/auth/simple/app"

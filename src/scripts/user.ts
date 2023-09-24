@@ -1,6 +1,6 @@
-import axios from "axios"
 import { IUser, ReturnCode } from "@/lib/interfaces"
 import { CreateUserRequest } from "@/lib/requestInterfaces"
+import ExpollStorage from "@/scripts/storage"
 
 const base = "/api/user"
 
@@ -11,8 +11,15 @@ const base = "/api/user"
  */
 export async function signUp(data: CreateUserRequest): Promise<ReturnCode> {
     try {
-        const res = await axios.post(base, data, { withCredentials: true })
-        return res.status as ReturnCode
+        const response = await fetch(base, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)
+        })
+        ExpollStorage.jwt = (await response.json()).jwt
+        return response.status
 
     } catch (e: any) {
         return e.response.status
@@ -25,7 +32,14 @@ export async function signUp(data: CreateUserRequest): Promise<ReturnCode> {
  */
 export async function getUserData(): Promise<IUser | undefined> {
     try {
-        return (await axios.get(base, { withCredentials: true })).data as IUser
+        const jwt = ExpollStorage.jwt
+        if (!jwt) return undefined
+        return await fetch(base, {
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + jwt
+            }
+        }).then(res => res.json())
     } catch (e: any) {
         return undefined
     }
@@ -36,7 +50,15 @@ export async function getUserData(): Promise<IUser | undefined> {
  */
 export async function deleteUser() {
     try {
-        await axios.delete(base, { withCredentials: true })
+        const jwt = ExpollStorage.jwt
+        if (!jwt) return
+        await fetch(base, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + jwt
+            }
+        })
     } catch (error) {
         console.error(error)
     }
@@ -48,9 +70,16 @@ export async function deleteUser() {
  */
 export async function getPersonalizedData(): Promise<any | undefined> {
     try {
-        return (await axios.get(base + "/personalizeddata", { withCredentials: true })).data
+        const jwt = ExpollStorage.jwt
+        if (!jwt) return undefined
+        return await fetch("/api/user/personalizeddata", {
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + jwt
+            }
+        }).then(res => res.json())
     } catch (e) {
-        console.warn(e)
+        console.error(e)
         return undefined
     }
 }

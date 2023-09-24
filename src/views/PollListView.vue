@@ -3,7 +3,7 @@
         <div v-show="loading">
             <blank-poll-list-element v-for="n in 20" :key="n" :language="language" />
         </div>
-        <loading-screen v-show="loading" />
+        <loading-screen v-show="loading" :language="languageData" :user-data="undefined" />
         <router-link to="/create">
             <button>
                 <span title="Create Poll">+ {{
@@ -29,7 +29,7 @@ import { getPollOverviews } from "@/scripts/poll"
 import { onMounted, ref } from "vue"
 
 const props = defineProps<{
-    userData: IUser
+    userData: IUser | undefined
     language: languageData
     tryAdminView?: boolean
 }>()

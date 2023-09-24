@@ -31,8 +31,8 @@ import UserRow from "./UserRow.vue"
 import LoadingScreen from "@/components/LoadingScreen.vue"
 import { getUserData } from "@/scripts/user"
 import { getAllUser } from "@/scripts/admin"
-import axios from "axios"
 import { onMounted, ref } from "vue"
+import ExpollStorage from "@/scripts/storage"
 
 const props = defineProps<{ userData?: IUser, language: languageData }>()
 
@@ -92,13 +92,23 @@ const createUser = async () => {
 
     if (!confirm("Create user?")) return
 
-    const result = await axios.post("/api/admin/user", {
-        username,
-        mail,
-        firstName,
-        lastName
+    const jwt = ExpollStorage.jwt
+    if (jwt == null) return
+
+    const response = await fetch("/api/admin/user", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + jwt
+        },
+        body: JSON.stringify({
+            username,
+            mail,
+            firstName,
+            lastName
+        })
     })
-    if (result.status == 200) {
+    if (response.ok) {
         alert("User created")
         getData()
     } else {

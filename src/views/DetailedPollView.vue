@@ -1,5 +1,5 @@
 <template>
-    <loading-screen v-show="loadingMain" />
+    <loading-screen v-show="loadingMain" :language="languageData" :user-data="undefined"/>
     <div v-show="!loadingMain && loadingFailed">
         <h2 class="errorInfo">
             {{ language?.uiElements.login.loginFirst }}
@@ -239,7 +239,6 @@ const setup = async () => {
 
         await getPollData()
 
-
         if (poll.value != undefined) changes.value = { pollID: poll.value.pollID }
         loadingFailed.value = poll.value == undefined
 
@@ -249,7 +248,7 @@ const setup = async () => {
     } catch (e) {
         loadingMain.value = false
         loadingFailed.value = true
-        console.warn(e)
+        console.error(e)
     }
 }
 
@@ -262,7 +261,7 @@ const checkAndJoinPoll = async () => {
         try {
             await joinPoll()
         } catch (e) {
-            console.warn(e)
+            console.error(e)
         }
     }
 }

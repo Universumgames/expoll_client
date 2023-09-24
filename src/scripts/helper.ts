@@ -1,13 +1,12 @@
-import axios from "axios"
 import { MailRegexEntry } from "@/lib/extraInterfaces"
-import { getCookie } from "@/scripts/cookie"
+import ExpollStorage from "@/scripts/storage"
 
 /**
  * get meta info from /api/metaInfo endpoint
  * @return {any} returns meta info object
  */
 export async function getMetaInfo(): Promise<any> {
-    return await axios.get("/api/metaInfo")
+    return await fetch("/api/metaInfo").then(res => res.json())
 }
 
 /**
@@ -15,9 +14,9 @@ export async function getMetaInfo(): Promise<any> {
  * @return {boolean} returns true when darkmode is enabled
  */
 export function isDarkMode(): boolean {
-    const cookie = getCookie("colorMode")
-    if (cookie != undefined) {
-        return cookie == "dark"
+    const storage = ExpollStorage.darkMode
+    if (storage != null) {
+        return storage
     }
     return window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches
 }

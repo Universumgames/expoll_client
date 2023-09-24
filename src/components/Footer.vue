@@ -65,7 +65,7 @@ import { computed } from "vue"
 import ColorModeSelect from "@/components/ColorModeSelect.vue"
 
 interface Props {
-    userData: IUser
+    userData: IUser|undefined
     language: languageData
     frontendVersion: string
     backendVersion: string

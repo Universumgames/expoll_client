@@ -1,5 +1,5 @@
-import axios from "axios"
 import { MailRegexEntry } from "@/lib/extraInterfaces"
+import ExpollStorage from "@/scripts/storage"
 
 /**
  * retrive regex rules for login and signup
@@ -7,9 +7,9 @@ import { MailRegexEntry } from "@/lib/extraInterfaces"
  */
 export async function getLoginRegex(): Promise<MailRegexEntry[]> {
     try {
-        return (await axios.get("/api/simple/mailregex")).data.regex
+        return (await (await fetch("/api/simple/mailregex")).json()).regex
     } catch (e) {
-        console.warn(e)
+        console.error(e)
         return []
     }
 }
@@ -20,15 +20,18 @@ export async function getLoginRegex(): Promise<MailRegexEntry[]> {
  */
 export async function updateRegeAdmin(regex: MailRegexEntry[]) {
     try {
-        await axios.post(
-            "/api/admin/mailregex",
-            {
-                mailRegex: regex
+        const jwt = ExpollStorage.jwt
+        if (jwt == null)  return
+        await fetch("/api/admin/mailregex", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + jwt
             },
-            { withCredentials: true }
-        )
+            body: JSON.stringify({ mailRegex: regex })
+        })
     } catch (e) {
-        console.warn(e)
+        console.error(e)
     }
 }
 
@@ -38,12 +41,19 @@ export async function updateRegeAdmin(regex: MailRegexEntry[]) {
  */
 export async function getRegexAdmin(): Promise<MailRegexEntry[]> {
     try {
-        const data = (await axios.get("/api/admin/mailregex", { withCredentials: true })).data as {
-            regex: MailRegexEntry[]
-        }
+        const jwt = ExpollStorage.jwt
+        if (jwt == null)  return []
+        const data = await (await fetch("/api/admin/mailregex", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + jwt
+            }
+        })).json()
+
         return data.regex
     } catch (e) {
-        console.warn(e)
+        console.error(e)
         return []
     }
 }

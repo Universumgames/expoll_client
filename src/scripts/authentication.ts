@@ -1,6 +1,6 @@
 import * as webauthnJson from "@github/webauthn-json"
-import axios from "axios"
 import { ReturnCode } from "@/lib/interfaces"
+import ExpollStorage from "@/scripts/storage"
 
 const base = "/api/auth"
 
@@ -90,8 +90,15 @@ export async function login(userReq: {
  * @return {Promise<number>} returns axios request status
  */
 export async function otpLogin(otp: string): Promise<{ returnCode: number, forApp: boolean }> {
-    const response = (await axios.post(base + "/simple", { otp: otp }, { withCredentials: true }))
-    return { returnCode: response.status, forApp: response.headers.forapp == "true" }
+    const response = await fetch(base + "/simple", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ otp: otp })
+    })
+    ExpollStorage.jwt = (await response.text())
+    return { returnCode: response.status, forApp: response.headers.get("forapp") == "true" }
 }
 
 /**
@@ -101,11 +108,14 @@ export async function otpLogin(otp: string): Promise<{ returnCode: number, forAp
  * @return {Promise} returns axios request
  */
 export async function rename(credentialID: string, newName: string) {
-    return await axios.post(
-        base + "/webauthn/edit",
-        { credentialID: credentialID, newName: newName },
-        { withCredentials: true }
-    )
+    return await fetch(base + "/webauthn/edit", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + ExpollStorage.jwt
+        },
+        body: JSON.stringify({ credentialID: credentialID, newName: newName })
+    })
 }
 
 /**
@@ -129,9 +139,16 @@ export async function deleteWebauthn(credentialID: string) {
  */
 export async function getWebauthnList(): Promise<any[]> {
     try {
-        return (await axios.get(base + "/webauthn/list", { withCredentials: true })).data.authenticators
+        const response = await fetch(base + "/webauthn/list", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + ExpollStorage.jwt
+            }
+        })
+        return (await response.json()).authenticators
     } catch (e) {
-        console.warn(e)
+        console.error(e)
         return []
     }
 }
@@ -146,7 +163,7 @@ export async function logoutAllSessions() {
             credentials: "include"
         })
     } catch (e) {
-        console.warn(e)
+        console.error(e)
     }
 }
 
@@ -165,7 +182,7 @@ export async function deleteSession(nonce: string) {
             credentials: "include"
         })
     } catch (e) {
-        console.warn(e)
+        console.error(e)
     }
 }
 
@@ -174,7 +191,14 @@ export async function deleteSession(nonce: string) {
  */
 export async function logout() {
     try {
-        await axios.delete(base + "/logout", { withCredentials: true })
+        await fetch(base + "/logout", {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + ExpollStorage.jwt
+            }
+        })
+        ExpollStorage.jwt = null
     } catch (error) {
         console.error(error)
     }
@@ -187,10 +211,14 @@ export async function logout() {
  */
 export async function requestLoginMail(mail: string): Promise<ReturnCode> {
     try {
-        await axios.post(base + "/simple", {
-            mail: mail.toLowerCase().replace(" ", "")
+        const response = await fetch(base + "/simple", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ mail: mail.toLowerCase().replace(" ", "") })
         })
-        return ReturnCode.OK
+        return response.status
     } catch (e: any) {
         return e.response.status
     }
@@ -208,9 +236,30 @@ export interface OIDCConnection {
  */
 export async function getOIDCConnections(): Promise<OIDCConnection[]> {
     try {
-        return (await axios.get(base + "/oidc/connections", { withCredentials: true })).data
+        return await fetch(base + "/oidc/connections", {
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }).then(res => res.json())
     } catch (e) {
-        console.warn(e)
+        console.error(e)
+        return []
+    }
+}
+
+/**
+ * get a list of available OIDC providers
+ */
+export async function getAvailableOIDCProviders():Promise<any>{
+    try {
+        return await fetch("/api/auth/oidc/providers", {
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + ExpollStorage.jwt
+            }
+        }).then(res => res.json())
+    } catch (e) {
+        console.error(e)
         return []
     }
 }

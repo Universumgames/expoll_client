@@ -1,6 +1,6 @@
-import axios from "axios"
 import { tUserID } from "@/lib/interfaces"
 import { AdminEditUserRequest, AdminPollListResponse, AdminUserListResponse } from "@/lib/requestInterfaces"
+import ExpollStorage from "@/scripts/storage"
 
 const base = "/api/admin"
 
@@ -10,9 +10,15 @@ const base = "/api/admin"
  */
 export async function getAllUser(): Promise<AdminUserListResponse | undefined> {
     try {
-        return (await axios.get(base + "/users", { withCredentials: true })).data
+        return fetch(base + "/users", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + ExpollStorage.jwt
+            }
+        }).then(res => res.json())
     } catch (e) {
-        console.warn(e)
+        console.error(e)
         return undefined
     }
 }
@@ -23,9 +29,15 @@ export async function getAllUser(): Promise<AdminUserListResponse | undefined> {
  */
 export async function getAllPolls(): Promise<AdminPollListResponse | undefined> {
     try {
-        return (await axios.get(base + "/polls", { withCredentials: true })).data
+        return fetch(base + "/polls", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + ExpollStorage.jwt
+            }
+        }).then(res => res.json())
     } catch (e) {
-        console.warn(e)
+        console.error(e)
         return undefined
     }
 }
@@ -36,9 +48,16 @@ export async function getAllPolls(): Promise<AdminPollListResponse | undefined> 
  */
 export async function editUserAdmin(data: AdminEditUserRequest) {
     try {
-        await axios.put(base + "/users", data)
+        await fetch(base + "/users", {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + ExpollStorage.jwt
+            },
+            body: JSON.stringify(data)
+        })
     } catch (e) {
-        console.warn(e)
+        console.error(e)
     }
 }
 
@@ -48,11 +67,15 @@ export async function editUserAdmin(data: AdminEditUserRequest) {
  */
 export async function deleteUserAdmin(userID: tUserID) {
     try {
-        await axios.delete(base + "/users", {
-            data: { userID: userID },
-            withCredentials: true
+        await fetch(base + "/users", {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + ExpollStorage.jwt
+            },
+            body: JSON.stringify({ userID: userID })
         })
     } catch (e) {
-        console.warn(e)
+        console.error(e)
     }
 }

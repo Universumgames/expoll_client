@@ -25,16 +25,15 @@
 </template>
 
 <script lang="ts" setup>
-import { isDarkMode, isMobile } from "./scripts/helper"
+import { isDarkMode } from "./scripts/helper"
 import { IUser, ReturnCode } from "@/lib/interfaces"
 import { getUserData } from "./scripts/user"
 import getSystemLanguage, { getLanguage, languageData } from "./scripts/languageConstruct"
-import axios from "axios"
 import FooterVue from "./components/Footer.vue"
 import { onMounted, ref } from "vue"
 import { useRoute, useRouter } from "vue-router"
-import { getCookie } from "@/scripts/cookie"
 import NavBar from "@/components/NavBar.vue"
+import ExpollStorage from "@/scripts/storage"
 
 const route = useRoute()
 const router = useRouter()
@@ -46,13 +45,13 @@ const failedLoading = ref(false)
 const isImpersonating = ref(false)
 const impersonatingMail = ref("")
 
-const frontendVersion = ref("3.2.1")
+const frontendVersion = ref("3.3.0")
 const backendVersion = ref("unknown")
 const clientIsCompatible = ref(true)
 
 const created = async () => {
-    const cookieLang = getCookie("lang")
-    if (cookieLang == undefined) {
+    const cookieLang = ExpollStorage.language
+    if (cookieLang == null) {
         localeLanguage.value = getSystemLanguage()
     } else {
         localeLanguage.value = getLanguage({ short: cookieLang })
@@ -85,7 +84,14 @@ const created = async () => {
     })
 
     try {
-        backendVersion.value = (await axios.get("/api/serverInfo")).data.version
+        fetch("/api/serverInfo")
+            .then(async (res) => {
+                const response = await res.json()
+                backendVersion.value = response.version
+            })
+            .catch(() => {
+                backendVersion.value = "unknown"
+            })
         fetch("/api/compliance", {
             method: "OPTIONS",
             headers: {
@@ -94,7 +100,7 @@ const created = async () => {
             body: JSON.stringify({ version: frontendVersion.value, platform: "web" })
         }).then((res) => {
             clientIsCompatible.value = res.status == ReturnCode.OK
-        }).catch((e) => {
+        }).catch(() => {
             clientIsCompatible.value = false
         })
     } catch (e) {
@@ -104,7 +110,7 @@ const created = async () => {
 
 onMounted(async () => {
     created()
-    const startUserGet = getUserData()
+    const startUserGet = await getUserData()
     if (startUserGet != undefined && route.path == "/login") {
         router.push({ path: "/account" })
     }
@@ -136,7 +142,7 @@ const manageDarkMode = () => {
     document.body.classList.add(isDark.value ? "darkVars" : "lightVars")
 }
 
-const changeColor = (short: string) => {
+const changeColor = (dark: boolean | null) => {
     isDark.value = isDarkMode()
     document.body.classList.remove(!isDark.value ? "darkVars" : "lightVars")
     document.body.classList.add(isDark.value ? "darkVars" : "lightVars")
@@ -145,7 +151,7 @@ const changeColor = (short: string) => {
 const onLangChange = (short: string) => {
     localeLanguage.value = getLanguage({ short: short })
     console.log("Changed language to " + short)
-    document.cookie = "lang=" + short
+    ExpollStorage.language = short
     if (route.name == "Home") {
         window.location.reload()
     }
@@ -153,13 +159,17 @@ const onLangChange = (short: string) => {
 
 
 const unimpersonate = async () => {
-    await axios.post("/api/admin/unImpersonate")
+    await fetch("/api/admin/unImpersonate", {
+        method: "POST"
+    })
     window.location.reload()
 }
 
 const loadImpersonation = async () => {
     try {
-        const impersonationResult = await axios.get("/api/admin/isImpersonating")
+        const impersonationResult = await(await fetch("/api/admin/impersonation", {
+            method: "GET"
+        })).json()
         isImpersonating.value = impersonationResult.status == ReturnCode.OK
         impersonatingMail.value = impersonationResult.data.mail ?? ""
     } catch (e) {

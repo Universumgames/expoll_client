@@ -2,37 +2,37 @@
     <div class="loader" />
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import { IUser } from "@/lib/interfaces"
 import { languageData } from "@/scripts/languageConstruct"
 
-const props = defineProps<{ userData: IUser, language: languageData }>()
+const props = defineProps<{ userData: IUser | undefined, language: languageData | undefined }>()
 </script>
 
 <style scoped>
 .loader {
-    border: 16px solid #f3f3f300;
-    /* Light grey */
-    border-top: 16px solid var(--primary-color);
-    /* Blue */
-    border-radius: 50%;
-    width: 20vw;
-    height: 20vw;
-    animation: spin 2s linear infinite;
-    margin: 0 auto 0 auto;
-    position: absolute;
-    top: 50vh;
-    left: 50vw;
-    transform: translate(50%, 50%);
+  border: 16px solid #f3f3f300;
+  /* Light grey */
+  border-top: 16px solid var(--primary-color);
+  /* Blue */
+  border-radius: 50%;
+  width: 20vw;
+  height: 20vw;
+  animation: spin 2s linear infinite;
+  margin: 0 auto 0 auto;
+  position: absolute;
+  top: 50vh;
+  left: 50vw;
+  transform: translate(50%, 50%);
 }
 
 @keyframes spin {
-    0% {
-        transform: translate(-50%, -50%) rotate(0deg);
-    }
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
 
-    100% {
-        transform: translate(-50%, -50%) rotate(360deg);
-    }
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
 }
 </style>

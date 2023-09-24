@@ -73,7 +73,7 @@ import { UserInfo } from "@/lib/adminInterfaces"
 import { languageData } from "@/scripts/languageConstruct"
 import EditIcon from "@/assetComponents/EditIcon.vue"
 import { deleteUserAdmin, editUserAdmin } from "@/scripts/admin"
-import axios from "axios"
+import ExpollStorage from "@/scripts/storage"
 
 const props = defineProps<{ userInfo: UserInfo; admin: UserInfo; language: languageData; superAdmin: boolean }>()
 const emit = defineEmits(["update"])
@@ -145,7 +145,18 @@ const editName = async () => {
 
 const impersonate = async () => {
     if (!confirm("Are you sure you want to impersonate this user?")) return
-    await axios.post("/api/admin/impersonate", { impersonateID: props.userInfo?.id })
+    const jwt = ExpollStorage.jwt
+    if(!jwt) return
+    await fetch("/api/admin/impersonate", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + jwt
+        },
+        body: JSON.stringify({
+            impersonateID: props.userInfo?.id
+        })
+    })
     window.location.reload()
 }
 

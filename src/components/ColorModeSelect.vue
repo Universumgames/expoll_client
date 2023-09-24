@@ -4,13 +4,13 @@
             {{ language?.uiElements.navigation.changeColorSchemeButton }}
         </p>
         <div v-show="showSelect" class="select-field">
-            <p class="color" @click="changeColor(undefined)">
+            <p class="color" @click="changeColor(null)">
                 Auto
             </p>
-            <p class="color" @click="changeColor('light')">
+            <p class="color" @click="changeColor(false)">
                 Light
             </p>
-            <p class="color" @click="changeColor('dark')">
+            <p class="color" @click="changeColor(true)">
                 Dark
             </p>
         </div>
@@ -21,20 +21,17 @@
 
 import { languageData } from "@/scripts/languageConstruct"
 import { ref } from "vue"
-import { deleteCookie, setCookie } from "@/scripts/cookie"
+import ExpollStorage from "@/scripts/storage"
 
 const props = defineProps<{ language: languageData }>()
 const emit = defineEmits(["colorChange"])
 
 const showSelect = ref(false)
 
-const changeColor = (short: string | undefined) => {
+const changeColor = (isDark: boolean | null) => {
     showSelect.value = false
-    if (short == undefined) {
-        deleteCookie("colorMode")
-    } else
-        setCookie("colorMode", short)
-    emit("colorChange", short)
+    ExpollStorage.darkMode = isDark
+    emit("colorChange", isDark)
 }
 </script>
 

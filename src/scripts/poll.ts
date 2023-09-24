@@ -1,9 +1,9 @@
-import axios from "axios"
 import { PollType, ReturnCode, tPollID, tUserID } from "@/lib/interfaces"
 import { CreatePollRequest, DetailedPollResponse, EditPollRequest, PollOverview } from "@/lib/requestInterfaces"
 import { replacer } from "./helper"
 import { ComplexOption, DetailedPoll } from "@/lib/extraInterfaces"
 import { languageData } from "@/scripts/languageConstruct"
+import ExpollStorage from "@/scripts/storage"
 
 const base = "/api/poll"
 
@@ -13,7 +13,13 @@ const base = "/api/poll"
  */
 export async function getPollOverviews(): Promise<PollOverview | undefined> {
     try {
-        return (await axios.get(base)).data as PollOverview
+        return fetch(base, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + ExpollStorage.jwt
+            }
+        }).then(res => res.json())
     } catch {
         return undefined
     }
@@ -26,9 +32,17 @@ export async function getPollOverviews(): Promise<PollOverview | undefined> {
  */
 export async function getDetailedPoll(pollID: tPollID): Promise<DetailedPollResponse | undefined> {
     try {
-        return (await axios.get(base, { params: { pollID: pollID }, withCredentials: true })).data
+        const response = await fetch(base + "?pollID=" + pollID, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + ExpollStorage.jwt
+            }
+            //body: JSON.stringify({ pollID: pollID })
+        })
+        return response.json()
     } catch (e) {
-        console.warn(e)
+        console.error(e)
 
         return undefined
     }
@@ -41,9 +55,16 @@ export async function getDetailedPoll(pollID: tPollID): Promise<DetailedPollResp
 export async function leavePoll(pollID: tPollID) {
     try {
         const data: EditPollRequest = { pollID: pollID }
-        await axios.post(base + "/leave", data, { withCredentials: true })
+        await fetch(base + "/leave", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + ExpollStorage.jwt
+            },
+            body: JSON.stringify(data)
+        })
     } catch (e) {
-        console.warn(e)
+        console.error(e)
     }
 }
 
@@ -55,9 +76,16 @@ export async function leavePoll(pollID: tPollID) {
 export async function removeUserFromPoll(pollID: tPollID, userID: tUserID) {
     try {
         const data: EditPollRequest = { pollID: pollID, userRemove: [userID] }
-        await axios.put(base, data, { withCredentials: true })
+        await fetch(base, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + ExpollStorage.jwt
+            },
+            body: JSON.stringify(data)
+        })
     } catch (e) {
-        console.warn(e)
+        console.error(e)
     }
 }
 
@@ -73,11 +101,16 @@ export async function editUserNote(pollID: tPollID, userID: tUserID, note: strin
             pollID: pollID,
             notes: [{ userID: userID, note: note }]
         }
-        await axios.put(base, data, {
-            withCredentials: true
+        await fetch(base, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + ExpollStorage.jwt
+            },
+            body: JSON.stringify(data)
         })
     } catch (e) {
-        console.warn(e)
+        console.error(e)
     }
 }
 
@@ -87,9 +120,16 @@ export async function editUserNote(pollID: tPollID, userID: tUserID, note: strin
  */
 export async function joinPoll(pollID: tPollID) {
     try {
-        await axios.post(base + "/join", { pollID: pollID }, { withCredentials: true })
+        await fetch(base + "/join", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + ExpollStorage.jwt
+            },
+            body: JSON.stringify({ pollID: pollID })
+        })
     } catch (e) {
-        console.warn(e)
+        console.error(e)
     }
 }
 
@@ -102,15 +142,17 @@ export async function joinPoll(pollID: tPollID) {
 export async function pushPollChanges(pollID: tPollID, changes: EditPollRequest): Promise<ReturnCode> {
     try {
         changes.pollID = pollID
-        const ax = await axios.put(base, JSON.stringify(changes, replacer), {
-            withCredentials: true,
+        const response = await fetch(base, {
+            method: "PUT",
             headers: {
-                "Content-Type": "application/json;charset=utf-8"
-            }
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + ExpollStorage.jwt
+            },
+            body: JSON.stringify(changes, replacer)
         })
-        return ax.status
+        return response.status
     } catch (e) {
-        console.warn(e)
+        console.error(e)
         return ReturnCode.INTERNAL_SERVER_ERROR
     }
 }
@@ -122,9 +164,16 @@ export async function pushPollChanges(pollID: tPollID, changes: EditPollRequest)
 export async function deletePoll(pollID: tPollID) {
     try {
         const data: EditPollRequest = { pollID: pollID, delete: true }
-        await axios.put(base, data)
+        await fetch(base, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + ExpollStorage.jwt
+            },
+            body: JSON.stringify(data)
+        })
     } catch (e) {
-        console.warn(e)
+        console.error(e)
     }
 }
 
@@ -135,14 +184,17 @@ export async function deletePoll(pollID: tPollID) {
  */
 export async function createPoll(data: CreatePollRequest): Promise<ReturnCode> {
     try {
-        const retData = await axios.post(base, JSON.stringify(data, replacer), {
+        const response = await fetch(base, {
+            method: "POST",
             headers: {
-                "Content-Type": "application/json;charset=utf-8"
-            }
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + ExpollStorage.jwt
+            },
+            body: JSON.stringify(data, replacer)
         })
-        return retData.status
+        return response.status
     } catch (e: any) {
-        console.warn(e)
+        console.error(e)
         return e.response.status
     }
 }

@@ -3,13 +3,17 @@
 </template>
 
 <script setup lang="ts">
-import axios from "axios"
 import { onMounted, ref } from "vue"
 
 const info = ref("")
 
 onMounted(async () => {
-    info.value = (await axios.get("/api/metaInfo")).data
+    const response = await fetch("/api/metaInfo")
+    if (!response.ok) {
+        console.error("Error: " + response.status + " " + response.statusText)
+        return
+    }
+    info.value = await response.json()
 })
 </script>
 

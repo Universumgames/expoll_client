@@ -131,11 +131,11 @@ import * as auth from "@/scripts/authentication"
 import * as webauthnJson from "@github/webauthn-json"
 
 import AuthenticatorDetail from "../components/AuthenticatorDetail.vue"
-import axios from "axios"
 import { capitalizeFirstLetter, limitLength } from "@/scripts/helper"
 import EditIcon from "@/assetComponents/EditIcon.vue"
 import { computed, onMounted, ref } from "vue"
 import { useRouter } from "vue-router"
+import ExpollStorage from "@/scripts/storage"
 
 const props = defineProps<{ userData: IUser, language: languageData, failedLoading: boolean }>()
 const router = useRouter()
@@ -156,7 +156,7 @@ onMounted(async () => {
     await getPersonalizedData()
     await updateAuthenticators()
     oidcConnections.value = await auth.getOIDCConnections()
-    providers.value = await axios.get("/api/auth/oidc/providers").then(res => res.data)
+    providers.value = await auth.getAvailableOIDCProviders()
     const existingProviders = oidcConnections.value.map(t => t.name)
 
     missingProviders.value = providers.value
@@ -245,19 +245,39 @@ const logoutEverywhere = async () => {
 const editUsername = async () => {
     const username = prompt(props.language?.uiElements.login.loggedIn.editUsernamePrompt, props.userData?.username)
     if (username == null) return
-    const result = await axios.put("/api/user", { username }, { withCredentials: true })
-    if (result.status == 200) {
+    const jwt = ExpollStorage.jwt
+    if (!jwt) return
+    const response = await fetch("/api/user", {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + jwt
+        },
+        body: JSON.stringify({
+            username
+        })
+    })
+    if (response.ok) {
         window.location.reload()
-    } else {
-        alert("Username already taken")
     }
 }
 
 const editFirstName = async () => {
     const firstName = prompt(props.language?.uiElements.login.loggedIn.editFirstNamePrompt, props.userData?.firstName)
     if (firstName == null) return
-    const result = await axios.put("/api/user", { firstName }, { withCredentials: true })
-    if (result.status == 200) {
+    const jwt = ExpollStorage.jwt
+    if (!jwt) return
+    const response = await fetch("/api/user", {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + jwt
+        },
+        body: JSON.stringify({
+            firstName
+        })
+    })
+    if (response.ok) {
         window.location.reload()
     }
 }
@@ -265,8 +285,19 @@ const editFirstName = async () => {
 const editLastName = async () => {
     const lastName = prompt(props.language?.uiElements.login.loggedIn.editLastNamePrompt, props.userData?.lastName)
     if (lastName == null) return
-    const result = await axios.put("/api/user", { lastName }, { withCredentials: true })
-    if (result.status == 200) {
+    const jwt = ExpollStorage.jwt
+    if (!jwt) return
+    const response = await fetch("/api/user", {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + jwt
+        },
+        body: JSON.stringify({
+            lastName
+        })
+    })
+    if (response.ok) {
         window.location.reload()
     }
 }

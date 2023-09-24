@@ -1,4 +1,4 @@
-export function getCookie(cname: string) {
+/*export function getCookie(cname: string) {
     const name = cname + "="
     const decodedCookie = decodeURIComponent(document.cookie)
     const ca = decodedCookie.split(";")
@@ -20,4 +20,4 @@ export function setCookie(name: string, value: string) {
 
 export function deleteCookie(name: string) {
     document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;"
-}
+}*/

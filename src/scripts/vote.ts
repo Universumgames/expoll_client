@@ -1,6 +1,6 @@
-import axios from "axios"
 import { ReturnCode } from "@/lib/interfaces"
 import { VoteRequest } from "@/lib/requestInterfaces"
+import ExpollStorage from "@/scripts/storage"
 
 /**
  * Helper method to vote
@@ -9,8 +9,17 @@ import { VoteRequest } from "@/lib/requestInterfaces"
  */
 export async function vote(req: VoteRequest): Promise<ReturnCode> {
     try {
-        const rc = await axios.post("/api/vote", req, { withCredentials: true })
-        return rc.status
+        const jwt = ExpollStorage.jwt
+        if (!jwt) return 401
+        const rc = (await fetch("/api/vote", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + jwt
+            },
+            body: JSON.stringify(req)
+        })).status
+        return rc
     } catch (e: any) {
         return e.response.status
     }
