@@ -13,7 +13,7 @@ const base = "/api/poll"
  */
 export async function getPollOverviews(): Promise<PollOverview | undefined> {
     try {
-        return fetch(base, {
+        return fetch(ExpollStorage.backendUrl + base, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -32,7 +32,7 @@ export async function getPollOverviews(): Promise<PollOverview | undefined> {
  */
 export async function getDetailedPoll(pollID: tPollID): Promise<DetailedPollResponse | undefined> {
     try {
-        const response = await fetch(base + "?pollID=" + pollID, {
+        const response = await fetch(ExpollStorage.backendUrl + base + "?pollID=" + pollID, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -55,7 +55,7 @@ export async function getDetailedPoll(pollID: tPollID): Promise<DetailedPollResp
 export async function leavePoll(pollID: tPollID) {
     try {
         const data: EditPollRequest = { pollID: pollID }
-        await fetch(base + "/leave", {
+        await fetch(ExpollStorage.backendUrl + base + "/leave", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -76,7 +76,7 @@ export async function leavePoll(pollID: tPollID) {
 export async function removeUserFromPoll(pollID: tPollID, userID: tUserID) {
     try {
         const data: EditPollRequest = { pollID: pollID, userRemove: [userID] }
-        await fetch(base, {
+        await fetch(ExpollStorage.backendUrl + base, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
@@ -101,7 +101,7 @@ export async function editUserNote(pollID: tPollID, userID: tUserID, note: strin
             pollID: pollID,
             notes: [{ userID: userID, note: note }]
         }
-        await fetch(base, {
+        await fetch(ExpollStorage.backendUrl + base, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
@@ -120,7 +120,7 @@ export async function editUserNote(pollID: tPollID, userID: tUserID, note: strin
  */
 export async function joinPoll(pollID: tPollID) {
     try {
-        await fetch(base + "/join", {
+        await fetch(ExpollStorage.backendUrl + base + "/join", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -142,7 +142,7 @@ export async function joinPoll(pollID: tPollID) {
 export async function pushPollChanges(pollID: tPollID, changes: EditPollRequest): Promise<ReturnCode> {
     try {
         changes.pollID = pollID
-        const response = await fetch(base, {
+        const response = await fetch(ExpollStorage.backendUrl + base, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
@@ -164,7 +164,7 @@ export async function pushPollChanges(pollID: tPollID, changes: EditPollRequest)
 export async function deletePoll(pollID: tPollID) {
     try {
         const data: EditPollRequest = { pollID: pollID, delete: true }
-        await fetch(base, {
+        await fetch(ExpollStorage.backendUrl + base, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
@@ -184,7 +184,7 @@ export async function deletePoll(pollID: tPollID) {
  */
 export async function createPoll(data: CreatePollRequest): Promise<ReturnCode> {
     try {
-        const response = await fetch(base, {
+        const response = await fetch(ExpollStorage.backendUrl + base, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

@@ -296,7 +296,7 @@ const login = async () => {
             const newUsername = prompt(props.language.uiElements.login.form.defineUsernameAfterOIDC, user?.username)
             const jwt = ExpollStorage.jwt
             if(jwt == null) return
-            const result = await fetch("/api/user", {
+            const result = await fetch(ExpollStorage.backendUrl + "/api/user", {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",

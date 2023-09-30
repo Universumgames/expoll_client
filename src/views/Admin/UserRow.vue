@@ -147,7 +147,7 @@ const impersonate = async () => {
     if (!confirm("Are you sure you want to impersonate this user?")) return
     const jwt = ExpollStorage.jwt
     if(!jwt) return
-    const result = await fetch("/api/admin/impersonate", {
+    const result = await fetch(ExpollStorage.backendUrl + "/api/admin/impersonate", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",

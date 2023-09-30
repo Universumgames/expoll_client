@@ -11,7 +11,7 @@ export async function vote(req: VoteRequest): Promise<ReturnCode> {
     try {
         const jwt = ExpollStorage.jwt
         if (!jwt) return 401
-        const rc = (await fetch("/api/vote", {
+        const rc = (await fetch(ExpollStorage.backendUrl + "/api/vote", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

@@ -95,7 +95,7 @@ const createUser = async () => {
     const jwt = ExpollStorage.jwt
     if (jwt == null) return
 
-    const response = await fetch("/api/admin/user", {
+    const response = await fetch(ExpollStorage.backendUrl + "/api/admin/user", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",

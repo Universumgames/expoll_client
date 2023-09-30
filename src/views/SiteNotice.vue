@@ -6,6 +6,7 @@
 import VueMarkdown from "vue-markdown-render"
 import { languageData } from "@/scripts/languageConstruct"
 import { onMounted, ref } from "vue"
+import ExpollStorage from "@/scripts/storage"
 
 const props = defineProps<{ language: languageData }>()
 
@@ -13,7 +14,7 @@ const markdown = ref("")
 
 onMounted(async () => {
     const filename = "/en_site_notice.md"
-    markdown.value = await (await fetch(filename)).text()
+    markdown.value = await (await fetch(ExpollStorage.backendUrl + filename)).text()
 })
 </script>
 

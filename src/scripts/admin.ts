@@ -10,7 +10,7 @@ const base = "/api/admin"
  */
 export async function getAllUser(): Promise<AdminUserListResponse | undefined> {
     try {
-        return fetch(base + "/users", {
+        return fetch(ExpollStorage.backendUrl + base + "/users", {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -29,7 +29,7 @@ export async function getAllUser(): Promise<AdminUserListResponse | undefined> {
  */
 export async function getAllPolls(): Promise<AdminPollListResponse | undefined> {
     try {
-        return fetch(base + "/polls", {
+        return fetch(ExpollStorage.backendUrl + base + "/polls", {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -48,7 +48,7 @@ export async function getAllPolls(): Promise<AdminPollListResponse | undefined> 
  */
 export async function editUserAdmin(data: AdminEditUserRequest) {
     try {
-        await fetch(base + "/users", {
+        await fetch(ExpollStorage.backendUrl + base + "/users", {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
@@ -67,7 +67,7 @@ export async function editUserAdmin(data: AdminEditUserRequest) {
  */
 export async function deleteUserAdmin(userID: tUserID) {
     try {
-        await fetch(base + "/users", {
+        await fetch(ExpollStorage.backendUrl + base + "/users", {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",

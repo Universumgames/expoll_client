@@ -4,11 +4,12 @@
 
 <script setup lang="ts">
 import { onMounted, ref } from "vue"
+import ExpollStorage from "@/scripts/storage"
 
 const info = ref("")
 
 onMounted(async () => {
-    const response = await fetch("/api/metaInfo")
+    const response = await fetch(ExpollStorage.backendUrl + "/api/metaInfo")
     if (!response.ok) {
         console.error("Error: " + response.status + " " + response.statusText)
         return

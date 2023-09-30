@@ -7,7 +7,7 @@ import ExpollStorage from "@/scripts/storage"
  */
 export async function getLoginRegex(): Promise<MailRegexEntry[]> {
     try {
-        return (await (await fetch("/api/simple/mailregex")).json()).regex
+        return (await (await fetch(ExpollStorage.backendUrl + "/api/simple/mailregex")).json()).regex
     } catch (e) {
         console.error(e)
         return []
@@ -22,7 +22,7 @@ export async function updateRegeAdmin(regex: MailRegexEntry[]) {
     try {
         const jwt = ExpollStorage.jwt
         if (jwt == null)  return
-        await fetch("/api/admin/mailregex", {
+        await fetch(ExpollStorage.backendUrl + "/api/admin/mailregex", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -43,7 +43,7 @@ export async function getRegexAdmin(): Promise<MailRegexEntry[]> {
     try {
         const jwt = ExpollStorage.jwt
         if (jwt == null)  return []
-        const data = await (await fetch("/api/admin/mailregex", {
+        const data = await (await fetch(ExpollStorage.backendUrl + "/api/admin/mailregex", {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",

@@ -8,7 +8,7 @@ const base = "/api/auth"
  * Register this device for webauthn
  */
 export async function register(): Promise<{ success: boolean; error?: string }> {
-    const resp = await fetch(base + "/webauthn/register")
+    const resp = await fetch(ExpollStorage.backendUrl + base + "/webauthn/register")
 
     let error = ""
     let success = true
@@ -16,7 +16,7 @@ export async function register(): Promise<{ success: boolean; error?: string }> 
     const publicKeyCredential = await webauthnJson.create(await resp.json())
 
     // POST the response to the endpoint that calls
-    const verificationResp = await fetch(base + "/webauthn/register", {
+    const verificationResp = await fetch(ExpollStorage.backendUrl + base + "/webauthn/register", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -46,7 +46,7 @@ export async function login(userReq: {
     username?: string
     mail?: string
 }): Promise<{ success: boolean; error?: string }> {
-    const resp = await fetch(
+    const resp = await fetch(ExpollStorage.backendUrl + 
         base +
         "/webauthn/authenticate" +
         `?${userReq.username != undefined ? "username=" + userReq.username : "mail=" + userReq.mail}`
@@ -58,7 +58,7 @@ export async function login(userReq: {
 
     // POST the response to the endpoint that calls
     // @simplewebauthn/server -> verifyAuthenticationResponse()
-    const verificationResp = await fetch(
+    const verificationResp = await fetch(ExpollStorage.backendUrl + 
         base +
         "/webauthn/authenticate" +
         `?${userReq.username != undefined ? "username=" + userReq.username : "mail=" + userReq.mail}`,
@@ -90,7 +90,7 @@ export async function login(userReq: {
  * @return {Promise<number>} returns axios request status
  */
 export async function otpLogin(otp: string): Promise<{ returnCode: number, forApp: boolean }> {
-    const response = await fetch(base + "/simple", {
+    const response = await fetch(ExpollStorage.backendUrl + base + "/simple", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -108,7 +108,7 @@ export async function otpLogin(otp: string): Promise<{ returnCode: number, forAp
  * @return {Promise} returns axios request
  */
 export async function rename(credentialID: string, newName: string) {
-    return await fetch(base + "/webauthn/edit", {
+    return await fetch(ExpollStorage.backendUrl + base + "/webauthn/edit", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -123,7 +123,7 @@ export async function rename(credentialID: string, newName: string) {
  * @param {string} credentialID the credential to delete
  */
 export async function deleteWebauthn(credentialID: string) {
-    await fetch(base + "/webauthn", {
+    await fetch(ExpollStorage.backendUrl + base + "/webauthn", {
         method: "DELETE",
         credentials: "include",
         headers: {
@@ -139,7 +139,7 @@ export async function deleteWebauthn(credentialID: string) {
  */
 export async function getWebauthnList(): Promise<any[]> {
     try {
-        const response = await fetch(base + "/webauthn/list", {
+        const response = await fetch(ExpollStorage.backendUrl + base + "/webauthn/list", {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -158,7 +158,7 @@ export async function getWebauthnList(): Promise<any[]> {
  */
 export async function logoutAllSessions() {
     try {
-        await fetch(base + "/logoutAll", {
+        await fetch(ExpollStorage.backendUrl + base + "/logoutAll", {
             method: "DELETE",
             credentials: "include",
             headers: {
@@ -177,7 +177,7 @@ export async function logoutAllSessions() {
  */
 export async function deleteSession(nonce: string) {
     try {
-        await fetch(base + "/logout", {
+        await fetch(ExpollStorage.backendUrl + base + "/logout", {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",
@@ -196,7 +196,7 @@ export async function deleteSession(nonce: string) {
  */
 export async function logout() {
     try {
-        await fetch(base + "/logout", {
+        await fetch(ExpollStorage.backendUrl + base + "/logout", {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",
@@ -216,7 +216,7 @@ export async function logout() {
  */
 export async function requestLoginMail(mail: string): Promise<ReturnCode> {
     try {
-        const response = await fetch(base + "/simple", {
+        const response = await fetch(ExpollStorage.backendUrl + base + "/simple", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -241,7 +241,7 @@ export interface OIDCConnection {
  */
 export async function getOIDCConnections(): Promise<OIDCConnection[]> {
     try {
-        return await fetch(base + "/oidc/connections", {
+        return await fetch(ExpollStorage.backendUrl + base + "/oidc/connections", {
             headers: {
                 "Content-Type": "application/json",
                 "Authorization": "Bearer " + ExpollStorage.jwt
@@ -258,7 +258,7 @@ export async function getOIDCConnections(): Promise<OIDCConnection[]> {
  */
 export async function getAvailableOIDCProviders(): Promise<any> {
     try {
-        return await fetch("/api/auth/oidc/providers", {
+        return await fetch(ExpollStorage.backendUrl + "/api/auth/oidc/providers", {
             headers: {
                 "Content-Type": "application/json",
                 "Authorization": "Bearer " + ExpollStorage.jwt

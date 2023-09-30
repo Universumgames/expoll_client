@@ -11,7 +11,7 @@ const base = "/api/user"
  */
 export async function signUp(data: CreateUserRequest): Promise<ReturnCode> {
     try {
-        const response = await fetch(base, {
+        const response = await fetch(ExpollStorage.backendUrl + base, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -34,7 +34,7 @@ export async function getUserData(): Promise<IUser | undefined> {
     try {
         const jwt = ExpollStorage.jwt
         if (!jwt) return undefined
-        return await fetch(base, {
+        return await fetch(ExpollStorage.backendUrl + base, {
             headers: {
                 "Content-Type": "application/json",
                 "Authorization": "Bearer " + jwt
@@ -52,7 +52,7 @@ export async function deleteUser() {
     try {
         const jwt = ExpollStorage.jwt
         if (!jwt) return
-        await fetch(base, {
+        await fetch(ExpollStorage.backendUrl + base, {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",
@@ -72,7 +72,7 @@ export async function getPersonalizedData(): Promise<any | undefined> {
     try {
         const jwt = ExpollStorage.jwt
         if (!jwt) return undefined
-        return await fetch("/api/user/personalizeddata", {
+        return await fetch(ExpollStorage.backendUrl + "/api/user/personalizeddata", {
             headers: {
                 "Content-Type": "application/json",
                 "Authorization": "Bearer " + jwt

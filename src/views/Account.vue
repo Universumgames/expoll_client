@@ -247,7 +247,7 @@ const editUsername = async () => {
     if (username == null) return
     const jwt = ExpollStorage.jwt
     if (!jwt) return
-    const response = await fetch("/api/user", {
+    const response = await fetch(ExpollStorage.backendUrl + "/api/user", {
         method: "PUT",
         headers: {
             "Content-Type": "application/json",
@@ -267,7 +267,7 @@ const editFirstName = async () => {
     if (firstName == null) return
     const jwt = ExpollStorage.jwt
     if (!jwt) return
-    const response = await fetch("/api/user", {
+    const response = await fetch(ExpollStorage.backendUrl + "/api/user", {
         method: "PUT",
         headers: {
             "Content-Type": "application/json",
@@ -287,7 +287,7 @@ const editLastName = async () => {
     if (lastName == null) return
     const jwt = ExpollStorage.jwt
     if (!jwt) return
-    const response = await fetch("/api/user", {
+    const response = await fetch(ExpollStorage.backendUrl + "/api/user", {
         method: "PUT",
         headers: {
             "Content-Type": "application/json",

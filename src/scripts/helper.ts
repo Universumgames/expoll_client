@@ -6,7 +6,7 @@ import ExpollStorage from "@/scripts/storage"
  * @return {any} returns meta info object
  */
 export async function getMetaInfo(): Promise<any> {
-    return await fetch("/api/metaInfo").then(res => res.json())
+    return await fetch(ExpollStorage.backendUrl + "/api/metaInfo").then(res => res.json())
 }
 
 /**

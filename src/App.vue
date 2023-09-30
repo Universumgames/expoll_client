@@ -34,6 +34,7 @@ import { onMounted, ref } from "vue"
 import { useRoute, useRouter } from "vue-router"
 import NavBar from "@/components/NavBar.vue"
 import ExpollStorage from "@/scripts/storage"
+import { Preferences } from "@capacitor/preferences"
 
 const route = useRoute()
 const router = useRouter()
@@ -50,6 +51,7 @@ const backendVersion = ref("unknown")
 const clientIsCompatible = ref(true)
 
 const created = async () => {
+    await ExpollStorage.init()
     const cookieLang = ExpollStorage.language
     if (cookieLang == null) {
         localeLanguage.value = getSystemLanguage()
@@ -84,7 +86,7 @@ const created = async () => {
     })
 
     try {
-        fetch("/api/serverInfo")
+        fetch(ExpollStorage.backendUrl + "/api/serverInfo")
             .then(async (res) => {
                 const response = await res.json()
                 backendVersion.value = response.version
@@ -92,8 +94,8 @@ const created = async () => {
             .catch(() => {
                 backendVersion.value = "unknown"
             })
-        fetch("/api/compliance", {
-            method: "OPTIONS",
+        fetch(ExpollStorage.backendUrl + "/api/compatibility", {
+            method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
@@ -159,7 +161,7 @@ const onLangChange = (short: string) => {
 
 
 const unimpersonate = async () => {
-    await fetch("/api/admin/unImpersonate", {
+    await fetch(ExpollStorage.backendUrl + "/api/admin/unImpersonate", {
         method: "POST"
     })
     ExpollStorage.jwt = ExpollStorage.originalJwt
@@ -169,7 +171,7 @@ const unimpersonate = async () => {
 
 const loadImpersonation = async () => {
     try {
-        const response = (await fetch("/api/admin/isImpersonating", {
+        const response = (await fetch(ExpollStorage.backendUrl + "/api/admin/isImpersonating", {
             method: "GET",
             headers: {
                 "Authorization": "Bearer " + ExpollStorage.jwt,

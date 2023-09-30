@@ -16,6 +16,7 @@
 
 import { useRoute } from "vue-router"
 import { languageData } from "@/scripts/languageConstruct"
+import ExpollStorage from "@/scripts/storage"
 
 const route = useRoute()
 
@@ -26,7 +27,7 @@ const confirmationKey = route.params.key
 const deleteAccount = async () => {
     if (confirm(props.language.uiElements.login.userAccountDeletion.deleteConfirm)) {
         // Delete account
-        const response = await fetch("/api/user/deleteConfirm", {
+        const response = await fetch(ExpollStorage.backendUrl + "/api/user/deleteConfirm", {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json"
@@ -49,7 +50,7 @@ const deleteAccount = async () => {
 }
 
 const deleteAccountCancel = async () => {
-    await fetch("/api/user/deleteCancel", {
+    await fetch(ExpollStorage.backendUrl + "/api/user/deleteCancel", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
