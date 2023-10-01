@@ -52,7 +52,7 @@ export async function getDetailedPoll(pollID: tPollID): Promise<DetailedPollResp
  * leave a poll
  * @param {tPollID} pollID the pollID the current user wants to leave from
  */
-export async function leavePoll(pollID: tPollID) {
+export async function leavePoll(pollID: tPollID): Promise<void> {
     try {
         const data: EditPollRequest = { pollID: pollID }
         await fetch(ExpollStorage.backendUrl + base + "/leave", {
@@ -73,7 +73,7 @@ export async function leavePoll(pollID: tPollID) {
  * @param {tPollID} pollID the poll the user should be removed from
  * @param {tUserID} userID the user to remove
  */
-export async function removeUserFromPoll(pollID: tPollID, userID: tUserID) {
+export async function removeUserFromPoll(pollID: tPollID, userID: tUserID): Promise<void> {
     try {
         const data: EditPollRequest = { pollID: pollID, userRemove: [userID] }
         await fetch(ExpollStorage.backendUrl + base, {
@@ -95,7 +95,7 @@ export async function removeUserFromPoll(pollID: tPollID, userID: tUserID) {
  * @param {tUserID} userID the user the note is for
  * @param {string} note the note for the user in that poll
  */
-export async function editUserNote(pollID: tPollID, userID: tUserID, note: string) {
+export async function editUserNote(pollID: tPollID, userID: tUserID, note: string): Promise<void> {
     try {
         const data: EditPollRequest = {
             pollID: pollID,
@@ -118,7 +118,7 @@ export async function editUserNote(pollID: tPollID, userID: tUserID, note: strin
  * join a poll and add them to your overview
  * @param {tPollID} pollID the poll to join
  */
-export async function joinPoll(pollID: tPollID) {
+export async function joinPoll(pollID: tPollID): Promise<void> {
     try {
         await fetch(ExpollStorage.backendUrl + base + "/join", {
             method: "POST",
@@ -161,7 +161,7 @@ export async function pushPollChanges(pollID: tPollID, changes: EditPollRequest)
  * Delete a poll you have the right to
  * @param {tPollID} pollID the poll to be deleted
  */
-export async function deletePoll(pollID: tPollID) {
+export async function deletePoll(pollID: tPollID): Promise<void> {
     try {
         const data: EditPollRequest = { pollID: pollID, delete: true }
         await fetch(ExpollStorage.backendUrl + base, {
@@ -199,15 +199,20 @@ export async function createPoll(data: CreatePollRequest): Promise<ReturnCode> {
     }
 }
 
-
+/**
+ * convert a poll option to a string
+ * @param option the option to convert
+ * @param pollData the poll the option is from
+ * @param language the language to use
+ */
 export function optionToString(option: ComplexOption, pollData: DetailedPoll, language: languageData): string {
     let start: string | undefined = ""
     let end: string | undefined = ""
     switch (pollData.type) {
         case PollType.String:
-            return option.value!
+            return option.value ?? ""
         case PollType.Date:
-            start = language.uiElements.dateToString(new Date(option.dateStart!))
+            start = language.uiElements.dateToString(new Date(option.dateStart ?? 0))
             end = language.uiElements.dateToString(new Date(option.dateEnd ?? 0))
             return (
                 language.uiElements.polls.details.dateStringFormat(
@@ -217,7 +222,7 @@ export function optionToString(option: ComplexOption, pollData: DetailedPoll, la
             )
 
         case PollType.DateTime:
-            start = language.uiElements.dateTimeToString(new Date(option.dateTimeStart!))
+            start = language.uiElements.dateTimeToString(new Date(option.dateTimeStart ?? 0))
             end = language.uiElements.dateTimeToString(new Date(option.dateTimeEnd ?? 0))
             return (
                 language.uiElements.polls.details.dateStringFormat(

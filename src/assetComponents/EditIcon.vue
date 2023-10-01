@@ -44,7 +44,7 @@ import { Options, Vue } from "vue-class-component"
         fill: String
     }
 })
-export default class EditIcon extends Vue {
+    export default class EditIcon extends Vue {
     fill?: string = "white"
 }
 </script>

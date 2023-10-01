@@ -44,7 +44,7 @@ export interface DetailedPollRequest {
     pollID: tPollID
 }
 
-export interface DetailedPollResponse extends DetailedPoll {}
+export type DetailedPollResponse = DetailedPoll
 
 export interface CreatePollRequest {
     name: string
@@ -60,9 +60,9 @@ export interface CreatePollResponse {
     pollID: tPollID
 }
 
-export interface EditPollRequest extends PollEdit {}
+export type EditPollRequest = PollEdit
 
-export interface VoteRequest extends VoteChange {}
+export type VoteRequest = VoteChange
 
 export interface AdminUserListResponse {
     users: UserInfo[]
@@ -87,5 +87,5 @@ export interface AdminEditUserRequest extends EditUserRequest {
     admin?: boolean
 }
 
-export interface ChangeNotificationRequest extends NotificationPreferences {}
-export interface ChangeNotificationResponse extends NotificationPreferences {}
+export type ChangeNotificationRequest = NotificationPreferences
+export type ChangeNotificationResponse = NotificationPreferences

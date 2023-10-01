@@ -1,5 +1,5 @@
 <template>
-    <loading-screen v-show="loadingMain" :language="languageData" :user-data="undefined"/>
+    <loading-screen v-show="loadingMain" :language="languageData" :user-data="undefined" />
     <div v-show="!loadingMain && loadingFailed">
         <h2 class="errorInfo">
             {{ language?.uiElements.login.loginFirst }}
@@ -96,6 +96,7 @@
                         style="white-space: pre-wrap"
                         class="stickyRow"
                     >
+                        <span class="dot" v-if="relevantOptionID == option.id"></span>
                         {{ optionValue(option) }}
                         <br>
                         ({{ getVotedForCount(option.id ?? 0) }})
@@ -136,7 +137,6 @@
 <script setup lang="ts">
 import { ComplexOption, DetailedPoll, PollSimpleUser, SimpleUserVotes } from "@/lib/extraInterfaces"
 import { IUser, PollType, tOptionId, tUserID, VoteValue } from "@/lib/interfaces"
-import { languageData } from "@/scripts/languageConstruct"
 import ShareIcon from "../assetComponents/ShareIcon.vue"
 import PollUserVoteRow from "../components/PollUserVotes.vue"
 import LoadingScreen from "../components/LoadingScreen.vue"
@@ -148,6 +148,7 @@ import * as pollMethods from "@/scripts/poll"
 import { computed, onMounted, ref } from "vue"
 import { useRoute } from "vue-router"
 import PollEdit from "@/components/PollEdit.vue"
+import { languageData } from "@/scripts/languageConstruct"
 
 const props = defineProps<{ userData: IUser, language: languageData }>()
 const route = useRoute()
@@ -156,7 +157,6 @@ const loadingMain = ref(true)
 const loadingFailed = ref(false)
 
 const poll = ref<DetailedPoll>()
-const newOption = ref<ComplexOption>({})
 
 const addingOption = ref(false)
 
@@ -170,6 +170,10 @@ const isJoined = ref(false)
 
 const inEditMode = ref(false)
 
+const relevantOptionID = computed(() => {
+    return getRelevantOptionID()
+})
+
 const isEditing = () => {
     return (addingOption.value || changes.value.name != undefined || changes.value.description != undefined) &&
         poll.value != undefined
@@ -178,15 +182,10 @@ const isEditing = () => {
 onMounted(async () => {
     await setup()
 
-    /*const optionToScrollTo: HTMLElement = document.getElementById("option" + route.query.optionID ?? "") ?? document.body
-    optionToScrollTo.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-        inline: "nearest"
-    })*/
-
+    scrollToNextOption()
+  
     // update votes every 60 seconds
-    let intID: any = 0
+    let intID = 0
     intID = setInterval(() => {
         if (route.params.id == undefined && !route.fullPath.includes("polls")) {
             clearInterval(intID)
@@ -194,6 +193,31 @@ onMounted(async () => {
         setup()
     }, 60 * 1000)
 })
+
+const scrollToNextOption = () =>{
+    const optionID = getRelevantOptionID()
+    if(optionID == undefined) return
+    const optionToScrollTo: HTMLElement =
+        document.getElementById("option" + optionID) ?? document.body
+    optionToScrollTo.scrollIntoView({
+        behavior: "smooth",
+        block: "nearest",
+        inline: "center"
+    })
+}
+
+const getRelevantOptionID = (): tOptionId | undefined => {
+    if(poll.value?.type == PollType.String) return undefined
+    const dateCalc = (option: ComplexOption) =>{
+        const dateRaw = option.dateStart ?? option.dateTimeStart
+        let date = new Date(dateRaw ?? 0)
+        date.setDate(date.getDate() + 1)
+        return date
+    }
+
+    const option = poll.value?.options.find((option) => dateCalc(option) > new Date())
+    return option?.id
+}
 
 
 const getPollData = async () => {
@@ -203,11 +227,11 @@ const getPollData = async () => {
 
     if (pollData.type == PollType.Date) {
         pollData.options = pollData.options.sort((a, b) => {
-            return a.dateStart! - b.dateStart!
+            return (a.dateStart ?? 0) - (b.dateStart ?? 0)
         })
     } else if (pollData.type == PollType.DateTime) {
         pollData.options = pollData.options.sort((a, b) => {
-            return a.dateTimeStart! - b.dateTimeStart!
+            return (a.dateTimeStart ?? 0) - (b.dateTimeStart ?? 0)
         })
     }
     for (const user of pollData.userVotes) {
@@ -224,8 +248,8 @@ const getPollData = async () => {
 
     poll.value = pollData
 
-    isJoined.value = pollData?.userVotes.find((uv) => {
-        return uv.user.id == props.userData?.id
+    isJoined.value = pollData.userVotes.find((uv) => {
+        return uv.user.id == props.userData.id
     }) != undefined
 
     document.title = "Expoll - " + pollData.name
@@ -444,5 +468,13 @@ th:first-child {
 
 th:first-child {
     border: thin solid var(--text-color);
+}
+
+.dot {
+  height: 25px;
+  width: 25px;
+  background-color: var(--primary-color);
+  border-radius: 50%;
+  display: inline-block;
 }
 </style>

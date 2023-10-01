@@ -28,7 +28,7 @@ import { SimplePoll } from "@/lib/extraInterfaces"
 import { getPollOverviews } from "@/scripts/poll"
 import { onMounted, ref } from "vue"
 
-const props = defineProps<{
+defineProps<{
     userData: IUser | undefined
     language: languageData
     tryAdminView?: boolean

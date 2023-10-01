@@ -1,3 +1,5 @@
+// eslint-disable no-unused-vars
+// eslint-disable no-undef
 import { languageList } from "./languages/languageConfig"
 
 export interface languageData {
@@ -182,7 +184,7 @@ export function getLanguage(data: { id?: number; lang?: string; short?: string }
  * get language set in browser
  * @return {languageData} system language object
  */
-export default function getSystemLanguage(): languageData {
+export function getSystemLanguage(): languageData {
     return getLanguage({ short: getBrowserPresetLang() })
 }
 
@@ -195,4 +197,3 @@ function getBrowserPresetLang(): string {
     return navigator.language
 }
 
-export * from "./languages/languageConfig"

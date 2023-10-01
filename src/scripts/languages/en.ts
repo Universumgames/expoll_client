@@ -1,3 +1,4 @@
+// eslint-disable max-len
 import { languageData } from "../languageConstruct"
 
 const en: languageData = {

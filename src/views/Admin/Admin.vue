@@ -24,7 +24,7 @@
 import { IUser } from "@/lib/interfaces"
 import { languageData } from "@/scripts/languageConstruct"
 
-const props = defineProps<{ userData?: IUser, language: languageData }>()
+defineProps<{ userData?: IUser, language: languageData }>()
 </script>
 
 <style>

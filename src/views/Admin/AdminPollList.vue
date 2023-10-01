@@ -17,7 +17,7 @@ import { SimplePoll } from "@/lib/extraInterfaces"
 import { getAllPolls } from "@/scripts/admin"
 import { onMounted, ref } from "vue"
 
-const props = defineProps<{ userData?: IUser, language: languageData }>()
+defineProps<{ userData?: IUser, language: languageData }>()
 
 const polls = ref<SimplePoll[]>([])
 const count = ref(0)

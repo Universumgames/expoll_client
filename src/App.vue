@@ -28,7 +28,7 @@
 import { isDarkMode } from "./scripts/helper"
 import { IUser, ReturnCode } from "@/lib/interfaces"
 import { getUserData } from "./scripts/user"
-import getSystemLanguage, { getLanguage, languageData } from "./scripts/languageConstruct"
+import { getLanguage, getSystemLanguage, languageData } from "./scripts/languageConstruct"
 import FooterVue from "./components/Footer.vue"
 import { onMounted, ref } from "vue"
 import { useRoute, useRouter } from "vue-router"
@@ -46,7 +46,7 @@ const failedLoading = ref(false)
 const isImpersonating = ref(false)
 const impersonatingMail = ref("")
 
-const frontendVersion = ref("3.3.0")
+const frontendVersion = ref(ExpollStorage.appVersion)
 const backendVersion = ref("unknown")
 const clientIsCompatible = ref(true)
 
@@ -347,7 +347,7 @@ pre {
   position: sticky;
 }
 
-.evenlySpacedChildsContainer{
+.evenlySpacedChildsContainer {
   display: flex;
   justify-content: space-evenly;
   align-items: center;

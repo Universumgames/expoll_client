@@ -18,7 +18,7 @@ export async function getLoginRegex(): Promise<MailRegexEntry[]> {
  * replace regex entries with new
  * @param {MailRegexEntry[]} regex all regex entries, that should be in the database
  */
-export async function updateRegeAdmin(regex: MailRegexEntry[]) {
+export async function updateRegeAdmin(regex: MailRegexEntry[]) : Promise<void> {
     try {
         const jwt = ExpollStorage.jwt
         if (jwt == null)  return

@@ -34,7 +34,7 @@ import { getAllUser } from "@/scripts/admin"
 import { onMounted, ref } from "vue"
 import ExpollStorage from "@/scripts/storage"
 
-const props = defineProps<{ userData?: IUser, language: languageData }>()
+defineProps<{ userData?: IUser, language: languageData }>()
 
 const adminIsSuper = ref(false)
 const users = ref<UserInfo[]>()

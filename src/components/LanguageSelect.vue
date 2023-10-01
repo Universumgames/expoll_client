@@ -12,8 +12,9 @@
 </template>
 
 <script setup lang="ts">
-import { languageData, languageList } from "@/scripts/languageConstruct"
+import { languageData } from "@/scripts/languageConstruct"
 import { ref } from "vue"
+import { languageList } from "@/scripts/languages/languageConfig"
 
 const props = defineProps<{ language: languageData }>()
 const emit = defineEmits(["langChange"])

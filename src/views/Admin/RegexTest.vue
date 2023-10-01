@@ -12,7 +12,9 @@
             v-model="test" type="text"
             :style="!matches ? 'color:green' : 'color:red'"
             style="background-color: var(--bg-color)"
-            @keyup="matches = (test.match(reg!.regex) && reg!.blacklist) || (!test.match(reg!.regex) && !reg!.blacklist)"
+            @keyup="matches = 
+                (test.match(reg!.regex) && reg!.blacklist) || 
+                (!test.match(reg!.regex) && !reg!.blacklist)"
         >
     </div>
 </template>
@@ -21,7 +23,7 @@
 import { MailRegexEntry } from "@/lib/extraInterfaces"
 import { ref } from "vue"
 
-const props = defineProps<{ reg?: MailRegexEntry }>()
+defineProps<{ reg?: MailRegexEntry }>()
 const emit = defineEmits(["remove", "update"])
 
 const test = ref("")

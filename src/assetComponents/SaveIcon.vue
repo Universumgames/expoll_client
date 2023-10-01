@@ -27,7 +27,7 @@ import { Options, Vue } from "vue-class-component"
         fill: String
     }
 })
-export default class SaveIcon extends Vue {
+    export default class SaveIcon extends Vue {
     fill?: string = "white"
 }
 </script>

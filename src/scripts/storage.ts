@@ -1,8 +1,14 @@
 import { Preferences } from "@capacitor/preferences"
 
+/**
+ * storage container
+ */
 export default class ExpollStorage {
 
-    static async initAndroid() {
+    /**
+     * init storage for android
+     */
+    static async initAndroid(): Promise<void> {
         this.jwt = (await Preferences.get({ key: "jwt" })).value
         this.originalJwt = (await Preferences.get({ key: "originalJwt" })).value
         this.darkMode = (await Preferences.get({ key: "darkMode" })).value === "true"
@@ -10,7 +16,10 @@ export default class ExpollStorage {
         console.log("initAndroid", this.jwt, this.originalJwt, this.darkMode, this.language)
     }
 
-    static async saveAndroid() {
+    /**
+     * save storage for android
+     */
+    static async saveAndroid(): Promise<void> {
         if (this.jwt != null) await Preferences.set({ key: "jwt", value: this.jwt })
         if (this.originalJwt != null) await Preferences.set({ key: "originalJwt", value: this.originalJwt })
         if (this.darkMode != null) await Preferences.set({ key: "darkMode", value: this.darkMode.toString() })
@@ -21,29 +30,36 @@ export default class ExpollStorage {
 
     static backendUrl: string = process.env.VUE_APP_BACKEND_URL
     static isAndroid: boolean = process.env.VUE_APP_IS_ANDROID === "1"
+    static applicationServerKey: string = process.env.VUE_APP_APPLICATION_SERVER_KEY
+    static appVersion: string = process.env.VUE_APP_VERSION
 
-    static async init() {
+    /**
+     * init storage
+     */
+    static async init(): Promise<void> {
         if (this.isAndroid)
             await this.initAndroid()
-
-        fetch(this.backendUrl + "/api/compliance", {
-            method: "OPTIONS",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: "{}"
-        })
     }
 
-    static async save() {
+    /**
+     * save storage
+     */
+    static async save(): Promise<void> {
         if (this.isAndroid)
             await this.saveAndroid()
     }
 
+    /**
+     * get jwt
+     */
     static get jwt(): string | null {
         return localStorage.getItem("jwt")
     }
 
+    /**
+     * set jwt
+     * @param jwt
+     */
     static set jwt(jwt: string | null) {
         if (jwt == null) {
             localStorage.removeItem("jwt")
@@ -54,10 +70,17 @@ export default class ExpollStorage {
         this.save()
     }
 
+    /**
+     * get original jwt when impersonating
+     */
     static get originalJwt(): string | null {
         return localStorage.getItem("originalJwt")
     }
 
+    /**
+     * set original jwt when impersonating
+     * @param jwt
+     */
     static set originalJwt(jwt: string | null) {
         if (jwt == null) {
             localStorage.removeItem("originalJwt")
@@ -68,6 +91,9 @@ export default class ExpollStorage {
         this.save()
     }
 
+    /**
+     * get dark mode
+     */
     static get darkMode(): boolean | null {
         const darkMode = localStorage.getItem("darkMode")
         if (darkMode == null) {
@@ -76,6 +102,10 @@ export default class ExpollStorage {
         return localStorage.getItem("darkMode") === "true"
     }
 
+    /**
+     * set dark mode
+     * @param darkMode
+     */
     static set darkMode(darkMode: boolean | null) {
         if (darkMode == null) {
             localStorage.removeItem("darkMode")
@@ -86,10 +116,17 @@ export default class ExpollStorage {
         this.save()
     }
 
+    /**
+     * get language key
+     */
     static get language(): string | null {
         return localStorage.getItem("language")
     }
 
+    /**
+     * set language key
+     * @param language
+     */
     static set language(language: string | null) {
         if (language == null) {
             localStorage.removeItem("language")

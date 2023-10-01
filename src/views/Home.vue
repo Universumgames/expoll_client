@@ -8,7 +8,7 @@
 import VueMarkdown from "vue-markdown-render"
 import { languageData } from "@/scripts/languageConstruct"
 
-const props = defineProps<{ language: languageData }>()
+defineProps<{ language: languageData }>()
 
 </script>
 

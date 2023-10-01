@@ -5,11 +5,11 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "export SET NODE_OPTIONS=--openssl-legacy-provider && vue-cli-service build --modern",
-    "localBuild": "vue-cli-service build --modern",
     "lint": "vue-cli-service lint",
     "build-report": "vue-cli-service build --report",
     "ionic:build": "npm run build",
-    "ionic:serve": "npm run serve"
+    "ionic:serve": "npm run serve",
+    "localBuild": "vue-cli-service build --modern"
   },
   "dependencies": {
     "@capacitor/android": "^5.4.1",
@@ -24,6 +24,7 @@
     "eslint-config-google": "^0.14.0",
     "eslint-plugin-decorator-position": "^4.0.1",
     "markdown-it": "^12.3.0",
+    "register-service-worker": "^1.7.2",
     "vue": "^3.2.6",
     "vue-class-component": "^8.0.0-0",
     "vue-markdown-render": "^2.0.0",
@@ -39,6 +40,7 @@
     "@typescript-eslint/parser": "^4.18.0",
     "@vue/cli-plugin-babel": "~5.0.8",
     "@vue/cli-plugin-eslint": "~5.0.8",
+    "@vue/cli-plugin-pwa": "~5.0.0",
     "@vue/cli-plugin-router": "~5.0.8",
     "@vue/cli-plugin-typescript": "~5.0.8",
     "@vue/cli-plugin-vuex": "~5.0.8",

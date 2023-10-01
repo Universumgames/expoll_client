@@ -44,7 +44,7 @@ import { Options, Vue } from "vue-class-component"
         fill: String
     }
 })
-export default class ShareIcon extends Vue {
+    export default class ShareIcon extends Vue {
     fill?: string = "white"
 }
 </script>

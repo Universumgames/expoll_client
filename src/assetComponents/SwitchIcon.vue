@@ -19,7 +19,7 @@ import { Options, Vue } from "vue-class-component"
         fill: String
     }
 })
-export default class SwitchIcon extends Vue {
+    export default class SwitchIcon extends Vue {
     fill?: string = "white"
 }
 </script>

@@ -8,7 +8,7 @@ import { languageData } from "@/scripts/languageConstruct"
 import { onMounted, ref } from "vue"
 import ExpollStorage from "@/scripts/storage"
 
-const props = defineProps<{ language: languageData }>()
+defineProps<{ language: languageData }>()
 
 const markdown = ref("")
 

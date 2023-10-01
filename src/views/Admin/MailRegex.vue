@@ -37,7 +37,7 @@ import { MailRegexEntry } from "@/lib/extraInterfaces"
 import { getRegexAdmin, updateRegeAdmin } from "@/scripts/regex"
 import { onMounted, ref } from "vue"
 
-const props = defineProps<{ userData?: IUser, language: languageData }>()
+defineProps<{ userData?: IUser, language: languageData }>()
 
 const regex = ref<MailRegexEntry[]>([])
 const newRegex = ref<string>()
