@@ -9,7 +9,8 @@
     "build-report": "vue-cli-service build --report",
     "ionic:build": "npm run build",
     "ionic:serve": "npm run serve",
-    "localBuild": "vue-cli-service build --modern"
+    "localBuild": "vue-cli-service build --modern",
+    "stageServe": "vue-cli-service serve --mode stage"
   },
   "dependencies": {
     "@capacitor/android": "^5.4.1",

@@ -207,6 +207,16 @@ Tritt der Beta via TestFlight bei und installiere die App: [https://testflight.a
             d?.toLocaleString(undefined, { dateStyle: "long" }) ?? "",
         dateTimeToString: (dt?: Date) =>
             dt?.toLocaleString(undefined, { timeStyle: "short", dateStyle: "long" }) ?? ""
+    },
+    notifications: {
+        "notification.server.backend.update": "Das Backend wurde aktualisiert auf Version %@",
+        "notification.server.backend.update.title": "Backend wurde aktualisiert",
+        "notification.poll.delete": "Umfrage %@ gelöscht",
+        "notification.poll.edited": "Umfrage %@ bearbeitet",
+        "notification.poll.archived": "Umfrage %@ archiviert",
+        "notification.user.added": "Der User %@ tritt %@ bei",
+        "notification.user.removed": "Der User %@ verlässt %@",
+        "notification.vote.change": "Der User %@ änderte deren Stimme in %@"
     }
 }
 

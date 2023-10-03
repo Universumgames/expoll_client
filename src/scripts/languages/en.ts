@@ -196,6 +196,16 @@ Join the Beta via TestFlight and install the app: [https://testflight.apple.com/
             d?.toLocaleString(undefined, { dateStyle: "long" }) ?? "",
         dateTimeToString: (dt?: Date) =>
             dt?.toLocaleString(undefined, { timeStyle: "short", dateStyle: "long" }) ?? ""
+    },
+    notifications: {
+        "notification.server.backend.update": "Backend got updated to Version %@",
+        "notification.server.backend.update.title": "Backend got updated",
+        "notification.poll.delete": "Poll %@ deleted",
+        "notification.poll.edited": "Poll %@ edited",
+        "notification.poll.archived": "Poll %@ archived",
+        "notification.user.added": "User %@ joined %@",
+        "notification.user.removed": "User %@ left %@",
+        "notification.vote.change": "User %@ changed their vote in %@"
     }
 }
 

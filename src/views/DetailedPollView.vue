@@ -96,7 +96,7 @@
                         style="white-space: pre-wrap"
                         class="stickyRow"
                     >
-                        <span class="dot" v-if="relevantOptionID == option.id"></span>
+                        <span v-if="relevantOptionID == option.id" class="dot" />
                         {{ optionValue(option) }}
                         <br>
                         ({{ getVotedForCount(option.id ?? 0) }})
@@ -159,16 +159,15 @@ const loadingFailed = ref(false)
 const poll = ref<DetailedPoll>()
 
 const addingOption = ref(false)
-
 const changes = ref<EditPollRequest>({ pollID: "" })
-
 const shareLinkCopied = ref(false)
-
 const displayUsernameInsteadOfFull = ref(false)
-
 const isJoined = ref(false)
-
 const inEditMode = ref(false)
+
+const pollID = computed(() => {
+  return route.params.id as string
+})
 
 const relevantOptionID = computed(() => {
     return getRelevantOptionID()
@@ -180,6 +179,7 @@ const isEditing = () => {
 }
 
 onMounted(async () => {
+    loadingMain.value = true
     await setup()
 
     scrollToNextOption()
@@ -187,7 +187,7 @@ onMounted(async () => {
     // update votes every 60 seconds
     let intID = 0
     intID = setInterval(() => {
-        if (route.params.id == undefined && !route.fullPath.includes("polls")) {
+        if (pollID.value == undefined) {
             clearInterval(intID)
         }
         setup()
@@ -320,10 +320,6 @@ const getVotesByUser = () => {
         }
     )
 }
-
-const pollID = computed(() => {
-    return route.params.id as string
-})
 
 const mayEdit = () => {
     return (

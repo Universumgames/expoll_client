@@ -185,19 +185,20 @@ const logout = async () => {
 }
 
 const deleteUser = async () => {
-    if (props.userData == undefined) return
-    if (props.userData!.admin) {
+    if (props.userData?.admin) {
         alert("You are an admin, you cannot delete your account")
         return
     }
     if (
         confirm(
-            "Are you sure you want to delete your user account? You loose your access to the account and your personal information will be deleted"
+            "Are you sure you want to delete your user account? " +
+            "You loose your access to the account and your personal information will be deleted"
         )
     ) {
         if (
             confirm(
-                "Deleting your user account will remove your access  to your votes and polls, are you sure you want to continue?"
+                "Deleting your user account will remove your access to your votes and polls, " +
+                "are you sure you want to continue?"
             )
         ) {
             if (confirm("A confirmation email will be delivered, once opened this action cannot be undone")) {

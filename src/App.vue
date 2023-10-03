@@ -34,7 +34,7 @@ import { onMounted, ref } from "vue"
 import { useRoute, useRouter } from "vue-router"
 import NavBar from "@/components/NavBar.vue"
 import ExpollStorage from "@/scripts/storage"
-import { Preferences } from "@capacitor/preferences"
+import { initializePushNotifications } from "@/scripts/notification"
 
 const route = useRoute()
 const router = useRouter()
@@ -99,7 +99,7 @@ const created = async () => {
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({ version: frontendVersion.value, platform: "web" })
+            body: JSON.stringify({ version: ExpollStorage.appVersion, platform: ExpollStorage.platformName })
         }).then((res) => {
             clientIsCompatible.value = res.status == ReturnCode.OK
         }).catch(() => {
@@ -111,8 +111,10 @@ const created = async () => {
 }
 
 onMounted(async () => {
-    created()
+    await created()
     const startUserGet = await getUserData()
+    if(startUserGet != undefined)
+        initializePushNotifications()
     if (startUserGet != undefined && route.path == "/login") {
         router.push({ path: "/account" })
     }

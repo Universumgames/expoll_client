@@ -48,7 +48,7 @@ export async function getUserData(): Promise<IUser | undefined> {
 /**
  * delete user if logged in
  */
-export async function deleteUser() {
+export async function deleteUser(): Promise<void> {
     try {
         const jwt = ExpollStorage.jwt
         if (!jwt) return

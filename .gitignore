@@ -26,3 +26,4 @@ package-lock.json
 tsconfig.tsbuildinfo
 
 resources/android/**/*
+https-passthrough

@@ -160,6 +160,17 @@ export interface languageData {
         serverError: string
         dateToString: (d?: Date) => string
         dateTimeToString: (dt?: Date) => string
+
+    }
+    notifications: {
+        "notification.server.backend.update": string
+        "notification.server.backend.update.title": string
+        "notification.poll.delete": string
+        "notification.poll.edited": string
+        "notification.poll.archived": string
+        "notification.user.added": string
+        "notification.user.removed": string
+        "notification.vote.change": string
     }
 }
 
