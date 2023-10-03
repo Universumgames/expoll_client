@@ -15,6 +15,7 @@ export function initializePushNotifications() {
     console.log("initializePushNotifications")
     if (!isPushNotificationSupported()) {
         console.error("Push notifications are not supported in this browser")
+        return
     }
     if (Notification.permission !== "granted") {
         Notification.requestPermission().then(function (permission) {
