@@ -35,24 +35,10 @@ module.exports = {
             themeColor: "#2c3e50",
             background_color: "#2c3e50",
             start_url: "/#/polls?version=" + process.env.VUE_APP_VERSION,
-            shortcuts:[
-                {
-                    name: "Poll list",
-                    short_name: "Polls",
-                    description: "List of all polls",
-                    url: "/#/polls"
-                },
-                {
-                    name: "User info",
-                    short_name: "User",
-                    description: "User info",
-                    url: "/#/account"
-                }
-            ],
             icons: []
         },
         iconPaths: {
-            faviconSVG: null,
+            faviconSVG: "app_icons/appstore1024.svg",
             favicon32: "app_icons/mac32.png",
             favicon16: "app_icons/mac16.png",
             appleTouchIcon: "app_icons/ipad152.png"
