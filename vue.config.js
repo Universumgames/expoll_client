@@ -24,7 +24,7 @@ module.exports = {
     },
     pwa:{
         assetsVersion: "1",
-        appleMobileWebAppCapable: "yes",
+        appleMobileWebAppCapable: "no",
         workboxPluginMode: "InjectManifest",
         workboxOptions: {
             swSrc: "./src/service-worker.ts"
