@@ -1,4 +1,5 @@
 import { Preferences } from "@capacitor/preferences"
+import Database from "@/scripts/db"
 
 /**
  * storage container
@@ -29,7 +30,9 @@ export default class ExpollStorage {
     }
 
     static backendUrl: string = process.env.VUE_APP_BACKEND_URL
-    static isAndroid: boolean = process.env.VUE_APP_IS_ANDROID === "1"
+    static platformName: string = process.env.VUE_APP_EXPOLL_PLATFORM_NAME
+    static isAndroid: boolean = ExpollStorage.platformName === "android"
+    static isWeb: boolean = ExpollStorage.platformName === "web"
     static applicationServerKey: string = process.env.VUE_APP_APPLICATION_SERVER_KEY
     static appVersion: string = process.env.VUE_APP_VERSION
 
