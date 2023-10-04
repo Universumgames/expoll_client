@@ -65,7 +65,7 @@ const changeLang = (short: string) => {
     gap: 0.5rem;
     background-color: var(--bg-color);
     border-radius: 0 0 1rem 1rem;
-    padding-bottom: 0.8em;
-    padding-top: 0.3rem;
+    padding: 0.3rem 0.8em 0.8em;
+    margin: 0;
 }
 </style>

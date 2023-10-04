@@ -264,6 +264,7 @@ a.router-link-exact-active {
 
 .lightVars {
   --text-color: #2c3e50;
+  --text-color-dimmed: #314961;
   --bg-color: #f5f5f5;
   --secondary-color: #dddddd;
   --primary-color: #42b983;
@@ -273,6 +274,7 @@ a.router-link-exact-active {
 
 .darkVars {
   --text-color: whitesmoke;
+  --text-color-dimmed: #7f8c8d;
   --bg-color: #2c3e50;
   --secondary-color: #314961;
   --primary-color: #42b983;
@@ -295,24 +297,10 @@ th {
   background: var(--secondary-color);
 }
 
-.footer {
-  background: var(--secondary-color);
-  padding: 1rem;
-  border-radius: 1ch;
-  margin: 1ch auto 1ch auto;
-}
 
-.footer > * {
-  margin: 1ch;
-}
 
 .grecaptcha-badge {
   visibility: hidden;
-}
-
-.footer-center {
-  display: flex;
-  justify-content: center;
 }
 
 .btn-disabled {
