@@ -50,14 +50,17 @@
                 >Blog</a>
             </div>
         </div>
-        <a href="https://www.buymeacoffee.com/universum" target="_blank">
-            <img
-                alt="Buy Me A Coffee"
-                height="41"
-                loading="lazy"
-                src="https://cdn.buymeacoffee.com/buttons/default-orange.png"
-                width="174"
-            ></a>
+        <div class="bmc">
+            <small>Sponsor me</small>
+            <a href="https://www.buymeacoffee.com/universum" target="_blank">
+                <img
+                    alt="Buy Me A Coffee"
+                    height="41"
+                    loading="lazy"
+                    src="https://cdn.buymeacoffee.com/buttons/default-orange.png"
+                    width="174"
+                ></a>
+        </div>
         <div class="belowFooter">
             <div class="versionInfo">
                 <small>Frontend-Version {{ frontendVersion }}</small>
@@ -137,11 +140,26 @@ const changeColor = (short: string | undefined) => {
 
 .quickSettings{
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
 }
 
 .footer small {
   color: var(--text-color-dimmed);
   display: block;
+}
+
+.bmc {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.bmc * {
+  margin: 0.5ch;
+}
+
+.bmc img{
+  width: min(40ch, 80vw);
+  height: auto;
 }
 </style>
