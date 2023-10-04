@@ -192,6 +192,7 @@ const loadImpersonation = async () => {
 
 html {
   scroll-behavior: smooth;
+  font-family: expoll,serif;
 }
 
 body {
@@ -205,13 +206,18 @@ p {
 }
 
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: var(--text-color);
   position: relative;
   margin: 2ch;
+}
+
+@font-face {
+  font-display: swap;
+  font-family: "expoll";
+  src: local("Avenir"), local("Helvetica"), local("Arial"), local("sans-serif");
 }
 
 button {

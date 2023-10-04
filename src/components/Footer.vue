@@ -7,7 +7,7 @@
         <label>Created by universumgames</label><br>
         <a href="https://apps.apple.com/app/expoll/id1639799209">
             iOS App <br>
-            <img src="/app_icons/mac128.png">
+            <img src="/app_icons/mac128.png" width="128" alt="app icon">
         </a>
         <br>
         <router-link to="/app">

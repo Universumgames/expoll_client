@@ -15,7 +15,7 @@
             <router-link v-if="userData?.admin" to="/admin">
                 Admin
             </router-link>
-            <a href="https://apps.apple.com/app/expoll/id1639799209">iOS App</a>
+            <a v-if="!ExpollStorage.runsAsPWA()" href="https://apps.apple.com/app/expoll/id1639799209">iOS App</a>
 
             <user-icon :language="language" :user-data="userData" />
         </div>
@@ -62,6 +62,7 @@ import * as displayHelper from "../scripts/displayHelper"
 import { DisplaySize } from "../scripts/displayHelper"
 import BarsIcon from "@/assetComponents/BarsIcon.vue"
 import { useRouter } from "vue-router"
+import ExpollStorage from "@/scripts/storage"
 
 const props = defineProps<{
     userData?: IUser,

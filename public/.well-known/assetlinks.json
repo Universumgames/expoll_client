@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "net.mt32.expoll_android",
+      "sha256_cert_fingerprints": [
+        "73:D1:68:95:24:3A:93:A9:BB:6D:46:DC:2D:11:62:4C:D7:8D:C5:73:67:7E:5F:2A:15:DC:EB:8A:A5:32:42:32"
+      ]
+    }
+  }
+]

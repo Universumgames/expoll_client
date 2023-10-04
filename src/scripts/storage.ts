@@ -1,33 +1,8 @@
-import { Preferences } from "@capacitor/preferences"
-import Database from "@/scripts/db"
-
 /**
  * storage container
  */
 export default class ExpollStorage {
 
-    /**
-     * init storage for android
-     */
-    static async initAndroid(): Promise<void> {
-        this.jwt = (await Preferences.get({ key: "jwt" })).value
-        this.originalJwt = (await Preferences.get({ key: "originalJwt" })).value
-        this.darkMode = (await Preferences.get({ key: "darkMode" })).value === "true"
-        this.language = (await Preferences.get({ key: "language" })).value
-        console.log("initAndroid", this.jwt, this.originalJwt, this.darkMode, this.language)
-    }
-
-    /**
-     * save storage for android
-     */
-    static async saveAndroid(): Promise<void> {
-        if (this.jwt != null) await Preferences.set({ key: "jwt", value: this.jwt })
-        if (this.originalJwt != null) await Preferences.set({ key: "originalJwt", value: this.originalJwt })
-        if (this.darkMode != null) await Preferences.set({ key: "darkMode", value: this.darkMode.toString() })
-        if (this.language != null) await Preferences.set({ key: "language", value: this.language })
-        console.log("saved")
-        console.log(await Preferences.get({ key: "jwt" }))
-    }
 
     static backendUrl: string = process.env.VUE_APP_BACKEND_URL
     static platformName: string = process.env.VUE_APP_EXPOLL_PLATFORM_NAME
@@ -36,20 +11,23 @@ export default class ExpollStorage {
     static applicationServerKey: string = process.env.VUE_APP_APPLICATION_SERVER_KEY
     static appVersion: string = process.env.VUE_APP_VERSION
 
+    static runsAsPWA(): boolean {
+        return (window.matchMedia("(display-mode: standalone)").matches) ||
+            // @ts-ignore
+            (window.navigator.standalone) ||
+            document.referrer.includes("android-app://")
+    }
+
     /**
      * init storage
      */
     static async init(): Promise<void> {
-        if (this.isAndroid)
-            await this.initAndroid()
     }
 
     /**
      * save storage
      */
     static async save(): Promise<void> {
-        if (this.isAndroid)
-            await this.saveAndroid()
     }
 
     /**
