@@ -23,7 +23,7 @@ module.exports = {
         port: 8080
     },
     pwa:{
-        assetsVersion: "1",
+        assetsVersion: process.env.VUE_APP_VERSION,
         appleMobileWebAppCapable: "no",
         workboxPluginMode: "InjectManifest",
         workboxOptions: {
@@ -35,7 +35,21 @@ module.exports = {
             themeColor: "#2c3e50",
             background_color: "#2c3e50",
             start_url: "/#/polls?version=" + process.env.VUE_APP_VERSION,
-            icons: []
+            icons: [],
+            shortcuts:[
+                {
+                    name: "Poll list",
+                    short_name: "Polls",
+                    description: "List of all polls",
+                    url: "/#/polls"
+                },
+                {
+                    name: "User info",
+                    short_name: "User",
+                    description: "User info",
+                    url: "/#/account"
+                }
+            ]
         },
         iconPaths: {
             faviconSVG: "app_icons/appstore1024.svg",

@@ -1,7 +1,0 @@
-{
-  "name": "expoll-client",
-  "integrations": {
-    "capacitor": {}
-  },
-  "type": "custom"
-}
