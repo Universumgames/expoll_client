@@ -1,8 +1,9 @@
 <template>
     <div class="color-select">
-        <p class="changeColor" :class="showSelect ? 'changeColorShow' : ''" @click="showSelect = !showSelect">
-            {{ language?.uiElements.navigation.changeColorSchemeButton }}
-        </p>
+        <div class="changeColor" :class="showSelect ? 'changeColorShow' : ''" @click="showSelect = !showSelect">
+            <ColorThemeIcon fill="var(--text-color-dimmed)" height="1.5em" />
+            <small>{{ language?.uiElements.navigation.changeColorSchemeButton }}</small>
+        </div>
         <div v-show="showSelect" class="select-field">
             <p class="color" @click="changeColor(null)">
                 Auto
@@ -22,6 +23,7 @@
 import { languageData } from "@/scripts/languageConstruct"
 import { ref } from "vue"
 import ExpollStorage from "@/scripts/storage"
+import ColorThemeIcon from "@/assetComponents/ColorThemeIcon.vue"
 
 const props = defineProps<{ language: languageData }>()
 const emit = defineEmits(["colorChange"])
@@ -54,8 +56,15 @@ const changeColor = (isDark: boolean | null) => {
 .changeColor {
     cursor: pointer;
     border-radius: 1rem;
-    padding: 0.8rem;
     margin: 0;
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+    width: max-content;
+}
+
+.changeColor small{
+    flex-shrink: 0;
 }
 
 .changeColorShow {

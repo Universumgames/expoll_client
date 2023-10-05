@@ -10,8 +10,8 @@ const en: languageData = {
         navigation: {
             polls: "Polls",
             home: "Home",
-            changeLanguageButton: "Change language",
-            changeColorSchemeButton: "Change color scheme",
+            changeLanguageButton: "language",
+            changeColorSchemeButton: "color scheme",
             privacyPolicy: "Privacy Policy",
             siteNotice: "Site Notice"
         },

@@ -1,9 +1,5 @@
 <template>
     <div class="footer">
-        <div class="quickSettings">
-            <languageSelect :language="language" @langChange="onLangChange" />
-            <color-mode-select :language="language" @colorChange="changeColor" />
-        </div>
         <div class="footer_links">
             <div class="expoll_about_links">
                 <small>Expoll</small>
@@ -23,7 +19,7 @@
                 </router-link>
             </div>
             <div class="expoll_source_links">
-                <small>Source Code and documentation</small>
+                <small>Source Code</small>
                 <a
                     href="https://git.mt32.net/universum/expoll_server"
                     target="_blank"
@@ -49,6 +45,10 @@
                     target="_blank"
                 >Blog</a>
             </div>
+        </div>
+        <div class="quickSettings">
+            <languageSelect :language="language" @langChange="onLangChange" />
+            <color-mode-select :language="language" @colorChange="changeColor" />
         </div>
         <div class="bmc">
             <small>Sponsor me</small>
@@ -138,9 +138,17 @@ const changeColor = (short: string | undefined) => {
   justify-content: space-between;
 }
 
+.belowFooter * {
+}
+
 .quickSettings{
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: end;
+}
+
+.quickSettings > * {
+  margin: 0.5ch;
 }
 
 .footer small {
@@ -159,7 +167,7 @@ const changeColor = (short: string | undefined) => {
 }
 
 .bmc img{
-  width: min(40ch, 80vw);
+  width: min(30ch, 80vw);
   height: auto;
 }
 </style>

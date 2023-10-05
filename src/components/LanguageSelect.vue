@@ -1,8 +1,9 @@
 <template>
     <div class="lang-select">
-        <p class="changeLang" :class="showSelect ? 'changeLangShow' : ''" @click="showSelect = !showSelect">
-            {{ language?.uiElements.navigation.changeLanguageButton }}
-        </p>
+        <div class="changeLang" :class="showSelect ? 'changeLangShow' : ''" @click="showSelect = !showSelect">
+            <language-icon fill="var(--text-color-dimmed)" height="1.5em" />
+            <small>{{ language?.uiElements.navigation.changeLanguageButton }}</small>
+        </div>
         <div v-show="showSelect" class="select-field">
             <p v-for="lang in languageList" :key="lang.short" class="lang" @click="changeLang(lang.short)">
                 {{ lang.name[0] }}
@@ -15,6 +16,7 @@
 import { languageData } from "@/scripts/languageConstruct"
 import { ref } from "vue"
 import { languageList } from "@/scripts/languages/languageConfig"
+import LanguageIcon from "@/assetComponents/LanguageIcon.vue"
 
 const props = defineProps<{ language: languageData }>()
 const emit = defineEmits(["langChange"])
@@ -46,8 +48,15 @@ const changeLang = (short: string) => {
 .changeLang {
     cursor: pointer;
     border-radius: 1rem;
-    padding: 0.8rem;
     margin: 0;
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+    width: max-content;
+}
+
+.changeLang small {
+    flex: 1;
 }
 
 .changeLangShow {

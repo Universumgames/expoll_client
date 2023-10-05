@@ -11,8 +11,8 @@ const de: languageData = {
         navigation: {
             polls: "Umfragen",
             home: "Startseite",
-            changeLanguageButton: "Sprache ändern",
-            changeColorSchemeButton: "Farbschema ändern",
+            changeLanguageButton: "Sprache",
+            changeColorSchemeButton: "Farbschema",
             privacyPolicy: "Privatsphäre",
             siteNotice: "Impressum"
         },
