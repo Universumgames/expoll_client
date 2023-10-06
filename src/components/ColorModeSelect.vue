@@ -1,10 +1,10 @@
 <template>
     <div class="color-select">
         <div class="changeColor" :class="showSelect ? 'changeColorShow' : ''" @click="showSelect = !showSelect">
-            <ColorThemeIcon fill="var(--text-color-dimmed)" height="1.5em" />
+            <ColorThemeIcon fill="var(--text-color)" height="1.5em" />
             <small>{{ language?.uiElements.navigation.changeColorSchemeButton }}</small>
         </div>
-        <div v-show="showSelect" class="select-field">
+        <template v-if="showSelect">
             <p class="color" @click="changeColor(null)">
                 Auto
             </p>
@@ -14,7 +14,7 @@
             <p class="color" @click="changeColor(true)">
                 Dark
             </p>
-        </div>
+        </template>
     </div>
 </template>
 
@@ -43,14 +43,18 @@ const changeColor = (isDark: boolean | null) => {
     flex-flow: column;
 }
 
+.color-select > *:hover{
+  background-color: var(--primary-color);
+}
+
 .color {
     cursor: pointer;
     margin: 0;
-    padding: 0.2rem;
+    padding: 0.4rem;
 }
 
 .color:hover {
-    background-color: var(--primary-color);
+
 }
 
 .changeColor {
@@ -61,10 +65,12 @@ const changeColor = (isDark: boolean | null) => {
     flex-flow: row;
     align-items: center;
     width: max-content;
+    color: var(--text-color);
 }
 
 .changeColor small{
     flex-shrink: 0;
+    color: var(--text-color);
 }
 
 .changeColorShow {

@@ -1,14 +1,18 @@
 <template>
     <div class="lang-select">
         <div class="changeLang" :class="showSelect ? 'changeLangShow' : ''" @click="showSelect = !showSelect">
-            <language-icon fill="var(--text-color-dimmed)" height="1.5em" />
+            <language-icon fill="var(--text-color)" height="1.5em" />
             <small>{{ language?.uiElements.navigation.changeLanguageButton }}</small>
         </div>
-        <div v-show="showSelect" class="select-field">
-            <p v-for="lang in languageList" :key="lang.short" class="lang" @click="changeLang(lang.short)">
+        <template v-if="showSelect">
+            <p
+                v-for="lang in languageList" v-show="showSelect"
+                :key="lang.short" class="lang"
+                @click="changeLang(lang.short)"
+            >
                 {{ lang.name[0] }}
             </p>
-        </div>
+        </template>
     </div>
 </template>
 
@@ -35,14 +39,18 @@ const changeLang = (short: string) => {
     flex-flow: column;
 }
 
+.lang-select > *:hover{
+  background-color: var(--primary-color);
+}
+
 .lang {
     cursor: pointer;
     margin: 0;
-    padding: 0.2rem;
+    padding: 0.4rem;
 }
 
 .lang:hover {
-    background-color: var(--primary-color);
+
 }
 
 .changeLang {
@@ -53,10 +61,12 @@ const changeLang = (short: string) => {
     flex-flow: row;
     align-items: center;
     width: max-content;
+    color: var(--text-color);
 }
 
 .changeLang small {
     flex: 1;
+    color: var(--text-color);
 }
 
 .changeLangShow {
