@@ -1,6 +1,6 @@
 <template>
-    <div class="lang-select">
-        <div class="changeLang" :class="showSelect ? 'changeLangShow' : ''" @click="showSelect = !showSelect">
+    <div class="lang-select" :class="showSelect ? 'changeLangShow' : ''">
+        <div class="changeLang"  @click="showSelect = !showSelect">
             <language-icon fill="var(--text-color)" height="1.5em" />
             <small>{{ language?.uiElements.navigation.changeLanguageButton }}</small>
         </div>
@@ -37,6 +37,7 @@ const changeLang = (short: string) => {
 .lang-select {
     display: flex;
     flex-flow: column;
+
 }
 
 .lang-select > *:hover{
@@ -71,7 +72,7 @@ const changeLang = (short: string) => {
 
 .changeLangShow {
     background-color: var(--bg-color);
-    border-radius: 1rem 1rem 0 0;
+    border-radius: 1rem;
 }
 
 .changeLang:hover {

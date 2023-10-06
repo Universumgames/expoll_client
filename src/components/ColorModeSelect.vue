@@ -1,6 +1,6 @@
 <template>
-    <div class="color-select">
-        <div class="changeColor" :class="showSelect ? 'changeColorShow' : ''" @click="showSelect = !showSelect">
+    <div class="color-select" :class="showSelect ? 'changeColorShow' : ''">
+        <div class="changeColor" @click="showSelect = !showSelect">
             <ColorThemeIcon fill="var(--text-color)" height="1.5em" />
             <small>{{ language?.uiElements.navigation.changeColorSchemeButton }}</small>
         </div>
@@ -41,6 +41,7 @@ const changeColor = (isDark: boolean | null) => {
 .color-select {
     display: flex;
     flex-flow: column;
+
 }
 
 .color-select > *:hover{
@@ -75,7 +76,7 @@ const changeColor = (isDark: boolean | null) => {
 
 .changeColorShow {
     background-color: var(--bg-color);
-    border-radius: 1rem 1rem 0 0;
+    border-radius: 1rem;
 }
 
 .changeColor:hover {
