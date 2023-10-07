@@ -1,6 +1,7 @@
 import { IUser, ReturnCode } from "@/lib/interfaces"
 import { CreateUserRequest } from "@/lib/requestInterfaces"
 import ExpollStorage from "@/scripts/storage"
+import { NotificationPreferences } from "@/lib/extraInterfaces"
 
 const base = "/api/user"
 
@@ -81,5 +82,48 @@ export async function getPersonalizedData(): Promise<any | undefined> {
     } catch (e) {
         console.error(e)
         return undefined
+    }
+}
+
+/**
+ * get notification preferences
+ * @return
+ */
+export async function getNotificationPreferences(): Promise<NotificationPreferences | undefined> {
+    try {
+        const jwt = ExpollStorage.jwt
+        if (!jwt) return undefined
+        return await fetch(ExpollStorage.backendUrl + "/api/notifications/preferences", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + jwt
+            }
+        }).then(res => res.json())
+    } catch (e) {
+        console.error(e)
+        return undefined
+    }
+}
+
+/**
+ * set notification preferences
+ * @param data
+ */
+export async function setNotificationPreferences(data: NotificationPreferences): Promise<ReturnCode> {
+    try {
+        const jwt = ExpollStorage.jwt
+        if (!jwt) return ReturnCode.UNAUTHORIZED
+        const response = await fetch(ExpollStorage.backendUrl + "/api/notifications/preferences", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + jwt
+            },
+            body: JSON.stringify(data)
+        })
+        return response.status
+    } catch (e: any) {
+        return e.response.status
     }
 }

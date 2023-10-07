@@ -101,7 +101,7 @@ Tritt der Beta via TestFlight bei und installiere die App: [https://testflight.a
             },
             loggedIn: {
                 personalizedDBContent: "Die persönlichen Daten, die wir über dich haben",
-                viewAuth: "Authentikatoren ansehen",
+                auths: "Authentikatoren",
                 addAuth: "Authentikator hinzufügen",
                 authDisclaimer:
                     "Mittels Authentifikatoren auf einem Gerät (Beispielsweise TouchID oder " +
@@ -110,6 +110,7 @@ Tritt der Beta via TestFlight bei und installiere die App: [https://testflight.a
                 authEmpty: "Kein Authentifikator vorhanden",
                 deleteAccount: "Account löschen",
                 activeSessions: "Aktive Sitzungen",
+                deleteSession: "Sitzung löschen",
                 deleteSessionPrompt: "Möchtest du diese Sitzung wirklich löschen?",
                 logoutAllPrompt: "Möchtest du dich wirklich überall abmelden?",
                 oidcLogins: "Anmeldungen mit Drittanbieter",
@@ -216,7 +217,16 @@ Tritt der Beta via TestFlight bei und installiere die App: [https://testflight.a
         "notification.poll.archived": "Umfrage %@ archiviert",
         "notification.user.added": "Der User %@ tritt %@ bei",
         "notification.user.removed": "Der User %@ verlässt %@",
-        "notification.vote.change": "Der User %@ änderte deren Stimme in %@"
+        "notification.vote.change": "Der User %@ änderte deren Stimme in %@",
+        preferences: {
+            title: "Benachrichtigungen",
+            voteChange: "Stimmenänderung",
+            userAdded: "User tritt Umfrage bei",
+            userRemoved: "User verlässt Umfrage",
+            pollArchived: "Beim (de)archivieren einer Umfrage",
+            pollDeleted: "Beim löschen einer Umfrage",
+            pollEdited: "Beim bearbeiten einer Umfrage"
+        }
     }
 }
 

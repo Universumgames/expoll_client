@@ -68,12 +68,13 @@ export interface languageData {
             }
             loggedIn: {
                 personalizedDBContent: string
-                viewAuth: string
+                auths: string
                 addAuth: string
                 authDisclaimer: string
                 authEmpty: string
                 deleteAccount: string
                 activeSessions: string
+                deleteSession: string
                 deleteSessionPrompt: string
                 logoutAllPrompt: string
                 oidcLogins: string,
@@ -170,7 +171,16 @@ export interface languageData {
         "notification.poll.archived": string
         "notification.user.added": string
         "notification.user.removed": string
-        "notification.vote.change": string
+        "notification.vote.change": string,
+        preferences:{
+            title: string
+            voteChange: string,
+            userAdded: string,
+            userRemoved: string,
+            pollDeleted: string,
+            pollEdited: string,
+            pollArchived: string,
+        }
     }
 }
 

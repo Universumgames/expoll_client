@@ -7,7 +7,9 @@
         x="0px"
         y="0px"
         viewBox="0 0 194.436 194.436"
-        style="enable-background: new 0 0 194.436 194.436"
+        style="display: inline-block"
+        :style="'height: ' + height + '; width: ' + width + ';'"
+        :fill="fill"
         xml:space="preserve"
     >
         <g>
@@ -36,17 +38,12 @@
     </svg>
 </template>
 
-<script lang="ts">
-import { Options, Vue } from "vue-class-component"
-
-@Options({
-    props: {
-        fill: String
-    }
-})
-    export default class EditIcon extends Vue {
-    fill?: string = "white"
-}
+<script setup lang="ts">
+const props = defineProps<{
+    fill?: string,
+    width?: string,
+    height?: string
+}>()
 </script>
 
 <style type="text/css">

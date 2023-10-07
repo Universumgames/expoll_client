@@ -96,7 +96,7 @@ Join the Beta via TestFlight and install the app: [https://testflight.apple.com/
             },
             loggedIn: {
                 personalizedDBContent: "See what data of you is in our database",
-                viewAuth: "View Authenticators",
+                auths: "Authenticators",
                 addAuth: "Add Authenticator",
                 authDisclaimer:
                     "Authenticators (like TouchID, Face recognition or security keys) allow an easy, " +
@@ -104,6 +104,7 @@ Join the Beta via TestFlight and install the app: [https://testflight.apple.com/
                 authEmpty: "No authenticator registered",
                 deleteAccount: "Delete your account",
                 activeSessions: "Active sessions",
+                deleteSession: "Logout Session",
                 deleteSessionPrompt: "Do you want to delete this session?",
                 logoutAllPrompt: "Do you want to logout everywhere (Authenticators will not be deleted)?",
                 oidcLogins: "Third party logins",
@@ -205,7 +206,16 @@ Join the Beta via TestFlight and install the app: [https://testflight.apple.com/
         "notification.poll.archived": "Poll %@ archived",
         "notification.user.added": "User %@ joined %@",
         "notification.user.removed": "User %@ left %@",
-        "notification.vote.change": "User %@ changed their vote in %@"
+        "notification.vote.change": "User %@ changed their vote in %@",
+        preferences: {
+            title: "Notification Settings",
+            voteChange: "User changes their vote",
+            userAdded: "User joins poll",
+            userRemoved: "User leaves poll",
+            pollDeleted: "On Poll deletion",
+            pollEdited: "On Poll edit",
+            pollArchived: "On Poll (un)archived"
+        }
     }
 }
 

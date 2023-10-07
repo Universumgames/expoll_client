@@ -210,6 +210,8 @@ html {
 
   --default-border-radius: 1ch;
   --aggressive-border-radius: 1rem;
+
+  --default-padding: 1ch;
 }
 
 body {
@@ -322,6 +324,7 @@ th {
 
 .btn-disabled {
   background-color: grey !important;
+  pointer-events: none !important;
 }
 
 .delete {
