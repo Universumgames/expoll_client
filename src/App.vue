@@ -6,14 +6,19 @@
                 Stop impersonation
             </button>
         </div>
-        <nav-bar :language="localeLanguage" :user-data="userData" />
+        <nav-bar :language="localeLanguage" :user-data="userData" :display-size="displaySize" />
 
         <div v-show="!clientIsCompatible" id="versionUnmatch">
             <strong>Warning:</strong> Your client is not compatible with the current backend version. Please update your
             client.
         </div>
 
-        <router-view :failed-loading="failedLoading" :language="localeLanguage" :user-data="userData" />
+        <router-view
+            :failed-loading="failedLoading" 
+            :language="localeLanguage" 
+            :user-data="userData" 
+            :display-size="displaySize"
+        />
 
         <footer-vue
             :backend-version="backendVersion" :frontend-version="frontendVersion"
@@ -35,6 +40,8 @@ import { useRoute, useRouter } from "vue-router"
 import NavBar from "@/components/NavBar.vue"
 import ExpollStorage from "@/scripts/storage"
 import { initializePushNotifications } from "@/scripts/notification"
+import * as displayHelper from "@/scripts/displayHelper"
+import { DisplaySize } from "@/scripts/displayHelper"
 
 const route = useRoute()
 const router = useRouter()
@@ -186,12 +193,23 @@ const loadImpersonation = async () => {
     } catch (e) {
     }
 }
+
+const displaySize = ref(DisplaySize.XXL)
+
+displaySize.value = displayHelper.getDisplaySize()
+
+addEventListener("resize", (event) => {
+    displaySize.value = displayHelper.getDisplaySize()
+})
 </script>
 
 <style>
 
 html {
   scroll-behavior: smooth;
+
+  --default-border-radius: 1ch;
+  --aggressive-border-radius: 1rem;
 }
 
 body {
@@ -218,7 +236,7 @@ button {
   background: #42b983;
   border: none;
   padding: 0.5rem;
-  border-radius: 1ch;
+  border-radius: var(--default-border-radius);
   color: var(--text-color);
   font-weight: bold;
   font-size: 1rem;
@@ -239,7 +257,7 @@ textarea {
   background: var(--secondary-color);
   border: none;
   margin: 1ch;
-  border-radius: 1ch;
+  border-radius: var(--default-border-radius);
 }
 
 select {
@@ -248,14 +266,13 @@ select {
   color: var(--text-color);
   margin: 1ch;
   padding: 1ch;
-  border-radius: 1ch;
+  border-radius: var(--default-border-radius);
 }
 
 a {
   font-weight: bold;
   color: var(--text-color);
   text-decoration: none;
-  display: inline-block;
 }
 
 a.router-link-exact-active {
@@ -341,5 +358,13 @@ pre {
   display: flex;
   justify-content: space-evenly;
   align-items: center;
+}
+
+.radius-bottom{
+  border-radius: 0 0 1rem 1rem !important;
+}
+
+.radius-top {
+  border-radius: 1rem 1rem 0 0 !important;
 }
 </style>

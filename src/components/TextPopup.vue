@@ -26,7 +26,7 @@ const props = defineProps<{
     transform: translate(-50%, -50%);
     background-color: var(--bg-color);
     padding: 5ch;
-    border-radius: 1ch;
+    border-radius: var(--default-border-radius);
 }
 
 #popupBG {

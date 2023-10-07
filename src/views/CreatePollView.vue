@@ -213,7 +213,7 @@ button {
 
 .optionElement {
     background: var(--secondary-color);
-    border-radius: 1ch;
+    border-radius: var(--default-border-radius);
     padding: 1ch;
     margin: 1ch;
 }

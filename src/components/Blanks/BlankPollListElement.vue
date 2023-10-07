@@ -34,7 +34,7 @@ const lastUpdated = computed(() => props.language?.uiElements.polls.list.lastUpd
 <style scoped>
 .pollListElementContainer {
     background: var(--secondary-color);
-    border-radius: 1ch;
+    border-radius: var(--default-border-radius);
     margin: 1ch;
     padding: 1ch;
     display: flex;

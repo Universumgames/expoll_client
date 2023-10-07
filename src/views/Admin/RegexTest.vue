@@ -35,7 +35,7 @@ const matches = ref(false)
 <style scoped>
 .container {
     background-color: var(--secondary-color);
-    border-radius: 1ch;
+    border-radius: var(--default-border-radius);
     margin: 0.5ch;
     padding: 0ch;
 }

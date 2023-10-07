@@ -3,11 +3,10 @@
         id="userico" :title="title"
         :style="loggedIn? '' : 'float: right;'"
     >
+        <user-icon v-if="isMobile(displaySize)" fill="var(--text-color)" height="1em" />
         <router-link v-show="loggedIn" to="/account">
-            <div id="userText">
-                <!--<img src="../assets/userIcon.svg" alt="" loading="lazy">-->
-                {{ language.uiElements.login.loggedInText }}
-            </div>
+            <!--<img src="../assets/userIcon.svg" alt="" loading="lazy">-->
+            {{ language.uiElements.login.loggedInText }}
         </router-link>
         <router-link v-show="!loggedIn" to="/login">
             <div id="loginText">{{ language?.uiElements.login.loginLink }}</div>
@@ -19,8 +18,10 @@
 import { IUser } from "@/lib/interfaces"
 import { languageData } from "@/scripts/languageConstruct"
 import { computed } from "vue"
+import UserIcon from "@/assetComponents/UserIcon.vue"
+import { DisplaySize, isMobile } from "@/scripts/displayHelper"
 
-const props = defineProps<{ userData?: IUser, language: languageData }>()
+const props = defineProps<{ userData?: IUser, language: languageData, displaySize: DisplaySize }>()
 
 const loggedIn = computed(() => props.userData != undefined)
 

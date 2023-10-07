@@ -34,7 +34,7 @@
                 </a>
             </div>
             <!-- description -->
-            <div style="margin-top: 1ch" class="footer">
+            <div style="margin-top: 1ch" class="descriptionContainer">
                 <label><b>{{ language?.uiElements.polls.details.description }}</b></label>
                 <p>{{ poll?.description }}</p>
             </div>
@@ -472,5 +472,11 @@ th:first-child {
   background-color: var(--primary-color);
   border-radius: 50%;
   display: inline-block;
+}
+
+.descriptionContainer{
+  background-color: var(--secondary-color);
+  padding: 1rem;
+  border-radius: var(--default-border-radius);
 }
 </style>

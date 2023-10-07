@@ -312,7 +312,7 @@ const editLastName = async () => {
     flex-direction: row;
     background: var(--secondary-color);
     margin: auto;
-    border-radius: 1rem;
+    border-radius: var(--aggressive-border-radius);
 }
 
 .column {
@@ -337,12 +337,12 @@ pre {
     text-align: left;
     background: var(--secondary-color);
     padding: 1rem;
-    border-radius: 1ch;
+    border-radius: var(--default-border-radius);
 }
 
 .session {
     background: var(--secondary-color);
-    border-radius: 1ch;
+    border-radius: var(--default-border-radius);
     padding: 0.2rem;
     margin: 0.5rem;
 }
@@ -352,7 +352,7 @@ pre {
     flex-wrap: wrap;
     flex-direction: column;
     background: var(--secondary-color);
-    border-radius: 1rem;
+    border-radius: var(--aggressive-border-radius);
     margin: 1rem;
     padding: 1ch;
     text-align: left;

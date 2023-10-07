@@ -174,7 +174,7 @@ const impersonate = async () => {
     flex-wrap: wrap;
     flex-direction: row;
     background: var(--secondary-color);
-    border-radius: 1rem;
+    border-radius: var(--aggressive-border-radius);
     margin: 1rem;
     padding: 1ch;
     text-align: left;

@@ -27,3 +27,11 @@ export function getDisplaySize(): DisplaySize {
         return DisplaySize.XXL
     }
 }
+
+/**
+ * CHeck if display is so small that mobile optimized content should eb displayed
+ * @param displaySize
+ */
+export function isMobile(displaySize: DisplaySize): boolean{
+    return displaySize <= DisplaySize.S
+}

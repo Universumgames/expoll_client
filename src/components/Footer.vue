@@ -59,6 +59,7 @@
                     loading="lazy"
                     src="https://cdn.buymeacoffee.com/buttons/default-orange.png"
                     width="174"
+                    style="border-radius: var(--default-border-radius);"
                 ></a>
         </div>
         <div class="belowFooter">
@@ -108,7 +109,7 @@ const changeColor = (short: string | undefined) => {
 .footer {
   background: var(--secondary-color);
   padding: 1rem;
-  border-radius: 1ch;
+  border-radius: var(--default-border-radius);
   margin: 1ch auto 1ch auto;
   text-align: left;
 }

@@ -394,7 +394,7 @@ const loginQuestionClick = () => {
   flex-direction: column;
   background: var(--secondary-color);
   margin: auto;
-  border-radius: 1rem;
+  border-radius: var(--aggressive-border-radius);
 }
 
 .column {

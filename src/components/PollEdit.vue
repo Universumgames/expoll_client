@@ -203,7 +203,7 @@ const deletePoll = async () => {
 
 .optionsContainer {
     background-color: var(--secondary-color);
-    border-radius: 1ch;
+    border-radius: var(--default-border-radius);
     padding: 2ch;
 }
 </style>

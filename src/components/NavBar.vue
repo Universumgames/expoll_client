@@ -1,25 +1,24 @@
 <template>
     <header>
-        <div v-show="displaySize >= DisplaySize.S" id="largeNav">
+        <div v-show="!isMobile(displaySize)" id="largeNav">
             <a :href="userData != undefined ? '/#/polls' : '/'" style="float: left">Expoll</a>
 
-            <router-link v-show="userData != undefined" to="/polls">
-                {{
-                    language?.uiElements.navigation.polls
-                }}
-            </router-link>
-            <router-link to="/">
-                {{ language?.uiElements.navigation.home }}
-            </router-link>
-            <!-- <router-link to="/about">About</router-link> -->
-            <router-link v-if="userData?.admin" to="/admin">
-                Admin
-            </router-link>
-            <a v-if="!ExpollStorage.runsAsPWA()" href="https://apps.apple.com/app/expoll/id1639799209">iOS App</a>
+            <template v-for="route of routes" :key="route.path">
+                <template v-if="route.path != undefined && route.vif != false">
+                    <router-link :to="route.path!">
+                        {{ route.name }}
+                    </router-link>
+                </template>
+                <template v-if="route.url != undefined && route.vif != false">
+                    <a :href="route.url!">
+                        {{ route.name }}
+                    </a>
+                </template>
+            </template>
 
-            <user-icon :language="language" :user-data="userData" />
+            <user-icon :language="language" :user-data="userData" :display-size="displaySize" />
         </div>
-        <div v-show="displaySize < DisplaySize.S" id="mediumNav">
+        <div v-show="isMobile(displaySize)" id="mediumNav">
             <div style="float: left; margin: auto; position: absolute" @click="menuOpen = !menuOpen">
                 <bars-icon :fill="menuOpen? 'var(--primary-color)':'white'" width="2rem" height="2rem" />
             </div>
@@ -27,26 +26,31 @@
             <div class="evenlySpacedChildsContainer">
                 <p class="navigationTitle">
                     {{ title }}
-                </p>
-                <user-icon v-show="userData == undefined" :language="language" :user-data="userData" />
+                </p> 
+                <user-icon
+                    v-show="userData == undefined"
+                    :language="language"
+                    :user-data="userData"
+                    :display-size="displaySize"
+                />
             </div>
 
             <div v-if="menuOpen" class="list">
-                <router-link v-show="userData != undefined" to="/polls">
-                    {{
-                        language?.uiElements.navigation.polls
-                    }}
-                </router-link>
-                <router-link to="/">
-                    {{ language?.uiElements.navigation.home }}
-                </router-link>
-                <!-- <router-link to="/about">About</router-link> -->
-                <router-link v-if="userData?.admin" to="/admin">
-                    Admin
-                </router-link>
-                <a href="https://apps.apple.com/app/expoll/id1639799209">iOS App</a>
-
-                <user-icon :language="language" :user-data="userData" />
+                <template v-for="route of routes" :key="route.path">
+                    <template v-if="route.path != undefined && route.vif != false">
+                        <router-link :to="route.path!">
+                            <component :is="route.icon" height="1em" fill="var(--text-color)"/>
+                            {{ route.name }}
+                        </router-link>
+                    </template>
+                    <template v-if="route.url != undefined && route.vif != false">
+                        <a :href="route.url!">
+                            <component :is="route.icon" height="1em" fill="var(--text-color)"/>
+                            {{ route.name }}
+                        </a>
+                    </template>
+                </template>
+                <user-icon :language="language" :user-data="userData" :display-size="displaySize" />
             </div>
         </div>
     </header>
@@ -54,32 +58,67 @@
 
 <script setup lang="ts">
 
-import UserIcon from "@/components/UserIcon.vue"
+import UserIcon from "@/components/AccountLink.vue"
 import { languageData } from "@/scripts/languageConstruct"
 import { IUser } from "@/lib/interfaces"
-import { ref } from "vue"
+import { computed, ComputedGetter, ComputedRef, Ref, ref } from "vue"
 import * as displayHelper from "../scripts/displayHelper"
-import { DisplaySize } from "../scripts/displayHelper"
+import { DisplaySize, isMobile } from "../scripts/displayHelper"
 import BarsIcon from "@/assetComponents/BarsIcon.vue"
 import { useRouter } from "vue-router"
 import ExpollStorage from "@/scripts/storage"
+import ListIcon from "@/assetComponents/ListIcon.vue"
+import HouseIcon from "@/assetComponents/HouseIcon.vue"
+import AppStoreIcon from "@/assetComponents/AppStoreIcon.vue"
+import AdminIcon from "@/assetComponents/AdminIcon.vue"
 
 const props = defineProps<{
     userData?: IUser,
+    displaySize: DisplaySize,
     language: languageData
 }>()
 
-const displaySize = ref(DisplaySize.XXL)
 const menuOpen = ref(false)
 const title = ref("Expoll")
 const router = useRouter()
 
-displaySize.value = displayHelper.getDisplaySize()
+interface Route {
+    name: string
+    path?: string
+    url?: string
+    vif?: boolean
+    icon?: any
+}
 
-
-addEventListener("resize", (event) => {
-    displaySize.value = displayHelper.getDisplaySize()
+const routes: ComputedRef<Route[]> = computed(()=>{
+    return [
+        {
+            name: props.language?.uiElements.navigation.polls,
+            path: "/polls",
+            vif: props.userData != undefined,
+            icon: ListIcon
+        },
+        {
+            name: props.language?.uiElements.navigation.home,
+            path: "/",
+            icon: HouseIcon
+        },
+        {
+            name: "Admin",
+            path: "/admin",
+            vif: props.userData?.admin ?? false,
+            icon: AdminIcon
+        },
+        {
+            name: "iOS App",
+            url: "https://apps.apple.com/app/expoll/id1639799209",
+            vif: !ExpollStorage.runsAsPWA(),
+            icon: AppStoreIcon
+        }
+    ]
 })
+
+
 
 router.afterEach((to, from, failure) => {
     title.value = to.meta.title as string ?? "Expoll"
@@ -91,7 +130,7 @@ router.afterEach((to, from, failure) => {
 <style>
 header {
   background: var(--secondary-color);
-  border-radius: 1ch;
+  border-radius: var(--default-border-radius);
   margin-bottom: 2rem;
   position: sticky;
   top: 0;
@@ -103,7 +142,7 @@ header {
 }
 
 #largeNav > a {
-  margin: 1ch;
+  margin-right: 1ch;
 }
 
 #mediumNav {

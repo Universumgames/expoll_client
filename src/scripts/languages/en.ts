@@ -180,7 +180,7 @@ Join the Beta via TestFlight and install the app: [https://testflight.apple.com/
                 kickFromPollBtn: "Kick User",
                 kickConfirm: (username: string) =>
                     "Sure you want to kick " + username + " from this poll ( votes will remain and stay saved for when the user rejoins)?",
-                editingDisabled: "Editing is disabled by the admin",
+                editingDisabled: "Editing disabled",
                 addUserBtn: "Add user",
                 description: "Description"
             },
@@ -193,9 +193,9 @@ Join the Beta via TestFlight and install the app: [https://testflight.apple.com/
         },
         serverError: "An error on our side occurred",
         dateToString: (d?: Date) =>
-            d?.toLocaleString(undefined, { dateStyle: "long" }) ?? "",
+            d?.toLocaleString(undefined, { dateStyle: "short" }) ?? "",
         dateTimeToString: (dt?: Date) =>
-            dt?.toLocaleString(undefined, { timeStyle: "short", dateStyle: "long" }) ?? ""
+            dt?.toLocaleString(undefined, { timeStyle: "short", dateStyle: "short" }) ?? ""
     },
     notifications: {
         "notification.server.backend.update": "Backend got updated to Version %@",

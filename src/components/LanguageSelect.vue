@@ -1,13 +1,14 @@
 <template>
     <div class="lang-select" :class="showSelect ? 'changeLangShow' : ''">
-        <div class="changeLang"  @click="showSelect = !showSelect">
+        <div class="changeLang" :class="showSelect? 'radius-top':''" @click="showSelect = !showSelect">
             <language-icon fill="var(--text-color)" height="1.5em" />
             <small>{{ language?.uiElements.navigation.changeLanguageButton }}</small>
         </div>
         <template v-if="showSelect">
             <p
-                v-for="lang in languageList" v-show="showSelect"
+                v-for="(lang, index) in languageList" v-show="showSelect"
                 :key="lang.short" class="lang"
+                :class="index == (languageList.length - 1)? 'radius-bottom' : ''"
                 @click="changeLang(lang.short)"
             >
                 {{ lang.name[0] }}
@@ -56,7 +57,7 @@ const changeLang = (short: string) => {
 
 .changeLang {
     cursor: pointer;
-    border-radius: 1rem;
+    border-radius: var(--aggressive-border-radius);
     margin: 0;
     display: flex;
     flex-flow: row;
@@ -72,7 +73,7 @@ const changeLang = (short: string) => {
 
 .changeLangShow {
     background-color: var(--bg-color);
-    border-radius: 1rem;
+    border-radius: var(--aggressive-border-radius);
 }
 
 .changeLang:hover {

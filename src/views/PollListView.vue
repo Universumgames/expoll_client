@@ -12,7 +12,7 @@
             </button>
         </router-link>
         <div v-for="poll in polls" :key="poll.pollID">
-            <poll-list-element :poll="poll" :language="language" />
+            <poll-list-element :poll="poll" :language="language" :display-size="displaySize" />
         </div>
     </div>
 </template>
@@ -27,11 +27,13 @@ import { languageData } from "@/scripts/languageConstruct"
 import { SimplePoll } from "@/lib/extraInterfaces"
 import { getPollOverviews } from "@/scripts/poll"
 import { onMounted, ref } from "vue"
+import { DisplaySize } from "@/scripts/displayHelper"
 
 defineProps<{
     userData: IUser | undefined
     language: languageData
     tryAdminView?: boolean
+    displaySize: DisplaySize
 }>()
 
 const polls = ref<SimplePoll[]>([])
@@ -55,7 +57,7 @@ onMounted(async () => {
 }
 
 button {
-    border-radius: 1ch;
+    border-radius: var(--default-border-radius);
     padding: 1ch;
 
 }

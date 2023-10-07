@@ -191,7 +191,7 @@ Tritt der Beta via TestFlight bei und installiere die App: [https://testflight.a
                 kickFromPollBtn: "Kick",
                 kickConfirm: (username: string) =>
                     "Sicher, dass du " + username + " rauswerfen willst (die Stimmen werden gelöscht)?",
-                editingDisabled: "Das Bearbeiten ist durch den Admin deaktiviert",
+                editingDisabled: "Bearbeiten deaktiviert",
                 addUserBtn: "Benutzer hinzufügen",
                 description: "Beschreibung"
             },
@@ -204,9 +204,9 @@ Tritt der Beta via TestFlight bei und installiere die App: [https://testflight.a
         },
         serverError: "Ein Fehler beim Server ist aufgetreten",
         dateToString: (d?: Date) =>
-            d?.toLocaleString(undefined, { dateStyle: "long" }) ?? "",
+            d?.toLocaleString(undefined, { dateStyle: "short" }) ?? "",
         dateTimeToString: (dt?: Date) =>
-            dt?.toLocaleString(undefined, { timeStyle: "short", dateStyle: "long" }) ?? ""
+            dt?.toLocaleString(undefined, { timeStyle: "short", dateStyle: "short" }) ?? ""
     },
     notifications: {
         "notification.server.backend.update": "Das Backend wurde aktualisiert auf Version %@",
