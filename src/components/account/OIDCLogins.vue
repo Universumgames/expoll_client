@@ -16,12 +16,16 @@
             }}
         </h3>
 
-        <div v-for="provider in missingProviders" :key="provider">
+        <div class="missingOidcConnections">
             <a
-                style="min-width: 25ch; width: 40vw; max-width: 60ch;"
+                v-for="provider in missingProviders" :key="provider"
                 :href="'/api/auth/oidc/addConnection/' + provider"
             >
-                <img :src="'/oidc/' + provider + '_signin.png'" style="width: 100%;">
+                <img
+                    :src="'/oidc/' + provider + '_signin.png'"
+                    style="width: 100%"
+                    :alt="'sign in with ' + provider + ' image'"
+                >
             </a>
         </div>
     </div>
@@ -61,4 +65,11 @@ onMounted(async () => {
   flex-direction: column;
 }
 
+.missingOidcConnections {
+  display: flex;
+  margin: 0 auto;
+  justify-content: center;
+  flex-direction: column;
+  width: min(60ch, 80vw);
+}
 </style>

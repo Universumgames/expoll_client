@@ -8,17 +8,16 @@
                 <edit-icon class="normalIcon" />
             </button>
         </div>
+
         <div>
-            <div>
-                <small>CredentialID: {{ authenticator.credentialID }}</small><br>
-                <small>Initiator Platform: {{ limitLength(platform, 50) }}</small>
-                <br>
-                <small>Creation: {{ new Date(createdAuth) }}</small>
-            </div>
-            <button class="delete" @click="deleteAuth">
-                Delete
-            </button>
+            <small>CredentialID: {{ authenticator.credentialID }}</small><br>
+            <small>Initiator Platform: {{ limitLength(platform, 50) }}</small>
+            <br>
+            <small>Creation: {{ new Date(createdAuth) }}</small>
         </div>
+        <button class="delete" @click="deleteAuth">
+            Delete
+        </button>
     </div>
 </template>
 
@@ -55,10 +54,11 @@ const deleteAuth = async () => {
 .auth-container {
     display: flex;
     flex-wrap: wrap;
-    flex-direction: column;
-    background: var(--secondary-color);
-    border-radius: var(--aggressive-border-radius);
+    flex-direction: row;
+    background: var(--bg-color);
+    border-radius: var(--default-border-radius);
     margin: 1rem;
     padding: 1ch;
+  justify-content: space-between;
 }
 </style>
