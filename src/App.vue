@@ -120,10 +120,12 @@ const created = async () => {
 onMounted(async () => {
     await created()
     const startUserGet = await getUserData()
-    if(startUserGet != undefined)
+    if(startUserGet != undefined) {
         initializePushNotifications()
+    }
     if (startUserGet != undefined && route.path == "/login") {
         router.push({ path: "/account" })
+        await openOutstandingPoll()
     }
     manageDarkMode()
 
@@ -201,6 +203,13 @@ displaySize.value = displayHelper.getDisplaySize()
 addEventListener("resize", (event) => {
     displaySize.value = displayHelper.getDisplaySize()
 })
+
+const openOutstandingPoll = async () =>{
+    const pollID = ExpollStorage.outstandingJoinPollID
+    if(pollID == null) return
+    ExpollStorage.outstandingJoinPollID = null
+    await router.push({ path: "/polls/" + pollID })
+}
 </script>
 
 <style>

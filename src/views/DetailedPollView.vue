@@ -1,24 +1,25 @@
 <template>
     <loading-screen v-show="loadingMain" :language="languageData" :user-data="undefined" />
-    <div v-show="!loadingMain && loadingFailed">
+    <template v-if="!loadingMain && loadingFailed">
         <h2 class="errorInfo">
             {{ language?.uiElements.login.loginFirst }}
         </h2>
         <login-signup-view :language="language" />
-    </div>
+    </template>
     <blank-detailed-poll-view v-show="loadingMain" :language="language" />
-    <div v-show="!loadingMain && !loadingFailed">
-        <button v-show="mayEdit()" style="float: right" @click="inEditMode = !inEditMode">
+    <template v-if="!loadingMain && !loadingFailed">
+        <div v-if="!poll?.allowsEditing" class="archived" style="border-radius: 0.5rem">
+            {{ language?.uiElements.polls.details.editingDisabled }}
+        </div>
+        <button v-show="isPollAdmin()" style="float: right" @click="inEditMode = !inEditMode">
             {{ inEditMode ? "Stop editing" : "Edit" }}
         </button>
         <PollEdit
-            v-if="mayEdit() && inEditMode && poll != undefined" :user-data="userData"
+            v-if="isPollAdmin() && inEditMode && poll != undefined" :user-data="userData"
             :language="language" :poll-data="poll"
             @close="inEditMode = false; setup()"
         />
-        <div v-show="!poll?.allowsEditing" class="archived" style="border-radius: 0.5rem">
-            {{ language?.uiElements.polls.details.editingDisabled }}
-        </div>
+
         <div style="text-align: left">
             <!-- name -->
             <div style="padding: 1ch">
@@ -71,13 +72,13 @@
                 <h3 v-show="shareLinkCopied" style="display: inline">Copied</h3>
             </a>
         </div>
-        <div v-show="!isJoined && poll != undefined" style="text-align: left; margin-top: 1rem">
-            <button @click="joinPoll()">
+        <template v-if="!isJoined && poll != undefined" >
+            <button style="text-align: left; margin-top: 1rem" @click="joinPoll()">
                 <h1 style="display: inline">
                     Join
                 </h1>
             </button>
-        </div>
+        </template>
         <br>
 
         <!-- Poll options and results -->
@@ -131,7 +132,7 @@
                 </tr>
             </table>
         </div>
-    </div>
+    </template>
 </template>
 
 <script setup lang="ts">
@@ -149,6 +150,8 @@ import { computed, onMounted, ref } from "vue"
 import { useRoute } from "vue-router"
 import PollEdit from "@/components/PollEdit.vue"
 import { languageData } from "@/scripts/languageConstruct"
+import router from "@/router"
+import ExpollStorage from "@/scripts/storage"
 
 const props = defineProps<{ userData: IUser, language: languageData }>()
 const route = useRoute()
@@ -166,7 +169,7 @@ const isJoined = ref(false)
 const inEditMode = ref(false)
 
 const pollID = computed(() => {
-  return route.params.id as string
+    return route.params.id as string
 })
 
 const relevantOptionID = computed(() => {
@@ -181,6 +184,12 @@ const isEditing = () => {
 onMounted(async () => {
     loadingMain.value = true
     await setup()
+
+    if(!loadingMain.value && loadingFailed.value){
+        ExpollStorage.outstandingJoinPollID = pollID.value
+        await router.push("/login")
+        return
+    }
 
     scrollToNextOption()
   
@@ -328,6 +337,10 @@ const mayEdit = () => {
     )
 }
 
+const isPollAdmin = () => {
+    return (poll.value?.admin.id == props.userData?.id ?? false) || (props.userData?.admin ?? false)
+}
+
 const voteUpdateCallback = async () => {
     await getPollData()
 }
@@ -439,9 +452,6 @@ a {
 .archived {
     background-color: var(--alert-color);
     padding: 1ch;
-    position: sticky;
-    top: 0;
-    z-index: 100;
 }
 </style>
 

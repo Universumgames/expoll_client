@@ -152,6 +152,7 @@ import { computed, onMounted, ref } from "vue"
 import { ReCaptchaInstance } from "@/scripts/recaptcha"
 import { useRoute } from "vue-router"
 import ExpollStorage from "@/scripts/storage"
+import router from "@/router"
 
 enum LoginType {
     LOGIN = 0,

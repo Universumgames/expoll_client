@@ -27,7 +27,7 @@ import { IUser } from "@/lib/interfaces"
 import EditIcon from "../assetComponents/EditIcon.vue"
 import { languageData } from "@/scripts/languageConstruct"
 import { computed } from "vue"
-import { limitLength } from "../scripts/helper"
+import { limitLength } from "@/scripts/helper"
 
 const props = defineProps<{ userData: IUser, language?: languageData, authenticator: any }>()
 const emit = defineEmits(["update"])

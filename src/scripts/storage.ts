@@ -118,4 +118,18 @@ export default class ExpollStorage {
         this.save()
     }
 
+    static get outstandingJoinPollID(): string | null {
+        return localStorage.getItem("outstandingJoinPollID")
+    }
+
+    static set outstandingJoinPollID(pollID: string | null) {
+        if (pollID == null) {
+            localStorage.removeItem("outstandingJoinPollID")
+            this.save()
+            return
+        }
+        localStorage.setItem("outstandingJoinPollID", pollID)
+        this.save()
+    }
+
 }
