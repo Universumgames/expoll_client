@@ -8,12 +8,7 @@ services:
       dockerfile: ./caddy/Dockerfile
     restart: unless-stopped
     container_name: expoll_caddy
-    depends_on:
-      - "api"
-      - "db"
-    hostname: nginx
-    links:
-      - "api"
+    hostname: expoll_caddy
     networks:
       - expoll_net
       - out
