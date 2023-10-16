@@ -5,7 +5,7 @@ from node as compiler
 #RUN npm run build
 
 WORKDIR /expoll/frontend_server
-COPY ./webclient .
+COPY ./ .
 
 RUN npm install --legacy-peer-deps
 RUN npm run build
@@ -39,13 +39,13 @@ RUN rm /usr/bin/php
 RUN ln -s /usr/bin/php81 /usr/bin/php
 
 # Copy additional files
-COPY ./server/caddy/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+COPY ./caddy/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 # configure php fpm
-COPY ./server/caddy/fpm-pool.conf /etc/php81/php-fpm.d/www.conf
-COPY ./server/caddy/php.ini /etc/php81/conf.d/custom.ini
+COPY ./caddy/fpm-pool.conf /etc/php81/php-fpm.d/www.conf
+COPY ./caddy/php.ini /etc/php81/conf.d/custom.ini
 
 # copy caddy config
-COPY ./server/caddy/Caddyfile /etc/caddy/Caddyfile
+COPY ./caddy/Caddyfile /etc/caddy/Caddyfile
 
 # Make sure files/folders needed by the processes are accessible when they run under the nobody user
 RUN chown -R nobody.nobody /www/data /run /etc/caddy
