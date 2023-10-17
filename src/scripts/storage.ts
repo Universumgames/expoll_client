@@ -3,19 +3,23 @@
  */
 export default class ExpollStorage {
 
+    static backendUrl: string = process.env["VUE_APP_BACKEND_URL"]
+    static platformName: string = process.env["VUE_APP_EXPOLL_PLATFORM_NAME"]
+    static isAndroid: boolean = ExpollStorage.platformName.toLowerCase().includes("android")
+    static isWeb: boolean = ExpollStorage.platformName.toLowerCase().includes("web")
+    static applicationServerKey: string = process.env["VUE_APP_APPLICATION_SERVER_KEY"]
+    static appVersion: string = process.env["VUE_APP_VERSION"]
 
-    static backendUrl: string = process.env.VUE_APP_BACKEND_URL
-    static platformName: string = process.env.VUE_APP_EXPOLL_PLATFORM_NAME
-    static isAndroid: boolean = ExpollStorage.platformName === "android"
-    static isWeb: boolean = ExpollStorage.platformName === "web"
-    static applicationServerKey: string = process.env.VUE_APP_APPLICATION_SERVER_KEY
-    static appVersion: string = process.env.VUE_APP_VERSION
-
+    /**
+     * check if app runs as PWA
+     */
     static runsAsPWA(): boolean {
-        return (window.matchMedia("(display-mode: standalone)").matches) ||
-            // @ts-ignore
+        const isPWA = (window.matchMedia("(display-mode: standalone)").matches) ||
+            // @ts-ignore - Chrome Mobile (Android)
             (window.navigator.standalone) ||
             document.referrer.includes("android-app://")
+        if(isPWA) this.platformName = this.platformName + " PWA"
+        return isPWA
     }
 
     /**

@@ -64,7 +64,7 @@
         </div>
         <div class="belowFooter">
             <div class="versionInfo">
-                <small>Frontend-Version {{ frontendVersion }}</small>
+                <small>Frontend-Version {{ frontendVersion }} {{ ExpollStorage.platformName }}</small>
                 <small>Backend-Version {{ backendVersion }}</small>
             </div>
             <div>
@@ -80,6 +80,7 @@ import { languageData } from "@/scripts/languageConstruct"
 import LanguageSelect from "./LanguageSelect.vue"
 import { computed } from "vue"
 import ColorModeSelect from "@/components/ColorModeSelect.vue"
+import ExpollStorage from "../scripts/storage"
 
 interface Props {
     userData: IUser|undefined

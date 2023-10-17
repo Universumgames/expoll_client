@@ -7,7 +7,7 @@
 
         <div id="sessionList">
             <div
-                v-for="session in personalizedJSON?.sessions ?? []" :key="session.expiration"
+                v-for="session in personalizedData?.sessions ?? []" :key="session.expiration"
                 :style="session.active ? 'color:var(--primary-color);' : ''"
                 class="session"
             >
@@ -18,7 +18,7 @@
                     <p>{{ limitLength(session.userAgent ?? "unknown", 40) }}</p>
                     <small>Expires: {{ language.uiElements.dateTimeToString(new Date(session.expiration)) }}</small>
                 </div>
-                <button class="delete" :class="session.active? 'btn-disabled':''" @click="deleteSession(session.nonce)">
+                <button :class="session.active? 'btn-disabled':''" class="delete" @click="deleteSession(session.nonce)">
                     {{ language.uiElements.login.loggedIn.deleteSession }}
                 </button>
             </div>
@@ -37,23 +37,20 @@ import { onMounted, ref } from "vue"
 
 const props = defineProps<{ userData: IUser, language: languageData }>()
 
-const personalizedData = ref("")
-const personalizedJSON = ref<any>({})
+const personalizedData = ref<any>({})
 
 onMounted(async () => {
     await getPersonalizedData()
 })
 
 const getPersonalizedData = async () => {
-    personalizedJSON.value = await user.getPersonalizedData()
-    if (personalizedJSON.value != undefined) {
-        personalizedData.value = JSON.stringify(personalizedJSON.value, null, 2)
-    }
+    personalizedData.value = await user.getPersonalizedData()
 }
 
-const deleteSession = async (session: any) => {
+const deleteSession = async (session: string | undefined) => {
+    if (session == undefined) return
     if (confirm(props.language?.uiElements.login.loggedIn.deleteSessionPrompt)) {
-        await deleteSession(session)
+        await auth.deleteSession(session)
         await getPersonalizedData()
     }
 }
@@ -80,7 +77,7 @@ const logoutEverywhere = async () => {
   flex-direction: column;
 }
 
-#sessionList p{
+#sessionList p {
   margin: 0;
   white-space: unset;
 }
