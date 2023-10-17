@@ -28,12 +28,12 @@
 
 <script lang="ts" setup>
 
-import { IUser } from "@/lib/interfaces"
 import { languageData } from "@/scripts/languageConstruct"
 import { limitLength } from "@/scripts/helper"
 import * as auth from "@/scripts/authentication"
 import * as user from "@/scripts/user"
 import { onMounted, ref } from "vue"
+import { IUser } from "@/types/bases"
 
 const props = defineProps<{ userData: IUser, language: languageData }>()
 

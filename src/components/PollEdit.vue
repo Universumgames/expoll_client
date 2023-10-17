@@ -71,14 +71,15 @@
 
 <script setup lang="ts">
 import Popup from "@/components/Popup.vue"
-import { IUser, PollType, ReturnCode } from "@/lib/interfaces"
 import { languageData } from "@/scripts/languageConstruct"
-import { ComplexOption, DetailedPoll } from "@/lib/extraInterfaces"
 import ToggleSwitch from "@/components/ToggleSwitch.vue"
 import { computed, ref } from "vue"
-import { EditPollRequest } from "@/lib/requestInterfaces"
+import { EditPollRequest } from "@/types/requests"
 import * as pollMethods from "@/scripts/poll"
 import { optionToString } from "@/scripts/poll"
+import { ComplexOption, DetailedPoll } from "@/types/poll"
+import { IUser, PollType } from "@/types/bases"
+import { ReturnCode } from "@/types/constants"
 
 interface Props {
     userData: IUser

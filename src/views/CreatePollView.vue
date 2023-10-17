@@ -103,12 +103,13 @@
 </template>
 
 <script setup lang="ts">
-import { IUser, PollType, ReturnCode } from "@/lib/interfaces"
 import { languageData } from "@/scripts/languageConstruct"
-import { ComplexOption, empty } from "@/lib/extraInterfaces"
-import { CreatePollRequest } from "@/lib/requestInterfaces"
+import { CreatePollRequest } from "@/types/requests"
 import { createPoll } from "@/scripts/poll"
 import { onMounted, ref } from "vue"
+import { ComplexOption, empty } from "@/types/poll"
+import { IUser, PollType } from "@/types/bases"
+import { ReturnCode } from "@/types/constants"
 
 const props = defineProps<{ userData: IUser; language: languageData }>()
 

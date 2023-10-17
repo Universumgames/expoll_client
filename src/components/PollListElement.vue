@@ -54,13 +54,13 @@
 
 <script lang="ts" setup>
 import { languageData } from "@/scripts/languageConstruct"
-import { SimplePoll } from "@/lib/extraInterfaces"
 import { computed } from "vue"
 import { DisplaySize, isMobile } from "@/scripts/displayHelper"
 import UserGroupIcon from "@/assetComponents/UserGroupIcon.vue"
+import { PollSummary } from "@/types/poll"
 
 const props = defineProps<{
-    poll: SimplePoll,
+    poll: PollSummary,
     language: languageData,
     displaySize: DisplaySize
 }>()

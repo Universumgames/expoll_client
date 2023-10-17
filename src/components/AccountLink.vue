@@ -15,11 +15,11 @@
 </template>
 
 <script setup lang="ts">
-import { IUser } from "@/lib/interfaces"
 import { languageData } from "@/scripts/languageConstruct"
 import { computed } from "vue"
 import UserIcon from "@/assetComponents/UserIcon.vue"
 import { DisplaySize, isMobile } from "@/scripts/displayHelper"
+import { IUser } from "@/types/bases"
 
 const props = defineProps<{ userData?: IUser, language: languageData, displaySize: DisplaySize }>()
 

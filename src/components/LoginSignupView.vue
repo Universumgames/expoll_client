@@ -136,7 +136,6 @@
 </template>
 
 <script lang="ts" setup>
-import { IUser, ReturnCode } from "@/lib/interfaces"
 import { languageData } from "@/scripts/languageConstruct"
 import { getUserData, signUp } from "@/scripts/user"
 import LoadingScreen from "../components/LoadingScreen.vue"
@@ -144,7 +143,6 @@ import Popup from "./TextPopup.vue"
 import * as webauthnJson from "@github/webauthn-json"
 import { otpLogin, requestLoginMail } from "@/scripts/authentication"
 import { mailIsAllowed } from "@/scripts/helper"
-import { MailRegexEntry } from "@/lib/extraInterfaces"
 import { getLoginRegex } from "@/scripts/regex"
 import OIDC from "./login/OIDC.vue"
 import Webauthn from "./login/Webauthn.vue"
@@ -153,6 +151,9 @@ import { ReCaptchaInstance } from "@/scripts/recaptcha"
 import { useRoute } from "vue-router"
 import ExpollStorage from "@/scripts/storage"
 import router from "@/router"
+import { IUser } from "@/types/bases"
+import { ReturnCode } from "@/types/constants"
+import { MailRegexEntry } from "@/types/other"
 
 enum LoginType {
     LOGIN = 0,

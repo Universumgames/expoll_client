@@ -1,6 +1,6 @@
 import * as webauthnJson from "@github/webauthn-json"
-import { ReturnCode } from "@/lib/interfaces"
 import ExpollStorage from "@/scripts/storage"
+import { ReturnCode } from "@/types/constants"
 
 const base = "/api/auth"
 

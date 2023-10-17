@@ -22,12 +22,12 @@ import PollListElement from "../components/PollListElement.vue"
 import LoadingScreen from "../components/LoadingScreen.vue"
 import BlankPollListElement from "../components/Blanks/BlankPollListElement.vue"
 
-import { IUser } from "@/lib/interfaces"
 import { languageData } from "@/scripts/languageConstruct"
-import { SimplePoll } from "@/lib/extraInterfaces"
 import { getPollOverviews } from "@/scripts/poll"
 import { onMounted, ref } from "vue"
 import { DisplaySize } from "@/scripts/displayHelper"
+import { PollSummary } from "@/types/poll"
+import { IUser } from "@/types/bases"
 
 defineProps<{
     userData: IUser | undefined
@@ -36,7 +36,7 @@ defineProps<{
     displaySize: DisplaySize
 }>()
 
-const polls = ref<SimplePoll[]>([])
+const polls = ref<PollSummary[]>([])
 const loading = ref(true)
 
 onMounted(async () => {

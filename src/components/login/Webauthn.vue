@@ -28,8 +28,8 @@
 import { languageData } from "../../scripts/languageConstruct"
 import { login } from "../../scripts/authentication"
 import { mailIsAllowed } from "@/scripts/helper"
-import { MailRegexEntry } from "@/lib/extraInterfaces"
 import { ref } from "vue"
+import { MailRegexEntry } from "@/types/other"
 
 const props = defineProps<{
     language?: languageData

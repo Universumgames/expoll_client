@@ -75,12 +75,12 @@
 </template>
 
 <script setup lang="ts">
-import { IUser } from "@/lib/interfaces"
 import { languageData } from "@/scripts/languageConstruct"
 import LanguageSelect from "./LanguageSelect.vue"
 import { computed } from "vue"
 import ColorModeSelect from "@/components/ColorModeSelect.vue"
 import ExpollStorage from "../scripts/storage"
+import { IUser } from "@/types/bases"
 
 interface Props {
     userData: IUser|undefined

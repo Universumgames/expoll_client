@@ -31,7 +31,6 @@
 
 <script lang="ts" setup>
 import { isDarkMode } from "./scripts/helper"
-import { IUser, ReturnCode } from "@/lib/interfaces"
 import { getUserData } from "./scripts/user"
 import { getLanguage, getSystemLanguage, languageData } from "./scripts/languageConstruct"
 import FooterVue from "./components/Footer.vue"
@@ -42,6 +41,8 @@ import ExpollStorage from "@/scripts/storage"
 import { initializePushNotifications } from "@/scripts/notification"
 import * as displayHelper from "@/scripts/displayHelper"
 import { DisplaySize } from "@/scripts/displayHelper"
+import { IUser } from "@/types/bases"
+import { ReturnCode } from "@/types/constants"
 
 const route = useRoute()
 const router = useRouter()

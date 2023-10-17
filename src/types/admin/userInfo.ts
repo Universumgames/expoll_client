@@ -1,4 +1,4 @@
-import { tUserID } from "./interfaces"
+import { tUserID } from "@/types/constants"
 
 export interface UserInfo {
     id: tUserID

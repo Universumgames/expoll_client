@@ -3,8 +3,8 @@
 </template>
 
 <script lang="ts" setup>
-import { IUser } from "@/lib/interfaces"
 import { languageData } from "@/scripts/languageConstruct"
+import { IUser } from "@/types/bases"
 
 const props = defineProps<{ userData: IUser | undefined, language: languageData | undefined }>()
 </script>

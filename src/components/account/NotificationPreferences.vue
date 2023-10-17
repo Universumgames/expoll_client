@@ -16,12 +16,12 @@
 </template>
 
 <script setup lang="ts">
-import { IUser } from "@/lib/interfaces"
 import { languageData } from "@/scripts/languageConstruct"
 import { computed, onMounted, ref } from "vue"
-import { NotificationPreferences, NotificationType } from "@/lib/extraInterfaces"
 import * as user from "@/scripts/user"
 import ToggleSwitch from "@/components/ToggleSwitch.vue"
+import { NotificationPreferences, NotificationType } from "@/types/notification"
+import { IUser } from "@/types/bases"
 
 const props = defineProps<{ userData: IUser, language: languageData }>()
 

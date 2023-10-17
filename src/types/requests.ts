@@ -1,13 +1,9 @@
-import { UserInfo } from "./adminInterfaces"
-import { PollType, tPollID, tUserID } from "./interfaces"
-import {
-    ComplexOption,
-    DetailedPoll,
-    NotificationPreferences,
-    PollEdit,
-    SimplePoll,
-    VoteChange
-} from "./extraInterfaces"
+
+import { UserInfo } from "@/types/admin/userInfo"
+import { ComplexOption, DetailedPoll, PollEdit, PollSummary, VoteChange } from "@/types/poll"
+import { NotificationPreferences } from "@/types/notification"
+import { PollType } from "@/types/bases"
+import { tPollID, tUserID } from "@/types/constants"
 
 export interface CreateUserRequest {
     firstName: string
@@ -37,7 +33,7 @@ export interface UserDataResponse {
 }
 
 export interface PollOverview {
-    polls: SimplePoll[]
+    polls: PollSummary[]
 }
 
 export interface DetailedPollRequest {
@@ -70,7 +66,7 @@ export interface AdminUserListResponse {
 }
 
 export interface AdminPollListResponse {
-    polls: SimplePoll[]
+    polls: PollSummary[]
     totalCount: number
 }
 

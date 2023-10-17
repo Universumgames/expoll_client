@@ -33,8 +33,6 @@
 </template>
 
 <script setup lang="ts">
-import { IUser } from "@/lib/interfaces"
-import { UserInfo } from "@/lib/adminInterfaces"
 import { languageData } from "@/scripts/languageConstruct"
 import UserRow from "./UserRow.vue"
 import LoadingScreen from "@/components/LoadingScreen.vue"
@@ -42,6 +40,8 @@ import { getUserData } from "@/scripts/user"
 import { getAllUser } from "@/scripts/admin"
 import { onMounted, ref } from "vue"
 import ExpollStorage from "@/scripts/storage"
+import { UserInfo } from "@/types/admin/userInfo"
+import { IUser } from "@/types/bases"
 
 defineProps<{ userData: IUser, language: languageData }>()
 

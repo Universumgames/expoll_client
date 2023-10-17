@@ -1,6 +1,6 @@
-import { tUserID } from "@/lib/interfaces"
-import { AdminEditUserRequest, AdminPollListResponse, AdminUserListResponse } from "@/lib/requestInterfaces"
+import { AdminEditUserRequest, AdminPollListResponse, AdminUserListResponse } from "@/types/requests"
 import ExpollStorage from "@/scripts/storage"
+import { tUserID } from "@/types/constants"
 
 const base = "/api/admin"
 

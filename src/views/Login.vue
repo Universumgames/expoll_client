@@ -6,8 +6,8 @@
 import LoginSignupView from "@/components/LoginSignupView.vue"
 import { languageData } from "@/scripts/languageConstruct"
 import { onMounted } from "vue"
-import { IUser } from "@/lib/interfaces"
 import { useRouter } from "vue-router"
+import { IUser } from "@/types/bases"
 
 const props = defineProps<{
     userData?: IUser,

@@ -1,33 +1,6 @@
-import { PollType, tDate, tDateTime, tOptionId, tPollID, tUserID, VoteValue } from "./interfaces"
 
-export interface SimplePoll {
-    pollID: tPollID
-    admin: SimpleUser
-    description: string
-    userCount: number
-    lastUpdated: Date
-    type: PollType
-    name: string
-    editable: boolean
-}
-
-export interface ComplexOption {
-    id?: number
-    value?: string
-    dateStart?: tDate
-    dateEnd?: tDate
-    dateTimeStart?: tDateTime
-    dateTimeEnd?: tDateTime
-}
-
-export const empty = {
-    id: 0,
-    value: "",
-    dateStart: new Date().getTime(),
-    dateEnd: undefined,
-    dateTimeStart: new Date().getTime(),
-    dateTimeEnd: undefined
-} as ComplexOption
+import { PollType, VoteValue } from "@/types/bases"
+import { tDate, tDateTime, tOptionId, tPollID, tUserID } from "@/types/constants"
 
 export interface SimpleUser {
     id: tUserID
@@ -50,6 +23,40 @@ export interface SimpleUserNote {
     note: string
 }
 
+export interface JoinedTimestamp {
+    userID: tUserID
+    timestamp: tDateTime
+}
+
+export interface PollSummary {
+    pollID: tPollID
+    admin: SimpleUser
+    description: string
+    userCount: number
+    lastUpdated: Date
+    type: PollType
+    name: string
+    editable: boolean
+}
+
+export interface ComplexOption {
+    id?: number
+    value?: string
+    dateStart?: tDate
+    dateEnd?: tDate
+    dateTimeStart?: tDateTime
+    dateTimeEnd?: tDateTime
+}
+
+export const empty: ComplexOption = {
+    id: 0,
+    value: "",
+    dateStart: new Date().getTime(),
+    dateEnd: undefined,
+    dateTimeStart: new Date().getTime(),
+    dateTimeEnd: undefined
+}
+
 export interface DetailedPoll {
     pollID: tPollID
     admin: SimpleUser
@@ -66,11 +73,6 @@ export interface DetailedPoll {
     allowsMaybe: boolean
     allowsEditing: boolean
     shareURL: string
-}
-
-export interface JoinedTimestamp {
-    userID: tUserID
-    timestamp: tDateTime
 }
 
 export interface simpleVote {
@@ -100,27 +102,4 @@ export interface VoteChange {
     optionID: tOptionId
     votedFor: VoteValue
     userID?: tUserID
-}
-
-export interface MailRegexEntry {
-    regex: string
-    blacklist: boolean
-}
-
-export interface NotificationPreferences {
-    voteChange: boolean
-    userAdded: boolean
-    userRemoved: boolean
-    pollDeleted: boolean
-    pollEdited: boolean
-    pollArchived: boolean
-}
-
-export enum NotificationType {
-    voteChange = "voteChange",
-    userAdded = "userAdded",
-    userRemoved = "userRemoved",
-    pollDeleted = "pollDeleted",
-    pollEdited = "pollEdited",
-    pollArchived = "pollArchived"
 }

@@ -1,6 +1,6 @@
-import { ReturnCode } from "@/lib/interfaces"
-import { VoteRequest } from "@/lib/requestInterfaces"
+import { VoteRequest } from "@/types/requests"
 import ExpollStorage from "@/scripts/storage"
+import { ReturnCode } from "@/types/constants"
 
 /**
  * Helper method to vote

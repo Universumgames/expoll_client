@@ -1,9 +1,11 @@
-import { PollType, ReturnCode, tPollID, tUserID } from "@/lib/interfaces"
-import { CreatePollRequest, DetailedPollResponse, EditPollRequest, PollOverview } from "@/lib/requestInterfaces"
+
+import { CreatePollRequest, DetailedPollResponse, EditPollRequest, PollOverview } from "@/types/requests"
 import { replacer } from "./helper"
-import { ComplexOption, DetailedPoll } from "@/lib/extraInterfaces"
 import { languageData } from "@/scripts/languageConstruct"
 import ExpollStorage from "@/scripts/storage"
+import { ComplexOption, DetailedPoll } from "@/types/poll"
+import { PollType } from "@/types/bases"
+import { ReturnCode, tPollID, tUserID } from "@/types/constants"
 
 const base = "/api/poll"
 

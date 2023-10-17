@@ -72,7 +72,7 @@
                 <h3 v-show="shareLinkCopied" style="display: inline">Copied</h3>
             </a>
         </div>
-        <template v-if="!isJoined && poll != undefined" >
+        <template v-if="!isJoined && poll != undefined">
             <button style="text-align: left; margin-top: 1rem" @click="joinPoll()">
                 <h1 style="display: inline">
                     Join
@@ -136,13 +136,11 @@
 </template>
 
 <script setup lang="ts">
-import { ComplexOption, DetailedPoll, PollSimpleUser, SimpleUserVotes } from "@/lib/extraInterfaces"
-import { IUser, PollType, tOptionId, tUserID, VoteValue } from "@/lib/interfaces"
 import ShareIcon from "../assetComponents/ShareIcon.vue"
 import PollUserVoteRow from "../components/PollUserVotes.vue"
 import LoadingScreen from "../components/LoadingScreen.vue"
 import SwitchIcon from "../assetComponents/SwitchIcon.vue"
-import { EditPollRequest } from "@/lib/requestInterfaces"
+import { EditPollRequest } from "@/types/requests"
 import LoginSignupView from "../components/LoginSignupView.vue"
 import BlankDetailedPollView from "../components/Blanks/BlankDetailedPollView.vue"
 import * as pollMethods from "@/scripts/poll"
@@ -152,6 +150,9 @@ import PollEdit from "@/components/PollEdit.vue"
 import { languageData } from "@/scripts/languageConstruct"
 import router from "@/router"
 import ExpollStorage from "@/scripts/storage"
+import { ComplexOption, DetailedPoll, PollSimpleUser, SimpleUserVotes } from "@/types/poll"
+import { IUser, PollType, VoteValue } from "@/types/bases"
+import { tOptionId, tUserID } from "@/types/constants"
 
 const props = defineProps<{ userData: IUser, language: languageData }>()
 const route = useRoute()

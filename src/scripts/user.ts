@@ -1,7 +1,9 @@
-import { IUser, ReturnCode } from "@/lib/interfaces"
-import { CreateUserRequest } from "@/lib/requestInterfaces"
+import { CreateUserRequest } from "@/types/requests"
 import ExpollStorage from "@/scripts/storage"
-import { NotificationPreferences } from "@/lib/extraInterfaces"
+
+import { NotificationPreferences } from "@/types/notification"
+import { IUser } from "@/types/bases"
+import { ReturnCode } from "@/types/constants"
 
 const base = "/api/user"
 

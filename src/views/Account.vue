@@ -34,7 +34,6 @@
 </template>
 
 <script lang="ts" setup>
-import { IUser } from "@/lib/interfaces"
 import { languageData } from "@/scripts/languageConstruct"
 import * as user from "../scripts/user"
 import LoadingScreen from "../components/LoadingScreen.vue"
@@ -46,6 +45,7 @@ import Authenticators from "@/components/account/Authenticators.vue"
 import Sessions from "@/components/account/Sessions.vue"
 import NotificationPreferences from "@/components/account/NotificationPreferences.vue"
 import OIDCLogins from "@/components/account/OIDCLogins.vue"
+import { IUser } from "@/types/bases"
 
 const props = defineProps<{ userData?: IUser, language: languageData, failedLoading: boolean }>()
 const router = useRouter()

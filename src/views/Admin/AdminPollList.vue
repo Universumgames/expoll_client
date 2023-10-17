@@ -9,17 +9,17 @@
 </template>
 
 <script setup lang="ts">
-import { IUser } from "@/lib/interfaces"
 import { languageData } from "@/scripts/languageConstruct"
 import LoadingScreen from "@/components/LoadingScreen.vue"
 import PollListElement from "@/components/PollListElement.vue"
-import { SimplePoll } from "@/lib/extraInterfaces"
 import { getAllPolls } from "@/scripts/admin"
 import { onMounted, ref } from "vue"
+import { PollSummary } from "@/types/poll"
+import { IUser } from "@/types/bases"
 
 defineProps<{ userData?: IUser, language: languageData }>()
 
-const polls = ref<SimplePoll[]>([])
+const polls = ref<PollSummary[]>([])
 const count = ref(0)
 const loading = ref(true)
 

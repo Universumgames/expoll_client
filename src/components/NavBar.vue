@@ -60,7 +60,6 @@
 
 import UserIcon from "@/components/AccountLink.vue"
 import { languageData } from "@/scripts/languageConstruct"
-import { IUser } from "@/lib/interfaces"
 import { computed, ComputedGetter, ComputedRef, Ref, ref } from "vue"
 import * as displayHelper from "../scripts/displayHelper"
 import { DisplaySize, isMobile } from "../scripts/displayHelper"
@@ -71,6 +70,7 @@ import ListIcon from "@/assetComponents/ListIcon.vue"
 import HouseIcon from "@/assetComponents/HouseIcon.vue"
 import AppStoreIcon from "@/assetComponents/AppStoreIcon.vue"
 import AdminIcon from "@/assetComponents/AdminIcon.vue"
+import { IUser } from "@/types/bases"
 
 const props = defineProps<{
     userData?: IUser,

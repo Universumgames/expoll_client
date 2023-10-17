@@ -23,11 +23,11 @@
 
 <script setup lang="ts">
 import * as auth from "@/scripts/authentication"
-import { IUser } from "@/lib/interfaces"
 import EditIcon from "../assetComponents/EditIcon.vue"
 import { languageData } from "@/scripts/languageConstruct"
 import { computed } from "vue"
 import { limitLength } from "@/scripts/helper"
+import { IUser } from "@/types/bases"
 
 const props = defineProps<{ userData: IUser, language?: languageData, authenticator: any }>()
 const emit = defineEmits(["update"])

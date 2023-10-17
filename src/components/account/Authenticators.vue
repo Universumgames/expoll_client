@@ -22,12 +22,12 @@
 </template>
 
 <script lang="ts" setup>
-import { IUser } from "@/lib/interfaces"
 import { languageData } from "@/scripts/languageConstruct"
 import AuthenticatorDetail from "@/components/AuthenticatorDetail.vue"
 import * as webauthnJson from "@github/webauthn-json"
 import * as auth from "@/scripts/authentication"
 import { onMounted, ref } from "vue"
+import { IUser } from "@/types/bases"
 
 
 const props = defineProps<{ userData: IUser, language: languageData }>()

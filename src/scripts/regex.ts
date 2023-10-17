@@ -1,5 +1,5 @@
-import { MailRegexEntry } from "@/lib/extraInterfaces"
 import ExpollStorage from "@/scripts/storage"
+import { MailRegexEntry } from "@/types/other"
 
 /**
  * retrive regex rules for login and signup

@@ -4,7 +4,11 @@
             <label style="word-wrap: anywhere">{{ userInfo.username }}</label>
             <small>ID: {{ userInfo.id }}</small>
             <small>Created at {{ new Date(userInfo.createdTimestamp).toLocaleString() }}</small>
-            <small v-if="userInfo.deletedTimestamp != null">Deleted at {{ new Date(userInfo.deletedTimestamp).toLocaleString() }}</small>
+            <small 
+                v-if="userInfo.deletedTimestamp != null"
+            >
+                Deleted at {{ new Date(userInfo.deletedTimestamp).toLocaleString() }}
+            </small>
             <img
                 v-for="connection in userInfo.oidcConnections" :key="connection"
                 :src="'/oidc/' + connection + '_preview.svg'" :alt="connection"
@@ -70,11 +74,11 @@
 </template>
 
 <script setup lang="ts">
-import { UserInfo } from "@/lib/adminInterfaces"
 import { languageData } from "@/scripts/languageConstruct"
 import EditIcon from "@/assetComponents/EditIcon.vue"
 import { deleteUserAdmin, editUserAdmin } from "@/scripts/admin"
 import ExpollStorage from "@/scripts/storage"
+import { UserInfo } from "@/types/admin/userInfo"
 
 const props = defineProps<{ userInfo: UserInfo; admin: UserInfo; language: languageData; superAdmin: boolean }>()
 const emit = defineEmits(["update"])

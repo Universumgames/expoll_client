@@ -20,8 +20,8 @@
 </template>
 
 <script setup lang="ts">
-import { MailRegexEntry } from "@/lib/extraInterfaces"
 import { ref } from "vue"
+import { MailRegexEntry } from "@/types/other"
 
 defineProps<{ reg?: MailRegexEntry }>()
 const emit = defineEmits(["remove", "update"])

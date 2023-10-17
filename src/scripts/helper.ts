@@ -1,5 +1,5 @@
-import { MailRegexEntry } from "@/lib/extraInterfaces"
 import ExpollStorage from "@/scripts/storage"
+import { MailRegexEntry } from "@/types/other"
 
 /**
  * get meta info from /api/metaInfo endpoint

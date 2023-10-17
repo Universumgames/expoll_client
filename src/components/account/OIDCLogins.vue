@@ -32,11 +32,11 @@
 </template>
 
 <script setup lang="ts">
-import { IUser } from "@/lib/interfaces"
 import { languageData } from "@/scripts/languageConstruct"
 import { onMounted, ref } from "vue"
 import * as auth from "@/scripts/authentication"
 import { capitalizeFirstLetter } from "@/scripts/helper"
+import { IUser } from "@/types/bases"
 
 const props = defineProps<{ userData: IUser, language: languageData }>()
 const oidcConnections = ref<auth.OIDCConnection[]>([])

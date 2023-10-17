@@ -35,13 +35,14 @@
 </template>
 
 <script setup lang="ts">
-import { DetailedPoll, SimpleUserNote, SimpleUserVotes } from "@/lib/extraInterfaces"
-import { IUser, ReturnCode, tOptionId, VoteValue } from "@/lib/interfaces"
 import { languageData } from "@/scripts/languageConstruct"
 import { vote } from "@/scripts/vote"
-import { VoteRequest } from "@/lib/requestInterfaces"
+import { VoteRequest } from "@/types/requests"
 import { editUserNote, leavePoll, removeUserFromPoll } from "@/scripts/poll"
 import { computed, ref } from "vue"
+import { DetailedPoll, SimpleUserNote, SimpleUserVotes } from "@/types/poll"
+import { IUser, VoteValue } from "@/types/bases"
+import { ReturnCode, tOptionId } from "@/types/constants"
 
 interface Props {
     userData: IUser
