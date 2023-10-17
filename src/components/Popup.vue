@@ -36,7 +36,7 @@ onUnmounted(() => {
 
 </script>
 
-<style>
+<style scoped>
 .popupContainer {
     position: fixed;
     top: 0;
