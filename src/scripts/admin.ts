@@ -46,7 +46,7 @@ export async function getAllPolls(): Promise<AdminPollListResponse | undefined> 
  * edit a user
  * @param {AdminEditUserRequest} data the edit delta for the user
  */
-export async function editUserAdmin(data: AdminEditUserRequest) {
+export async function editUserAdmin(data: AdminEditUserRequest): Promise<void> {
     try {
         await fetch(ExpollStorage.backendUrl + base + "/users", {
             method: "PUT",
@@ -65,7 +65,7 @@ export async function editUserAdmin(data: AdminEditUserRequest) {
  * delete user as admin, without confirmation
  * @param {tUserID} userID the user to delete
  */
-export async function deleteUserAdmin(userID: tUserID) {
+export async function deleteUserAdmin(userID: tUserID): Promise<void> {
     try {
         await fetch(ExpollStorage.backendUrl + base + "/users", {
             method: "DELETE",

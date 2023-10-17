@@ -11,10 +11,12 @@
 
 <script setup lang="ts">
 
-const props = defineProps<{
+defineProps<{
     title?: string
     text?: string
 }>()
+
+defineEmits(["close"])
 </script>
 
 <style scoped>

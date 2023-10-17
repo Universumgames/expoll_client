@@ -46,7 +46,7 @@ export async function login(userReq: {
     username?: string
     mail?: string
 }): Promise<{ success: boolean; error?: string }> {
-    const resp = await fetch(ExpollStorage.backendUrl + 
+    const resp = await fetch(ExpollStorage.backendUrl +
         base +
         "/webauthn/authenticate" +
         `?${userReq.username != undefined ? "username=" + userReq.username : "mail=" + userReq.mail}`
@@ -58,7 +58,7 @@ export async function login(userReq: {
 
     // POST the response to the endpoint that calls
     // @simplewebauthn/server -> verifyAuthenticationResponse()
-    const verificationResp = await fetch(ExpollStorage.backendUrl + 
+    const verificationResp = await fetch(ExpollStorage.backendUrl +
         base +
         "/webauthn/authenticate" +
         `?${userReq.username != undefined ? "username=" + userReq.username : "mail=" + userReq.mail}`,
@@ -107,7 +107,7 @@ export async function otpLogin(otp: string): Promise<{ returnCode: number, forAp
  * @param {string} newName the new name for the credential
  * @return {Promise} returns axios request
  */
-export async function rename(credentialID: string, newName: string) {
+export async function rename(credentialID: string, newName: string): Promise<Response> {
     return await fetch(ExpollStorage.backendUrl + base + "/webauthn/edit", {
         method: "POST",
         headers: {
@@ -122,7 +122,7 @@ export async function rename(credentialID: string, newName: string) {
  * delete a webauthn token
  * @param {string} credentialID the credential to delete
  */
-export async function deleteWebauthn(credentialID: string) {
+export async function deleteWebauthn(credentialID: string): Promise<void> {
     await fetch(ExpollStorage.backendUrl + base + "/webauthn", {
         method: "DELETE",
         credentials: "include",
@@ -137,7 +137,7 @@ export async function deleteWebauthn(credentialID: string) {
  * get list of webauthn authenticators
  * @return {any[]} get list of webauthn authenticators
  */
-export async function getWebauthnList(): Promise<any[]> {
+export async function getWebauthnList(): Promise<unknown[]> {
     try {
         const response = await fetch(ExpollStorage.backendUrl + base + "/webauthn/list", {
             method: "GET",
@@ -156,7 +156,7 @@ export async function getWebauthnList(): Promise<any[]> {
 /**
  * Logout all session from current user (deletes all sessions in database)
  */
-export async function logoutAllSessions() {
+export async function logoutAllSessions(): Promise<void> {
     try {
         await fetch(ExpollStorage.backendUrl + base + "/logoutAll", {
             method: "DELETE",
@@ -173,9 +173,9 @@ export async function logoutAllSessions() {
 
 /**
  * logout/delete specific session
- * @param {long} nonce the first 4 characters of the session that should be deleted
+ * @param {string} nonce the first 4 characters of the session that should be deleted
  */
-export async function deleteSession(nonce: string) {
+export async function deleteSession(nonce: string): Promise<void> {
     try {
         await fetch(ExpollStorage.backendUrl + base + "/logout", {
             method: "DELETE",
@@ -194,7 +194,7 @@ export async function deleteSession(nonce: string) {
 /**
  * Logout if logged in
  */
-export async function logout() {
+export async function logout(): Promise<void> {
     try {
         await fetch(ExpollStorage.backendUrl + base + "/logout", {
             method: "DELETE",
@@ -224,6 +224,7 @@ export async function requestLoginMail(mail: string): Promise<ReturnCode> {
             body: JSON.stringify({ mail: mail.toLowerCase().replace(" ", "") })
         })
         return response.status
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (e: any) {
         return e.response.status
     }
@@ -256,7 +257,7 @@ export async function getOIDCConnections(): Promise<OIDCConnection[]> {
 /**
  * get a list of available OIDC providers
  */
-export async function getAvailableOIDCProviders(): Promise<any> {
+export async function getAvailableOIDCProviders(): Promise<unknown> {
     try {
         return await fetch(ExpollStorage.backendUrl + "/api/auth/oidc/providers", {
             headers: {

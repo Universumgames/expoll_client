@@ -1,3 +1,13 @@
+<script lang="ts" setup>
+/* eslint-disable max-len */
+
+defineProps<{
+    fill?: string,
+    width?: string,
+    height?: string
+}>()
+</script>
+
 <template>
     <svg
         id="Layer_1"
@@ -18,19 +28,6 @@
         </g>
     </svg>
 </template>
-
-<script lang="ts">
-import { Options, Vue } from "vue-class-component"
-
-@Options({
-    props: {
-        fill: String
-    }
-})
-    export default class SaveIcon extends Vue {
-    fill?: string = "white"
-}
-</script>
 
 <style type="text/css">
 .st0 {

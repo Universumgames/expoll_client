@@ -39,7 +39,9 @@
 </template>
 
 <script setup lang="ts">
-const props = defineProps<{
+/* eslint-disable max-len */
+
+defineProps<{
     fill?: string,
     width?: string,
     height?: string

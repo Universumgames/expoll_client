@@ -195,6 +195,7 @@ export async function createPoll(data: CreatePollRequest): Promise<ReturnCode> {
             body: JSON.stringify(data, replacer)
         })
         return response.status
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (e: any) {
         console.error(e)
         return e.response.status

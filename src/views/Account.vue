@@ -51,6 +51,7 @@ const props = defineProps<{ userData?: IUser, language: languageData, failedLoad
 const router = useRouter()
 
 const personalizedData = ref("")
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const personalizedJSON = ref<any>({})
 
 onMounted(async () => {

@@ -23,7 +23,7 @@ export async function signUp(data: CreateUserRequest): Promise<ReturnCode> {
         })
         ExpollStorage.jwt = (await response.json()).jwt
         return response.status
-
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (e: any) {
         return e.response.status
     }
@@ -43,7 +43,7 @@ export async function getUserData(): Promise<IUser | undefined> {
                 "Authorization": "Bearer " + jwt
             }
         }).then(res => res.json())
-    } catch (e: any) {
+    } catch (e) {
         return undefined
     }
 }
@@ -71,7 +71,7 @@ export async function deleteUser(): Promise<void> {
  * get all data the system has over current user
  * @return {any} presonalized data
  */
-export async function getPersonalizedData(): Promise<any | undefined> {
+export async function getPersonalizedData(): Promise<unknown | undefined> {
     try {
         const jwt = ExpollStorage.jwt
         if (!jwt) return undefined
@@ -125,6 +125,7 @@ export async function setNotificationPreferences(data: NotificationPreferences):
             body: JSON.stringify(data)
         })
         return response.status
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (e: any) {
         return e.response.status
     }

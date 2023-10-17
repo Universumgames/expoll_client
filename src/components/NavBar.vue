@@ -39,13 +39,13 @@
                 <template v-for="route of routes" :key="route.path">
                     <template v-if="route.path != undefined && route.vif != false">
                         <router-link :to="route.path!">
-                            <component :is="route.icon" height="1em" fill="var(--text-color)"/>
+                            <component :is="route.icon" height="1em" fill="var(--text-color)" />
                             {{ route.name }}
                         </router-link>
                     </template>
                     <template v-if="route.url != undefined && route.vif != false">
                         <a :href="route.url!">
-                            <component :is="route.icon" height="1em" fill="var(--text-color)"/>
+                            <component :is="route.icon" height="1em" fill="var(--text-color)" />
                             {{ route.name }}
                         </a>
                     </template>
@@ -60,9 +60,8 @@
 
 import UserIcon from "@/components/AccountLink.vue"
 import { languageData } from "@/scripts/languageConstruct"
-import { computed, ComputedGetter, ComputedRef, Ref, ref } from "vue"
-import * as displayHelper from "../scripts/displayHelper"
-import { DisplaySize, isMobile } from "../scripts/displayHelper"
+import { computed, ComputedRef, ref } from "vue"
+import { DisplaySize, isMobile } from "@/scripts/displayHelper"
 import BarsIcon from "@/assetComponents/BarsIcon.vue"
 import { useRouter } from "vue-router"
 import ExpollStorage from "@/scripts/storage"
@@ -87,7 +86,7 @@ interface Route {
     path?: string
     url?: string
     vif?: boolean
-    icon?: any
+    icon?: unknown
 }
 
 const routes: ComputedRef<Route[]> = computed(()=>{
@@ -119,7 +118,7 @@ const routes: ComputedRef<Route[]> = computed(()=>{
 })
 
 
-
+// eslint-disable-next-line no-unused-vars,@typescript-eslint/no-unused-vars
 router.afterEach((to, from, failure) => {
     title.value = to.meta.title as string ?? "Expoll"
     menuOpen.value = false

@@ -26,7 +26,7 @@ interface Provider {
     altName: string
 }
 
-const props = withDefaults(defineProps<{
+withDefaults(defineProps<{
     language?: languageData
 }>(), {
     language: undefined

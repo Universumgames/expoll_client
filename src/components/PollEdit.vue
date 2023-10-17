@@ -23,7 +23,7 @@
             <!-- Pollname -->
             <div>
                 <label>{{ language.uiElements.polls.create.pollNameInputLabel }}</label>
-                <input v-model="pollName" type="text" class="pollNameInput">
+                <input v-model="pollName" class="pollNameInput" type="text">
             </div>
             <!-- Max per user vote count -->
             <div>
@@ -69,7 +69,7 @@
     </popup>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import Popup from "@/components/Popup.vue"
 import { languageData } from "@/scripts/languageConstruct"
 import ToggleSwitch from "@/components/ToggleSwitch.vue"
@@ -144,9 +144,14 @@ const addOption = () => {
     if (props.pollData.type == PollType.String) {
         changes.value.options.push({ value: value })
     } else if (props.pollData.type == PollType.Date) {
-        changes.value.options.push({ dateStart: new Date(value).getTime(), dateEnd: value2 != null ? new Date(value2).getTime() : undefined })
+        changes.value.options.push(
+            { dateStart: new Date(value).getTime(), dateEnd: value2 != null ? new Date(value2).getTime() : undefined })
     } else if (props.pollData.type == PollType.DateTime) {
-        changes.value.options.push({ dateTimeStart: new Date(value).getTime(), dateTimeEnd: value2 != null ? new Date(value2).getTime() : undefined })
+        changes.value.options.push(
+            {
+                dateTimeStart: new Date(value).getTime(),
+                dateTimeEnd: value2 != null ? new Date(value2).getTime() : undefined
+            })
     }
 }
 
@@ -192,10 +197,10 @@ const deletePoll = async () => {
 .smallEditsContainer > div,
 .editHeader,
 .optionsList > div {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 0.5rem 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0.5rem 0;
 }
 
 .editHeader {
@@ -203,14 +208,14 @@ const deletePoll = async () => {
 }
 
 .optionsContainer {
-    background-color: var(--secondary-color);
-    border-radius: var(--default-border-radius);
-    padding: 2ch;
+  background-color: var(--secondary-color);
+  border-radius: var(--default-border-radius);
+  padding: 2ch;
 }
 </style>
 
 <style scoped>
 .pollNameInput {
-    width: v-bind(pollNameLength)
+  width: v-bind(pollNameLength)
 }
 </style>

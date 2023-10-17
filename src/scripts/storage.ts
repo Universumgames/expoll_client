@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 /**
  * storage container
  */
@@ -122,10 +124,17 @@ export default class ExpollStorage {
         this.save()
     }
 
+    /**
+     * get pollid from before logging in
+     */
     static get outstandingJoinPollID(): string | null {
         return localStorage.getItem("outstandingJoinPollID")
     }
 
+    /**
+     * set pollid before logging in to return to poll after logging in
+     * @param pollID
+     */
     static set outstandingJoinPollID(pollID: string | null) {
         if (pollID == null) {
             localStorage.removeItem("outstandingJoinPollID")

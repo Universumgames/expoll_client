@@ -20,6 +20,7 @@ export async function vote(req: VoteRequest): Promise<ReturnCode> {
             body: JSON.stringify(req)
         })).status
         return rc
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (e: any) {
         return e.response.status
     }

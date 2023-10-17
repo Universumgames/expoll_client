@@ -29,11 +29,13 @@ import { computed } from "vue"
 import { limitLength } from "@/scripts/helper"
 import { IUser } from "@/types/bases"
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const props = defineProps<{ userData: IUser, language?: languageData, authenticator: any }>()
 const emit = defineEmits(["update"])
 
 const name = computed(() => props.authenticator.name == "" ? "unnamed" : props.authenticator.name)
-const platform = computed(() => props.authenticator.initiatorPlatform == "" ? "unknown" : props.authenticator.initiatorPlatform)
+const platform = computed(() =>
+    props.authenticator.initiatorPlatform == "" ? "unknown" : props.authenticator.initiatorPlatform)
 const createdAuth = computed(() => props.authenticator.created == undefined ? "unknown" : props.authenticator.created)
 
 const rename = async () => {

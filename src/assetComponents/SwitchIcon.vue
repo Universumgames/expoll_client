@@ -1,3 +1,13 @@
+<script lang="ts" setup>
+/* eslint-disable max-len */
+
+defineProps<{
+    fill?: string,
+    width?: string,
+    height?: string
+}>()
+</script>
+
 <template>
     <svg
         id="Flat" width="256px"
@@ -10,19 +20,6 @@
         />
     </svg>
 </template>
-
-<script lang="ts">
-import { Options, Vue } from "vue-class-component"
-
-@Options({
-    props: {
-        fill: String
-    }
-})
-    export default class SwitchIcon extends Vue {
-    fill?: string = "white"
-}
-</script>
 
 <style type="text/css">
 .st0 {

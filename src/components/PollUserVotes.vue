@@ -124,7 +124,6 @@ const removeUser = async () => {
         } else {
             // remove user from poll
             if (!isEditable()) return
-            if (props.userVote.user == undefined) return
             await removeUserFromPoll(props.pollData.pollID, props.userVote.user?.id)
             emit("kickedID", props.userVote.user.id)
         }
@@ -133,17 +132,6 @@ const removeUser = async () => {
     }
 }
 
-const maxAcceptableVoteCount = computed(() => {
-    return props.pollData?.maxPerUserVoteCount ?? -1
-})
-
-const voteCountTrue = () => {
-    let count = 0
-    for (const vote of props.userVote?.votes ?? []) {
-        if (vote.votedFor == VoteValue.yes || vote.votedFor == VoteValue.maybe) count++
-    }
-    return count
-}
 
 const isEditable = () => {
     return (

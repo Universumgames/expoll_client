@@ -23,7 +23,7 @@ import { ref } from "vue"
 import { languageList } from "@/scripts/languages/languageConfig"
 import LanguageIcon from "@/assetComponents/LanguageIcon.vue"
 
-const props = defineProps<{ language: languageData }>()
+defineProps<{ language: languageData }>()
 const emit = defineEmits(["langChange"])
 
 const showSelect = ref(false)

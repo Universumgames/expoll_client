@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+
 export enum DisplaySize {
     XS = 0,
     S = 600,

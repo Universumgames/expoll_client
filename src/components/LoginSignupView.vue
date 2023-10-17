@@ -150,11 +150,11 @@ import { computed, onMounted, ref } from "vue"
 import { ReCaptchaInstance } from "@/scripts/recaptcha"
 import { useRoute } from "vue-router"
 import ExpollStorage from "@/scripts/storage"
-import router from "@/router"
 import { IUser } from "@/types/bases"
 import { ReturnCode } from "@/types/constants"
 import { MailRegexEntry } from "@/types/other"
 
+/* eslint-disable no-unused-vars */
 enum LoginType {
     LOGIN = 0,
     SIGNUP = 1,
@@ -215,9 +215,7 @@ onMounted(async () => {
 })
 
 const mailUpdate = () => {
-    if (!mailIsAllowed(loginMail.value, mailRegex.value)) {
-        mailInvalid.value = true
-    } else mailInvalid.value = false
+    mailInvalid.value = !mailIsAllowed(loginMail.value, mailRegex.value)
 }
 
 const displayError = (error?: string) => {
@@ -292,13 +290,13 @@ const login = async () => {
     loginMsg.value = ""
     try {
         console.log(otp.value)
-        const { returnCode, forApp } = await otpLogin(otp.value)
+        const { forApp } = await otpLogin(otp.value)
         const user = await getUserData()
         if (route.query.isNewUser == "1") {
             const newUsername = prompt(props.language.uiElements.login.form.defineUsernameAfterOIDC, user?.username)
             const jwt = ExpollStorage.jwt
             if(jwt == null) return
-            const result = await fetch(ExpollStorage.backendUrl + "/api/user", {
+            await fetch(ExpollStorage.backendUrl + "/api/user", {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
@@ -368,6 +366,7 @@ interface Window {
 
 
 const getCaptchaToken = async (): Promise<string> => {
+    // eslint-disable-next-line no-unused-vars,@typescript-eslint/no-unused-vars
     return new Promise((resolve, reject) => {
         (window as unknown as Window).grecaptcha.ready(() => {
             (window as unknown as Window).grecaptcha.execute(captchaKey, { action: "signup" }).then((token: string) => {

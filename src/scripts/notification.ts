@@ -10,7 +10,7 @@ function isPushNotificationSupported() {
 /**
  * initialize notifications
  */
-export function initializePushNotifications() {
+export function initializePushNotifications(): void {
     // request user grant to show notification
     console.log("initializePushNotifications")
     if (!isPushNotificationSupported()) {
@@ -66,7 +66,7 @@ function sendSubscriptionToServer(subscription: PushSubscription) {
             "Authorization": "Bearer " + ExpollStorage.jwt
         }
     })
-        .then(function (response) {
+        .then(function () {
             // Handle the response from the server
         })
         .catch(function (error) {

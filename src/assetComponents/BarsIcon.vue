@@ -1,5 +1,7 @@
 <script lang="ts" setup>
-const props = defineProps<{
+/* eslint-disable max-len */
+
+defineProps<{
     fill?: string,
     width?: string,
     height?: string

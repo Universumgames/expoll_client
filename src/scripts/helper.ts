@@ -5,7 +5,7 @@ import { MailRegexEntry } from "@/types/other"
  * get meta info from /api/metaInfo endpoint
  * @return {any} returns meta info object
  */
-export async function getMetaInfo(): Promise<any> {
+export async function getMetaInfo(): Promise<unknown> {
     return await fetch(ExpollStorage.backendUrl + "/api/metaInfo").then(res => res.json())
 }
 
@@ -23,15 +23,15 @@ export function isDarkMode(): boolean {
 
 /**
  * Pass this method to JSON.stringify to parse datetime to utc
- * @param {Any} key sadf
- * @param {Any} value sdf
+ * @param {unknown} key sadf
+ * @param {unknown} value sdf
  * @return {String}
  */
-export function replacer(key: any, value: any) {
-    // @ts-ignore
+export function replacer(key: unknown, value: unknown): unknown {
+    // @ts-ignore array access is normally not allowed
     // eslint-disable-next-line no-invalid-this
     if (this[key] instanceof Date) {
-        // @ts-ignore
+        // @ts-ignore array access is normally not allowed
         // eslint-disable-next-line no-invalid-this
         return this[key].toUTCString()
     }

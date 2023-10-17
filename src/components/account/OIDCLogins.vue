@@ -38,7 +38,7 @@ import * as auth from "@/scripts/authentication"
 import { capitalizeFirstLetter } from "@/scripts/helper"
 import { IUser } from "@/types/bases"
 
-const props = defineProps<{ userData: IUser, language: languageData }>()
+defineProps<{ userData: IUser, language: languageData }>()
 const oidcConnections = ref<auth.OIDCConnection[]>([])
 const providers = ref<{ key: string, imageURI: string, imageSmallURI: string, altName: string }[]>([])
 const missingProviders = ref<string[]>([])

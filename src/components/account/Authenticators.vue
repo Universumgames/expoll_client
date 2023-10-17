@@ -7,8 +7,8 @@
 
         <div v-show="authenticators.length > 0">
             <authenticator-detail
-                v-for="auth in authenticators" :key="auth.credentialID"
-                :authenticator="auth"
+                v-for="authenticator in authenticators" :key="authenticator.credentialID"
+                :authenticator="authenticator"
                 :language="language" :user-data="userData"
                 @update="updateAuthenticators"
             />
@@ -32,7 +32,7 @@ import { IUser } from "@/types/bases"
 
 const props = defineProps<{ userData: IUser, language: languageData }>()
 
-const authenticators = ref<any[]>([])
+const authenticators = ref<unknown[]>([])
 
 onMounted(async () => {
     await updateAuthenticators()
@@ -56,6 +56,7 @@ const addAuth = async () => {
 }
 
 const getAuthenticators = async () => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return (await auth.getWebauthnList()).sort((a: any, b: any) => {
         return a.created < b.created ? 1 : -1
     })

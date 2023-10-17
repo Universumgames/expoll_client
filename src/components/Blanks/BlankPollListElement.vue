@@ -24,11 +24,8 @@
 
 <script setup lang="ts">
 import { languageData } from "@/scripts/languageConstruct"
-import { computed } from "vue"
 
-const props = defineProps<{ language: languageData }>()
-
-const lastUpdated = computed(() => props.language?.uiElements.polls.list.lastUpdate("") ?? "")
+defineProps<{ language: languageData }>()
 </script>
 
 <style scoped>

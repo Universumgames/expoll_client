@@ -25,16 +25,18 @@
 </template>
 
 <script setup lang="ts">
-import { languageData } from "../../scripts/languageConstruct"
-import { login } from "../../scripts/authentication"
+import { languageData } from "@/scripts/languageConstruct"
+import { login } from "@/scripts/authentication"
 import { mailIsAllowed } from "@/scripts/helper"
 import { ref } from "vue"
 import { MailRegexEntry } from "@/types/other"
 
-const props = defineProps<{
+defineProps<{
     language?: languageData
     mailRegex: MailRegexEntry[]
 }>()
+
+defineEmits(["return"])
 
 const loginMail = ref("")
 const signupUsername = ref("")

@@ -37,7 +37,7 @@ import { IUser } from "@/types/bases"
 
 const props = defineProps<{ userData: IUser, language: languageData }>()
 
-const personalizedData = ref<any>({})
+const personalizedData = ref<unknown>({})
 
 onMounted(async () => {
     await getPersonalizedData()

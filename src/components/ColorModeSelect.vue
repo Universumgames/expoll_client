@@ -25,7 +25,7 @@ import { ref } from "vue"
 import ExpollStorage from "@/scripts/storage"
 import ColorThemeIcon from "@/assetComponents/ColorThemeIcon.vue"
 
-const props = defineProps<{ language: languageData }>()
+defineProps<{ language: languageData }>()
 const emit = defineEmits(["colorChange"])
 
 const showSelect = ref(false)

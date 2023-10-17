@@ -139,16 +139,10 @@ onMounted(async () => {
     // this.forceLogin()
 })
 
-const forceLogin = () => {
-    if (userData.value == undefined) {
-        router.push({ path: "/login" })
-    }
-}
-
 const manageDarkMode = () => {
     isDark.value = isDarkMode()
     // watch for darkmode changes
-    window.matchMedia("(prefers-color-scheme: dark)").addListener((e) => {
+    window.matchMedia("(prefers-color-scheme: dark)").addListener(() => {
         isDark.value = isDarkMode()
         document.body.classList.remove(!isDark.value ? "darkVars" : "lightVars")
         document.body.classList.add(isDark.value ? "darkVars" : "lightVars")
@@ -156,6 +150,7 @@ const manageDarkMode = () => {
     document.body.classList.add(isDark.value ? "darkVars" : "lightVars")
 }
 
+// eslint-disable-next-line no-unused-vars,@typescript-eslint/no-unused-vars
 const changeColor = (dark: boolean | null) => {
     isDark.value = isDarkMode()
     document.body.classList.remove(!isDark.value ? "darkVars" : "lightVars")
@@ -201,7 +196,7 @@ const displaySize = ref(DisplaySize.XXL)
 
 displaySize.value = displayHelper.getDisplaySize()
 
-addEventListener("resize", (event) => {
+addEventListener("resize", () => {
     displaySize.value = displayHelper.getDisplaySize()
 })
 
