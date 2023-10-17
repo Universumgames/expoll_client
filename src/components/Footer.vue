@@ -58,8 +58,8 @@
                     height="41"
                     loading="lazy"
                     src="https://cdn.buymeacoffee.com/buttons/default-orange.png"
-                    width="174"
                     style="border-radius: var(--default-border-radius);"
+                    width="174"
                 ></a>
         </div>
         <div class="belowFooter">
@@ -74,7 +74,7 @@
     </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import { languageData } from "@/scripts/languageConstruct"
 import LanguageSelect from "./LanguageSelect.vue"
 import { computed } from "vue"
@@ -83,7 +83,7 @@ import ExpollStorage from "../scripts/storage"
 import { IUser } from "@/types/bases"
 
 interface Props {
-    userData: IUser|undefined
+    userData: IUser | undefined
     language: languageData
     frontendVersion: string
     backendVersion: string
@@ -93,7 +93,8 @@ const props = defineProps<Props>()
 const emit = defineEmits(["onLangChange", "colorChange"])
 
 const bugreportVersion = computed(() =>
-    encodeURIComponent("Frontend " + props.frontendVersion + ", Backend " + props.backendVersion)
+    encodeURIComponent(
+        "Frontend " + props.frontendVersion + " " + ExpollStorage.platformName + ", Backend " + props.backendVersion)
 )
 
 const onLangChange = (short: string) => {
@@ -127,7 +128,7 @@ const changeColor = (short: string | undefined) => {
   flex-direction: column;
 }
 
-.footer  * {
+.footer * {
   margin: 1ch;
 }
 
@@ -143,7 +144,7 @@ const changeColor = (short: string | undefined) => {
 .belowFooter * {
 }
 
-.quickSettings{
+.quickSettings {
   display: flex;
   flex-direction: column;
   align-items: end;
@@ -168,7 +169,7 @@ const changeColor = (short: string | undefined) => {
   margin: 0.5ch;
 }
 
-.bmc img{
+.bmc img {
   width: min(30ch, 80vw);
   height: auto;
 }
