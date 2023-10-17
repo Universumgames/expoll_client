@@ -4,6 +4,7 @@
             <label style="word-wrap: anywhere">{{ userInfo.username }}</label>
             <small>ID: {{ userInfo.id }}</small>
             <small>Created at {{ new Date(userInfo.createdTimestamp).toLocaleString() }}</small>
+            <small v-if="userInfo.deletedTimestamp != null">Deleted at {{ new Date(userInfo.deletedTimestamp).toLocaleString() }}</small>
             <img
                 v-for="connection in userInfo.oidcConnections" :key="connection"
                 :src="'/oidc/' + connection + '_preview.svg'" :alt="connection"
@@ -175,7 +176,6 @@ const impersonate = async () => {
     flex-direction: row;
     background: var(--secondary-color);
     border-radius: var(--aggressive-border-radius);
-    margin: 1rem;
     padding: 1ch;
     text-align: left;
 }

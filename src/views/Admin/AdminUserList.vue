@@ -4,23 +4,32 @@
         <label>User count: {{ count }}</label>
     </div>
 
-    <input
-        v-if="!loading" v-model="search"
-        type="text" placeholder="Search"
-        @input="updateFilteredUsers"
-        @change="updateFilteredUsers"
-    >
+    <div class="adminUserListHeader">
+        <input
+            v-if="!loading" v-model="search"
+            type="text" placeholder="Search"
+            @input="updateFilteredUsers"
+            @change="updateFilteredUsers"
+        >
+  
+        <div>
+            <label for="deletedUserOnlyCheckbox">Deleted Users only</label>
+            <input id="deletedUserOnlyCheckbox" v-model="deletedOnly" type="checkbox" @change="updateFilteredUsers">
+        </div>
 
-    <button @click="createUser">
-        Create new User
-    </button>
+        <button @click="createUser">
+            Create new User
+        </button>
+    </div>
 
-    <user-row
-        v-for="user in filteredUsers" :key="user.id"
-        :user-info="user" :language="language"
-        :admin="userData"
-        :super-admin="adminIsSuper" @update="getData"
-    />
+    <div class="adminUserListContainer">
+        <user-row
+            v-for="user in filteredUsers" :key="user.id"
+            :user-info="user" :language="language"
+            :admin="userData"
+            :super-admin="adminIsSuper" @update="getData"
+        />
+    </div>
 </template>
 
 <script setup lang="ts">
@@ -34,13 +43,14 @@ import { getAllUser } from "@/scripts/admin"
 import { onMounted, ref } from "vue"
 import ExpollStorage from "@/scripts/storage"
 
-defineProps<{ userData?: IUser, language: languageData }>()
+defineProps<{ userData: IUser, language: languageData }>()
 
 const adminIsSuper = ref(false)
 const users = ref<UserInfo[]>()
 const filteredUsers = ref<UserInfo[]>([])
 const count = ref(0)
 const loading = ref(true)
+const deletedOnly = ref(false)
 
 const search = ref("")
 
@@ -70,13 +80,14 @@ onMounted(async () => {
 
 const updateFilteredUsers = () => {
     if (users.value == undefined) return
+    console.log(deletedOnly.value)
     filteredUsers.value = users.value.filter((user) => {
         return (
             user.username.toLowerCase().includes(search.value.toLowerCase()) ||
             user.mail.toLowerCase().includes(search.value.toLowerCase()) ||
             user.firstName.toLowerCase().includes(search.value.toLowerCase()) ||
             user.lastName.toLowerCase().includes(search.value.toLowerCase())
-        )
+        ) && (!deletedOnly.value || user.deletedTimestamp != null || !user.active)
     })
 }
 
@@ -116,3 +127,19 @@ const createUser = async () => {
     }
 }
 </script>
+
+<style>
+.adminUserListHeader{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.adminUserListContainer{
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+</style>

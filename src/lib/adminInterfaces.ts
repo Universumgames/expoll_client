@@ -11,4 +11,5 @@ export interface UserInfo {
     superAdmin: boolean
     oidcConnections: string[]
     createdTimestamp: number
+    deletedTimestamp: number | null
 }
