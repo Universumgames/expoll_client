@@ -150,6 +150,10 @@ export interface languageData {
                 editingDisabled: string
                 addUserBtn: string
                 description: string
+                join: {
+                    button: string
+                    note: string
+                }
             }
             votes: {
                 yes: string

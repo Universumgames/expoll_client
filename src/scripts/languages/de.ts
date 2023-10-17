@@ -193,7 +193,11 @@ Tritt der Beta via TestFlight bei und installiere die App: [https://testflight.a
                     "Sicher, dass du " + username + " rauswerfen willst (die Stimmen werden gelöscht)?",
                 editingDisabled: "Bearbeiten deaktiviert",
                 addUserBtn: "Benutzer hinzufügen",
-                description: "Beschreibung"
+                description: "Beschreibung",
+                join: {
+                    button: "Beitreten",
+                    note: "Du musst zuerst beitreten um abzustimmen"
+                }
             },
             votes: {
                 yes: "Ja",

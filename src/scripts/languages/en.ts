@@ -183,7 +183,11 @@ Join the Beta via TestFlight and install the app: [https://testflight.apple.com/
                     "Sure you want to kick " + username + " from this poll ( votes will remain and stay saved for when the user rejoins)?",
                 editingDisabled: "Editing disabled",
                 addUserBtn: "Add user",
-                description: "Description"
+                description: "Description",
+                join: {
+                    button: "Join",
+                    note: "You did not yet join the poll, join now"
+                }
             },
             votes: {
                 yes: "Yes",

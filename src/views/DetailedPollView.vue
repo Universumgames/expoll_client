@@ -72,13 +72,14 @@
                 <h3 v-show="shareLinkCopied" style="display: inline">Copied</h3>
             </a>
         </div>
-        <template v-if="!isJoined && poll != undefined">
+        <div v-if="!isJoined && poll != undefined">
+            <label>{{ language.uiElements.polls.details.join.note }}</label>
             <button style="text-align: left; margin-top: 1rem" @click="joinPoll()">
                 <h1 style="display: inline">
-                    Join
+                    {{ language.uiElements.polls.details.join.button }}
                 </h1>
             </button>
-        </template>
+        </div>
         <br>
 
         <!-- Poll options and results -->
@@ -105,6 +106,7 @@
                 </tr>
 
                 <poll-user-vote-row
+                    v-if="isJoined"
                     :user-data="userData" :language="language"
                     :user-vote="getVotesByUser()"
                     :poll-data="poll"
