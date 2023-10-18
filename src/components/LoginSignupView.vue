@@ -153,6 +153,7 @@ import ExpollStorage from "@/scripts/storage"
 import { IUser } from "@/types/bases"
 import { ReturnCode } from "@/types/constants"
 import { MailRegexEntry } from "@/types/other"
+import { setCookie } from "@/scripts/cookie"
 
 /* eslint-disable no-unused-vars */
 enum LoginType {
@@ -308,6 +309,7 @@ const login = async () => {
             })
         }
         if (paramForApp.value || forApp) {
+            setCookie("expoll_session", JSON.stringify({ jwt: ExpollStorage.jwt ?? "" }))
             window.location.href = "/api/auth/simple/app"
             return
         }

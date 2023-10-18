@@ -9,9 +9,10 @@
         <NotificationPreferences :language="language" :user-data="userData" />
         <OIDCLogins :language="language" :user-data="userData" />
 
-        <a href="/api/auth/simple/app" target="_blank">
-            <button>{{ language?.uiElements.login.loggedIn.loginAppBtn }}</button>
-        </a>
+
+        <button @click="loginApp">
+            {{ language?.uiElements.login.loggedIn.loginAppBtn }}
+        </button>
 
         <details
             style="background-color: var(--secondary-color); 
@@ -46,6 +47,8 @@ import Sessions from "@/components/account/Sessions.vue"
 import NotificationPreferences from "@/components/account/NotificationPreferences.vue"
 import OIDCLogins from "@/components/account/OIDCLogins.vue"
 import { IUser } from "@/types/bases"
+import { setCookie } from "@/scripts/cookie"
+import ExpollStorage from "@/scripts/storage"
 
 const props = defineProps<{ userData?: IUser, language: languageData, failedLoading: boolean }>()
 const router = useRouter()
@@ -101,6 +104,11 @@ const deleteUser = async () => {
             }
         }
     }
+}
+
+const loginApp = () => {
+    setCookie("expoll_session", JSON.stringify({ jwt: ExpollStorage.jwt ?? "" }))
+    window.open("/api/auth/simple/app", "_blank")
 }
 
 
