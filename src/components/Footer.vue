@@ -17,6 +17,9 @@
                 <router-link to="/siteNotice">
                     {{ language?.uiElements.navigation.siteNotice }}
                 </router-link>
+                <router-link to="/support">
+                    {{ language?.uiElements.navigation.support }}
+                </router-link>
             </div>
             <div class="expoll_source_links">
                 <small>Source Code</small>

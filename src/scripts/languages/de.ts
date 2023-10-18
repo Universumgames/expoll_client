@@ -13,7 +13,8 @@ const de: languageData = {
             changeLanguageButton: "Sprache",
             changeColorSchemeButton: "Farbschema",
             privacyPolicy: "Privatsphäre",
-            siteNotice: "Impressum"
+            siteNotice: "Impressum",
+            support: "Support"
         },
         home: `
 # Expoll - Umfragen einfach gemacht

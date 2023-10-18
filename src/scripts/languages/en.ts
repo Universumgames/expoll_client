@@ -13,7 +13,8 @@ const en: languageData = {
             changeLanguageButton: "language",
             changeColorSchemeButton: "color scheme",
             privacyPolicy: "Privacy Policy",
-            siteNotice: "Site Notice"
+            siteNotice: "Site Notice",
+            support: "Support"
         },
         home: `
 # Expoll - Polling made easy

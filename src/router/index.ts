@@ -36,6 +36,14 @@ const routes = [
         }
     },
     {
+        path: "/support",
+        name: "Support",
+        component: () => import("../views/Support.vue"),
+        meta: {
+            title: "Support"
+        }
+    },
+    {
         path: "/create",
         name: "Create Poll",
         component: () => import("../views/CreatePollView.vue"),

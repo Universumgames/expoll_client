@@ -15,6 +15,7 @@ export interface languageData {
             changeColorSchemeButton: string
             privacyPolicy: string
             siteNotice: string
+            support: string
         }
         home: string
         appInstall: {
