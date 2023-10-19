@@ -154,7 +154,13 @@ Join the Beta via TestFlight and install the app: [https://testflight.apple.com/
             },
             list: {
                 lastUpdate: (timeString: string) => "Last update on \n" + timeString,
-                createBtn: "Create poll"
+                createBtn: "Create poll",
+                grouping: {
+                    latest: "Last 30 days",
+                    quarter: "Last 3 Months",
+                    year: "Last year",
+                    older: "Older"
+                }
             },
             details: {
                 createdBy: (username: string) => "Created by " + username,

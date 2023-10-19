@@ -159,7 +159,13 @@ Tritt der Beta via TestFlight bei und installiere die App: [https://testflight.a
             },
             list: {
                 lastUpdate: (timeString: string) => "Zuletzt aktualisiert am \n" + timeString,
-                createBtn: "Umfrage erstellen"
+                createBtn: "Umfrage erstellen",
+                grouping: {
+                    latest: "Letzten 30 Tage",
+                    quarter: "Letzten 3 Monate",
+                    year: "Letztes Jahr",
+                    older: "Älter"
+                }
             },
             details: {
                 createdBy: (username: string) => "Erstellt von " + username,

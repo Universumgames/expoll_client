@@ -124,7 +124,13 @@ export interface languageData {
             }
             list: {
                 lastUpdate: (timeString: string) => string,
-                createBtn: string
+                createBtn: string,
+                grouping: {
+                    latest: string,
+                    quarter: string,
+                    year: string,
+                    older: string,
+                }
             }
             details: {
                 createdBy: (username: string) => string
@@ -177,7 +183,7 @@ export interface languageData {
         "notification.user.added": string
         "notification.user.removed": string
         "notification.vote.change": string,
-        preferences:{
+        preferences: {
             title: string
             voteChange: string,
             userAdded: string,

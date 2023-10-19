@@ -11,8 +11,31 @@
                 }}</span>
             </button>
         </router-link>
-        <div v-for="poll in polls" :key="poll.pollID">
-            <poll-list-element :poll="poll" :language="language" :display-size="displaySize" />
+        <div class="pollList">
+            <small>{{ language.uiElements.polls.list.grouping.latest }}</small>
+            <poll-list-element
+                v-for="poll in filtered(Filter.latest)" :key="poll.pollID"
+                :poll="poll" :language="language"
+                :display-size="displaySize"
+            />
+            <small>{{ language.uiElements.polls.list.grouping.quarter }}</small>
+            <poll-list-element
+                v-for="poll in filtered(Filter.quarter)" :key="poll.pollID"
+                :poll="poll" :language="language"
+                :display-size="displaySize"
+            />
+            <small>{{ language.uiElements.polls.list.grouping.year }}</small>
+            <poll-list-element
+                v-for="poll in filtered(Filter.year)" :key="poll.pollID"
+                :poll="poll" :language="language"
+                :display-size="displaySize"
+            />
+            <small>{{ language.uiElements.polls.list.grouping.older }}</small>
+            <poll-list-element
+                v-for="poll in filtered(Filter.older)" :key="poll.pollID"
+                :poll="poll" :language="language"
+                :display-size="displaySize"
+            />
         </div>
     </div>
 </template>
@@ -48,17 +71,42 @@ onMounted(async () => {
 
     loading.value = false
 })
+
+enum Filter {
+    latest, // last 30 days
+    quarter,
+    year,
+    older
+}
+
+const filtered = (filter: Filter) => {
+
+    const now = new Date()
+    const latest = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 30)
+    const quarter = new Date(now.getFullYear(), now.getMonth() - 3, now.getDate())
+    const year = new Date(now.getFullYear() - 1, now.getMonth(), now.getDate())
+    const older = new Date(now.getFullYear() - 1, now.getMonth(), now.getDate())
+
+    switch (filter) {
+        case Filter.latest:
+            return polls.value.filter(poll => new Date(poll.lastUpdated) > latest)
+        case Filter.quarter:
+            return polls.value.filter(poll => new Date(poll.lastUpdated) > quarter)
+        case Filter.year:
+            return polls.value.filter(poll => new Date(poll.lastUpdated) > year)
+        case Filter.older:
+            return polls.value.filter(poll => new Date(poll.lastUpdated) < older)
+    }
+}
 </script>
 
-<style scoped>
+<style>
 .listContainer {
     margin: 0;
     padding: 0;
 }
 
-button {
-    border-radius: var(--default-border-radius);
-    padding: 1ch;
-
+.pollList {
+  text-align: left;
 }
 </style>
