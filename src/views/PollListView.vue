@@ -18,18 +18,21 @@
                 :poll="poll" :language="language"
                 :display-size="displaySize"
             />
+            <divider style="'solid'" color="white" height="0.2rem" />
             <small>{{ language.uiElements.polls.list.grouping.quarter }}</small>
             <poll-list-element
                 v-for="poll in filtered(Filter.quarter)" :key="poll.pollID"
                 :poll="poll" :language="language"
                 :display-size="displaySize"
             />
+            <divider style="'solid'" color="white" height="0.2rem" />
             <small>{{ language.uiElements.polls.list.grouping.year }}</small>
             <poll-list-element
                 v-for="poll in filtered(Filter.year)" :key="poll.pollID"
                 :poll="poll" :language="language"
                 :display-size="displaySize"
             />
+            <divider style="'solid'" color="white" height="0.2rem" />
             <small>{{ language.uiElements.polls.list.grouping.older }}</small>
             <poll-list-element
                 v-for="poll in filtered(Filter.older)" :key="poll.pollID"
@@ -51,6 +54,7 @@ import { onMounted, ref } from "vue"
 import { DisplaySize } from "@/scripts/displayHelper"
 import { PollSummary } from "@/types/poll"
 import { IUser } from "@/types/bases"
+import Divider from "@/components/Divider.vue"
 
 defineProps<{
     userData: IUser | undefined
