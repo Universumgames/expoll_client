@@ -290,7 +290,6 @@ const login = async () => {
 
     loginMsg.value = ""
     try {
-        console.log(otp.value)
         const { forApp } = await otpLogin(otp.value)
         const user = await getUserData()
         if (route.query.isNewUser == "1") {

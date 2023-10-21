@@ -9,6 +9,7 @@ export default class ExpollStorage {
     static platformName: string = process.env["VUE_APP_EXPOLL_PLATFORM_NAME"]
     static isAndroid: boolean = ExpollStorage.platformName.toLowerCase().includes("android")
     static isWeb: boolean = ExpollStorage.platformName.toLowerCase().includes("web")
+    static isPWA: boolean = false
     static applicationServerKey: string = process.env["VUE_APP_APPLICATION_SERVER_KEY"]
     static appVersion: string = process.env["VUE_APP_VERSION"]
 
@@ -20,7 +21,7 @@ export default class ExpollStorage {
             // @ts-ignore - Chrome Mobile (Android)
             (window.navigator.standalone) ||
             document.referrer.includes("android-app://")
-        if(isPWA) this.platformName = this.platformName + " PWA"
+        ExpollStorage.isPWA = isPWA
         return isPWA
     }
 

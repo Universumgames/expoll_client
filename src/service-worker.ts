@@ -1,11 +1,12 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+
 import { precacheAndRoute } from "workbox-precaching"
 import { getLanguage, languageData } from "@/scripts/languageConstruct"
 import Database from "@/scripts/db"
 
+
 // @ts-ignore
 precacheAndRoute(self.__WB_MANIFEST)
-
-// Additional code goes here.
 
 self.addEventListener("message", event => {
     if (!event.data) {
@@ -25,17 +26,17 @@ self.addEventListener("message", event => {
     }
 })
 
-self.addEventListener("install", event => {
+self.addEventListener("install", () => {
     // forces a service worker to activate immediately
     // @ts-ignore
-    self.skipWaiting();
-});
+    self.skipWaiting()
+})
 
 self.addEventListener("activate", function (event) {
     // when this SW becomes activated, we claim all the opened clients
     // they can be standalone PWA windows or browser tabs
     // @ts-ignore
-    event.waitUntil(clients.claim());
+    event.waitUntil(clients.claim())
 })
 
 self.addEventListener("message", event => {
@@ -63,17 +64,22 @@ interface PushPayload {
     bodyArgs: Array<string> | undefined
     timestamp: number
     expiration: number
-    additionalData: Map<string, any> | undefined
+    additionalData: Map<string, unknown> | undefined
 }
 
+/**
+ * get notification translation
+ * @param language
+ * @param key
+ */
 function getNotificationTranslation(language: languageData, key: string): string| undefined {
     // @ts-ignore
     return language.notifications[key]
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 self.addEventListener("push", function (event: any) {
     const payload = event.data.json() as PushPayload
-    console.log(payload)
     let title = payload.title
     let body = payload.body
 
@@ -97,7 +103,6 @@ self.addEventListener("push", function (event: any) {
                 if (!body.includes("%@")) continue
                 body = body.replace("%@", arg) ?? body
             }
-            console.log("Push Received: " + JSON.stringify(payload))
             const notificationOptions: NotificationOptions = {
                 body: body,
                 icon: "/app_icons/ipad152.png",

@@ -17,7 +17,6 @@
                 <label>{{ language.uiElements.polls.create.allowsEditingLabel }}</label>
                 <toggle-switch
                     v-model="allowsEditing"
-                    @change="console.log(allowsEditing)"
                 />
             </div>
             <!-- Pollname -->
@@ -170,7 +169,6 @@ const optionValue = (option: ComplexOption): string => {
 }
 
 const save = async () => {
-    console.log(changes.value)
     const ret = await pollMethods.pushPollChanges(props.pollData.pollID, changes.value)
     if (ret == ReturnCode.OK) changes.value = { pollID: props.pollData.pollID }
     else alert("Error: " + ret)

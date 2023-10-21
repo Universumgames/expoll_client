@@ -119,7 +119,6 @@ const removeUser = async () => {
         if (loggedUserIsSelectedUser()) {
             await leavePoll(props.pollData.pollID)
             window.location.href = "/#/polls"
-            console.log("leaving poll")
 
         } else {
             // remove user from poll

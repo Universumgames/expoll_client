@@ -80,7 +80,6 @@ onMounted(async () => {
 
 const updateFilteredUsers = () => {
     if (users.value == undefined) return
-    console.log(deletedOnly.value)
     filteredUsers.value = users.value.filter((user) => {
         return (
             user.username.toLowerCase().includes(search.value.toLowerCase()) ||
