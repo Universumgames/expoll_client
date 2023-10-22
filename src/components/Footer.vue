@@ -67,7 +67,8 @@
         </div>
         <div class="belowFooter">
             <div class="versionInfo">
-                <small>Frontend-Version {{ frontendVersion }} {{ ExpollStorage.platformName }}</small>
+                <small>Frontend-Version {{ frontendVersion }} {{ ExpollStorage.platformName }}
+                    {{ ExpollStorage.runsAsPWA() ? "PWA" : "" }}</small>
                 <small>Backend-Version {{ backendVersion }}</small>
             </div>
             <div>

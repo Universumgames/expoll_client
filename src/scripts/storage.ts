@@ -29,6 +29,7 @@ export default class ExpollStorage {
      * init storage
      */
     static async init(): Promise<void> {
+        this.runsAsPWA()
     }
 
     /**
