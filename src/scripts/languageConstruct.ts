@@ -121,6 +121,7 @@ export interface languageData {
                 emptyField: string
                 editableAfterCreation: string
                 notEditableAfterCreation: string
+                privateVoting: string
             }
             list: {
                 lastUpdate: (timeString: string) => string,
@@ -161,6 +162,7 @@ export interface languageData {
                     button: string
                     note: string
                 }
+                privateVoting: string
             }
             votes: {
                 yes: string

@@ -95,9 +95,9 @@ const filtered = (filter: Filter) => {
         case Filter.latest:
             return polls.value.filter(poll => new Date(poll.lastUpdated) > latest)
         case Filter.quarter:
-            return polls.value.filter(poll => new Date(poll.lastUpdated) > quarter)
+            return polls.value.filter(poll => new Date(poll.lastUpdated) > quarter && new Date(poll.lastUpdated) < latest)
         case Filter.year:
-            return polls.value.filter(poll => new Date(poll.lastUpdated) > year)
+            return polls.value.filter(poll => new Date(poll.lastUpdated) > year && new Date(poll.lastUpdated) < quarter)
         case Filter.older:
             return polls.value.filter(poll => new Date(poll.lastUpdated) < older)
     }

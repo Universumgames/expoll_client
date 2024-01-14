@@ -150,7 +150,8 @@ Join the Beta via TestFlight and install the app: [https://testflight.apple.com/
                 maxCountExceeded: "You have already created too much polls",
                 emptyField: "This field shouldn't be empty",
                 editableAfterCreation: "You can edit this option after creation",
-                notEditableAfterCreation: "You can't edit this option after saving"
+                notEditableAfterCreation: "You can't edit this option after saving",
+                privateVoting: "Private voting, votes will only be visible to you"
             },
             list: {
                 lastUpdate: (timeString: string) => "Last update on \n" + timeString,
@@ -194,7 +195,8 @@ Join the Beta via TestFlight and install the app: [https://testflight.apple.com/
                 join: {
                     button: "Join",
                     note: "You did not yet join the poll, join now"
-                }
+                },
+                privateVoting: "Private voting, your votes will only be visible by the admin"
             },
             votes: {
                 yes: "Yes",

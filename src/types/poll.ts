@@ -72,6 +72,7 @@ export interface DetailedPoll {
     userNotes: SimpleUserNote[]
     allowsMaybe: boolean
     allowsEditing: boolean
+    privateVoting: boolean
     shareURL: string
 }
 
@@ -95,6 +96,7 @@ export interface PollEdit {
     allowsMaybe?: boolean
     notes?: { userID: tUserID; note: string }[]
     allowsEditing?: boolean
+    privateVoting?: boolean
 }
 
 export interface VoteChange {

@@ -34,6 +34,10 @@
                 <label>{{ language.uiElements.polls.create.allowsMaybeLabel }}</label>
                 <toggle-switch v-model="allowsMaybe" />
             </div>
+            <div>
+                <label>{{ language.uiElements.polls.create.privateVoting }}</label>
+                <toggle-switch v-model="privateVoting" />
+            </div>
         </div>
         <!-- Description -->
         <div>
@@ -109,6 +113,11 @@ const maxPerUserVoteCount = computed({
 const allowsMaybe = computed({
     get: () => changes.value.allowsMaybe ?? props.pollData.allowsMaybe,
     set: (value) => (changes.value.allowsMaybe = value)
+})
+
+const privateVoting = computed({
+    get: () => changes.value.privateVoting ?? props.pollData.privateVoting,
+    set: (value) => (changes.value.privateVoting = value)
 })
 
 const description = computed({

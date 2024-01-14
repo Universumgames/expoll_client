@@ -63,6 +63,11 @@
             </div>
         </div>
 
+        <div v-show="poll?.privateVoting ?? false">
+            <label>{{ language?.uiElements.polls.details.privateVoting }}
+            </label>
+        </div>
+
         <!-- share -->
         <div style="text-align: left; margin-top: 1rem">
             <a @click="share()">

@@ -155,7 +155,8 @@ Tritt der Beta via TestFlight bei und installiere die App: [https://testflight.a
                 maxCountExceeded: "Du hast bereits zu viele Umfragen erstellt",
                 emptyField: "Dieses Feld darf nicht leer sein",
                 editableAfterCreation: "Die Option kann nach dem Erstellen noch bearbeitet werden",
-                notEditableAfterCreation: "Die Option kann nach dem Erstellen nicht mehr bearbeitet werden"
+                notEditableAfterCreation: "Die Option kann nach dem Erstellen nicht mehr bearbeitet werden",
+                privateVoting: "Private Abstimmung, Stimmen können nur von dir gesehen werden"
             },
             list: {
                 lastUpdate: (timeString: string) => "Zuletzt aktualisiert am \n" + timeString,
@@ -204,7 +205,8 @@ Tritt der Beta via TestFlight bei und installiere die App: [https://testflight.a
                 join: {
                     button: "Beitreten",
                     note: "Du musst zuerst beitreten um abzustimmen"
-                }
+                },
+                privateVoting: "Private Abstimmung, deine Stimmen können nur vom Admin eingesehen werden"
             },
             votes: {
                 yes: "Ja",
