@@ -35,7 +35,7 @@ RUN apk add --no-cache \
   php81-zlib \
   supervisor
 # Create symlink so programs depending on `php` still function
-RUN rm /usr/bin/php
+RUN rm -f /usr/bin/php
 RUN ln -s /usr/bin/php81 /usr/bin/php
 
 # Copy additional files
