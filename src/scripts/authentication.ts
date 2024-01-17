@@ -95,7 +95,11 @@ export async function otpLogin(otp: string): Promise<{ returnCode: number, forAp
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify({ otp: otp })
+        body: JSON.stringify({
+            otp: otp,
+            version: ExpollStorage.appVersion,
+            platform: ExpollStorage.platformName
+        })
     })
     ExpollStorage.jwt = (await response.text())
     return { returnCode: response.status, forApp: response.headers.get("forapp") == "true" }
