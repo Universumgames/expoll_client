@@ -2,18 +2,19 @@ Expoll is developed by the individual Tom Arlt (synonym Universum or Universumga
 
 Topics:
 
--   What data do we collect?
--   How do we collect your data?
--   How will we use your data?
--   How do we store your data?
--   What are your data protection rights?
--   Cookies
--   How do we use cookies?
--   What types of cookies do we use?
--   How to manage cookies
--   Privacy policies of other websites
--   Changes to our privacy policy
--   How to contact us
+-   [What data do we collect?](#what-data-do-we-collect)
+-   [How do we collect your data?](#how-do-we-collect-your-data)
+-   [How will we use your data?](#how-will-we-use-your-data)
+-   [How do we store your data?](#how-do-we-store-your-data)
+-   [How long do we store your data?](#how-long-do-we-store-your-data)
+-   [What are your data protection rights?](#what-are-your-data-protection-rights)
+-   [Cookies](#cookies)
+-   [How do we use cookies?](#how-do-we-use-cookies)
+-   [What types of cookies do we use?](#what-types-of-cookies-do-we-use)
+-   [How to manage cookies](#how-to-manage-cookies)
+-   [Privacy policies of other websites](#privacy-policies-of-other-websites)
+-   [Changes to our privacy policy](#changes-to-our-privacy-policy)
+-   [How to contact us](#how-to-contact-us)
 
 # What data do we collect?
 
@@ -34,6 +35,22 @@ We collect your data so that we can, keep track of your votes and the polls you 
 Our service securely stores your data on a virtual Server hosted by [netcup.de](https://netcup.de).
 
 Our service will keep your personal data als long as you have an account. Once you delete your account, we will immediately delete your personal data by removing any reference to you by deleting your name, username and mail address.
+
+# How long do we store your data?
+
+We store your data as long as you have an account. 
+
+After 1 year of inactivity, we will notify you by mail that we will deactivate your account. If you do not react to this mail by signing in, we will the same procedure of the account deletion described below after 180 days after the notification.
+
+If you want to you can delete your account at any time. 
+
+Once you delete your account, we will immediately anonymize your personal data by removing any reference to you by deleting your name, username and mail address and you will not be able to login anymore.
+
+Your polls and votes, though anonymized, will be kept for additional 100 days after you delete your account. After that, we will delete all your polls and votes.
+
+Please keep in mind, that we will not be able to restore your account or any of your polls and votes after the anonymization process has been completed.
+
+Once your account is anonymized or deleted, we cannot guarantee that your third party logins will ever work again unless you remove the login from the third party service.
 
 # What are your data protection rights?
 
