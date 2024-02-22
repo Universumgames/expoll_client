@@ -4,16 +4,18 @@
         <div class="providers">
             <a
                 v-for="provider in providers" :key="provider.key"
-                class="providerLink"
                 :href="'/api/auth/oidc/' + provider.key"
+                class="providerLink"
+                :style="'background-color: ' + provider.iconBackgroundColorHex + '; color: ' + provider.textColorHex"
             >
-                <img :src="provider.imageURI" style="width: 100%; color: var(--primary-color)" :alt="provider.altName">
+                <img :alt="provider.key" :src="'/api/auth/oidc/images/' + provider.iconFileName" style="width: 5ch; color: var(--primary-color)">
+                <h3>{{provider.title}}</h3>
             </a>
         </div>
     </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 
 import { languageData } from "@/scripts/languageConstruct"
 import { onMounted, Ref, ref } from "vue"
@@ -22,8 +24,10 @@ import ExpollStorage from "@/scripts/storage"
 interface Provider {
     key: string,
     imageURI: string,
-    imageSmallURI: string,
-    altName: string
+    iconFileName: string,
+    iconBackgroundColorHex: string,
+    textColorHex: string,
+    title: string
 }
 
 withDefaults(defineProps<{
@@ -50,18 +54,24 @@ onMounted(async () => {
 }
 
 .providers {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
 }
 
 .providerLink {
-    display: block;
-    width: 100%;
-    margin-bottom: 1ch;
-    max-width: 70vw;
-    width: 50ch;
+  display: block;
+  width: 100%;
+  margin-bottom: 1ch;
+  max-width: 70vw;
+  width: 50ch;
+  border-radius: 1ch;
+}
+
+.providerLink > * {
+  display: inline-block;
+  vertical-align: middle;
 }
 </style>
