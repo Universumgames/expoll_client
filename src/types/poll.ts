@@ -36,7 +36,7 @@ export interface PollSummary {
     lastUpdated: Date
     type: PollType
     name: string
-    editable: boolean
+    allowsEditing: boolean
 }
 
 export interface ComplexOption {

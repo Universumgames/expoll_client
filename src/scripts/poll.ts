@@ -28,7 +28,7 @@ export async function getPollOverviews(): Promise<PollOverview | undefined> {
 }
 
 /**
- * Get detailed inforamtion about a specific poll
+ * Get detailed information about a specific poll
  * @param {tPollID} pollID the id of the poll
  * @return {DetailedPoll} detailed information about specified poll
  */

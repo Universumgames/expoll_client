@@ -10,11 +10,11 @@
             <br>
             <small 
                 v-if="!isMobile(displaySize)"
-                v-show="!poll.editable"
+                v-show="!poll.allowsEditing"
                 class="delete"
                 style="padding: 0.5ch; border-radius: 0.5rem"
             >
-                {{ poll.editable ? "" : language?.uiElements.polls.details.editingDisabled }}
+                {{ poll.allowsEditing ? "" : language?.uiElements.polls.details.editingDisabled }}
             </small>
         </div>
         <div v-if="!isMobile(displaySize)">
@@ -37,11 +37,11 @@
                 <small v-else style="white-space: pre-wrap">{{ lastUpdated }}</small><br>
                 <small 
                     v-if="isMobile(displaySize)" 
-                    v-show="!poll.editable" 
+                    v-show="!poll.allowsEditing"
                     class="delete" 
                     style="padding: 0.5ch; border-radius: 0.5rem"
                 >
-                    {{ poll.editable ? "" : language?.uiElements.polls.details.editingDisabled }}
+                    {{ poll.allowsEditing ? "" : language?.uiElements.polls.details.editingDisabled }}
                 </small>
             </div>
         </div>

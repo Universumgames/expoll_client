@@ -193,11 +193,11 @@ onMounted(async () => {
     loadingMain.value = true
     await setup()
 
-    if(!loadingMain.value && loadingFailed.value){
-        ExpollStorage.outstandingJoinPollID = pollID.value
-        await router.push("/login")
-        return
-    }
+    //if(!loadingMain.value && loadingFailed.value){
+    //    ExpollStorage.outstandingJoinPollID = pollID.value
+    //    await router.push("/login")
+    //    return
+    //}
 
     scrollToNextOption()
   
@@ -239,6 +239,7 @@ const getRelevantOptionID = (): tOptionId | undefined => {
 
 const getPollData = async () => {
     const pollData = await pollMethods.getDetailedPoll(pollID.value)
+    console.log(pollData)
     if (pollData == undefined) return
 
 
@@ -274,10 +275,14 @@ const getPollData = async () => {
 
 const setup = async () => {
     try {
+        console.log("1")
         if (isEditing()) return
+        console.log("2")
         await getPollData()
+        console.log("3")
         await checkAndJoinPoll()
 
+        console.log("4")
         await getPollData()
 
         if (poll.value != undefined) changes.value = { pollID: poll.value.pollID }
