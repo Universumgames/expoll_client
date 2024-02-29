@@ -122,6 +122,7 @@ export interface languageData {
                 editableAfterCreation: string
                 notEditableAfterCreation: string
                 privateVoting: string
+                defaultVote: string
             }
             list: {
                 lastUpdate: (timeString: string) => string,

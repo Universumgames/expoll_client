@@ -91,6 +91,7 @@ export interface IVote {
 }
 
 export enum VoteValue {
+    unknown = -1,
     no = 0,
     yes = 1,
     maybe = 2

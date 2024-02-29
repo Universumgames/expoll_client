@@ -74,11 +74,12 @@ export interface DetailedPoll {
     allowsEditing: boolean
     privateVoting: boolean
     shareURL: string
+    defaultVote: VoteValue
 }
 
 export interface simpleVote {
     optionID: tOptionId
-    votedFor?: VoteValue
+    votedFor: VoteValue
 }
 
 export interface PollEdit {

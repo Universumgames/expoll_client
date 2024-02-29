@@ -295,7 +295,7 @@ const login = async () => {
         if (route.query.isNewUser == "1") {
             const newUsername = prompt(props.language.uiElements.login.form.defineUsernameAfterOIDC, user?.username)
             const jwt = ExpollStorage.jwt
-            if(jwt == null) return
+            if (jwt == null) return
             await fetch(ExpollStorage.backendUrl + "/api/user", {
                 method: "PUT",
                 headers: {
@@ -339,7 +339,10 @@ const signup = async () => {
         lastName: signupLastName.value,
         username: signupUsername.value,
         mail: loginMail.value.toLowerCase().replace(" ", ""),
-        captcha: await getCaptchaToken()
+        captcha: await getCaptchaToken(),
+        forApp: false,
+        useURL: true,
+        redirect: false
     })
 
     switch (rc) {

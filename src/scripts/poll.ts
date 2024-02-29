@@ -34,9 +34,11 @@ export async function getPollOverviews(): Promise<PollOverview | undefined> {
  */
 export async function getDetailedPoll(pollID: tPollID): Promise<DetailedPollResponse | undefined> {
     try {
-        const response = await fetch(ExpollStorage.backendUrl + base + "?pollID=" + pollID, {
+        const params = new URLSearchParams({ pollID: pollID })
+        const response = await fetch(ExpollStorage.backendUrl + base + "?" + params, {
             method: "GET",
             headers: {
+
                 "Content-Type": "application/json",
                 "Authorization": "Bearer " + ExpollStorage.jwt
             }

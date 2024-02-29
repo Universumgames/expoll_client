@@ -12,7 +12,7 @@
                     if (e.keyCode == 13) change(voteOpt.optionID)
                 }
                 "
-            >{{ voteString(voteOpt.votedFor) }}</a><br>
+            >{{ voteString(language, voteOpt.votedFor) }}</a><br>
             <small v-show="errorMsg != '' && voteOpt.votedFor" class="errorInfo">{{ errorMsg }}</small>
         </td>
         <td v-show="loggedUserIsSelectedUser() || pollData.admin.id == userData.id || userData.admin">
@@ -36,7 +36,7 @@
 
 <script setup lang="ts">
 import { languageData } from "@/scripts/languageConstruct"
-import { vote } from "@/scripts/vote"
+import { vote, voteString } from "@/scripts/vote"
 import { VoteRequest } from "@/types/requests"
 import { editUserNote, leavePoll, removeUserFromPoll } from "@/scripts/poll"
 import { computed, ref } from "vue"
@@ -73,8 +73,7 @@ const change = async (optionID: tOptionId) => {
         errorMsg.value = ""
 
         // const oldState: boolean | undefined = option.votedFor
-        if (option.votedFor == undefined) option.votedFor = VoteValue.yes
-        else option.votedFor = props.pollData.allowsMaybe ? (option.votedFor + 1) % 3 : (option.votedFor + 1) % 2
+        option.votedFor = props.pollData.allowsMaybe ? (option.votedFor + 1) % 3 : (option.votedFor + 1) % 2
 
         const change: VoteRequest = {
             pollID: props.pollData.pollID,
@@ -153,18 +152,7 @@ const loggedUserIsSelectedUser = () => {
     return props.userData?.id == props.userVote?.user?.id ?? false
 }
 
-const voteString = (value: VoteValue | undefined) => {
-    if (value == undefined) return props.language?.uiElements.polls.votes.unknown
 
-    switch (value) {
-        case VoteValue.no:
-            return props.language?.uiElements.polls.votes.no
-        case VoteValue.yes:
-            return props.language?.uiElements.polls.votes.yes
-        case VoteValue.maybe:
-            return props.language?.uiElements.polls.votes.maybe
-    }
-}
 
 const editNote = async () => {
     if (!props.pollData?.allowsEditing) editingDisabledNote()

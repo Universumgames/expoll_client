@@ -151,7 +151,8 @@ Join the Beta via TestFlight and install the app: [https://testflight.apple.com/
                 emptyField: "This field shouldn't be empty",
                 editableAfterCreation: "You can edit this option after creation",
                 notEditableAfterCreation: "You can't edit this option after saving",
-                privateVoting: "Private voting, votes will only be visible to you"
+                privateVoting: "Private voting, votes will only be visible to you",
+                defaultVote: "Default vote"
             },
             list: {
                 lastUpdate: (timeString: string) => "Last update on \n" + timeString,

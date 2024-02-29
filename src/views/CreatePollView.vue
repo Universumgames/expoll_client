@@ -15,8 +15,8 @@
     <label for="pollDescriptionInput">{{ language?.uiElements.polls.create.description }}</label>
     <textarea
         id="pollDescriptionInput" v-model="description"
-        type="text" maxlength="65535"
-        rows="7" cols="50"
+        cols="50" maxlength="65535"
+        rows="7" type="text"
     /><br>
     <label v-show="clicked && description == ''" class="errorInfo">{{
         language?.uiElements.polls.create.emptyField
@@ -38,8 +38,27 @@
 
     <br>
 
+    <label for="defaultVote">{{ language?.uiElements.polls.create.defaultVote }}</label>
+
+    <select id="defaultVote" v-model="defaultVote">
+        <option value="-1">
+            {{ language?.uiElements.polls.votes.unknown }}
+        </option>
+        <option value="0">
+            {{ language?.uiElements.polls.votes.no }}
+        </option>
+        <option value="1">
+            {{ language?.uiElements.polls.votes.yes }}
+        </option>
+        <option value="2">
+            {{ language?.uiElements.polls.votes.maybe }}
+        </option>
+    </select>
+
+    <br>
+
     <label for="pollMaxVote">{{ language?.uiElements.polls.create.maxVoteLabel }}</label>
-    <input id="pollMaxVote" v-model="maxVoteCount" type="number" min="-1"><br>
+    <input id="pollMaxVote" v-model="maxVoteCount" min="-1" type="number"><br>
 
     <label for="allowsMaybe">{{ language?.uiElements.polls.create.allowsMaybeLabel }}</label>
     <input id="allowsMaybe" v-model="allowsMaybe" type="checkbox"><br>
@@ -102,13 +121,13 @@
     <label v-show="errorMsg != ''" class="errorInfo">{{ errorMsg }}</label>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import { languageData } from "@/scripts/languageConstruct"
 import { CreatePollRequest } from "@/types/requests"
 import { createPoll } from "@/scripts/poll"
 import { onMounted, ref } from "vue"
 import { ComplexOption, empty } from "@/types/poll"
-import { IUser, PollType } from "@/types/bases"
+import { IUser, PollType, VoteValue } from "@/types/bases"
 import { ReturnCode } from "@/types/constants"
 
 const props = defineProps<{ userData: IUser; language: languageData }>()
@@ -118,6 +137,7 @@ const maxVoteCount = ref(-1)
 const allowsMaybe = ref(true)
 const type = ref(PollType.String)
 const description = ref("")
+const defaultVote = ref(VoteValue.unknown)
 
 const options = ref<ComplexOption[]>([])
 const currentID = ref(0)
@@ -178,7 +198,8 @@ const create = async () => {
         type: type.value,
         options: options.value,
         allowsMaybe: allowsMaybe.value,
-        allowsEditing: true
+        allowsEditing: true,
+        defaultVote: defaultVote.value
     }
     const retDat = await createPoll(data)
 
@@ -193,29 +214,29 @@ const create = async () => {
 <style scoped>
 input,
 textarea {
-    background-color: var(--secondary-color);
+  background-color: var(--secondary-color);
 }
 
 button {
-    margin: 1ch;
+  margin: 1ch;
 }
 
 .optionElement > button {
-    padding: 0.5ch 1ch;
+  padding: 0.5ch 1ch;
 }
 
 .optionElement > div {
-    display: inline;
+  display: inline;
 }
 
 .optionElement > div > input {
-    background: var(--bg-color);
+  background: var(--bg-color);
 }
 
 .optionElement {
-    background: var(--secondary-color);
-    border-radius: var(--default-border-radius);
-    padding: 1ch;
-    margin: 1ch;
+  background: var(--secondary-color);
+  border-radius: var(--default-border-radius);
+  padding: 1ch;
+  margin: 1ch;
 }
 </style>

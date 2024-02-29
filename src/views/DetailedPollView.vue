@@ -15,8 +15,8 @@
             {{ inEditMode ? "Stop editing" : "Edit" }}
         </button>
         <PollEdit
-            v-if="isPollAdmin() && inEditMode && poll != undefined" :user-data="userData"
-            :language="language" :poll-data="poll"
+            v-if="isPollAdmin() && inEditMode && poll != undefined" :language="language"
+            :poll-data="poll" :user-data="userData"
             @close="inEditMode = false; setup()"
         />
 
@@ -35,7 +35,7 @@
                 </a>
             </div>
             <!-- description -->
-            <div style="margin-top: 1ch" class="descriptionContainer">
+            <div class="descriptionContainer" style="margin-top: 1ch">
                 <label><b>{{ language?.uiElements.polls.details.description }}</b></label>
                 <p>{{ poll?.description }}</p>
             </div>
@@ -58,6 +58,12 @@
                 <div>
                     <label>{{ language?.uiElements.polls.create.allowsEditingLabel }}:
                         {{ poll?.allowsEditing }}
+                    </label>
+                </div>
+                <!-- default vote -->
+                <div v-if="mayEdit">
+                    <label>{{ language?.uiElements.polls.create.defaultVote }}:
+                        {{ voteString(language, poll?.defaultVote) }}
                     </label>
                 </div>
             </div>
@@ -100,8 +106,8 @@
                     <th
                         v-for="option in poll?.options" :id="'option' + option.id"
                         :key="option.id"
-                        style="white-space: pre-wrap"
                         class="stickyRow"
+                        style="white-space: pre-wrap"
                     >
                         <span v-if="relevantOptionID == option.id" class="dot" />
                         {{ optionValue(option) }}
@@ -112,23 +118,23 @@
 
                 <poll-user-vote-row
                     v-if="isJoined"
-                    :user-data="userData" :language="language"
-                    :user-vote="getVotesByUser()"
-                    :poll-data="poll"
+                    :display-username-instead-of-full="displayUsernameInsteadOfFull" :language="language"
                     :note="poll.userNotes?.find((note) => note.userID == userData?.id)"
-                    :display-username-instead-of-full="displayUsernameInsteadOfFull"
+                    :poll-data="poll"
+                    :user-data="userData"
+                    :user-vote="getVotesByUser()"
                     class="currentUserVotes"
-                    @voteChange="voteUpdateCallback" @noteChange="noteChangeCallback"
+                    @noteChange="noteChangeCallback" @voteChange="voteUpdateCallback"
                 />
                 <poll-user-vote-row
                     v-for="vote in poll?.userVotes" v-show="vote.user.id != userData?.id"
-                    :key="vote.user.id" :user-data="userData"
-                    :note="poll.userNotes?.find((note) => note.userID == vote.user.id)"
+                    :key="vote.user.id" :display-username-instead-of-full="displayUsernameInsteadOfFull"
                     :language="language"
-                    :user-vote="vote" :poll-data="poll"
-                    :display-username-instead-of-full="displayUsernameInsteadOfFull"
-                    @voteChange="voteUpdateCallback" @kickedID="userKicked"
-                    @noteChange="noteChangeCallback"
+                    :note="poll.userNotes?.find((note) => note.userID == vote.user.id)"
+                    :poll-data="poll" :user-data="userData"
+                    :user-vote="vote"
+                    @kickedID="userKicked" @noteChange="noteChangeCallback"
+                    @voteChange="voteUpdateCallback"
                 />
                 <tr v-show="mayEdit()">
                     <td>
@@ -142,7 +148,7 @@
     </template>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import ShareIcon from "../assetComponents/ShareIcon.vue"
 import PollUserVoteRow from "../components/PollUserVotes.vue"
 import LoadingScreen from "../components/LoadingScreen.vue"
@@ -155,11 +161,10 @@ import { computed, onMounted, ref } from "vue"
 import { useRoute } from "vue-router"
 import PollEdit from "@/components/PollEdit.vue"
 import { languageData } from "@/scripts/languageConstruct"
-import router from "@/router"
-import ExpollStorage from "@/scripts/storage"
 import { ComplexOption, DetailedPoll, PollSimpleUser, SimpleUserVotes } from "@/types/poll"
 import { IUser, PollType, VoteValue } from "@/types/bases"
 import { tOptionId, tUserID } from "@/types/constants"
+import { voteString } from "../scripts/vote"
 
 const props = defineProps<{ userData: IUser, language: languageData }>()
 const route = useRoute()
@@ -200,7 +205,7 @@ onMounted(async () => {
     //}
 
     scrollToNextOption()
-  
+
     // update votes every 60 seconds
     let intID = 0
     intID = setInterval(() => {
@@ -211,9 +216,9 @@ onMounted(async () => {
     }, 60 * 1000)
 })
 
-const scrollToNextOption = () =>{
+const scrollToNextOption = () => {
     const optionID = getRelevantOptionID()
-    if(optionID == undefined) return
+    if (optionID == undefined) return
     const optionToScrollTo: HTMLElement =
         document.getElementById("option" + optionID) ?? document.body
     optionToScrollTo.scrollIntoView({
@@ -224,8 +229,8 @@ const scrollToNextOption = () =>{
 }
 
 const getRelevantOptionID = (): tOptionId | undefined => {
-    if(poll.value?.type == PollType.String) return undefined
-    const dateCalc = (option: ComplexOption) =>{
+    if (poll.value?.type == PollType.String) return undefined
+    const dateCalc = (option: ComplexOption) => {
         const dateRaw = option.dateStart ?? option.dateTimeStart
         let date = new Date(dateRaw ?? 0)
         date.setDate(date.getDate() + 1)
@@ -410,75 +415,75 @@ const addUserClick = async () => {
 
 <style scoped>
 * {
-    color: var(--text-color);
+  color: var(--text-color);
 }
 
 input {
-    background: var(--secondary-color);
+  background: var(--secondary-color);
 }
 
 .addOption,
 .addOption > div {
-    display: inline;
+  display: inline;
 }
 
 p {
-    margin-top: 0;
+  margin-top: 0;
 }
 
 table {
-    border-spacing: 0.5rem;
-    table-layout: fixed;
+  border-spacing: 0.5rem;
+  table-layout: fixed;
 }
 
 td > input,
 th > input,
 .addOption > div > input {
-    background: var(--bg-color);
+  background: var(--bg-color);
 }
 
 a {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .x-scroller {
-    overflow-x: auto;
+  overflow-x: auto;
 }
 
 .currentUserVotes {
-    outline: thin solid var(--primary-color);
+  outline: thin solid var(--primary-color);
 }
 
 .deleteOpt {
-    text-decoration: underline;
+  text-decoration: underline;
 }
 
 .info-text {
-    font-style: italic;
-    font-size: 0.8rem;
-    padding: 0.5rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.3rem;
+  font-style: italic;
+  font-size: 0.8rem;
+  padding: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
 }
 
 .archived {
-    background-color: var(--alert-color);
-    padding: 1ch;
+  background-color: var(--alert-color);
+  padding: 1ch;
 }
 </style>
 
 <style>
 .stickyCol {
-    position: sticky;
-    left: 0;
-    z-index: 2;
+  position: sticky;
+  left: 0;
+  z-index: 2;
 }
 
 .stickyRow {
-    position: sticky;
-    top: 0;
-    z-index: 1;
+  position: sticky;
+  top: 0;
+  z-index: 1;
 }
 
 th:first-child {
@@ -486,7 +491,7 @@ th:first-child {
 }
 
 th:first-child {
-    border: thin solid var(--text-color);
+  border: thin solid var(--text-color);
 }
 
 .dot {
@@ -497,7 +502,7 @@ th:first-child {
   display: inline-block;
 }
 
-.descriptionContainer{
+.descriptionContainer {
   background-color: var(--secondary-color);
   padding: 1rem;
   border-radius: var(--default-border-radius);

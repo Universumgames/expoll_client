@@ -4,6 +4,7 @@ import ExpollStorage from "@/scripts/storage"
 import { NotificationPreferences } from "@/types/notification"
 import { IUser } from "@/types/bases"
 import { ReturnCode } from "@/types/constants"
+import { otpLogin } from "@/scripts/authentication"
 
 const base = "/api/user"
 
@@ -21,7 +22,7 @@ export async function signUp(data: CreateUserRequest): Promise<ReturnCode> {
             },
             body: JSON.stringify(data)
         })
-        ExpollStorage.jwt = (await response.json()).jwt
+        window.location.replace(await response.text())
         return response.status
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (e: any) {

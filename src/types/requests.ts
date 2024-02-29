@@ -1,8 +1,7 @@
-
 import { UserInfo } from "@/types/admin/userInfo"
 import { ComplexOption, DetailedPoll, PollEdit, PollSummary, VoteChange } from "@/types/poll"
 import { NotificationPreferences } from "@/types/notification"
-import { PollType } from "@/types/bases"
+import { PollType, VoteValue } from "@/types/bases"
 import { tPollID, tUserID } from "@/types/constants"
 
 export interface CreateUserRequest {
@@ -12,6 +11,9 @@ export interface CreateUserRequest {
     username: string
     captcha?: string
     appAttest?: string
+    useURL: boolean
+    forApp: boolean
+    redirect: boolean
 }
 
 export interface CreateUserResponse {
@@ -50,6 +52,7 @@ export interface CreatePollRequest {
     options: ComplexOption[]
     allowsMaybe: boolean
     allowsEditing: boolean
+    defaultVote: VoteValue
 }
 
 export interface CreatePollResponse {
