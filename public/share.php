@@ -12,7 +12,7 @@ $pollID = $_GET['pollID'];
 $pollID = str_replace(" ", "", $pollID);
 $pollID = str_replace("/", "", $pollID);
 $title = getPollTitle($pollID);
-$title = (strlen($title) > 60) ? $title : $title . "...";
+$title = (strlen($title) < 40) ? $title : substr($title, 0, 40) . "...";
 
 // echo (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://" . $_SERVER["HTTP_HOST"] . "/api/simple/poll/$pollID/title";
 
