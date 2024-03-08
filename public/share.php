@@ -20,7 +20,7 @@ $title = (strlen($title) < 40) ? $title : substr($title, 0, 40) . "...";
 // set meta tags
 echo '<meta name="og:title" content="' . $title . '">';
 echo '<meta name="og:type" content="website">';
-echo '<meta name="og:image" content="' . "https://" . $_SERVER["HTTP_HOST"] . '/app_icons/mac32.png">';
+echo '<meta name="og:image" content="' . "https://" . $_SERVER["HTTP_HOST"] . '/app_icons/mac256.png">';
 echo '<meta name="og:url" content="' . "https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"] . '">';
 echo "<title>$title</title>";
 
