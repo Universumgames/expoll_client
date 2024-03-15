@@ -119,7 +119,6 @@
                 <poll-user-vote-row
                     v-if="isJoined"
                     :display-username-instead-of-full="displayUsernameInsteadOfFull" :language="language"
-                    :note="poll.userNotes?.find((note) => note.userID == userData?.id)"
                     :poll-data="poll"
                     :user-data="userData"
                     :user-vote="getVotesByUser()"
@@ -130,7 +129,6 @@
                     v-for="vote in poll?.userVotes" v-show="vote.user.id != userData?.id"
                     :key="vote.user.id" :display-username-instead-of-full="displayUsernameInsteadOfFull"
                     :language="language"
-                    :note="poll.userNotes?.find((note) => note.userID == vote.user.id)"
                     :poll-data="poll" :user-data="userData"
                     :user-vote="vote"
                     @kickedID="userKicked" @noteChange="noteChangeCallback"

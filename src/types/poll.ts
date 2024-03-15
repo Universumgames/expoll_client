@@ -15,6 +15,7 @@ export interface PollSimpleUser extends SimpleUser {
 
 export interface SimpleUserVotes {
     user: PollSimpleUser
+    note: string | undefined
     votes: simpleVote[]
 }
 
@@ -69,7 +70,6 @@ export interface DetailedPoll {
     type: PollType
     options: ComplexOption[]
     userVotes: SimpleUserVotes[]
-    userNotes: SimpleUserNote[]
     allowsMaybe: boolean
     allowsEditing: boolean
     privateVoting: boolean

@@ -49,7 +49,6 @@ interface Props {
     language?: languageData
     userVote: SimpleUserVotes
     pollData: DetailedPoll
-    note?: SimpleUserNote
     displayUsernameInsteadOfFull: boolean
 }
 
@@ -157,7 +156,7 @@ const loggedUserIsSelectedUser = () => {
 const editNote = async () => {
     if (!props.pollData?.allowsEditing) editingDisabledNote()
     if (isNoteEditable()) {
-        const note = prompt("Note for user", props.note?.note ?? "")
+        const note = prompt("Note for user", props.userVote.note ?? "")
         if (props.pollData == undefined || props.userVote?.user == undefined || note == undefined) return
         await editUserNote(props.pollData.pollID, props.userVote.user.id, note)
         emit("noteChange")
@@ -165,7 +164,7 @@ const editNote = async () => {
 }
 
 const noteString = computed(() => {
-    return " " + props.language?.uiElements.polls.details.userNotesByAdmin(props.note?.note)
+    return props.userVote.note
 })
 
 const editingDisabledNote = () => {
