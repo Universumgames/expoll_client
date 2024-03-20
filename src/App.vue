@@ -362,7 +362,7 @@ pre {
   position: sticky;
 }
 
-.evenlySpacedChildsContainer {
+.evenlySpacedChildContainer {
   display: flex;
   justify-content: space-evenly;
   align-items: center;

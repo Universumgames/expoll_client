@@ -1,29 +1,31 @@
 <template>
     <header>
         <div v-show="!isMobile(displaySize)" id="largeNav">
-            <a :href="userData != undefined ? '/#/polls' : '/'" style="float: left">Expoll</a>
+            <a :href="userData != undefined ? '/#/polls' : '/'" style="flex: 0">Expoll</a>
 
-            <template v-for="route of routes" :key="route.path">
-                <template v-if="route.path != undefined && route.vif != false">
-                    <router-link :to="route.path!">
-                        {{ route.name }}
-                    </router-link>
+            <div id="mainNav">
+                <template v-for="route of routes" :key="route.path">
+                    <template v-if="route.path != undefined && route.vif != false">
+                        <router-link :to="route.path!">
+                            {{ route.name }}
+                        </router-link>
+                    </template>
+                    <template v-if="route.url != undefined && route.vif != false">
+                        <a :href="route.url!">
+                            {{ route.name }}
+                        </a>
+                    </template>
                 </template>
-                <template v-if="route.url != undefined && route.vif != false">
-                    <a :href="route.url!">
-                        {{ route.name }}
-                    </a>
-                </template>
-            </template>
 
-            <user-icon :language="language" :user-data="userData" :display-size="displaySize" />
+                <user-icon :language="language" :user-data="userData" :display-size="displaySize" />
+            </div>
         </div>
         <div v-show="isMobile(displaySize)" id="mediumNav">
             <div style="float: left; margin: auto; position: absolute" @click="menuOpen = !menuOpen">
                 <bars-icon :fill="menuOpen? 'var(--primary-color)':'white'" width="2rem" height="2rem" />
             </div>
 
-            <div class="evenlySpacedChildsContainer">
+            <div class="evenlySpacedChildContainer">
                 <p class="navigationTitle">
                     {{ title }}
                 </p> 
@@ -138,10 +140,18 @@ header {
 
 #largeNav {
   padding: 3ch;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-#largeNav > a {
+#largeNav > * {
+  flex: 1;
+}
+
+#largeNav a {
   margin-right: 1ch;
+  text-align: center;
 }
 
 #mediumNav {

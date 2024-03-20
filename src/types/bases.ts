@@ -102,3 +102,19 @@ export interface IPollUserNote {
     poll: IPoll
     note: string
 }
+
+export enum Platform {
+    ANDROID = "ANDROID",
+    IOS = "IOS",
+    WEB = "WEB",
+    UNKNOWN = "UNKNOWN"
+}
+
+export interface ISafeSession {
+    expiration: tDateTime,
+    userAgent: string | undefined,
+    platform: Platform,
+    version: string | undefined,
+    nonce: string,
+    active: boolean
+}

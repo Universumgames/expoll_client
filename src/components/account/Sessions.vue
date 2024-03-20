@@ -7,7 +7,7 @@
 
         <div id="sessionList">
             <div
-                v-for="session in personalizedData?.sessions ?? []" :key="session.expiration"
+                v-for="session in sessions ?? []" :key="session.expiration"
                 :style="session.active ? 'color:var(--primary-color);' : ''"
                 class="session"
             >
@@ -15,7 +15,12 @@
                     <p v-if="session.active" style="margin: 0">
                         Current Session
                     </p>
-                    <p>{{ limitLength(session.userAgent ?? "unknown", 40) }}</p>
+                    <p v-if="session.platform != Platform.UNKNOWN">
+                        {{ session.platform }} {{ session.version }}
+                    </p>
+                    <p v-if="session.platform == Platform.WEB || session.platform == Platform.UNKNOWN">
+                        {{ limitLength(session.userAgent ?? "unknown", 40) }}
+                    </p>
                     <small>Expires: {{ language.uiElements.dateTimeToString(new Date(session.expiration)) }}</small>
                 </div>
                 <button :class="session.active? 'btn-disabled':''" class="delete" @click="deleteSession(session.nonce)">
@@ -33,25 +38,25 @@ import { limitLength } from "@/scripts/helper"
 import * as auth from "@/scripts/authentication"
 import * as user from "@/scripts/user"
 import { onMounted, ref } from "vue"
-import { IUser } from "@/types/bases"
+import { ISafeSession, IUser, Platform } from "@/types/bases"
 
 const props = defineProps<{ userData: IUser, language: languageData }>()
 
-const personalizedData = ref<unknown>({})
+const sessions = ref<ISafeSession[]>([])
 
 onMounted(async () => {
-    await getPersonalizedData()
+    await getSessions()
 })
 
-const getPersonalizedData = async () => {
-    personalizedData.value = await user.getPersonalizedData()
+const getSessions = async () => {
+    sessions.value = await user.getSessions()
 }
 
 const deleteSession = async (session: string | undefined) => {
     if (session == undefined) return
     if (confirm(props.language?.uiElements.login.loggedIn.deleteSessionPrompt)) {
         await auth.deleteSession(session)
-        await getPersonalizedData()
+        await getSessions()
     }
 }
 

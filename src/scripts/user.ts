@@ -2,7 +2,7 @@ import { CreateUserRequest } from "@/types/requests"
 import ExpollStorage from "@/scripts/storage"
 
 import { NotificationPreferences } from "@/types/notification"
-import { IUser } from "@/types/bases"
+import { ISafeSession, IUser } from "@/types/bases"
 import { ReturnCode } from "@/types/constants"
 import { otpLogin } from "@/scripts/authentication"
 
@@ -129,5 +129,25 @@ export async function setNotificationPreferences(data: NotificationPreferences):
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (e: any) {
         return e.response.status
+    }
+}
+
+/**
+ * get all sessions of the user
+ * @return {ISafeSession[]} all sessions
+ */
+export async function getSessions(): Promise<ISafeSession[]>{
+    try {
+        const jwt = ExpollStorage.jwt
+        if (!jwt) return []
+        return await fetch(ExpollStorage.backendUrl + "/api/user/sessions", {
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + jwt
+            }
+        }).then(res => res.json())
+    } catch (e) {
+        console.error(e)
+        return []
     }
 }
