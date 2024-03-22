@@ -14,14 +14,14 @@
             {{ language?.uiElements.login.loggedIn.loginAppBtn }}
         </button>
 
-        <details
+        <button
             style="background-color: var(--secondary-color); 
             border-radius: var(--default-border-radius); 
             padding: var(--default-padding);"
+            @click="requestPersonalData"
         >
-            <summary>{{ language?.uiElements.login.loggedIn.personalizedDBContent }}</summary>
-            <pre>{{ personalizedData }}</pre>
-        </details>
+            {{ language?.uiElements.login.loggedIn.personalizedDBContent }}
+        </button>
 
         <br>
         <button @click="logout">
@@ -53,28 +53,21 @@ import ExpollStorage from "@/scripts/storage"
 const props = defineProps<{ userData?: IUser, language: languageData, failedLoading: boolean }>()
 const router = useRouter()
 
-const personalizedData = ref("")
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const personalizedJSON = ref<any>({})
-
 onMounted(async () => {
     if (props.userData == undefined) {
         router.push("/login")
         return
     }
-    await getPersonalizedData()
 })
-
-const getPersonalizedData = async () => {
-    personalizedJSON.value = await user.getPersonalizedData()
-    if (personalizedJSON.value != undefined) {
-        personalizedData.value = JSON.stringify(personalizedJSON.value, null, 2)
-    }
-}
 
 const loggedIn = computed(() => {
     return props.userData != undefined
 })
+
+const requestPersonalData = async () => {
+    const data = await user.requestPersonalData()
+    alert(data)
+}
 
 const logout = async () => {
     await auth.logout()

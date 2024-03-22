@@ -69,26 +69,6 @@ export async function deleteUser(): Promise<void> {
 }
 
 /**
- * get all data the system has over current user
- * @return {any} presonalized data
- */
-export async function getPersonalizedData(): Promise<unknown | undefined> {
-    try {
-        const jwt = ExpollStorage.jwt
-        if (!jwt) return undefined
-        return await fetch(ExpollStorage.backendUrl + "/api/user/personalizeddata", {
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": "Bearer " + jwt
-            }
-        }).then(res => res.json())
-    } catch (e) {
-        console.error(e)
-        return undefined
-    }
-}
-
-/**
  * get notification preferences
  * @return
  */
@@ -149,5 +129,23 @@ export async function getSessions(): Promise<ISafeSession[]>{
     } catch (e) {
         console.error(e)
         return []
+    }
+}
+
+/**
+ * request personal data per mail
+ */
+export async function requestPersonalData(): Promise<void> {
+    try{
+        const jwt = ExpollStorage.jwt
+        if (!jwt) return
+        await fetch(ExpollStorage.backendUrl + "/api/user/requestPersonalData", {
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + jwt
+            }
+        })
+    }catch (e){
+        console.error(e)
     }
 }
