@@ -19,7 +19,7 @@
 import { languageData } from "@/scripts/languageConstruct"
 import { computed, onMounted, ref } from "vue"
 import * as user from "@/scripts/user"
-import ToggleSwitch from "@/components/ToggleSwitch.vue"
+import ToggleSwitch from "@/components/utils/ToggleSwitch.vue"
 import { NotificationPreferences, NotificationType } from "@/types/notification"
 import { IUser } from "@/types/bases"
 

@@ -44,8 +44,8 @@
 </template>
 
 <script setup lang="ts">
-import PollListElement from "../components/PollListElement.vue"
-import LoadingScreen from "../components/LoadingScreen.vue"
+import PollListElement from "../components/poll/PollListElement.vue"
+import LoadingScreen from "../components/utils/LoadingScreen.vue"
 import BlankPollListElement from "../components/Blanks/BlankPollListElement.vue"
 
 import { languageData } from "@/scripts/languageConstruct"
@@ -54,7 +54,7 @@ import { onMounted, ref } from "vue"
 import { DisplaySize } from "@/scripts/displayHelper"
 import { PollSummary } from "@/types/poll"
 import { IUser } from "@/types/bases"
-import Divider from "@/components/Divider.vue"
+import Divider from "@/components/utils/Divider.vue"
 
 defineProps<{
     userData: IUser | undefined

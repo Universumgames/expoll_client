@@ -30,7 +30,7 @@
 
 <script setup lang="ts">
 import { languageData } from "@/scripts/languageConstruct"
-import LoadingScreen from "@/components/LoadingScreen.vue"
+import LoadingScreen from "@/components/utils/LoadingScreen.vue"
 import RegexTest from "./RegexTest.vue"
 import { getRegexAdmin, updateRegeAdmin } from "@/scripts/regex"
 import { onMounted, ref } from "vue"

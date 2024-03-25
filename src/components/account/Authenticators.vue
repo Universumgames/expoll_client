@@ -23,7 +23,7 @@
 
 <script lang="ts" setup>
 import { languageData } from "@/scripts/languageConstruct"
-import AuthenticatorDetail from "@/components/AuthenticatorDetail.vue"
+import AuthenticatorDetail from "@/components/account/AuthenticatorDetail.vue"
 import * as webauthnJson from "@github/webauthn-json"
 import * as auth from "@/scripts/authentication"
 import { onMounted, ref } from "vue"

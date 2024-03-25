@@ -73,9 +73,9 @@
 </template>
 
 <script lang="ts" setup>
-import Popup from "@/components/Popup.vue"
+import Popup from "@/components/utils/Popup.vue"
 import { languageData } from "@/scripts/languageConstruct"
-import ToggleSwitch from "@/components/ToggleSwitch.vue"
+import ToggleSwitch from "@/components/utils/ToggleSwitch.vue"
 import { computed, ref } from "vue"
 import { EditPollRequest } from "@/types/requests"
 import * as pollMethods from "@/scripts/poll"

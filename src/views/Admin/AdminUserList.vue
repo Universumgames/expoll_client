@@ -35,7 +35,7 @@
 <script setup lang="ts">
 import { languageData } from "@/scripts/languageConstruct"
 import UserRow from "./UserRow.vue"
-import LoadingScreen from "@/components/LoadingScreen.vue"
+import LoadingScreen from "@/components/utils/LoadingScreen.vue"
 import { getUserData } from "@/scripts/user"
 import { getAllUser } from "@/scripts/admin"
 import { onMounted, ref } from "vue"

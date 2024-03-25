@@ -23,7 +23,7 @@
 
 <script setup lang="ts">
 import * as auth from "@/scripts/authentication"
-import EditIcon from "../assetComponents/EditIcon.vue"
+import EditIcon from "../../assetComponents/EditIcon.vue"
 import { languageData } from "@/scripts/languageConstruct"
 import { computed } from "vue"
 import { limitLength } from "@/scripts/helper"

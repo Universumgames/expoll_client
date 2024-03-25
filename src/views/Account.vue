@@ -37,7 +37,7 @@
 <script lang="ts" setup>
 import { languageData } from "@/scripts/languageConstruct"
 import * as user from "../scripts/user"
-import LoadingScreen from "../components/LoadingScreen.vue"
+import LoadingScreen from "../components/utils/LoadingScreen.vue"
 import * as auth from "@/scripts/authentication"
 import { computed, onMounted, ref } from "vue"
 import { useRouter } from "vue-router"

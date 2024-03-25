@@ -10,8 +10,8 @@
 
 <script setup lang="ts">
 import { languageData } from "@/scripts/languageConstruct"
-import LoadingScreen from "@/components/LoadingScreen.vue"
-import PollListElement from "@/components/PollListElement.vue"
+import LoadingScreen from "@/components/utils/LoadingScreen.vue"
+import PollListElement from "@/components/poll/PollListElement.vue"
 import { getAllPolls } from "@/scripts/admin"
 import { onMounted, ref } from "vue"
 import { PollSummary } from "@/types/poll"

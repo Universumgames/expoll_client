@@ -3,7 +3,7 @@
 </template>
 
 <script setup lang="ts">
-import LoginSignupView from "@/components/LoginSignupView.vue"
+import LoginSignupView from "@/components/login/LoginSignupView.vue"
 import { languageData } from "@/scripts/languageConstruct"
 import { onMounted } from "vue"
 import { useRouter } from "vue-router"
