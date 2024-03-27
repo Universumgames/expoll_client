@@ -42,6 +42,7 @@ import { onMounted, ref } from "vue"
 import ExpollStorage from "@/scripts/storage"
 import { UserInfo } from "@/types/admin/userInfo"
 import { IUser } from "@/types/bases"
+import { apiFetch } from "@/scripts/apiRequests"
 
 defineProps<{ userData: IUser, language: languageData }>()
 
@@ -105,18 +106,21 @@ const createUser = async () => {
     const jwt = ExpollStorage.jwt
     if (jwt == null) return
 
-    const response = await fetch(ExpollStorage.backendUrl + "/api/admin/user", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": "Bearer " + jwt
-        },
-        body: JSON.stringify({
-            username,
-            mail,
-            firstName,
-            lastName
-        })
+    const response = await apiFetch({
+        uri: "/admin/user",
+        useAuth: true,
+        options: {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                username,
+                mail,
+                firstName,
+                lastName
+            })
+        }
     })
     if (response.ok) {
         alert("User created")

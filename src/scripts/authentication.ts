@@ -1,14 +1,15 @@
 import * as webauthnJson from "@github/webauthn-json"
 import ExpollStorage from "@/scripts/storage"
 import { ReturnCode } from "@/types/constants"
+import { apiFetch } from "@/scripts/apiRequests"
 
-const base = "/api/auth"
+const base = "/auth"
 
 /**
  * Register this device for webauthn
  */
 export async function register(): Promise<{ success: boolean; error?: string }> {
-    const resp = await fetch(ExpollStorage.backendUrl + base + "/webauthn/register")
+    const resp = await apiFetch({ uri: base + "/webauthn/register" })
 
     let error = ""
     let success = true
@@ -16,12 +17,14 @@ export async function register(): Promise<{ success: boolean; error?: string }> 
     const publicKeyCredential = await webauthnJson.create(await resp.json())
 
     // POST the response to the endpoint that calls
-    const verificationResp = await fetch(ExpollStorage.backendUrl + base + "/webauthn/register", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(publicKeyCredential)
+    const verificationResp = await apiFetch({
+        uri: base + "/webauthn/register", options: {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(publicKeyCredential)
+        }
     })
 
     // Wait for the results of verification
@@ -46,11 +49,11 @@ export async function login(userReq: {
     username?: string
     mail?: string
 }): Promise<{ success: boolean; error?: string }> {
-    const resp = await fetch(ExpollStorage.backendUrl +
-        base +
-        "/webauthn/authenticate" +
-        `?${userReq.username != undefined ? "username=" + userReq.username : "mail=" + userReq.mail}`
-    )
+    const resp = await apiFetch({
+        uri: base +
+            "/webauthn/authenticate" +
+            `?${userReq.username != undefined ? "username=" + userReq.username : "mail=" + userReq.mail}`
+    })
 
     const returnData: { success: boolean; error?: string } = { success: true, error: undefined }
 
@@ -58,16 +61,17 @@ export async function login(userReq: {
 
     // POST the response to the endpoint that calls
     // @simplewebauthn/server -> verifyAuthenticationResponse()
-    const verificationResp = await fetch(ExpollStorage.backendUrl +
-        base +
-        "/webauthn/authenticate" +
-        `?${userReq.username != undefined ? "username=" + userReq.username : "mail=" + userReq.mail}`,
-        {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(publicKeyCredential)
+    const verificationResp = await apiFetch({
+            uri: base +
+                "/webauthn/authenticate" +
+                `?${userReq.username != undefined ? "username=" + userReq.username : "mail=" + userReq.mail}`,
+            options: {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(publicKeyCredential)
+            }
         }
     )
 
@@ -90,16 +94,19 @@ export async function login(userReq: {
  * @return {Promise<number>} returns axios request status
  */
 export async function otpLogin(otp: string): Promise<{ returnCode: number, forApp: boolean }> {
-    const response = await fetch(ExpollStorage.backendUrl + base + "/simple", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            otp: otp,
-            version: ExpollStorage.appVersion,
-            platform: ExpollStorage.platformName.toUpperCase()
-        })
+    const response = await apiFetch({
+        uri: base + "/simple",
+        options: {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                otp: otp,
+                version: ExpollStorage.appVersion,
+                platform: ExpollStorage.platformName.toUpperCase()
+            })
+        }
     })
     ExpollStorage.jwt = (await response.text())
     return { returnCode: response.status, forApp: response.headers.get("forapp") == "true" }
@@ -112,13 +119,16 @@ export async function otpLogin(otp: string): Promise<{ returnCode: number, forAp
  * @return {Promise} returns axios request
  */
 export async function rename(credentialID: string, newName: string): Promise<Response> {
-    return await fetch(ExpollStorage.backendUrl + base + "/webauthn/edit", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": "Bearer " + ExpollStorage.jwt
-        },
-        body: JSON.stringify({ credentialID: credentialID, newName: newName })
+    return await apiFetch({
+        uri: base + "/webauthn/edit",
+        useAuth: true,
+        options: {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ credentialID: credentialID, newName: newName })
+        }
     })
 }
 
@@ -127,13 +137,16 @@ export async function rename(credentialID: string, newName: string): Promise<Res
  * @param {string} credentialID the credential to delete
  */
 export async function deleteWebauthn(credentialID: string): Promise<void> {
-    await fetch(ExpollStorage.backendUrl + base + "/webauthn", {
-        method: "DELETE",
-        credentials: "include",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ credentialID: credentialID })
+    await apiFetch({
+        uri: base + "/webauthn",
+        options: {
+            method: "DELETE",
+            credentials: "include",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ credentialID: credentialID })
+        }
     })
 }
 
@@ -143,11 +156,14 @@ export async function deleteWebauthn(credentialID: string): Promise<void> {
  */
 export async function getWebauthnList(): Promise<unknown[]> {
     try {
-        const response = await fetch(ExpollStorage.backendUrl + base + "/webauthn/list", {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": "Bearer " + ExpollStorage.jwt
+        const response = await apiFetch({
+            uri: base + "/webauthn/list",
+            useAuth: true,
+            options: {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json"
+                }
             }
         })
         return (await response.json()).authenticators
@@ -162,12 +178,15 @@ export async function getWebauthnList(): Promise<unknown[]> {
  */
 export async function logoutAllSessions(): Promise<void> {
     try {
-        await fetch(ExpollStorage.backendUrl + base + "/logoutAll", {
-            method: "DELETE",
-            credentials: "include",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": "Bearer " + ExpollStorage.jwt
+        await apiFetch({
+            uri: base + "/logoutAll",
+            useAuth: true,
+            options: {
+                method: "DELETE",
+                credentials: "include",
+                headers: {
+                    "Content-Type": "application/json"
+                }
             }
         })
     } catch (e) {
@@ -181,14 +200,17 @@ export async function logoutAllSessions(): Promise<void> {
  */
 export async function deleteSession(nonce: string): Promise<void> {
     try {
-        await fetch(ExpollStorage.backendUrl + base + "/logout", {
-            method: "DELETE",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": "Bearer " + ExpollStorage.jwt
-            },
-            body: JSON.stringify({ nonce: nonce }),
-            credentials: "include"
+        await apiFetch({
+            uri: base + "/logout",
+            useAuth: true,
+            options: {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ nonce: nonce }),
+                credentials: "include"
+            }
         })
     } catch (e) {
         console.error(e)
@@ -200,11 +222,14 @@ export async function deleteSession(nonce: string): Promise<void> {
  */
 export async function logout(): Promise<void> {
     try {
-        await fetch(ExpollStorage.backendUrl + base + "/logout", {
-            method: "DELETE",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": "Bearer " + ExpollStorage.jwt
+        await apiFetch({
+            uri: base + "/logout",
+            useAuth: true,
+            options: {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json"
+                }
             }
         })
         ExpollStorage.jwt = null
@@ -220,12 +245,15 @@ export async function logout(): Promise<void> {
  */
 export async function requestLoginMail(mail: string): Promise<ReturnCode> {
     try {
-        const response = await fetch(ExpollStorage.backendUrl + base + "/simple", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({ mail: mail.toLowerCase().replace(" ", "") })
+        const response = await apiFetch({
+            uri: base + "/simple",
+            options: {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ mail: mail.toLowerCase().replace(" ", "") })
+            }
         })
         return response.status
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -246,10 +274,13 @@ export interface OIDCConnection {
  */
 export async function getOIDCConnections(): Promise<OIDCConnection[]> {
     try {
-        return await fetch(ExpollStorage.backendUrl + base + "/oidc/connections", {
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": "Bearer " + ExpollStorage.jwt
+        return await apiFetch({
+            uri: base + "/oidc/connections",
+            useAuth: true,
+            options: {
+                headers: {
+                    "Content-Type": "application/json"
+                }
             }
         }).then(res => res.json())
     } catch (e) {
@@ -263,10 +294,13 @@ export async function getOIDCConnections(): Promise<OIDCConnection[]> {
  */
 export async function getAvailableOIDCProviders(): Promise<unknown> {
     try {
-        return await fetch(ExpollStorage.backendUrl + "/api/auth/oidc/providers", {
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": "Bearer " + ExpollStorage.jwt
+        return await apiFetch({
+            uri: "/auth/oidc/providers",
+            useAuth: true,
+            options: {
+                headers: {
+                    "Content-Type": "application/json"
+                }
             }
         }).then(res => res.json())
     } catch (e) {

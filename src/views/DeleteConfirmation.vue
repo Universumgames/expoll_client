@@ -17,6 +17,7 @@
 import { useRoute } from "vue-router"
 import { languageData } from "@/scripts/languageConstruct"
 import ExpollStorage from "@/scripts/storage"
+import { apiFetch } from "@/scripts/apiRequests"
 
 const route = useRoute()
 
@@ -27,14 +28,17 @@ const confirmationKey = route.params.key
 const deleteAccount = async () => {
     if (confirm(props.language.uiElements.login.userAccountDeletion.deleteConfirm)) {
         // Delete account
-        const response = await fetch(ExpollStorage.backendUrl + "/api/user/deleteConfirm", {
-            method: "DELETE",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                deleteConfirmationKey: confirmationKey
-            })
+        const response = await apiFetch({
+            uri: "/user/deleteConfirm",
+            options: {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    deleteConfirmationKey: confirmationKey
+                })
+            }
         })
         if (response.ok) {
             // Redirect to login
@@ -50,14 +54,17 @@ const deleteAccount = async () => {
 }
 
 const deleteAccountCancel = async () => {
-    await fetch(ExpollStorage.backendUrl + "/api/user/deleteCancel", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            deleteConfirmationKey: confirmationKey
-        })
+    await apiFetch({
+        uri: "/user/deleteCancel",
+        options: {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                deleteConfirmationKey: confirmationKey
+            })
+        }
     })
     window.location.href = "/#/account"
 }

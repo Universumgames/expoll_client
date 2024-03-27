@@ -1,4 +1,3 @@
-
 import { CreatePollRequest, DetailedPollResponse, EditPollRequest, PollOverview } from "@/types/requests"
 import { replacer } from "./helper"
 import { languageData } from "@/scripts/languageConstruct"
@@ -6,8 +5,9 @@ import ExpollStorage from "@/scripts/storage"
 import { ComplexOption, DetailedPoll } from "@/types/poll"
 import { PollType } from "@/types/bases"
 import { ReturnCode, tPollID, tUserID } from "@/types/constants"
+import { apiFetch } from "@/scripts/apiRequests"
 
-const base = "/api/poll"
+const base = "/poll"
 
 /**
  * Get all polls the user has joined or created
@@ -15,11 +15,14 @@ const base = "/api/poll"
  */
 export async function getPollOverviews(): Promise<PollOverview | undefined> {
     try {
-        return fetch(ExpollStorage.backendUrl + base, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": "Bearer " + ExpollStorage.jwt
+        return apiFetch({
+            uri: base,
+            useAuth: true,
+            options: {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json"
+                }
             }
         }).then(res => res.json())
     } catch {
@@ -35,14 +38,17 @@ export async function getPollOverviews(): Promise<PollOverview | undefined> {
 export async function getDetailedPoll(pollID: tPollID): Promise<DetailedPollResponse | undefined> {
     try {
         const params = new URLSearchParams({ pollID: pollID })
-        const response = await fetch(ExpollStorage.backendUrl + base + "?" + params, {
-            method: "GET",
-            headers: {
+        const response = await apiFetch({
+            uri: base + "?" + params,
+            useAuth: true,
+            options: {
+                method: "GET",
+                headers: {
 
-                "Content-Type": "application/json",
-                "Authorization": "Bearer " + ExpollStorage.jwt
+                    "Content-Type": "application/json"
+                }
+                //body: JSON.stringify({ pollID: pollID })
             }
-            //body: JSON.stringify({ pollID: pollID })
         })
         return response.json()
     } catch (e) {
@@ -59,13 +65,16 @@ export async function getDetailedPoll(pollID: tPollID): Promise<DetailedPollResp
 export async function leavePoll(pollID: tPollID): Promise<void> {
     try {
         const data: EditPollRequest = { pollID: pollID }
-        await fetch(ExpollStorage.backendUrl + base + "/leave", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": "Bearer " + ExpollStorage.jwt
-            },
-            body: JSON.stringify(data)
+        await apiFetch({
+            uri: base + "/leave",
+            useAuth: true,
+            options: {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            }
         })
     } catch (e) {
         console.error(e)
@@ -80,13 +89,16 @@ export async function leavePoll(pollID: tPollID): Promise<void> {
 export async function removeUserFromPoll(pollID: tPollID, userID: tUserID): Promise<void> {
     try {
         const data: EditPollRequest = { pollID: pollID, userRemove: [userID] }
-        await fetch(ExpollStorage.backendUrl + base, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": "Bearer " + ExpollStorage.jwt
-            },
-            body: JSON.stringify(data)
+        await apiFetch({
+            uri: base,
+            useAuth: true,
+            options: {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            }
         })
     } catch (e) {
         console.error(e)
@@ -105,13 +117,16 @@ export async function editUserNote(pollID: tPollID, userID: tUserID, note: strin
             pollID: pollID,
             notes: [{ userID: userID, note: note }]
         }
-        await fetch(ExpollStorage.backendUrl + base, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": "Bearer " + ExpollStorage.jwt
-            },
-            body: JSON.stringify(data)
+        await apiFetch({
+            uri: base,
+            useAuth: true,
+            options: {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            }
         })
     } catch (e) {
         console.error(e)
@@ -124,13 +139,16 @@ export async function editUserNote(pollID: tPollID, userID: tUserID, note: strin
  */
 export async function joinPoll(pollID: tPollID): Promise<void> {
     try {
-        await fetch(ExpollStorage.backendUrl + base + "/join", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": "Bearer " + ExpollStorage.jwt
-            },
-            body: JSON.stringify({ pollID: pollID })
+        await apiFetch({
+            uri: base + "/join",
+            useAuth: true,
+            options: {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ pollID: pollID })
+            }
         })
     } catch (e) {
         console.error(e)
@@ -146,13 +164,16 @@ export async function joinPoll(pollID: tPollID): Promise<void> {
 export async function pushPollChanges(pollID: tPollID, changes: EditPollRequest): Promise<ReturnCode> {
     try {
         changes.pollID = pollID
-        const response = await fetch(ExpollStorage.backendUrl + base, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": "Bearer " + ExpollStorage.jwt
-            },
-            body: JSON.stringify(changes, replacer)
+        const response = await apiFetch({
+            uri: base,
+            useAuth: true,
+            options: {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(changes, replacer)
+            }
         })
         return response.status
     } catch (e) {
@@ -168,13 +189,16 @@ export async function pushPollChanges(pollID: tPollID, changes: EditPollRequest)
 export async function deletePoll(pollID: tPollID): Promise<void> {
     try {
         const data: EditPollRequest = { pollID: pollID, delete: true }
-        await fetch(ExpollStorage.backendUrl + base, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": "Bearer " + ExpollStorage.jwt
-            },
-            body: JSON.stringify(data)
+        await apiFetch({
+            uri: base,
+            useAuth: true,
+            options: {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            }
         })
     } catch (e) {
         console.error(e)
@@ -188,13 +212,16 @@ export async function deletePoll(pollID: tPollID): Promise<void> {
  */
 export async function createPoll(data: CreatePollRequest): Promise<ReturnCode> {
     try {
-        const response = await fetch(ExpollStorage.backendUrl + base, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": "Bearer " + ExpollStorage.jwt
-            },
-            body: JSON.stringify(data, replacer)
+        const response = await apiFetch({
+            uri: base,
+            useAuth: true,
+            options: {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data, replacer)
+            }
         })
         return response.status
         // eslint-disable-next-line @typescript-eslint/no-explicit-any

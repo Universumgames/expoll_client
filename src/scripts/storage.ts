@@ -6,6 +6,9 @@
 export default class ExpollStorage {
 
     static backendUrl: string = process.env["VUE_APP_BACKEND_URL"]
+    static get backendAPIUrl(): string {
+        return `${ExpollStorage.backendUrl}/api`
+    }
     static platformName: string = process.env["VUE_APP_EXPOLL_PLATFORM_NAME"]
     static isAndroid: boolean = ExpollStorage.platformName.toLowerCase().includes("android")
     static isWeb: boolean = ExpollStorage.platformName.toLowerCase().includes("web")

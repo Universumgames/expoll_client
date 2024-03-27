@@ -154,6 +154,7 @@ import { IUser } from "@/types/bases"
 import { ReturnCode } from "@/types/constants"
 import { MailRegexEntry } from "@/types/other"
 import { setCookie } from "@/scripts/cookie"
+import { apiFetch } from "@/scripts/apiRequests"
 
 /* eslint-disable no-unused-vars */
 enum LoginType {
@@ -296,15 +297,18 @@ const login = async () => {
             const newUsername = prompt(props.language.uiElements.login.form.defineUsernameAfterOIDC, user?.username)
             const jwt = ExpollStorage.jwt
             if (jwt == null) return
-            await fetch(ExpollStorage.backendUrl + "/api/user", {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": "Bearer " + jwt
-                },
-                body: JSON.stringify({
-                    username: newUsername
-                })
+            await apiFetch({
+                uri: "/user",
+                useAuth: true,
+                options: {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        username: newUsername
+                    })
+                }
             })
         }
         if (paramForApp.value || forApp) {

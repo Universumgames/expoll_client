@@ -1,8 +1,9 @@
 import { AdminEditUserRequest, AdminPollListResponse, AdminUserListResponse } from "@/types/requests"
 import ExpollStorage from "@/scripts/storage"
 import { tUserID } from "@/types/constants"
+import { apiFetch } from "@/scripts/apiRequests"
 
-const base = "/api/admin"
+const base = "/admin"
 
 /**
  * get all users as admin
@@ -10,11 +11,14 @@ const base = "/api/admin"
  */
 export async function getAllUser(): Promise<AdminUserListResponse | undefined> {
     try {
-        return fetch(ExpollStorage.backendUrl + base + "/users", {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": "Bearer " + ExpollStorage.jwt
+        return apiFetch({
+            uri: base + "/users",
+            useAuth: true,
+            options: {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json"
+                }
             }
         }).then(res => res.json())
     } catch (e) {
@@ -29,11 +33,14 @@ export async function getAllUser(): Promise<AdminUserListResponse | undefined> {
  */
 export async function getAllPolls(): Promise<AdminPollListResponse | undefined> {
     try {
-        return fetch(ExpollStorage.backendUrl + base + "/polls", {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": "Bearer " + ExpollStorage.jwt
+        return apiFetch({
+            uri: base + "/polls",
+            useAuth: true,
+            options: {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json"
+                }
             }
         }).then(res => res.json())
     } catch (e) {
@@ -48,13 +55,16 @@ export async function getAllPolls(): Promise<AdminPollListResponse | undefined> 
  */
 export async function editUserAdmin(data: AdminEditUserRequest): Promise<void> {
     try {
-        await fetch(ExpollStorage.backendUrl + base + "/users", {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": "Bearer " + ExpollStorage.jwt
-            },
-            body: JSON.stringify(data)
+        await apiFetch({
+            uri: base + "/users",
+            useAuth: true,
+            options: {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            }
         })
     } catch (e) {
         console.error(e)
@@ -67,13 +77,16 @@ export async function editUserAdmin(data: AdminEditUserRequest): Promise<void> {
  */
 export async function deleteUserAdmin(userID: tUserID): Promise<void> {
     try {
-        await fetch(ExpollStorage.backendUrl + base + "/users", {
-            method: "DELETE",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": "Bearer " + ExpollStorage.jwt
-            },
-            body: JSON.stringify({ userID: userID })
+        await apiFetch({
+            uri: base + "/users",
+            useAuth: true,
+            options: {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ userID: userID })
+            }
         })
     } catch (e) {
         console.error(e)

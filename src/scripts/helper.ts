@@ -1,12 +1,13 @@
 import ExpollStorage from "@/scripts/storage"
 import { MailRegexEntry } from "@/types/other"
+import { apiFetch } from "@/scripts/apiRequests"
 
 /**
  * get meta info from /api/metaInfo endpoint
  * @return {any} returns meta info object
  */
 export async function getMetaInfo(): Promise<unknown> {
-    return await fetch(ExpollStorage.backendUrl + "/api/metaInfo").then(res => res.json())
+    return await apiFetch({ uri: "/metaInfo" }).then(res => res.json())
 }
 
 /**

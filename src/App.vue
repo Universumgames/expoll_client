@@ -6,7 +6,7 @@
                 Stop impersonation
             </button>
         </div>
-        <nav-bar :language="localeLanguage" :user-data="userData" :display-size="displaySize" />
+        <nav-bar :display-size="displaySize" :language="localeLanguage" :user-data="userData" />
 
         <div v-show="!clientIsCompatible" id="versionUnmatch">
             <strong>Warning:</strong> Your client is not compatible with the current backend version. Please update your
@@ -14,10 +14,10 @@
         </div>
 
         <router-view
-            :failed-loading="failedLoading" 
-            :language="localeLanguage" 
-            :user-data="userData" 
             :display-size="displaySize"
+            :failed-loading="failedLoading"
+            :language="localeLanguage"
+            :user-data="userData"
         />
 
         <footer-vue
@@ -43,6 +43,7 @@ import * as displayHelper from "@/scripts/displayHelper"
 import { DisplaySize } from "@/scripts/displayHelper"
 import { IUser } from "@/types/bases"
 import { ReturnCode } from "@/types/constants"
+import { apiFetch } from "@/scripts/apiRequests"
 
 const route = useRoute()
 const router = useRouter()
@@ -94,7 +95,7 @@ const created = async () => {
     })
 
     try {
-        fetch(ExpollStorage.backendUrl + "/api/serverInfo")
+        apiFetch({ uri: "/serverInfo" })
             .then(async (res) => {
                 const response = await res.json()
                 backendVersion.value = response.version
@@ -102,12 +103,15 @@ const created = async () => {
             .catch(() => {
                 backendVersion.value = "unknown"
             })
-        fetch(ExpollStorage.backendUrl + "/api/compatibility", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({ version: ExpollStorage.appVersion, platform: ExpollStorage.platformName })
+        apiFetch({ 
+            uri: "/compatibility",
+            options: {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ version: ExpollStorage.appVersion, platform: ExpollStorage.platformName })
+            } 
         }).then((res) => {
             clientIsCompatible.value = res.status == ReturnCode.OK
         }).catch(() => {
@@ -121,7 +125,7 @@ const created = async () => {
 onMounted(async () => {
     await created()
     const startUserGet = await getUserData()
-    if(startUserGet != undefined) {
+    if (startUserGet != undefined) {
         initializePushNotifications()
     }
     if (startUserGet != undefined && route.path == "/login") {
@@ -168,9 +172,9 @@ const onLangChange = (short: string) => {
 
 
 const unimpersonate = async () => {
-    await fetch(ExpollStorage.backendUrl + "/api/admin/unImpersonate", {
+    await apiFetch({ uri: "/admin/unImpersonate", options: {
         method: "POST"
-    })
+    } })
     ExpollStorage.jwt = ExpollStorage.originalJwt
     ExpollStorage.originalJwt = null
     window.location.reload()
@@ -178,13 +182,13 @@ const unimpersonate = async () => {
 
 const loadImpersonation = async () => {
     try {
-        const response = (await fetch(ExpollStorage.backendUrl + "/api/admin/isImpersonating", {
+        const response = (await apiFetch({ uri: "/admin/isImpersonating", useAuth: true, options: {
             method: "GET",
             headers: {
-                "Authorization": "Bearer " + ExpollStorage.jwt,
+
                 "originalJWT": ExpollStorage.originalJwt ?? ""
             }
-        }))
+        } }))
         const impersonationResult = await response.json()
         isImpersonating.value = response.ok
         impersonatingMail.value = impersonationResult.mail ?? ""
@@ -200,9 +204,9 @@ addEventListener("resize", () => {
     displaySize.value = displayHelper.getDisplaySize()
 })
 
-const openOutstandingPoll = async () =>{
+const openOutstandingPoll = async () => {
     const pollID = ExpollStorage.outstandingJoinPollID
-    if(pollID == null) return
+    if (pollID == null) return
     ExpollStorage.outstandingJoinPollID = null
     await router.push({ path: "/polls/" + pollID })
 }
@@ -322,7 +326,6 @@ th {
 }
 
 
-
 .grecaptcha-badge {
   visibility: hidden;
 }
@@ -368,7 +371,7 @@ pre {
   align-items: center;
 }
 
-.radius-bottom{
+.radius-bottom {
   border-radius: 0 0 1rem 1rem !important;
 }
 

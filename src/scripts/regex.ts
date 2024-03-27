@@ -1,5 +1,6 @@
 import ExpollStorage from "@/scripts/storage"
 import { MailRegexEntry } from "@/types/other"
+import { apiFetch } from "@/scripts/apiRequests"
 
 /**
  * retrive regex rules for login and signup
@@ -7,7 +8,9 @@ import { MailRegexEntry } from "@/types/other"
  */
 export async function getLoginRegex(): Promise<MailRegexEntry[]> {
     try {
-        return (await (await fetch(ExpollStorage.backendUrl + "/api/simple/mailregex")).json()).regex
+        return (await (await apiFetch({
+            uri: "/simple/mailregex"
+        })).json()).regex
     } catch (e) {
         console.error(e)
         return []
@@ -18,17 +21,16 @@ export async function getLoginRegex(): Promise<MailRegexEntry[]> {
  * replace regex entries with new
  * @param {MailRegexEntry[]} regex all regex entries, that should be in the database
  */
-export async function updateRegeAdmin(regex: MailRegexEntry[]) : Promise<void> {
+export async function updateRegeAdmin(regex: MailRegexEntry[]): Promise<void> {
     try {
-        const jwt = ExpollStorage.jwt
-        if (jwt == null)  return
-        await fetch(ExpollStorage.backendUrl + "/api/admin/mailregex", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": "Bearer " + jwt
-            },
-            body: JSON.stringify({ mailRegex: regex })
+        await apiFetch({
+            uri: "/admin/mailregex", useAuth: true, options: {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ mailRegex: regex })
+            }
         })
     } catch (e) {
         console.error(e)
@@ -42,12 +44,14 @@ export async function updateRegeAdmin(regex: MailRegexEntry[]) : Promise<void> {
 export async function getRegexAdmin(): Promise<MailRegexEntry[]> {
     try {
         const jwt = ExpollStorage.jwt
-        if (jwt == null)  return []
-        const data = await (await fetch(ExpollStorage.backendUrl + "/api/admin/mailregex", {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": "Bearer " + jwt
+        if (jwt == null) return []
+        const data = await (await apiFetch({
+            uri: "/admin/mailregex",
+            useAuth: true, options: {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json"
+                }
             }
         })).json()
 

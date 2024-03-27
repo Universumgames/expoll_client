@@ -1,4 +1,5 @@
 import ExpollStorage from "@/scripts/storage"
+import { apiFetch } from "@/scripts/apiRequests"
 
 /**
  * check if push notification is supported
@@ -58,12 +59,15 @@ function subscribeUser() {
 function sendSubscriptionToServer(subscription: PushSubscription) {
     // Send a POST request to your server with the subscription data
     console.log(subscription.toJSON())
-    fetch("/api/notifications/web", {
-        method: "POST",
-        body: JSON.stringify(subscription),
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": "Bearer " + ExpollStorage.jwt
+    apiFetch({
+        uri: "/notifications/web",
+        useAuth: true,
+        options: {
+            method: "POST",
+            body: JSON.stringify(subscription),
+            headers: {
+                "Content-Type": "application/json"
+            }
         }
     })
         .then(function () {

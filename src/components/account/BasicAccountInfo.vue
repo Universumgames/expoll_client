@@ -33,6 +33,7 @@ import { languageData } from "@/scripts/languageConstruct"
 import ExpollStorage from "@/scripts/storage"
 import EditIcon from "@/assetComponents/EditIcon.vue"
 import { IUser } from "@/types/bases"
+import { apiFetch } from "@/scripts/apiRequests"
 
 const props = defineProps<{ userData: IUser, language: languageData}>()
 
@@ -41,15 +42,18 @@ const editUsername = async () => {
     if (username == null) return
     const jwt = ExpollStorage.jwt
     if (!jwt) return
-    const response = await fetch(ExpollStorage.backendUrl + "/api/user", {
-        method: "PUT",
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": "Bearer " + jwt
-        },
-        body: JSON.stringify({
-            username
-        })
+    const response = await apiFetch({ 
+        uri: "/user", 
+        useAuth: true, 
+        options: {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                username
+            })
+        } 
     })
     if (response.ok) {
         window.location.reload()
@@ -61,16 +65,18 @@ const editFirstName = async () => {
     if (firstName == null) return
     const jwt = ExpollStorage.jwt
     if (!jwt) return
-    const response = await fetch(ExpollStorage.backendUrl + "/api/user", {
-        method: "PUT",
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": "Bearer " + jwt
-        },
-        body: JSON.stringify({
-            firstName
-        })
-    })
+    const response = await apiFetch({
+        uri: "/user", 
+        useAuth: true, 
+        options: {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                firstName
+            })
+        } })
     if (response.ok) {
         window.location.reload()
     }
@@ -81,16 +87,18 @@ const editLastName = async () => {
     if (lastName == null) return
     const jwt = ExpollStorage.jwt
     if (!jwt) return
-    const response = await fetch(ExpollStorage.backendUrl + "/api/user", {
-        method: "PUT",
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": "Bearer " + jwt
-        },
-        body: JSON.stringify({
-            lastName
-        })
-    })
+    const response = await apiFetch({
+        uri: "/user", 
+        useAuth: true, 
+        options: {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                lastName
+            })
+        } })
     if (response.ok) {
         window.location.reload()
     }

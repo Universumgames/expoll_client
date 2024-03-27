@@ -3,6 +3,7 @@ import ExpollStorage from "@/scripts/storage"
 import { ReturnCode } from "@/types/constants"
 import { VoteValue } from "@/types/bases"
 import { languageData } from "@/scripts/languageConstruct"
+import { apiFetch } from "@/scripts/apiRequests"
 
 /**
  * Helper method to vote
@@ -13,13 +14,16 @@ export async function vote(req: VoteRequest): Promise<ReturnCode> {
     try {
         const jwt = ExpollStorage.jwt
         if (!jwt) return 401
-        const rc = (await fetch(ExpollStorage.backendUrl + "/api/vote", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": "Bearer " + jwt
-            },
-            body: JSON.stringify(req)
+        const rc = (await apiFetch({
+            uri: "/vote",
+            useAuth: true,
+            options: {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(req)
+            }
         })).status
         return rc
         // eslint-disable-next-line @typescript-eslint/no-explicit-any

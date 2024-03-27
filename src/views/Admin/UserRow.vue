@@ -79,6 +79,7 @@ import EditIcon from "@/assetComponents/EditIcon.vue"
 import { deleteUserAdmin, editUserAdmin } from "@/scripts/admin"
 import ExpollStorage from "@/scripts/storage"
 import { UserInfo } from "@/types/admin/userInfo"
+import { apiFetch } from "@/scripts/apiRequests"
 
 const props = defineProps<{ userInfo: UserInfo; admin: UserInfo; language: languageData; superAdmin: boolean }>()
 const emit = defineEmits(["update"])
@@ -152,15 +153,18 @@ const impersonate = async () => {
     if (!confirm("Are you sure you want to impersonate this user?")) return
     const jwt = ExpollStorage.jwt
     if(!jwt) return
-    const result = await fetch(ExpollStorage.backendUrl + "/api/admin/impersonate", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": "Bearer " + jwt
-        },
-        body: JSON.stringify({
-            impersonateID: props.userInfo.id
-        })
+    const result = await apiFetch({
+        uri: "/admin/impersonate",
+        useAuth: true,
+        options: {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                impersonateID: props.userInfo.id
+            })
+        }
     })
 
     if(result.ok){

@@ -20,6 +20,7 @@
 import { languageData } from "@/scripts/languageConstruct"
 import { onMounted, Ref, ref } from "vue"
 import ExpollStorage from "@/scripts/storage"
+import { apiFetch } from "@/scripts/apiRequests"
 
 interface Provider {
     key: string,
@@ -39,7 +40,9 @@ withDefaults(defineProps<{
 const providers: Ref<Provider[]> = ref([])
 
 onMounted(async () => {
-    const response = await fetch(ExpollStorage.backendUrl + "/api/auth/oidc/providers")
+    const response = await apiFetch({
+        uri:"/auth/oidc/providers"
+    })
     if (response.ok) {
         providers.value = await response.json()
     } else {

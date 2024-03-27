@@ -4,9 +4,9 @@ import ExpollStorage from "@/scripts/storage"
 import { NotificationPreferences } from "@/types/notification"
 import { ISafeSession, IUser } from "@/types/bases"
 import { ReturnCode } from "@/types/constants"
-import { otpLogin } from "@/scripts/authentication"
+import { apiFetch } from "@/scripts/apiRequests"
 
-const base = "/api/user"
+const base = "/user"
 
 /**
  * Create a new user
@@ -15,12 +15,14 @@ const base = "/api/user"
  */
 export async function signUp(data: CreateUserRequest): Promise<ReturnCode> {
     try {
-        const response = await fetch(ExpollStorage.backendUrl + base, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(data)
+        const response = await apiFetch({
+            uri: base, options: {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            }
         })
         window.location.replace(await response.text())
         return response.status
@@ -36,12 +38,13 @@ export async function signUp(data: CreateUserRequest): Promise<ReturnCode> {
  */
 export async function getUserData(): Promise<IUser | undefined> {
     try {
-        const jwt = ExpollStorage.jwt
-        if (!jwt) return undefined
-        return await fetch(ExpollStorage.backendUrl + base, {
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": "Bearer " + jwt
+        return await apiFetch({
+            uri: base,
+            useAuth: true,
+            options: {
+                headers: {
+                    "Content-Type": "application/json"
+                }
             }
         }).then(res => res.json())
     } catch (e) {
@@ -54,13 +57,14 @@ export async function getUserData(): Promise<IUser | undefined> {
  */
 export async function deleteUser(): Promise<void> {
     try {
-        const jwt = ExpollStorage.jwt
-        if (!jwt) return
-        await fetch(ExpollStorage.backendUrl + base, {
-            method: "DELETE",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": "Bearer " + jwt
+        await apiFetch({
+            uri: base,
+            useAuth: true,
+            options: {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json"
+                }
             }
         })
     } catch (error) {
@@ -74,16 +78,19 @@ export async function deleteUser(): Promise<void> {
  */
 export async function getNotificationPreferences(): Promise<NotificationPreferences | undefined> {
     try {
-        const jwt = ExpollStorage.jwt
-        if (!jwt) return undefined
-        return await fetch(ExpollStorage.backendUrl + "/api/notifications/preferences", {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": "Bearer " + jwt
+        return await apiFetch({
+                uri: "/notifications/preferences",
+                useAuth: true,
+                options: {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                }
             }
-        }).then(res => res.json())
-    } catch (e) {
+        ).then(res => res.json())
+    } catch
+        (e) {
         console.error(e)
         return undefined
     }
@@ -95,15 +102,16 @@ export async function getNotificationPreferences(): Promise<NotificationPreferen
  */
 export async function setNotificationPreferences(data: NotificationPreferences): Promise<ReturnCode> {
     try {
-        const jwt = ExpollStorage.jwt
-        if (!jwt) return ReturnCode.UNAUTHORIZED
-        const response = await fetch(ExpollStorage.backendUrl + "/api/notifications/preferences", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": "Bearer " + jwt
-            },
-            body: JSON.stringify(data)
+        const response = await apiFetch({
+            uri: "/notifications/preferences",
+            useAuth: true,
+            options: {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            }
         })
         return response.status
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -116,14 +124,17 @@ export async function setNotificationPreferences(data: NotificationPreferences):
  * get all sessions of the user
  * @return {ISafeSession[]} all sessions
  */
-export async function getSessions(): Promise<ISafeSession[]>{
+export async function getSessions(): Promise<ISafeSession[]> {
     try {
         const jwt = ExpollStorage.jwt
         if (!jwt) return []
-        return await fetch(ExpollStorage.backendUrl + "/api/user/sessions", {
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": "Bearer " + jwt
+        return await apiFetch({
+            uri: base + "/sessions",
+            useAuth: true,
+            options: {
+                headers: {
+                    "Content-Type": "application/json"
+                }
             }
         }).then(res => res.json())
     } catch (e) {
@@ -136,16 +147,19 @@ export async function getSessions(): Promise<ISafeSession[]>{
  * request personal data per mail
  */
 export async function requestPersonalData(): Promise<void> {
-    try{
+    try {
         const jwt = ExpollStorage.jwt
         if (!jwt) return
-        await fetch(ExpollStorage.backendUrl + "/api/user/requestPersonalData", {
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": "Bearer " + jwt
+        await apiFetch({
+            uri: base + "/requestPersonalData",
+            useAuth: true,
+            options: {
+                headers: {
+                    "Content-Type": "application/json"
+                }
             }
         })
-    }catch (e){
+    } catch (e) {
         console.error(e)
     }
 }
