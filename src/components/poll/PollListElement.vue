@@ -1,54 +1,61 @@
 <template>
     <router-link :to="'/polls/' + poll.pollID" class="pollListElementContainer">
-        <div>
-            {{ poll.name }}
-            <small v-if="!isMobile(displaySize)" style="display: block">
-                <small>
+        <template v-if="isMobile(displaySize)">
+            <div>
+                {{ poll.name }}
+            </div>
+            <div>
+                <div style="display: inline-block; margin-right: 3ch">
+                    <div style="display: inline; margin: 1ch; top: -1ch; position: relative">
+                        {{ poll.userCount }}
+                    </div>
+                    <user-group-icon fill="var(--text-color)" width="4ch" />
+                </div>
+                <div style="display: inline-block">
+                    <small style="white-space: pre-wrap">{{ lastUpdated }}</small><br>
+                    <small
+                        v-show="!poll.allowsEditing"
+                        class="delete"
+                        style="padding: 0.5ch; border-radius: 0.5rem"
+                    >
+                        {{ poll.allowsEditing ? "" : language?.uiElements.polls.details.editingDisabled }}
+                    </small>
+                </div>
+            </div>
+        </template>
+        <template v-else>
+            <div>
+                {{ poll.name }}
+                <small style="display: block">
                     {{ poll.pollID }}
                 </small>
-            </small>
-            <br>
-            <small 
-                v-if="!isMobile(displaySize)"
-                v-show="!poll.allowsEditing"
-                class="delete"
-                style="padding: 0.5ch; border-radius: 0.5rem"
-            >
-                {{ poll.allowsEditing ? "" : language?.uiElements.polls.details.editingDisabled }}
-            </small>
-        </div>
-        <div v-if="!isMobile(displaySize)">
-            <div style="display: inline; margin: 1ch; top: -1ch; position: relative">
-                {{ poll.userCount }}
+                <div v-if="!poll.allowsEditing">
+                    <br>
+                    <small
+                        class="delete"
+                        style="padding: 0.5ch; border-radius: 0.5rem"
+                    >
+                        {{ poll.allowsEditing ? "" : language?.uiElements.polls.details.editingDisabled }}
+                    </small>
+                </div>
             </div>
-            <user-group-icon fill="var(--text-color)" width="4ch" />
-        </div>
-        <div>
-            <div v-if="isMobile(displaySize)" style="display: inline-block; margin-right: 3ch">
+            <div>
                 <div style="display: inline; margin: 1ch; top: -1ch; position: relative">
                     {{ poll.userCount }}
                 </div>
                 <user-group-icon fill="var(--text-color)" width="4ch" />
             </div>
             <div style="display: inline-block">
-                <p v-if="!isMobile(displaySize)">
+                <p>
                     {{ lastUpdated }}
                 </p>
-                <small v-else style="white-space: pre-wrap">{{ lastUpdated }}</small><br>
-                <small 
-                    v-if="isMobile(displaySize)" 
-                    v-show="!poll.allowsEditing"
-                    class="delete" 
-                    style="padding: 0.5ch; border-radius: 0.5rem"
-                >
-                    {{ poll.allowsEditing ? "" : language?.uiElements.polls.details.editingDisabled }}
-                </small>
             </div>
-        </div>
-        <div v-if="!isMobile(displaySize)">
-            Admin:
-            <span style="white-space: nowrap">{{ poll?.admin.firstName + " " + poll?.admin.lastName }}</span>
-        </div>
+
+            <div>
+                Admin:
+                <span style="white-space: nowrap">{{ poll?.admin.firstName + " " + poll?.admin.lastName }}</span>
+            </div>
+        </template>
     </router-link>
 </template>
 
