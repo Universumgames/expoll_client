@@ -150,4 +150,12 @@ export default class ExpollStorage {
         this.save()
     }
 
+    static get showIOSAppBanner(): boolean{
+        return localStorage.getItem("showIOSAppBanner") == null || localStorage.getItem("showIOSAppBanner") == "true"
+    }
+
+    static set showIOSAppBanner(show: boolean){
+        localStorage.setItem("showIOSAppBanner", show.toString())
+    }
+
 }

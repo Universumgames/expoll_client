@@ -113,7 +113,7 @@ const routes: ComputedRef<Route[]> = computed(()=>{
         {
             name: "iOS App",
             url: "https://apps.apple.com/app/expoll/id1639799209",
-            vif: !ExpollStorage.runsAsPWA(),
+            vif: !ExpollStorage.runsAsPWA() && ExpollStorage.showIOSAppBanner,
             icon: AppStoreIcon
         }
     ]

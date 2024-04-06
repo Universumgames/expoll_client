@@ -229,7 +229,8 @@ export async function logout(): Promise<void> {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json"
-                }
+                },
+                body: "{}"
             }
         })
         ExpollStorage.jwt = null

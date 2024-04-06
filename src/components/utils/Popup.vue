@@ -48,7 +48,7 @@ onUnmounted(() => {
 }
 
 .popupContent {
-    width: min(max(80vw, 50ch), 95vw);
+    width: min(max(95vw, 50ch), 95vw);
     height: 90vh;
     margin: auto;
     position: relative;

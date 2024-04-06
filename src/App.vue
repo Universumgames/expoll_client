@@ -6,6 +6,7 @@
                 Stop impersonation
             </button>
         </div>
+        <app-banner v-if="ExpollStorage.showIOSAppBanner" :language="localeLanguage"/>
         <nav-bar :display-size="displaySize" :language="localeLanguage" :user-data="userData" />
 
         <div v-show="!clientIsCompatible" id="versionUnmatch">
@@ -44,6 +45,8 @@ import { DisplaySize } from "@/scripts/displayHelper"
 import { IUser } from "@/types/bases"
 import { ReturnCode } from "@/types/constants"
 import { apiFetch } from "@/scripts/apiRequests"
+import Banner from "@/components/Banner.vue"
+import AppBanner from "@/components/AppBanner.vue"
 
 const route = useRoute()
 const router = useRouter()
@@ -358,11 +361,6 @@ pre {
   position: sticky;
   top: 0;
   z-index: 101;
-}
-
-.bannerContainer {
-  width: 100%;
-  position: sticky;
 }
 
 .evenlySpacedChildContainer {

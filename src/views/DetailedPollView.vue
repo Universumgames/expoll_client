@@ -39,6 +39,7 @@
                 <label><b>{{ language?.uiElements.polls.details.description }}</b></label>
                 <p>{{ poll?.description }}</p>
             </div>
+            <br>
             <div v-show="mayEdit()">
                 <!-- max vote count -->
                 <div>
