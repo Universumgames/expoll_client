@@ -57,6 +57,27 @@ module.exports = {
             favicon16: "app_icons/mac16.png",
             appleTouchIcon: "app_icons/ipad152.png"
         }
+    },
+    css: {
+        loaderOptions: {
+            scss: {
+                additionalData: `@import "~@/styles/_variables.scss";`,
+                modules: {
+                    auto: () => true
+                }
+            },
+            sass: {
+                additionalData: `@import "~@/styles/_variables.scss";`,
+                modules: {
+                    auto: () => true
+                }
+            },
+            css: {
+                modules: {
+                    auto: () => true
+                }
+            }
+        }
     }
     //publicPath: ""
 }

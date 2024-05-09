@@ -1,5 +1,5 @@
 <template>
-    <loading-screen v-if="loading" />
+    <LoadingScreen v-if="loading" />
     <div v-if="!loading">
         <label>Regex count: {{ regex.length }}</label>
     </div>

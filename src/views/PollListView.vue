@@ -1,40 +1,40 @@
 <template>
     <div class="listContainer">
         <div v-show="loading">
-            <blank-poll-list-element v-for="n in 20" :key="n" :language="language" />
+            <BlankPollListElement v-for="n in 20" :key="n" :language="language" />
         </div>
-        <loading-screen v-show="loading" :language="languageData" :user-data="undefined" />
-        <router-link to="/create">
+        <LoadingScreen v-show="loading" />
+        <RouterLink to="/create">
             <button>
                 <span title="Create Poll">+ {{
                     language?.uiElements.polls.list.createBtn
                 }}</span>
             </button>
-        </router-link>
+        </RouterLink>
         <div class="pollList">
             <small>{{ language.uiElements.polls.list.grouping.latest }}</small>
-            <poll-list-element
+            <PollListElement
                 v-for="poll in filtered(Filter.latest)" :key="poll.pollID"
                 :poll="poll" :language="language"
                 :display-size="displaySize"
             />
-            <divider style="'solid'" color="white" height="0.2rem" />
+            <Divider :style="'solid'" color="white" height="0.2rem" />
             <small>{{ language.uiElements.polls.list.grouping.quarter }}</small>
-            <poll-list-element
+            <PollListElement
                 v-for="poll in filtered(Filter.quarter)" :key="poll.pollID"
                 :poll="poll" :language="language"
                 :display-size="displaySize"
             />
-            <divider style="'solid'" color="white" height="0.2rem" />
+            <Divider :style="'solid'" color="white" height="0.2rem" />
             <small>{{ language.uiElements.polls.list.grouping.year }}</small>
-            <poll-list-element
+            <PollListElement
                 v-for="poll in filtered(Filter.year)" :key="poll.pollID"
                 :poll="poll" :language="language"
                 :display-size="displaySize"
             />
-            <divider style="'solid'" color="white" height="0.2rem" />
+            <Divider :style="'solid'" color="white" height="0.2rem" />
             <small>{{ language.uiElements.polls.list.grouping.older }}</small>
-            <poll-list-element
+            <PollListElement
                 v-for="poll in filtered(Filter.older)" :key="poll.pollID"
                 :poll="poll" :language="language"
                 :display-size="displaySize"
@@ -95,9 +95,11 @@ const filtered = (filter: Filter) => {
         case Filter.latest:
             return polls.value.filter(poll => new Date(poll.lastUpdated) > latest)
         case Filter.quarter:
-            return polls.value.filter(poll => new Date(poll.lastUpdated) > quarter && new Date(poll.lastUpdated) < latest)
+            return polls.value.filter(poll => new Date(poll.lastUpdated) > quarter
+                && new Date(poll.lastUpdated) < latest)
         case Filter.year:
-            return polls.value.filter(poll => new Date(poll.lastUpdated) > year && new Date(poll.lastUpdated) < quarter)
+            return polls.value.filter(poll => new Date(poll.lastUpdated) > year
+                && new Date(poll.lastUpdated) < quarter)
         case Filter.older:
             return polls.value.filter(poll => new Date(poll.lastUpdated) < older)
     }

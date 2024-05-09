@@ -1,0 +1,45 @@
+select, textarea, input, button {
+  font: inherit;
+}
+
+button {
+  background: #42b983;
+  border: none;
+  padding: 0.5rem;
+  border-radius: var(--default-border-radius);
+  color: var(--text-color);
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+  width: fit-content;
+  transition-duration: 0.4s;
+  margin: 1ch;
+}
+
+button:hover {
+  filter: invert(100%);
+}
+
+input,
+textarea {
+  color: var(--text-color);
+  padding: 1ch;
+  background: var(--secondary-color);
+  border: none;
+  margin: 1ch;
+  border-radius: var(--default-border-radius);
+}
+
+select {
+  border: none;
+  background: var(--secondary-color);
+  color: var(--text-color);
+  margin: 1ch;
+  padding: 1ch;
+  border-radius: var(--default-border-radius);
+}
+
+.btn-disabled {
+  background-color: grey !important;
+  pointer-events: none !important;
+}

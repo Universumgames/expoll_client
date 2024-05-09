@@ -1,52 +1,53 @@
 <template>
     <div>
-        <div v-show="isImpersonating">
-            You are currently impersonating {{ impersonatingMail }}
-            <button class="delete" @click="unimpersonate">
-                Stop impersonation
-            </button>
-        </div>
-        <app-banner v-if="ExpollStorage.showIOSAppBanner" :language="localeLanguage"/>
-        <nav-bar :display-size="displaySize" :language="localeLanguage" :user-data="userData" />
+      <div v-show="isImpersonating">
+          You are currently impersonating {{ impersonatingMail }}
+          <button class="delete" @click="()=>{}">
+              Stop impersonation
+          </button>
+      </div>
+      <app-banner v-if="ExpollStorage.showIOSAppBanner" :language="localeLanguage" />
+      <nav-bar :display-size="displaySize" :language="localeLanguage" :user-data="userData" />
 
-        <div v-show="!clientIsCompatible" id="versionUnmatch">
-            <strong>Warning:</strong> Your client is not compatible with the current backend version. Please update your
-            client.
-        </div>
+      <div v-show="!clientIsCompatible" id="versionUnmatch">
+          <strong>Warning:</strong> Your client is not compatible with the current backend version. Please update your
+          client.
+      </div>
 
-        <router-view
-            :display-size="displaySize"
-            :failed-loading="failedLoading"
-            :language="localeLanguage"
-            :user-data="userData"
-        />
+      <RouterView
+          :display-size="displaySize"
+          :failed-loading="failedLoading"
+          :language="localeLanguage"
+          :user-data="userData"
+      />
 
-        <footer-vue
-            :backend-version="backendVersion" :frontend-version="frontendVersion"
-            :language="localeLanguage"
-            :user-data="userData!" @colorChange="changeColor"
-            @onLangChange="onLangChange"
-        />
+      <Footer
+          :backend-version="backendVersion" :frontend-version="frontendVersion"
+          :language="localeLanguage"
+          :user-data="undefined" @colorChange="changeColor"
+          @onLangChange="onLangChange"
+      />
     </div>
 </template>
 
 <script lang="ts" setup>
+import "./styles/main.scss"
 import { isDarkMode } from "./scripts/helper"
 import { getUserData } from "./scripts/user"
 import { getLanguage, getSystemLanguage, languageData } from "./scripts/languageConstruct"
-import FooterVue from "./components/Footer.vue"
+import Footer from "./components/Footer.vue"
 import { onMounted, ref } from "vue"
-import { useRoute, useRouter } from "vue-router"
-import NavBar from "@/components/NavBar.vue"
-import ExpollStorage from "@/scripts/storage"
-import { initializePushNotifications } from "@/scripts/notification"
-import * as displayHelper from "@/scripts/displayHelper"
-import { DisplaySize } from "@/scripts/displayHelper"
-import { IUser } from "@/types/bases"
-import { ReturnCode } from "@/types/constants"
-import { apiFetch } from "@/scripts/apiRequests"
-import Banner from "@/components/Banner.vue"
-import AppBanner from "@/components/AppBanner.vue"
+import NavBar from "./components/NavBar.vue"
+import ExpollStorage from "./scripts/storage"
+import { initializePushNotifications } from "./scripts/notification"
+import * as displayHelper from "./scripts/displayHelper"
+import { DisplaySize } from "./scripts/displayHelper"
+import { IUser } from "./types/bases"
+import { ReturnCode } from "./types/constants"
+import { apiFetch } from "./scripts/apiRequests"
+import AppBanner from "./components/AppBanner.vue"
+import { RouterView, useRoute, useRouter } from 'vue-router'
+
 
 const route = useRoute()
 const router = useRouter()
@@ -56,6 +57,7 @@ const userData = ref<IUser>()
 const localeLanguage = ref<languageData>(getSystemLanguage())
 const failedLoading = ref(false)
 const isImpersonating = ref(false)
+
 const impersonatingMail = ref("")
 
 const frontendVersion = ref(ExpollStorage.appVersion)
@@ -157,7 +159,6 @@ const manageDarkMode = () => {
     document.body.classList.add(isDark.value ? "darkVars" : "lightVars")
 }
 
-// eslint-disable-next-line no-unused-vars,@typescript-eslint/no-unused-vars
 const changeColor = (dark: boolean | null) => {
     isDark.value = isDarkMode()
     document.body.classList.remove(!isDark.value ? "darkVars" : "lightVars")
@@ -196,6 +197,7 @@ const loadImpersonation = async () => {
         isImpersonating.value = response.ok
         impersonatingMail.value = impersonationResult.mail ?? ""
     } catch (e) {
+      console.error(e)
     }
 }
 
@@ -214,166 +216,3 @@ const openOutstandingPoll = async () => {
     await router.push({ path: "/polls/" + pollID })
 }
 </script>
-
-<style>
-
-html {
-  scroll-behavior: smooth;
-
-  --default-border-radius: 1ch;
-  --aggressive-border-radius: 1rem;
-
-  --default-padding: 1ch;
-}
-
-body {
-  background: var(--bg-color);
-  margin: 0;
-  padding: 0;
-}
-
-p {
-  white-space: pre-wrap;
-}
-
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: var(--text-color);
-  position: relative;
-  margin: 2ch;
-}
-
-button {
-  background: #42b983;
-  border: none;
-  padding: 0.5rem;
-  border-radius: var(--default-border-radius);
-  color: var(--text-color);
-  font-weight: bold;
-  font-size: 1rem;
-  cursor: pointer;
-  width: fit-content;
-  transition-duration: 0.4s;
-  margin: 1ch;
-}
-
-button:hover {
-  filter: invert(100%);
-}
-
-input,
-textarea {
-  color: var(--text-color);
-  padding: 1ch;
-  background: var(--secondary-color);
-  border: none;
-  margin: 1ch;
-  border-radius: var(--default-border-radius);
-}
-
-select {
-  border: none;
-  background: var(--secondary-color);
-  color: var(--text-color);
-  margin: 1ch;
-  padding: 1ch;
-  border-radius: var(--default-border-radius);
-}
-
-a {
-  font-weight: bold;
-  color: var(--text-color);
-  text-decoration: none;
-}
-
-a.router-link-exact-active {
-  color: #42b983;
-}
-
-.lightVars {
-  --text-color: #2c3e50;
-  --text-color-dimmed: #314961;
-  --bg-color: #f5f5f5;
-  --secondary-color: #dddddd;
-  --primary-color: #42b983;
-  --blank-text-color: var(--bg-color);
-  --alert-color: #ba4b4a;
-}
-
-.darkVars {
-  --text-color: whitesmoke;
-  --text-color-dimmed: #7f8c8d;
-  --bg-color: #2c3e50;
-  --secondary-color: #314961;
-  --primary-color: #42b983;
-  --blank-text-color: var(--bg-color);
-  --alert-color: #ba4b4a;
-}
-
-.errorInfo {
-  color: var(--alert-color);
-}
-
-.normalIcon {
-  width: 1rem;
-  height: 1rem;
-}
-
-td,
-th {
-  padding: 0.5rem;
-  background: var(--secondary-color);
-}
-
-
-.grecaptcha-badge {
-  visibility: hidden;
-}
-
-.btn-disabled {
-  background-color: grey !important;
-  pointer-events: none !important;
-}
-
-.delete {
-  background-color: var(--alert-color);
-}
-
-pre {
-  white-space: pre-wrap;
-  /* Since CSS 2.1 */
-  white-space: -moz-pre-wrap;
-  /* Mozilla, since 1999 */
-  white-space: -pre-wrap;
-  /* Opera 4-6 */
-  white-space: -o-pre-wrap;
-  /* Opera 7 */
-  word-wrap: break-word;
-  /* Internet Explorer 5.5+ */
-}
-
-#versionUnmatch {
-  background-color: var(--alert-color);
-  padding: 1ch;
-  position: sticky;
-  top: 0;
-  z-index: 101;
-}
-
-.evenlySpacedChildContainer {
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
-}
-
-.radius-bottom {
-  border-radius: 0 0 1rem 1rem !important;
-}
-
-.radius-top {
-  border-radius: 1rem 1rem 0 0 !important;
-}
-</style>

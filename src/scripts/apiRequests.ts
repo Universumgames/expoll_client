@@ -6,6 +6,10 @@ export interface APIRequest{
     options?: RequestInit
 }
 
+/**
+ * fetch a request to the backend API
+ * @param options
+ */
 export function apiFetch(options: APIRequest): Promise<Response> {
     const headers = options.options?.headers || { "Authorization": "Bearer " + ExpollStorage.jwt }
     options.options = { ...options.options, headers }

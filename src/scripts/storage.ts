@@ -5,16 +5,16 @@
  */
 export default class ExpollStorage {
 
-    static backendUrl: string = process.env["VUE_APP_BACKEND_URL"]
+    static backendUrl: string = import.meta.env.VITE_APP_BACKEND_URL//process.env["VITE_APP_BACKEND_URL"]
     static get backendAPIUrl(): string {
         return `${ExpollStorage.backendUrl}/api`
     }
-    static platformName: string = process.env["VUE_APP_EXPOLL_PLATFORM_NAME"]
+    static platformName: string = import.meta.env.VITE_APP_EXPOLL_PLATFORM_NAME//process.env["VITE_APP_EXPOLL_PLATFORM_NAME"]
     static isAndroid: boolean = ExpollStorage.platformName.toLowerCase().includes("android")
     static isWeb: boolean = ExpollStorage.platformName.toLowerCase().includes("web")
     static isPWA: boolean = false
-    static applicationServerKey: string = process.env["VUE_APP_APPLICATION_SERVER_KEY"]
-    static appVersion: string = process.env["VUE_APP_VERSION"]
+    static applicationServerKey: string = import.meta.env.VITE_APP_APPLICATION_SERVER_KEY//process.env["VITE_APP_APPLICATION_SERVER_KEY"]
+    static appVersion: string = import.meta.env.VITE_APP_VERSION//process.env["VITE_APP_VERSION"]
 
     /**
      * check if app runs as PWA
@@ -32,7 +32,7 @@ export default class ExpollStorage {
      * init storage
      */
     static async init(): Promise<void> {
-        this.runsAsPWA()
+        //this.runsAsPWA()
     }
 
     /**

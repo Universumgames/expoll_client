@@ -1,0 +1,95 @@
+@import "variables.scss";
+@import "input.scss";
+
+html {
+  scroll-behavior: smooth;
+  font-size: 100%;
+}
+
+body {
+  background: $bg-color;
+  margin: 0;
+  padding: 0;
+}
+
+p {
+  white-space: pre-wrap;
+}
+
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: $text-color;
+  position: relative;
+  margin: 2ch;
+}
+
+a {
+  font-weight: bold;
+  color: $text-color;
+  text-decoration: none;
+}
+
+a.router-link-exact-active {
+  color: $primary-color;
+}
+
+.errorInfo {
+  color: $alert-color;
+}
+
+.normalIcon {
+  width: 1rem;
+  height: 1rem;
+}
+
+td,
+th {
+  padding: 0.5rem;
+  background: $secondary-color;
+}
+
+.grecaptcha-badge {
+  visibility: hidden;
+}
+
+.delete {
+  background-color: $alert-color;
+}
+
+pre {
+  white-space: pre-wrap;
+  /* Since CSS 2.1 */
+  white-space: -moz-pre-wrap;
+  /* Mozilla, since 1999 */
+  white-space: pre-wrap;
+  /* Opera 4-6 */
+  white-space: -o-pre-wrap;
+  /* Opera 7 */
+  word-wrap: break-word;
+  /* Internet Explorer 5.5+ */
+}
+
+#versionUnmatch {
+  background-color: $alert-color;
+  padding: 1ch;
+  position: sticky;
+  top: 0;
+  z-index: 101;
+}
+
+.evenlySpacedChildContainer {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.radius-bottom {
+  border-radius: 0 0 1rem 1rem !important;
+}
+
+.radius-top {
+  border-radius: 1rem 1rem 0 0 !important;
+}

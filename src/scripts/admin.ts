@@ -1,5 +1,4 @@
 import { AdminEditUserRequest, AdminPollListResponse, AdminUserListResponse } from "@/types/requests"
-import ExpollStorage from "@/scripts/storage"
 import { tUserID } from "@/types/constants"
 import { apiFetch } from "@/scripts/apiRequests"
 

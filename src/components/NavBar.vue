@@ -6,9 +6,9 @@
             <div id="mainNav">
                 <template v-for="route of routes" :key="route.path">
                     <template v-if="route.path != undefined && route.vif != false">
-                        <router-link :to="route.path!">
+                        <RouterLink :to="route.path!">
                             {{ route.name }}
-                        </router-link>
+                        </RouterLink>
                     </template>
                     <template v-if="route.url != undefined && route.vif != false">
                         <a :href="route.url!">
@@ -40,10 +40,10 @@
             <div v-if="menuOpen" class="list">
                 <template v-for="route of routes" :key="route.path">
                     <template v-if="route.path != undefined && route.vif != false">
-                        <router-link :to="route.path!">
+                        <RouterLink :to="route.path!">
                             <component :is="route.icon" height="1em" fill="var(--text-color)" />
                             {{ route.name }}
-                        </router-link>
+                        </RouterLink>
                     </template>
                     <template v-if="route.url != undefined && route.vif != false">
                         <a :href="route.url!">
@@ -72,6 +72,7 @@ import HouseIcon from "@/assetComponents/HouseIcon.vue"
 import AppStoreIcon from "@/assetComponents/AppStoreIcon.vue"
 import AdminIcon from "@/assetComponents/AdminIcon.vue"
 import { IUser } from "@/types/bases"
+import { RouterLink } from 'vue-router'
 
 const props = defineProps<{
     userData?: IUser,

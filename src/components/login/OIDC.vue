@@ -9,7 +9,7 @@
                 :style="'background-color: ' + provider.iconBackgroundColorHex + '; color: ' + provider.textColorHex"
             >
                 <img :alt="provider.key" :src="'/api/auth/oidc/images/' + provider.iconFileName" style="width: 5ch; color: var(--primary-color)">
-                <h3>{{provider.title}}</h3>
+                <h3>{{ provider.title }}</h3>
             </a>
         </div>
     </div>
@@ -19,7 +19,6 @@
 
 import { languageData } from "@/scripts/languageConstruct"
 import { onMounted, Ref, ref } from "vue"
-import ExpollStorage from "@/scripts/storage"
 import { apiFetch } from "@/scripts/apiRequests"
 
 interface Provider {

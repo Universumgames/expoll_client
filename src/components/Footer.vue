@@ -11,15 +11,15 @@
                     "
                     target="_blank"
                 >Bugreport</a>
-                <router-link to="/privacy">
+                <RouterLink to="/privacy">
                     {{ language?.uiElements.navigation.privacyPolicy }}
-                </router-link>
-                <router-link to="/siteNotice">
+                </RouterLink>
+                <RouterLink to="/siteNotice">
                     {{ language?.uiElements.navigation.siteNotice }}
-                </router-link>
-                <router-link to="/support">
+                </RouterLink>
+                <RouterLink to="/support">
                     {{ language?.uiElements.navigation.support }}
-                </router-link>
+                </RouterLink>
             </div>
             <div class="expoll_source_links">
                 <small>Source Code</small>
@@ -35,9 +35,9 @@
                 <a href="https://apps.apple.com/app/expoll/id1639799209">
                     iOS App
                 </a>
-                <router-link to="/app">
+                <RouterLink to="/app">
                     iOS Beta
-                </router-link>
+                </RouterLink>
             </div>
             <div class="personal_links">
                 <small>Other Projects</small>
@@ -85,10 +85,11 @@ import { computed } from "vue"
 import ColorModeSelect from "@/components/ColorModeSelect.vue"
 import ExpollStorage from "../scripts/storage"
 import { IUser } from "@/types/bases"
+import { RouterLink } from 'vue-router'
 
 interface Props {
     userData: IUser | undefined
-    language: languageData
+    language: languageData | undefined
     frontendVersion: string
     backendVersion: string
 }

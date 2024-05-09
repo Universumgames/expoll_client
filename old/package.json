@@ -1,0 +1,82 @@
+{
+  "name": "expoll-client",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "export SET NODE_OPTIONS=--openssl-legacy-provider && vue-cli-service build --modern",
+    "lint": "vue-cli-service lint",
+    "build-report": "vue-cli-service build --report",
+    "ionic:build": "npm run build",
+    "ionic:serve": "npm run serve",
+    "localBuild": "vue-cli-service build --modern",
+    "stageServe": "vue-cli-service serve --mode stage"
+  },
+  "dependencies": {
+    "@github/webauthn-json": "^2.1.1",
+    "axios": "^1.6.8",
+    "core-js": "3.37.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-decorator-position": "^5.0.2",
+    "markdown-it": "^14.1.0",
+    "register-service-worker": "^1.7.2",
+    "vue": "^3.4.27",
+    "vue-class-component": "^8.0.0-0",
+    "vue-markdown-render": "^2.1.1",
+    "vue-router": "4.3.2",
+    "vuex": "^4.1.0"
+  },
+  "devDependencies": {
+    "@types/grecaptcha": "3.0.9",
+    "@types/markdown-it": "^14.1.1",
+    "@types/marked": "^6.0.0",
+    "@types/node": "^20.12.11",
+    "@types/webappsec-credential-management": "^0.6.8",
+    "@typescript-eslint/eslint-plugin": "^7.8.0",
+    "@typescript-eslint/parser": "^7.8.0",
+    "@vue/cli-plugin-babel": "~5.0.8",
+    "@vue/cli-plugin-eslint": "~5.0.8",
+    "@vue/cli-plugin-pwa": "~5.0.8",
+    "@vue/cli-plugin-router": "~5.0.8",
+    "@vue/cli-plugin-typescript": "~5.0.8",
+    "@vue/cli-plugin-vuex": "~5.0.8",
+    "@vue/cli-service": "~5.0.8",
+    "@vue/compiler-sfc": "^3.4.27",
+    "@vue/eslint-config-prettier": "^9.0.0",
+    "@vue/eslint-config-typescript": "^13.0.0",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^9.2.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-vue": "^9.26.0",
+    "node-sass": "^9.0.0",
+    "prettier": "^3.2.5",
+    "sass": "^1.77.0",
+    "sass-loader": "^14.2.1",
+    "typescript": "5.4.5",
+    "vue-eslint-parser": "^9.4.2"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/vue3-essential",
+      "eslint:recommended",
+      "@vue/typescript",
+      "@vue/typescript/recommended",
+      "@vue/prettier",
+      "@vue/prettier/@typescript-eslint"
+    ],
+    "parserOptions": {
+      "parser": "@typescript-eslint/parser",
+      "ecmaVersion": 2020
+    },
+    "rules": {}
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ]
+}

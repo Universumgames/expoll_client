@@ -40,8 +40,8 @@ import { vote, voteString } from "@/scripts/vote"
 import { VoteRequest } from "@/types/requests"
 import { editUserNote, leavePoll, removeUserFromPoll } from "@/scripts/poll"
 import { computed, ref } from "vue"
-import { DetailedPoll, SimpleUserNote, SimpleUserVotes } from "@/types/poll"
-import { IUser, VoteValue } from "@/types/bases"
+import { DetailedPoll, SimpleUserVotes } from "@/types/poll"
+import { IUser } from "@/types/bases"
 import { ReturnCode, tOptionId } from "@/types/constants"
 
 interface Props {

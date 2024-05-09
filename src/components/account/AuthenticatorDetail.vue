@@ -22,7 +22,7 @@
 </template>
 
 <script setup lang="ts">
-import * as auth from "@/scripts/authentication"
+import * as auth from "@/scripts/auth/webauthn"
 import EditIcon from "../../assetComponents/EditIcon.vue"
 import { languageData } from "@/scripts/languageConstruct"
 import { computed } from "vue"

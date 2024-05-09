@@ -4,7 +4,6 @@
 
 <script setup lang="ts">
 import { onMounted, ref } from "vue"
-import ExpollStorage from "@/scripts/storage"
 import { apiFetch } from "@/scripts/apiRequests"
 
 const info = ref("")

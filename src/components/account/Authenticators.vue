@@ -25,10 +25,9 @@
 import { languageData } from "@/scripts/languageConstruct"
 import AuthenticatorDetail from "@/components/account/AuthenticatorDetail.vue"
 import * as webauthnJson from "@github/webauthn-json"
-import * as auth from "@/scripts/authentication"
+import * as auth from "@/scripts/auth/webauthn"
 import { onMounted, ref } from "vue"
 import { IUser } from "@/types/bases"
-
 
 const props = defineProps<{ userData: IUser, language: languageData }>()
 
@@ -50,7 +49,7 @@ const addAuth = async () => {
     if (authenticators.value.length == 0 && props.language) {
         alert(props.language.uiElements.login.loggedIn.authDisclaimer)
     }
-    const { success, error } = await auth.register()
+    const { success, error } = await auth.registerWebauthn()
     if (!success) console.error(error)
     await updateAuthenticators()
 }

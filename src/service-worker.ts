@@ -106,6 +106,7 @@ self.addEventListener("push", function (event: any) {
             const notificationOptions: NotificationOptions = {
                 body: body,
                 icon: "/app_icons/ipad152.png",
+                // @ts-ignore
                 timestamp: payload.timestamp
             }
             // @ts-ignore

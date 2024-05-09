@@ -26,7 +26,7 @@
 
 <script setup lang="ts">
 import { languageData } from "@/scripts/languageConstruct"
-import { login } from "@/scripts/authentication"
+import { login } from "@/scripts/auth/webauthn"
 import { mailIsAllowed } from "@/scripts/helper"
 import { ref } from "vue"
 import { MailRegexEntry } from "@/types/other"
@@ -40,7 +40,7 @@ defineEmits(["return"])
 
 const loginMail = ref("")
 const signupUsername = ref("")
-const mailRegex = ref<MailRegexEntry[]>([])
+const mailRegexRules = ref<MailRegexEntry[]>([])
 
 const webauthLogin = async () => {
     if (loginMail.value != "" && signupUsername.value != "") {
@@ -48,7 +48,7 @@ const webauthLogin = async () => {
         return
     }
     let data: { username?: string; mail?: string } = { mail: undefined, username: undefined }
-    if (loginMail.value != "" && mailIsAllowed(loginMail.value, mailRegex.value)) data = { mail: loginMail.value }
+    if (loginMail.value != "" && mailIsAllowed(loginMail.value, mailRegexRules.value)) data = { mail: loginMail.value }
     else if (signupUsername.value != "") data = { username: signupUsername.value }
 
     const { success, error } = await login(data)

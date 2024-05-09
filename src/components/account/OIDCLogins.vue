@@ -34,7 +34,7 @@
 <script setup lang="ts">
 import { languageData } from "@/scripts/languageConstruct"
 import { onMounted, ref } from "vue"
-import * as auth from "@/scripts/authentication"
+import * as auth from "@/scripts/auth/oidc"
 import { capitalizeFirstLetter } from "@/scripts/helper"
 import { IUser } from "@/types/bases"
 

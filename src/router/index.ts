@@ -82,7 +82,7 @@ const routes = [
     {
         path: "/account",
         name: "Account",
-        component: () => import("../views/Account.vue"),
+        component: () => import("../views/AccountView.vue"),
         meta: {
             title: "Account",
             appPath: "userinfo"

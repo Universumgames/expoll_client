@@ -1,6 +1,5 @@
 <template>
-    <loading-screen v-if="userData == undefined && !failedLoading" :language="languageData" :user-data="userData" />
-
+    <LoadingScreen v-if="userData == undefined && !failedLoading" />
 
     <div v-if="userData != undefined && loggedIn" id="accountContainer">
         <BasicAccountInfo :language="language" :user-data="userData" />
@@ -32,6 +31,7 @@
             {{ language?.uiElements.login.loggedIn.deleteAccount }}
         </button>
     </div>
+  <h1>test</h1>
 </template>
 
 <script lang="ts" setup>
@@ -39,7 +39,7 @@ import { languageData } from "@/scripts/languageConstruct"
 import * as user from "../scripts/user"
 import LoadingScreen from "../components/utils/LoadingScreen.vue"
 import * as auth from "@/scripts/authentication"
-import { computed, onMounted, ref } from "vue"
+import { computed, onMounted } from "vue"
 import { useRouter } from "vue-router"
 import BasicAccountInfo from "@/components/account/BasicAccountInfo.vue"
 import Authenticators from "@/components/account/Authenticators.vue"

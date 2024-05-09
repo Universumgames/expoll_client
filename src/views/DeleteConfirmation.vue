@@ -16,7 +16,6 @@
 
 import { useRoute } from "vue-router"
 import { languageData } from "@/scripts/languageConstruct"
-import ExpollStorage from "@/scripts/storage"
 import { apiFetch } from "@/scripts/apiRequests"
 
 const route = useRoute()

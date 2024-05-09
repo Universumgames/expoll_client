@@ -1,5 +1,5 @@
 <template>
-    <loading-screen v-show="loadingMain" :language="languageData" :user-data="undefined" />
+    <LoadingScreen v-show="loadingMain" :language="languageData" :user-data="undefined" />
     <template v-if="!loadingMain && loadingFailed">
         <h2 class="errorInfo">
             {{ language?.uiElements.login.loginFirst }}

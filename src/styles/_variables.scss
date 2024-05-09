@@ -1,0 +1,37 @@
+$text-color: var(--text-color);
+$text-color-dimmed: var(--text-color-dimmed);
+$bg-color: var(--bg-color);
+$secondary-color: var(--secondary-color);
+$primary-color: var(--primary-color);
+$blank-text-color: var(--blank-text-color);
+$alert-color: var(--alert-color);
+
+$default-border-radius: var(--default-border-radius);
+$aggressive-border-radius: var(--aggressive-border-radius);
+$default-padding: var(--default-padding);
+
+html{
+  --default-border-radius: 1ch;
+  --aggressive-border-radius: 1rem;
+  --default-padding: 1ch;
+}
+
+.lightVars {
+  --text-color: #2c3e50;
+  --text-color-dimmed: #314961;
+  --bg-color: #f5f5f5;
+  --secondary-color: #dddddd;
+  --primary-color: #42b983;
+  --blank-text-color: $bg-color;
+  --alert-color: #ba4b4a;
+}
+
+.darkVars {
+  --text-color: whitesmoke;
+  --text-color-dimmed: #7f8c8d;
+  --bg-color: #2c3e50;
+  --secondary-color: #314961;
+  --primary-color: #42b983;
+  --blank-text-color: $bg-color;
+  --alert-color: #ba4b4a;
+}
