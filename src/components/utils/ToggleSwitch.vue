@@ -2,7 +2,7 @@
     <input
         type="checkbox"
         :checked="modelValue"
-        @change="emit('update:modelValue', $event.target.checked)"
+        @change="(event)=>{emit('update:modelValue', event.target?.checked)}"
     >
 </template>
 
@@ -24,7 +24,7 @@ const widthToggle = computed(() => {
 })
 
 const sizeToggleCircle = computed(() => {
-    return props.scale * 1 + "rem"
+    return props.scale + "rem"
 })
 </script>
 

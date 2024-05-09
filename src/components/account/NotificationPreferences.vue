@@ -5,7 +5,7 @@
             <template v-for="preference in notifications" :key="preference.key">
                 <div class="notificationPreference">
                     <label>{{ preference.name }}</label>
-                    <toggle-switch
+                    <ToggleSwitch
                         v-model="notificationPreferences[preference.key]"
                         @change="saveNotifications"
                     />

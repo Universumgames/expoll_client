@@ -197,7 +197,7 @@ const loadImpersonation = async () => {
         isImpersonating.value = response.ok
         impersonatingMail.value = impersonationResult.mail ?? ""
     } catch (e) {
-      console.error(e)
+        isImpersonating.value = false
     }
 }
 

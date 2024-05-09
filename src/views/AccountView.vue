@@ -13,12 +13,9 @@
             {{ language?.uiElements.login.loggedIn.loginAppBtn }}
         </button>
 
-        <button
-            style="background-color: var(--secondary-color); 
+        <button style="background-color: var(--secondary-color); 
             border-radius: var(--default-border-radius); 
-            padding: var(--default-padding);"
-            @click="requestPersonalData"
-        >
+            padding: var(--default-padding);" @click="requestPersonalData">
             {{ language?.uiElements.login.loggedIn.personalizedDBContent }}
         </button>
 
@@ -31,7 +28,6 @@
             {{ language?.uiElements.login.loggedIn.deleteAccount }}
         </button>
     </div>
-  <h1>test</h1>
 </template>
 
 <script lang="ts" setup>
@@ -82,13 +78,13 @@ const deleteUser = async () => {
     if (
         confirm(
             "Are you sure you want to delete your user account? " +
-                "You loose your access to the account and your personal information will be deleted"
+            "You loose your access to the account and your personal information will be deleted"
         )
     ) {
         if (
             confirm(
                 "Deleting your user account will remove your access to your votes and polls, " +
-                    "are you sure you want to continue?"
+                "are you sure you want to continue?"
             )
         ) {
             if (confirm("A confirmation email will be delivered, once opened this action cannot be undone")) {
@@ -109,45 +105,43 @@ const loginApp = () => {
 
 <style scoped>
 #accountContainer {
-  display: flex;
-  flex-direction: column;
-  gap: 2ch;
+    display: flex;
+    flex-direction: column;
+    gap: 2ch;
 }
 
 .columnContainer {
-  display: flex;
-  max-width: 80vw;
-  flex-wrap: wrap;
-  flex-direction: row;
-  background: var(--secondary-color);
-  margin: auto;
-  border-radius: var(--aggressive-border-radius);
+    display: flex;
+    max-width: 80vw;
+    flex-wrap: wrap;
+    flex-direction: row;
+    background: var(--secondary-color);
+    margin: auto;
+    border-radius: var(--aggressive-border-radius);
 }
 
 .column {
-  display: flex;
-  flex-direction: column;
-  min-width: 30ch;
-  flex: 1;
-  padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    min-width: 30ch;
+    flex: 1;
+    padding: 1rem;
 }
 
 button {
-  margin: auto;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
+    margin: auto;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
 }
 
 input {
-  background: var(--bg-color);
+    background: var(--bg-color);
 }
 
 pre {
-  text-align: left;
-  background: var(--secondary-color);
-  padding: 1rem;
-  border-radius: var(--default-border-radius);
+    text-align: left;
+    background: var(--secondary-color);
+    padding: 1rem;
+    border-radius: var(--default-border-radius);
 }
-
-
 </style>
