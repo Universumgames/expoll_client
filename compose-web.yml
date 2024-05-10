@@ -12,9 +12,6 @@ services:
     networks:
       - expoll_net
       - out
-    ports:
-        - "80:80"
-        - "443:443"
 
 networks:
   expoll_net:
