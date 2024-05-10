@@ -21,8 +21,8 @@
 </template>
 
 <script setup lang="ts">
-import { languageData } from "@/scripts/languageConstruct"
-import { IUser } from "@/types/bases"
+import type { languageData } from "@/scripts/languageConstruct"
+import type { IUser } from "@/types/bases"
 
 defineProps<{ userData?: IUser, language: languageData }>()
 </script>

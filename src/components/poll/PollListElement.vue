@@ -60,11 +60,11 @@
 </template>
 
 <script lang="ts" setup>
-import { languageData } from "@/scripts/languageConstruct"
+import type { languageData } from "@/scripts/languageConstruct"
 import { computed } from "vue"
 import { DisplaySize, isMobile } from "@/scripts/displayHelper"
 import UserGroupIcon from "@/assetComponents/UserGroupIcon.vue"
-import { PollSummary } from "@/types/poll"
+import type { PollSummary } from "@/types/poll"
 
 const props = defineProps<{
     poll: PollSummary,

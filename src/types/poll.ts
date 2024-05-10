@@ -1,6 +1,6 @@
 
-import { PollType, VoteValue } from "@/types/bases"
-import { tDate, tDateTime, tOptionId, tPollID, tUserID } from "@/types/constants"
+import type { tDate, tDateTime, tOptionId, tPollID, tUserID } from "@/types/constants"
+import { type PollType, VoteValue } from '@/types/bases'
 
 export interface SimpleUser {
     id: tUserID

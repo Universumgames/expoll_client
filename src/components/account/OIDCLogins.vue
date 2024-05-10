@@ -32,11 +32,11 @@
 </template>
 
 <script setup lang="ts">
-import { languageData } from "@/scripts/languageConstruct"
+import type { languageData } from "@/scripts/languageConstruct"
 import { onMounted, ref } from "vue"
 import * as auth from "@/scripts/auth/oidc"
 import { capitalizeFirstLetter } from "@/scripts/helper"
-import { IUser } from "@/types/bases"
+import type { IUser } from "@/types/bases"
 
 defineProps<{ userData: IUser, language: languageData }>()
 const oidcConnections = ref<auth.OIDCConnection[]>([])
@@ -46,7 +46,7 @@ const missingProviders = ref<string[]>([])
 
 onMounted(async () => {
     oidcConnections.value = await auth.getOIDCConnections()
-    providers.value = await auth.getAvailableOIDCProviders()
+    providers.value = await auth.getAvailableOIDCProviders() as any
     const existingProviders = oidcConnections.value.map(t => t.name)
 
     missingProviders.value = providers.value

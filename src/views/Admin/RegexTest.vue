@@ -21,7 +21,7 @@
 
 <script setup lang="ts">
 import { ref } from "vue"
-import { MailRegexEntry } from "@/types/other"
+import type { MailRegexEntry } from '@/types/other'
 
 defineProps<{ reg?: MailRegexEntry }>()
 const emit = defineEmits(["remove", "update"])

@@ -61,8 +61,8 @@
 <script setup lang="ts">
 
 import UserIcon from "@/components/AccountLink.vue"
-import { languageData } from "@/scripts/languageConstruct"
-import { computed, ComputedRef, ref } from "vue"
+import type { languageData } from "@/scripts/languageConstruct"
+import { computed, type ComputedRef, ref } from "vue"
 import { DisplaySize, isMobile } from "@/scripts/displayHelper"
 import BarsIcon from "@/assetComponents/BarsIcon.vue"
 import { useRouter } from "vue-router"
@@ -71,7 +71,7 @@ import ListIcon from "@/assetComponents/ListIcon.vue"
 import HouseIcon from "@/assetComponents/HouseIcon.vue"
 import AppStoreIcon from "@/assetComponents/AppStoreIcon.vue"
 import AdminIcon from "@/assetComponents/AdminIcon.vue"
-import { IUser } from "@/types/bases"
+import type { IUser } from "@/types/bases"
 import { RouterLink } from 'vue-router'
 
 const props = defineProps<{

@@ -15,7 +15,7 @@
 <script lang="ts" setup>
 
 import { useRoute } from "vue-router"
-import { languageData } from "@/scripts/languageConstruct"
+import type { languageData } from "@/scripts/languageConstruct"
 import { apiFetch } from "@/scripts/apiRequests"
 
 const route = useRoute()

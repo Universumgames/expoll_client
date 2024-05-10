@@ -29,10 +29,10 @@
 </template>
 
 <script setup lang="ts">
-import { languageData } from "@/scripts/languageConstruct"
+import type { languageData } from "@/scripts/languageConstruct"
 import ExpollStorage from "@/scripts/storage"
 import EditIcon from "@/assetComponents/EditIcon.vue"
-import { IUser } from "@/types/bases"
+import type { IUser } from "@/types/bases"
 import { apiFetch } from "@/scripts/apiRequests"
 
 const props = defineProps<{ userData: IUser, language: languageData}>()

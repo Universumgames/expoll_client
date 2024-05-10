@@ -1,5 +1,3 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-undef */
 import { languageList } from "./languages/languageConfig"
 
 export interface languageData {

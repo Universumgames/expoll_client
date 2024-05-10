@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 
 import { precacheAndRoute } from "workbox-precaching"
-import { getLanguage, languageData } from "@/scripts/languageConstruct"
+import { getLanguage, type languageData } from '@/scripts/languageConstruct'
 import Database from "@/scripts/db"
 
 

@@ -12,7 +12,7 @@
                     if (e.keyCode == 13) change(voteOpt.optionID)
                 }
                 "
-            >{{ voteString(language, voteOpt.votedFor) }}</a><br>
+            >{{ voteString(language!, voteOpt.votedFor) }}</a><br>
             <small v-show="errorMsg != '' && voteOpt.votedFor" class="errorInfo">{{ errorMsg }}</small>
         </td>
         <td v-show="loggedUserIsSelectedUser() || pollData.admin.id == userData.id || userData.admin">
@@ -35,14 +35,14 @@
 </template>
 
 <script setup lang="ts">
-import { languageData } from "@/scripts/languageConstruct"
+import type { languageData } from "@/scripts/languageConstruct"
 import { vote, voteString } from "@/scripts/vote"
-import { VoteRequest } from "@/types/requests"
+import type { VoteRequest } from "@/types/requests"
 import { editUserNote, leavePoll, removeUserFromPoll } from "@/scripts/poll"
 import { computed, ref } from "vue"
-import { DetailedPoll, SimpleUserVotes } from "@/types/poll"
-import { IUser } from "@/types/bases"
-import { ReturnCode, tOptionId } from "@/types/constants"
+import type { DetailedPoll, SimpleUserVotes } from "@/types/poll"
+import type { IUser } from "@/types/bases"
+import { ReturnCode, type tOptionId } from "@/types/constants"
 
 interface Props {
     userData: IUser
@@ -102,7 +102,7 @@ const removeUserBtnVisible = computed(() => {
 const removeUser = async () => {
     if (props.pollData == undefined || props.userVote == undefined || !props.pollData.allowsEditing) return
     try {
-        const askName = props.userVote?.user.firstName + " " + props.userVote?.user.lastName ?? ""
+        const askName = props.userVote.user.firstName + " " + props.userVote.user.lastName
         if (
             !confirm(
                 loggedUserIsSelectedUser()
@@ -148,7 +148,7 @@ const isNoteEditable = () => {
 }
 
 const loggedUserIsSelectedUser = () => {
-    return props.userData?.id == props.userVote?.user?.id ?? false
+    return props.userData.id == props.userVote.user.id
 }
 
 

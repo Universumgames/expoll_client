@@ -1,8 +1,8 @@
-import { CreateUserRequest } from "@/types/requests"
+import type { CreateUserRequest } from "@/types/requests"
 import ExpollStorage from "@/scripts/storage"
 
-import { NotificationPreferences } from "@/types/notification"
-import { ISafeSession, IUser } from "@/types/bases"
+import type { NotificationPreferences } from "@/types/notification"
+import type { ISafeSession, IUser } from "@/types/bases"
 import { ReturnCode } from "@/types/constants"
 import { apiFetch } from "@/scripts/apiRequests"
 

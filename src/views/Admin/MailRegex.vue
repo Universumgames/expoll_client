@@ -29,13 +29,13 @@
 </template>
 
 <script setup lang="ts">
-import { languageData } from "@/scripts/languageConstruct"
+import type { languageData } from "@/scripts/languageConstruct"
 import LoadingScreen from "@/components/utils/LoadingScreen.vue"
 import RegexTest from "./RegexTest.vue"
 import { getRegexAdmin, updateRegeAdmin } from "@/scripts/regex"
 import { onMounted, ref } from "vue"
-import { IUser } from "@/types/bases"
-import { MailRegexEntry } from "@/types/other"
+import type { MailRegexEntry } from '@/types/other'
+import type { IUser } from '@/types/bases'
 
 defineProps<{ userData?: IUser, language: languageData }>()
 

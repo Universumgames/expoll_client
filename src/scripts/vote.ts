@@ -1,8 +1,8 @@
-import { VoteRequest } from "@/types/requests"
+import type { VoteRequest } from "@/types/requests"
 import ExpollStorage from "@/scripts/storage"
 import { ReturnCode } from "@/types/constants"
 import { VoteValue } from "@/types/bases"
-import { languageData } from "@/scripts/languageConstruct"
+import type { languageData } from "@/scripts/languageConstruct"
 import { apiFetch } from "@/scripts/apiRequests"
 
 /**

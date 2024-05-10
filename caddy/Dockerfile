@@ -8,7 +8,7 @@ WORKDIR /expoll/frontend_server
 COPY ./ .
 
 RUN npm install --legacy-peer-deps
-RUN npm run build
+RUN npm run build-only
 
 From alpine:latest
 WORKDIR /www/data

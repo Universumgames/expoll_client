@@ -47,7 +47,7 @@ export async function loginWebauthn(userReq: {
     username?: string
     mail?: string,
     autofill?: boolean
-}): Promise<{ success: boolean; error?: string }> {
+}): Promise<{ success: boolean; error?: string | undefined }> {
     try {
         console.log("1")
         const resp = await apiFetch({
@@ -112,7 +112,7 @@ export async function loginWebauthn(userReq: {
         }
     }catch (e) {
         console.error(e)
-        return { success: false, error: e }
+        return { success: false, error: e as any }
     }
 }
 

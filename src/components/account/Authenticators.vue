@@ -22,16 +22,16 @@
 </template>
 
 <script lang="ts" setup>
-import { languageData } from "@/scripts/languageConstruct"
+import type { languageData } from "@/scripts/languageConstruct"
 import AuthenticatorDetail from "@/components/account/AuthenticatorDetail.vue"
 import * as webauthnJson from "@github/webauthn-json"
 import * as auth from "@/scripts/auth/webauthn"
 import { onMounted, ref } from "vue"
-import { IUser } from "@/types/bases"
+import type { IUser } from "@/types/bases"
 
 const props = defineProps<{ userData: IUser, language: languageData }>()
 
-const authenticators = ref<unknown[]>([])
+const authenticators = ref<any[]>([])
 
 onMounted(async () => {
     await updateAuthenticators()

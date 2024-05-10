@@ -15,7 +15,7 @@
 <script setup lang="ts">
 import Banner from "@/components/Banner.vue"
 
-import { languageData } from "@/scripts/languageConstruct"
+import type { languageData } from "@/scripts/languageConstruct"
 import ExpollStorage from "@/scripts/storage"
 import { ref } from "vue"
 

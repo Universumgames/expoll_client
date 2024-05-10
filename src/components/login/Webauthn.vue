@@ -25,11 +25,11 @@
 </template>
 
 <script setup lang="ts">
-import { languageData } from "@/scripts/languageConstruct"
+import type { languageData } from "@/scripts/languageConstruct"
 import { loginWebauthn } from "@/scripts/auth/webauthn"
 import { mailIsAllowed } from "@/scripts/helper"
 import { ref } from "vue"
-import { MailRegexEntry } from "@/types/other"
+import type { MailRegexEntry } from "@/types/other"
 
 defineProps<{
     language?: languageData

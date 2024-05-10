@@ -1,8 +1,8 @@
-import { UserInfo } from "@/types/admin/userInfo"
-import { ComplexOption, DetailedPoll, PollEdit, PollSummary, VoteChange } from "@/types/poll"
-import { NotificationPreferences } from "@/types/notification"
-import { PollType, VoteValue } from "@/types/bases"
-import { tPollID, tUserID } from "@/types/constants"
+import type { UserInfo } from "@/types/admin/userInfo"
+import type { ComplexOption, DetailedPoll, PollEdit, PollSummary, VoteChange } from "@/types/poll"
+import type { NotificationPreferences } from "@/types/notification"
+import type { tPollID, tUserID } from "@/types/constants"
+import { type PollType, VoteValue } from '@/types/bases'
 
 export interface CreateUserRequest {
     firstName: string

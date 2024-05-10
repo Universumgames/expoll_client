@@ -26,23 +26,23 @@
         <user-row
             v-for="user in filteredUsers" :key="user.id"
             :user-info="user" :language="language"
-            :admin="userData"
+            :admin="userData as UserInfo"
             :super-admin="adminIsSuper" @update="getData"
         />
     </div>
 </template>
 
 <script setup lang="ts">
-import { languageData } from "@/scripts/languageConstruct"
 import UserRow from "./UserRow.vue"
 import LoadingScreen from "@/components/utils/LoadingScreen.vue"
 import { getUserData } from "@/scripts/user"
 import { getAllUser } from "@/scripts/admin"
 import { onMounted, ref } from "vue"
 import ExpollStorage from "@/scripts/storage"
-import { UserInfo } from "@/types/admin/userInfo"
-import { IUser } from "@/types/bases"
+import type { UserInfo } from "@/types/admin/userInfo"
 import { apiFetch } from "@/scripts/apiRequests"
+import type { IUser } from '@/types/bases'
+import type { languageData } from '@/scripts/languageConstruct'
 
 defineProps<{ userData: IUser, language: languageData }>()
 

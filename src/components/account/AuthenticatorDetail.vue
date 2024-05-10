@@ -24,10 +24,10 @@
 <script setup lang="ts">
 import * as auth from "@/scripts/auth/webauthn"
 import EditIcon from "../../assetComponents/EditIcon.vue"
-import { languageData } from "@/scripts/languageConstruct"
+import type { languageData } from "@/scripts/languageConstruct"
 import { computed } from "vue"
 import { limitLength } from "@/scripts/helper"
-import { IUser } from "@/types/bases"
+import type { IUser } from "@/types/bases"
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const props = defineProps<{ userData: IUser, language?: languageData, authenticator: any }>()

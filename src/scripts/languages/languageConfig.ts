@@ -1,4 +1,4 @@
-import { languageData } from "../languageConstruct"
+import type { languageData } from "../languageConstruct"
 import de from "./de"
 import en from "./en"
 

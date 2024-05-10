@@ -4,20 +4,21 @@
         <label>Poll Count: {{ count }}</label>
     </div>
     <div v-for="poll in polls" :key="poll.pollID">
-        <poll-list-element :poll="poll" :language="language" />
+        <PollListElement :poll="poll" :language="language" :display-size="displaySize" />
     </div>
 </template>
 
 <script setup lang="ts">
-import { languageData } from "@/scripts/languageConstruct"
 import LoadingScreen from "@/components/utils/LoadingScreen.vue"
 import PollListElement from "@/components/poll/PollListElement.vue"
 import { getAllPolls } from "@/scripts/admin"
 import { onMounted, ref } from "vue"
-import { PollSummary } from "@/types/poll"
-import { IUser } from "@/types/bases"
+import type { DisplaySize } from '@/scripts/displayHelper'
+import type { IUser } from '@/types/bases'
+import type { PollSummary } from '@/types/poll'
+import type { languageData } from '@/scripts/languageConstruct'
 
-defineProps<{ userData?: IUser, language: languageData }>()
+defineProps<{ userData?: IUser, language: languageData, displaySize: DisplaySize }>()
 
 const polls = ref<PollSummary[]>([])
 const count = ref(0)

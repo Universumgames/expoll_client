@@ -51,7 +51,7 @@
         </div>
         <div class="quickSettings">
             <languageSelect :language="language" @langChange="onLangChange" />
-            <color-mode-select :language="language" @colorChange="changeColor" />
+            <color-mode-select :language="language!" @colorChange="changeColor" />
         </div>
         <div class="bmc">
             <small>Sponsor me</small>
@@ -79,12 +79,12 @@
 </template>
 
 <script lang="ts" setup>
-import { languageData } from "@/scripts/languageConstruct"
+import type { languageData } from "@/scripts/languageConstruct"
 import LanguageSelect from "./LanguageSelect.vue"
 import { computed } from "vue"
 import ColorModeSelect from "@/components/ColorModeSelect.vue"
 import ExpollStorage from "../scripts/storage"
-import { IUser } from "@/types/bases"
+import type { IUser } from "@/types/bases"
 import { RouterLink } from 'vue-router'
 
 interface Props {

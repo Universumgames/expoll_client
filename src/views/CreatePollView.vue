@@ -122,13 +122,13 @@
 </template>
 
 <script lang="ts" setup>
-import { languageData } from "@/scripts/languageConstruct"
-import { CreatePollRequest } from "@/types/requests"
+import type { languageData } from "@/scripts/languageConstruct"
+import type { CreatePollRequest } from "@/types/requests"
 import { createPoll } from "@/scripts/poll"
 import { onMounted, ref } from "vue"
-import { ComplexOption, empty } from "@/types/poll"
-import { IUser, PollType, VoteValue } from "@/types/bases"
+import { type ComplexOption, empty } from "@/types/poll"
 import { ReturnCode } from "@/types/constants"
+import { type IUser, PollType, VoteValue } from '@/types/bases'
 
 const props = defineProps<{ userData: IUser; language: languageData }>()
 

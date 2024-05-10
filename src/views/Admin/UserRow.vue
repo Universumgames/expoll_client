@@ -74,12 +74,12 @@
 </template>
 
 <script setup lang="ts">
-import { languageData } from "@/scripts/languageConstruct"
 import EditIcon from "@/assetComponents/EditIcon.vue"
 import { deleteUserAdmin, editUserAdmin } from "@/scripts/admin"
 import ExpollStorage from "@/scripts/storage"
-import { UserInfo } from "@/types/admin/userInfo"
 import { apiFetch } from "@/scripts/apiRequests"
+import type { UserInfo } from '@/types/admin/userInfo'
+import type { languageData } from '@/scripts/languageConstruct'
 
 const props = defineProps<{ userInfo: UserInfo; admin: UserInfo; language: languageData; superAdmin: boolean }>()
 const emit = defineEmits(["update"])

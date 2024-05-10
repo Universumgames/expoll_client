@@ -4,7 +4,7 @@
 
 <script setup lang="ts">
 import VueMarkdown from "vue-markdown-render"
-import { languageData } from "@/scripts/languageConstruct"
+import type { languageData } from "@/scripts/languageConstruct"
 import { onMounted, ref } from "vue"
 import ExpollStorage from "@/scripts/storage"
 

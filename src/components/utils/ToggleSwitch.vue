@@ -2,7 +2,7 @@
     <input
         type="checkbox"
         :checked="modelValue"
-        @change="(event)=>{emit('update:modelValue', event.target?.checked)}"
+        @change="(event)=>{emit('update:modelValue', (event.target as any)?.checked)}"
     >
 </template>
 

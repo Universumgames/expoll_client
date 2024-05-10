@@ -48,12 +48,12 @@ import PollListElement from "../components/poll/PollListElement.vue"
 import LoadingScreen from "../components/utils/LoadingScreen.vue"
 import BlankPollListElement from "../components/Blanks/BlankPollListElement.vue"
 
-import { languageData } from "@/scripts/languageConstruct"
+import type { languageData } from "@/scripts/languageConstruct"
 import { getPollOverviews } from "@/scripts/poll"
 import { onMounted, ref } from "vue"
 import { DisplaySize } from "@/scripts/displayHelper"
-import { PollSummary } from "@/types/poll"
-import { IUser } from "@/types/bases"
+import type { PollSummary } from "@/types/poll"
+import type { IUser } from "@/types/bases"
 import Divider from "@/components/utils/Divider.vue"
 
 defineProps<{

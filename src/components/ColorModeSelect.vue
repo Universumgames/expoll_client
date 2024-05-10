@@ -20,7 +20,7 @@
 
 <script setup lang="ts">
 
-import { languageData } from "@/scripts/languageConstruct"
+import type { languageData } from "@/scripts/languageConstruct"
 import { ref } from "vue"
 import ExpollStorage from "@/scripts/storage"
 import ColorThemeIcon from "@/assetComponents/ColorThemeIcon.vue"

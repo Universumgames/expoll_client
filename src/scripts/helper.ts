@@ -1,5 +1,5 @@
 import ExpollStorage from "@/scripts/storage"
-import { MailRegexEntry } from "@/types/other"
+import type { MailRegexEntry } from "@/types/other"
 import { apiFetch } from "@/scripts/apiRequests"
 
 /**

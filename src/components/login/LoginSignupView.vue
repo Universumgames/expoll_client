@@ -140,7 +140,7 @@
 </template>
 
 <script lang="ts" setup>
-import { languageData } from '@/scripts/languageConstruct'
+import type { languageData } from '@/scripts/languageConstruct'
 import { getUserData, signUp } from '@/scripts/user'
 import LoadingScreen from '../utils/LoadingScreen.vue'
 import Popup from '../utils/TextPopup.vue'
@@ -151,12 +151,12 @@ import { getLoginRegex } from '@/scripts/regex'
 import OIDC from './OIDC.vue'
 import Webauthn from './Webauthn.vue'
 import { computed, onMounted, ref } from 'vue'
-import { ReCaptchaInstance } from '@/scripts/recaptcha'
+import type { ReCaptchaInstance } from '@/scripts/recaptcha'
 import { useRoute } from 'vue-router'
 import ExpollStorage from '@/scripts/storage'
-import { IUser } from '@/types/bases'
+import type { IUser } from "@/types/bases"
 import { ReturnCode } from '@/types/constants'
-import { MailRegexEntry } from '@/types/other'
+import type { MailRegexEntry } from '@/types/other'
 import { setCookie } from '@/scripts/cookie'
 import { apiFetch } from '@/scripts/apiRequests'
 import * as webauthn from '@/scripts/auth/webauthn'

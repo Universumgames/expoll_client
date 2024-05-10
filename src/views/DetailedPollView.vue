@@ -1,10 +1,10 @@
 <template>
-    <LoadingScreen v-show="loadingMain" :language="languageData" :user-data="undefined" />
+    <LoadingScreen v-show="loadingMain" :language="language" :user-data="undefined" />
     <template v-if="!loadingMain && loadingFailed">
         <h2 class="errorInfo">
             {{ language?.uiElements.login.loginFirst }}
         </h2>
-        <login-signup-view :language="language" />
+        <login-signup-view :language="language" :display-size="displaySize" :failed-loading="failedLoading" />
     </template>
     <blank-detailed-poll-view v-show="loadingMain" :language="language" />
     <template v-if="!loadingMain && !loadingFailed">
@@ -62,7 +62,7 @@
                     </label>
                 </div>
                 <!-- default vote -->
-                <div v-if="mayEdit">
+                <div v-if="mayEdit()">
                     <label>{{ language?.uiElements.polls.create.defaultVote }}:
                         {{ voteString(language, poll?.defaultVote) }}
                     </label>
@@ -152,20 +152,21 @@ import ShareIcon from "../assetComponents/ShareIcon.vue"
 import PollUserVoteRow from "../components/poll/PollUserVotes.vue"
 import LoadingScreen from "../components/utils/LoadingScreen.vue"
 import SwitchIcon from "../assetComponents/SwitchIcon.vue"
-import { EditPollRequest } from "@/types/requests"
+import type { EditPollRequest } from "@/types/requests"
 import LoginSignupView from "../components/login/LoginSignupView.vue"
 import BlankDetailedPollView from "../components/Blanks/BlankDetailedPollView.vue"
 import * as pollMethods from "@/scripts/poll"
 import { computed, onMounted, ref } from "vue"
 import { useRoute } from "vue-router"
 import PollEdit from "@/components/poll/PollEdit.vue"
-import { languageData } from "@/scripts/languageConstruct"
-import { ComplexOption, DetailedPoll, PollSimpleUser, SimpleUserVotes } from "@/types/poll"
-import { IUser, PollType, VoteValue } from "@/types/bases"
-import { tOptionId, tUserID } from "@/types/constants"
-import { voteString } from "../scripts/vote"
+import type { ComplexOption, DetailedPoll, PollSimpleUser, SimpleUserVotes } from "@/types/poll"
+import type { tOptionId, tUserID } from "@/types/constants"
+import { voteString } from '@/scripts/vote'
+import type { DisplaySize } from '@/scripts/displayHelper'
+import type { languageData } from '@/scripts/languageConstruct'
+import { type IUser, PollType, VoteValue } from '@/types/bases'
 
-const props = defineProps<{ userData: IUser, language: languageData }>()
+const props = defineProps<{ userData: IUser, language: languageData, displaySize: DisplaySize, failedLoading: boolean }>()
 const route = useRoute()
 
 const loadingMain = ref(true)
@@ -212,7 +213,7 @@ onMounted(async () => {
             clearInterval(intID)
         }
         setup()
-    }, 60 * 1000)
+    }, 60 * 1000) as any
 })
 
 const scrollToNextOption = () => {
@@ -344,18 +345,18 @@ const getVotesByUser = () => {
             user: props.userData ?? { id: "", firstName: "", lastName: "", username: "" },
             votes: []
         }
-    )
+    ) as SimpleUserVotes
 }
 
 const mayEdit = () => {
     return (
-        ((poll.value?.admin.id == props.userData?.id ?? false) || (props.userData?.admin ?? false)) &&
+        ((poll.value?.admin.id == props.userData.id) || (props.userData.admin)) &&
         (poll.value?.allowsEditing ?? false)
     )
 }
 
 const isPollAdmin = () => {
-    return (poll.value?.admin.id == props.userData?.id ?? false) || (props.userData?.admin ?? false)
+    return (poll.value?.admin.id == props.userData.id) || (props.userData.admin)
 }
 
 const voteUpdateCallback = async () => {
@@ -397,7 +398,7 @@ const getVotedForCount = (optionID: tOptionId) => {
 
 const userKicked = (userID: tUserID) => {
     if (poll.value == undefined) return
-    poll.value.userVotes = poll.value.userVotes.filter((ele) => ele.user?.id != userID ?? true) ?? []
+    poll.value.userVotes = poll.value.userVotes.filter((ele) => ele.user.id != userID) ?? []
 }
 
 const noteChangeCallback = async () => {

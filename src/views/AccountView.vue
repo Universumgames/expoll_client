@@ -31,7 +31,7 @@
 </template>
 
 <script lang="ts" setup>
-import { languageData } from "@/scripts/languageConstruct"
+import type { languageData } from "@/scripts/languageConstruct"
 import * as user from "../scripts/user"
 import LoadingScreen from "../components/utils/LoadingScreen.vue"
 import * as auth from "@/scripts/authentication"
@@ -42,7 +42,7 @@ import Authenticators from "@/components/account/Authenticators.vue"
 import Sessions from "@/components/account/Sessions.vue"
 import NotificationPreferences from "@/components/account/NotificationPreferences.vue"
 import OIDCLogins from "@/components/account/OIDCLogins.vue"
-import { IUser } from "@/types/bases"
+import type { IUser } from "@/types/bases"
 import { setCookie } from "@/scripts/cookie"
 import ExpollStorage from "@/scripts/storage"
 import type { DisplaySize } from '@/scripts/displayHelper'

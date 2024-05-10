@@ -1,6 +1,6 @@
-import { AdminEditUserRequest, AdminPollListResponse, AdminUserListResponse } from "@/types/requests"
-import { tUserID } from "@/types/constants"
+import { type AdminEditUserRequest, type AdminPollListResponse, type AdminUserListResponse } from '@/types/requests'
 import { apiFetch } from "@/scripts/apiRequests"
+import type { tUserID } from '@/types/constants'
 
 const base = "/admin"
 

@@ -17,8 +17,8 @@
 
 <script lang="ts" setup>
 
-import { languageData } from "@/scripts/languageConstruct"
-import { onMounted, Ref, ref } from "vue"
+import type { languageData } from "@/scripts/languageConstruct"
+import { onMounted, type Ref, ref } from "vue"
 import { apiFetch } from "@/scripts/apiRequests"
 
 interface Provider {

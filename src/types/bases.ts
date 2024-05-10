@@ -1,4 +1,4 @@
-import { tDateTime, tOptionId, tPollID, tUserID } from "@/types/constants"
+import type { tDateTime, tOptionId, tPollID, tUserID } from "@/types/constants"
 
 export interface ISession {
     loginKey: string

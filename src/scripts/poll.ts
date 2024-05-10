@@ -1,10 +1,10 @@
-import { CreatePollRequest, DetailedPollResponse, EditPollRequest, PollOverview } from "@/types/requests"
+import type { CreatePollRequest, DetailedPollResponse, EditPollRequest, PollOverview } from "@/types/requests"
 import { replacer } from "./helper"
-import { languageData } from "@/scripts/languageConstruct"
-import { ComplexOption, DetailedPoll } from "@/types/poll"
+import type { languageData } from "@/scripts/languageConstruct"
+import type { ComplexOption, DetailedPoll } from "@/types/poll"
 import { PollType } from "@/types/bases"
-import { ReturnCode, tPollID, tUserID } from "@/types/constants"
 import { apiFetch } from "@/scripts/apiRequests"
+import { ReturnCode, type tPollID, type tUserID } from '@/types/constants'
 
 const base = "/poll"
 

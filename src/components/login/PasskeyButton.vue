@@ -6,7 +6,7 @@
 </template>
 
 <script setup lang="ts">
-import { languageData } from "@/scripts/languageConstruct"
+import type { languageData } from "@/scripts/languageConstruct"
 import * as auth from "@/scripts/auth/webauthn"
 
 defineProps<{
