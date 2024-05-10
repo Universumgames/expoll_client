@@ -1,0 +1,24 @@
+{
+  "name": "Expoll",
+  "short_name": "Expoll",
+  "theme_color": "#4DBA87",
+  "icons": [],
+  "start_url": "/#/polls?version=3.7.0",
+  "display": "standalone",
+  "background_color": "#2c3e50",
+  "themeColor": "#2c3e50",
+  "shortcuts": [
+    {
+      "name": "Poll list",
+      "short_name": "Polls",
+      "description": "List of all polls",
+      "url": "/#/polls"
+    },
+    {
+      "name": "User info",
+      "short_name": "User",
+      "description": "User info",
+      "url": "/#/account"
+    }
+  ]
+}
