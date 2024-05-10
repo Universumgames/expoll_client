@@ -36,10 +36,10 @@ build_docker:
     stage: deploy
     variables:
         GIT_SUBMODULE_STRATEGY: recursive
-    image: ubuntu:latest
+    image: docker:latest
     tags:
         - docker_local
     script:
-        - apt-get update && apt-get install -y curl
-        - curl -fsSL https://get.docker.com | sh # Install Docker
+        #- apt-get update && apt-get install -y curl
+        #- curl -fsSL https://get.docker.com | sh # Install Docker
         - ./run-web.sh
