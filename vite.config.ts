@@ -17,9 +17,13 @@ export default defineConfig({
     VitePWA({
       registerType: 'autoUpdate',
       injectRegister: 'auto',
+      manifestFilename: 'manifest.json',
+      strategies: 'injectManifest',
+      srcDir: 'src',
+      filename: 'service-worker.ts',
       workbox:{
         sourcemap: true,
-        cleanupOutdatedCaches: true
+        cleanupOutdatedCaches: true,
       },
       manifest: {
         name: 'Expoll',
