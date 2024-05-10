@@ -13,13 +13,13 @@
 </template>
 
 <script setup lang="ts">
-import Banner from "@/components/Banner.vue"
+import Banner from "@/components/BannerView.vue"
 
 import type { languageData } from "@/scripts/languageConstruct"
 import ExpollStorage from "@/scripts/storage"
 import { ref } from "vue"
 
-const props = defineProps<{ language: languageData }>()
+defineProps<{ language: languageData }>()
 
 const show = ref(true)
 

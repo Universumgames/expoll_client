@@ -38,7 +38,7 @@ const routes = [
     {
         path: "/support",
         name: "Support",
-        component: () => import("../views/Support.vue"),
+        component: () => import("../views/SupportView.vue"),
         meta: {
             title: "Support"
         }
@@ -54,7 +54,7 @@ const routes = [
     {
         path: "/",
         name: "Home",
-        component: () => import("../views/Home.vue"),
+        component: () => import("../views/HomeView.vue"),
         meta: {
             title: "Home"
         }
@@ -73,7 +73,7 @@ const routes = [
     {
         path: "/login/:key?",
         name: "Login Page",
-        component: () => import("../views/Login.vue"),
+        component: () => import("../views/LoginView.vue"),
         meta: {
             title: "Login",
             appPath: "userinfo"
@@ -91,7 +91,7 @@ const routes = [
     {
         path: "/admin",
         name: "Admin",
-        component: () => import("../views/Admin/Admin.vue"),
+        component: () => import("../views/Admin/AdminView.vue"),
         meta: {
             title: "Administration Home"
         },
@@ -115,7 +115,7 @@ const routes = [
             {
                 path: "info",
                 name: "Server Debug Info",
-                component: () => import("../views/Admin/Info.vue"),
+                component: () => import("../views/Admin/InfoView.vue"),
                 meta: {
                     title: "Server Debug Info"
                 }

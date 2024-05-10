@@ -73,7 +73,7 @@
 </template>
 
 <script lang="ts" setup>
-import Popup from "@/components/utils/Popup.vue"
+import Popup from "@/components/utils/PopupView.vue"
 import type { languageData } from "@/scripts/languageConstruct"
 import ToggleSwitch from "@/components/utils/ToggleSwitch.vue"
 import { computed, ref } from "vue"

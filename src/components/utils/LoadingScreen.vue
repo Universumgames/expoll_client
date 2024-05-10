@@ -3,10 +3,6 @@
 </template>
 
 <script lang="ts" setup>
-import type { languageData } from "@/scripts/languageConstruct"
-import type { IUser } from "@/types/bases"
-
-//defineProps<{ userData: IUser | undefined, language: languageData | undefined }>()
 </script>
 
 <style scoped>

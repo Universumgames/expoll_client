@@ -2,7 +2,7 @@
     <div>
       <div v-show="isImpersonating">
           You are currently impersonating {{ impersonatingMail }}
-          <button class="delete" @click="()=>{}">
+          <button class="delete" @click="unimpersonate">
               Stop impersonation
           </button>
       </div>
@@ -35,7 +35,7 @@ import "./styles/main.scss"
 import { isDarkMode } from "./scripts/helper"
 import { getUserData } from "./scripts/user"
 import { getLanguage, getSystemLanguage, type languageData } from "./scripts/languageConstruct"
-import Footer from "./components/Footer.vue"
+import Footer from "./components/FooterView.vue"
 import { onMounted, ref } from "vue"
 import NavBar from "./components/NavBar.vue"
 import ExpollStorage from "./scripts/storage"
@@ -159,7 +159,7 @@ const manageDarkMode = () => {
     document.body.classList.add(isDark.value ? "darkVars" : "lightVars")
 }
 
-const changeColor = (dark: boolean | null) => {
+const changeColor = () => {
     isDark.value = isDarkMode()
     document.body.classList.remove(!isDark.value ? "darkVars" : "lightVars")
     document.body.classList.add(isDark.value ? "darkVars" : "lightVars")

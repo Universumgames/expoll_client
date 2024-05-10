@@ -5,8 +5,8 @@ import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import VueDevTools from 'vite-plugin-vue-devtools'
 import { VitePWA } from 'vite-plugin-pwa'
-import * as fs from 'node:fs'
-import * as path from 'node:path'
+//import * as fs from 'node:fs'
+//import * as path from 'node:path'
 
 // https://vitejs.dev/config/
 export default defineConfig({

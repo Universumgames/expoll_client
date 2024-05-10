@@ -8,7 +8,7 @@ export default class Database {
     public static openDB(): Promise<IDBDatabase> {
         return new Promise<IDBDatabase>((resolve, reject) => {
             const dbOpenRequest = indexedDB.open("expollDB", dbVersion)
-            dbOpenRequest.onsuccess = function (event) {
+            dbOpenRequest.onsuccess = function () {
                 db = dbOpenRequest.result
                 resolve(dbOpenRequest.result)
             }
@@ -16,10 +16,10 @@ export default class Database {
                 console.error("Error opening database.", event)
                 reject(event)
             }
-            dbOpenRequest.onupgradeneeded = function (event) {
+            dbOpenRequest.onupgradeneeded = function () {
                 const db = dbOpenRequest.result
 
-                const keyValues = db.createObjectStore(keyValuesObjectStoreName, { keyPath: "expoll_key" })
+                db.createObjectStore(keyValuesObjectStoreName, { keyPath: "expoll_key" })
             }
         })
     }
@@ -33,7 +33,7 @@ export default class Database {
             const transaction = db.transaction(keyValuesObjectStoreName, "readonly")
             const keyValuesObjectStore = transaction.objectStore(keyValuesObjectStoreName)
             const request = keyValuesObjectStore.get(key)
-            request.onsuccess = function (event) {
+            request.onsuccess = function () {
                 const result = request.result
                 if (result == null) {
                     resolve(null)
@@ -56,7 +56,7 @@ export default class Database {
             const transaction = db.transaction(keyValuesObjectStoreName, "readwrite")
             const keyValuesObjectStore = transaction.objectStore(keyValuesObjectStoreName)
             const request = keyValuesObjectStore.put({ expoll_key: key, expoll_value: value })
-            request.onsuccess = function (event) {
+            request.onsuccess = function () {
                 resolve()
             }
             request.onerror = function (event) {
