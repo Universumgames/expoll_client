@@ -29,7 +29,9 @@
           </button>
         </div>
       </div>
+      <PasskeyButton :language="language" />
       <OIDC :language="language" />
+      <LoginDisclaimer/>
       <div style="margin-top: 10ch; border-top: 1px white solid;">
         <button v-show="supportsWebauthn" style="font-size: smaller;display: block;" @click="view = 2">
           {{ language?.uiElements.login.form.quickLoginBtn }}
@@ -159,6 +161,8 @@ import { setCookie } from '@/scripts/cookie'
 import { apiFetch } from '@/scripts/apiRequests'
 import * as webauthn from '@/scripts/auth/webauthn'
 import type { DisplaySize } from '@/scripts/displayHelper'
+import PasskeyButton from '@/components/login/PasskeyButton.vue'
+import LoginDisclaimer from '@/components/login/LoginDisclaimer.vue'
 
 /* eslint-disable no-unused-vars */
 enum LoginType {

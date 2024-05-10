@@ -58,6 +58,7 @@ export interface languageData {
                 tryOtherMail: string
                 emailNotExistSignupRequired: string
                 defineUsernameAfterOIDC: string
+                passkeyLoginBtn: string
             }
             alreadyLoggedInAs: (username: string) => string
             logoutBtn: string

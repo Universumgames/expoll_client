@@ -83,7 +83,8 @@ Join the Beta via TestFlight and install the app: [https://testflight.apple.com/
                 oidc: "Third party login",
                 tryOtherMail: "Try another mail address",
                 emailNotExistSignupRequired: "The mail address is not registered, please use a valid one or create a new user",
-                defineUsernameAfterOIDC: "Please define a username for your account"
+                defineUsernameAfterOIDC: "Please define a username for your account",
+                passkeyLoginBtn: "Login with Passkey"
             },
             alreadyLoggedInAs: (username: string) => "You are already logged in as " + username,
             logoutBtn: "Logout",

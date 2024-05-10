@@ -87,7 +87,8 @@ Tritt der Beta via TestFlight bei und installiere die App: [https://testflight.a
                 oidc: "Anmelden mit Drittannbieter",
                 tryOtherMail: "Versuche eine andere E-Mail Adresse",
                 emailNotExistSignupRequired: "Die E-Mail Adresse existiert nicht, jetzt registrieren und Benutzer erstellen oder versuche eine andere E-Mail Adresse",
-                defineUsernameAfterOIDC: "Bitte gebe einen Benutzernamen ein"
+                defineUsernameAfterOIDC: "Bitte gebe einen Benutzernamen ein",
+                passkeyLoginBtn: "Anmelden mit Passkey"
             },
             alreadyLoggedInAs: (username: string) => "Du bist bereits als " + username + " angemeldet",
             logoutBtn: "Abmelden",
