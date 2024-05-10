@@ -28,3 +28,4 @@ tsconfig.tsbuildinfo
 resources/android/**/*
 https-passthrough
 android
+/local/

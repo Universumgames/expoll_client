@@ -43,46 +43,76 @@ export async function registerWebauthn(): Promise<{ success: boolean; error?: st
  * @param {{username: string?, mail: string?}} userReq the user credentials (username or mail)
  * @return {Promise}
  */
-export async function login(userReq: {
+export async function loginWebauthn(userReq: {
     username?: string
-    mail?: string
+    mail?: string,
+    autofill?: boolean
 }): Promise<{ success: boolean; error?: string }> {
-    const resp = await apiFetch({
-        uri: base +
-            "/webauthn/authenticate" +
-            `?${userReq.username != undefined ? "username=" + userReq.username : "mail=" + userReq.mail}`
-    })
-
-    const returnData: { success: boolean; error?: string } = { success: true, error: undefined }
-
-    const publicKeyCredential = await webauthnJson.get(await resp.json())
-
-    // POST the response to the endpoint that calls
-    // @simplewebauthn/server -> verifyAuthenticationResponse()
-    const verificationResp = await apiFetch({
+    try {
+        console.log("1")
+        const resp = await apiFetch({
             uri: base +
+              "/webauthn/authenticate" +
+              `?${userReq.username != undefined ? "username=" + userReq.username : "mail=" + userReq.mail}`
+        })
+        const returnData: { success: boolean; error?: string } = { success: true, error: undefined }
+
+        console.log("2")
+
+        const options = await resp.json()
+        if (userReq.autofill && window.PublicKeyCredential &&
+          PublicKeyCredential.isConditionalMediationAvailable) {
+            console.log("3")
+
+            // Is a conditional UI available in this browser?
+            //const abortController = new AbortController();
+            const cma = await PublicKeyCredential.isConditionalMediationAvailable()
+            // eslint-disable-next-line no-constant-condition
+            if (cma) {
+                options.mediation = "conditional"
+                console.log("4")
+                //options.signal = abortController.signal
+            }
+        } else if (userReq.autofill == true) return { success: false, error: "Autofill not supported" }
+
+        console.log(options)
+        //debugger
+        const publicKeyCredential = await webauthnJson.get(options)
+        console.log("4,5")
+
+        // POST the response to the endpoint that calls
+        // @simplewebauthn/server -> verifyAuthenticationResponse()
+        const verificationResp = await apiFetch({
+              uri: base +
                 "/webauthn/authenticate" +
                 `?${userReq.username != undefined ? "username=" + userReq.username : "mail=" + userReq.mail}`,
-            options: {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(publicKeyCredential)
-            }
+              options: {
+                  method: "POST",
+                  headers: {
+                      "Content-Type": "application/json"
+                  },
+                  body: JSON.stringify(publicKeyCredential)
+              }
+          }
+        )
+        console.log("5")
+
+        // Wait for the results of verification
+        const verificationJSON = await verificationResp.json()
+
+
+        // Show UI appropriate for the `verified` status
+        if (verificationJSON && verificationJSON.verified) {
+            console.log("6")
+            return returnData
+        } else {
+            console.log("7")
+            returnData.error = `Oh no, something went wrong! Response: ${JSON.stringify(verificationJSON)}`
+            return returnData
         }
-    )
-
-    // Wait for the results of verification
-    const verificationJSON = await verificationResp.json()
-
-
-    // Show UI appropriate for the `verified` status
-    if (verificationJSON && verificationJSON.verified) {
-        return returnData
-    } else {
-        returnData.error = `Oh no, something went wrong! Response: ${JSON.stringify(verificationJSON)}`
-        return returnData
+    }catch (e) {
+        console.error(e)
+        return { success: false, error: e }
     }
 }
 
@@ -146,53 +176,5 @@ export async function getWebauthnList(): Promise<unknown[]> {
     } catch (e) {
         console.error(e)
         return []
-    }
-}
-
-/**
- * setup webauthn autofill
- */
-export async function setupWebauthnAutofill(): Promise<void> {
-    if (window.PublicKeyCredential &&
-        // @ts-ignore
-        PublicKeyCredential.isConditionalMediationAvailable) {
-        try {
-
-            // Is a conditional UI available in this browser?
-
-            // @ts-ignore
-            //const cma = await PublicKeyCredential.isConditionalMediationAvailable()
-            // eslint-disable-next-line no-constant-condition
-            if (true) {
-                //const abortController = new AbortController()
-                // If a conditional UI is available, invoke the authenticate() function.
-                const publicKeyCredentialRequestOptions = {
-                    // Server generated challenge
-                    challenge: "test",
-                    // The same RP ID as used during registration
-                    rpId: "localhost"
-                }
-
-                // @ts-ignore
-                const credential = await navigator.credentials.get({
-                    // @ts-ignore
-                    publicKey: publicKeyCredentialRequestOptions,
-                    //signal: abortController.signal,
-                    // Specify 'conditional' to activate conditional UI
-                    // @ts-ignore
-                    mediation: "conditional"
-                })
-                // @ts-ignore
-                // eslint-disable-next-line no-debugger
-                debugger
-
-                //const {success, error} = await login({})
-                //if (success) {
-
-                //}
-            }
-        } catch (e) {
-            console.error(e)
-        }
     }
 }

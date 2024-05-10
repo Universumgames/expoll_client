@@ -6,7 +6,7 @@
     <div>OTP: {{ paramOTP }}</div>
   </div>
   <popup v-if="showPopup" :text="popupText" :title="popupTitle" @close="showPopup = false" />
-  <form v-show="!paramOTPExist && !loggingIn && view != 2" class="columnContainer">
+  <div v-show="!paramOTPExist && !loggingIn && view != 2" class="columnContainer">
     <!-- logging in -->
     <div v-show="view == 0" class="column">
       <h2>{{ language?.uiElements.login.form.login }}</h2>
@@ -14,7 +14,7 @@
         <label for="mail">{{ language?.uiElements.login.form.mail }}</label>
         <input
           id="mail" v-model="loginMail"
-          :autocomplete="'mail' + supportsWebauthn? '' : ' webauthn'"
+          :autocomplete="'email' + supportsWebauthn? '' : ' webauthn'"
           :style="mailInvalid ? 'color:red' : 'color:green'"
           autofocus
           placeholder="max.mustermann@gmail.com"
@@ -124,7 +124,7 @@
           <a href="https://policies.google.com/terms">Terms of Service</a> apply.</small>
       </div>
     </div>
-  </form>
+  </div>
   <div v-if="loggingIn">
     <LoadingScreen />
     <div>{{ language?.uiElements.login.form.loggingIn }}</div>
@@ -158,6 +158,7 @@ import { MailRegexEntry } from '@/types/other'
 import { setCookie } from '@/scripts/cookie'
 import { apiFetch } from '@/scripts/apiRequests'
 import * as webauthn from '@/scripts/auth/webauthn'
+import type { DisplaySize } from '@/scripts/displayHelper'
 
 /* eslint-disable no-unused-vars */
 enum LoginType {
@@ -168,7 +169,7 @@ enum LoginType {
 
 const captchaKey = '6LcreNsdAAAAAAGYzVEJFg1IcKLQsWDrh_LAYHsB'
 
-const props = defineProps<{ language: languageData, userData?: IUser }>()
+const props = defineProps<{ language: languageData, userData?: IUser, failedLoading: boolean, displaySize: DisplaySize }>()
 const route = useRoute()
 
 const loggingIn = ref(false)
@@ -220,7 +221,12 @@ onMounted(async () => {
   }
 
   mailRegex.value = await getLoginRegex()
-  //await webauthn.setupWebauthnAutofill()
+  webauthn.loginWebauthn({ autofill: true }).then((res) => {
+    if (res.success) {
+      window.location.href = '/#/account'
+      window.location.reload()
+    }
+  })
 })
 
 const mailUpdate = () => {
@@ -405,7 +411,6 @@ const loginQuestionClick = () => {
 <style scoped>
 .columnContainer {
   display: flex;
-  max-width: 80vw;
   flex-wrap: wrap;
   flex-direction: column;
   background: var(--secondary-color);

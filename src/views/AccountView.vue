@@ -45,8 +45,9 @@ import OIDCLogins from "@/components/account/OIDCLogins.vue"
 import { IUser } from "@/types/bases"
 import { setCookie } from "@/scripts/cookie"
 import ExpollStorage from "@/scripts/storage"
+import type { DisplaySize } from '@/scripts/displayHelper'
 
-const props = defineProps<{ userData?: IUser, language: languageData, failedLoading: boolean }>()
+const props = defineProps<{ userData?: IUser, language: languageData, failedLoading: boolean, displaySize: DisplaySize }>()
 const router = useRouter()
 
 onMounted(async () => {

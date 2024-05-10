@@ -67,10 +67,10 @@ export default defineConfig({
       }
     },
     host: '0.0.0.0',
-    https: {
+    /*https: {
       cert: fs.readFileSync(path.resolve(__dirname, "local/certificate.pem")),
       key: fs.readFileSync(path.resolve(__dirname, "local/privateKey.pem"))
-    },
+    },*/
     port: 8080
   }
 })
