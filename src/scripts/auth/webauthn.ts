@@ -1,5 +1,6 @@
 import { apiFetch } from "@/scripts/apiRequests"
 import * as webauthnJson from "@github/webauthn-json"
+import { otpLogin } from '@/scripts/auth/otp'
 
 const base = "/auth"
 
@@ -91,7 +92,8 @@ export async function loginWebauthn(userReq: {
                   headers: {
                       "Content-Type": "application/json"
                   },
-                  body: JSON.stringify(publicKeyCredential)
+                  body: JSON.stringify(publicKeyCredential),
+                  redirect: "manual"
               }
           }
         )
@@ -99,6 +101,9 @@ export async function loginWebauthn(userReq: {
 
         // Wait for the results of verification
         const verificationJSON = await verificationResp.json()
+        if(verificationJSON.otp){
+            await otpLogin(verificationJSON.otp)
+        }
 
 
         // Show UI appropriate for the `verified` status
