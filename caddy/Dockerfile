@@ -17,32 +17,32 @@ RUN apk update && apk upgrade
 RUN apk add --no-cache \
   curl \
   caddy \
-  php81 \
-  php81-ctype \
-  php81-curl \
-  php81-dom \
-  php81-fpm \
-  php81-gd \
-  php81-intl \
-  php81-mbstring \
-  php81-mysqli \
-  php81-opcache \
-  php81-openssl \
-  php81-phar \
-  php81-session \
-  php81-xml \
-  php81-xmlreader \
-  php81-zlib \
+  php84 \
+  php84-ctype \
+  php84-curl \
+  php84-dom \
+  php84-fpm \
+  php84-gd \
+  php84-intl \
+  php84-mbstring \
+  php84-mysqli \
+  php84-opcache \
+  php84-openssl \
+  php84-phar \
+  php84-session \
+  php84-xml \
+  php84-xmlreader \
+  php84-zlib \
   supervisor
 # Create symlink so programs depending on `php` still function
 RUN rm -f /usr/bin/php
-RUN ln -s /usr/bin/php81 /usr/bin/php
+RUN ln -s /usr/bin/php84 /usr/bin/php
 
 # Copy additional files
 COPY ./caddy/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 # configure php fpm
-COPY ./caddy/fpm-pool.conf /etc/php81/php-fpm.d/www.conf
-COPY ./caddy/php.ini /etc/php81/conf.d/custom.ini
+COPY ./caddy/fpm-pool.conf /etc/php84/php-fpm.d/www.conf
+COPY ./caddy/php.ini /etc/php84/conf.d/custom.ini
 
 # copy caddy config
 COPY ./caddy/Caddyfile /etc/caddy/Caddyfile
