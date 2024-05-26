@@ -3,7 +3,10 @@
 import { precacheAndRoute } from "workbox-precaching"
 import { getLanguage, type languageData } from '@/scripts/languageConstruct'
 import Database from "@/scripts/db"
+import { clientsClaim } from 'workbox-core'
 
+self.skipWaiting()
+clientsClaim()
 
 // @ts-ignore
 precacheAndRoute(self.__WB_MANIFEST)
