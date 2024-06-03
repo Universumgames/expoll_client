@@ -1,6 +1,6 @@
 <template>
     <router-link :to="'/polls/' + poll.pollID" class="pollListElementContainer">
-        <template v-if="isMobile(displaySize)">
+        <template v-if="isSmall(displaySize)">
             <div>
                 {{ poll.name }}
             </div>
@@ -62,7 +62,7 @@
 <script lang="ts" setup>
 import type { languageData } from "@/scripts/languageConstruct"
 import { computed } from "vue"
-import { DisplaySize, isMobile } from "@/scripts/displayHelper"
+import { DisplaySize, isMobile, isSmall } from '@/scripts/displayHelper'
 import UserGroupIcon from "@/assetComponents/UserGroupIcon.vue"
 import type { PollSummary } from "@/types/poll"
 

@@ -123,6 +123,7 @@
                     :poll-data="poll"
                     :user-data="userData"
                     :user-vote="getVotesByUser()"
+                    :line-index="0"
                     class="currentUserVotes"
                     @noteChange="noteChangeCallback" @voteChange="voteUpdateCallback"
                 />
@@ -132,6 +133,7 @@
                     :language="language"
                     :poll-data="poll" :user-data="userData"
                     :user-vote="vote"
+                    :line-index="0"
                     @kickedID="userKicked" @noteChange="noteChangeCallback"
                     @voteChange="voteUpdateCallback"
                 />
@@ -247,7 +249,7 @@ const getPollData = async () => {
     console.log(pollData)
     if (pollData == undefined) return
 
-
+    // sort options
     if (pollData.type == PollType.Date) {
         pollData.options = pollData.options.sort((a, b) => {
             return (a.dateStart ?? 0) - (b.dateStart ?? 0)
@@ -491,7 +493,7 @@ th:first-child {
 }
 
 th:first-child {
-  border: thin solid var(--text-color);
+  border-right: thin solid var(--bg-color);
 }
 
 .dot {

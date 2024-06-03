@@ -4,7 +4,8 @@
 defineProps<{
     fill?: string,
     width?: string,
-    height?: string
+    height?: string,
+    class?: string
 }>()
 </script>
 

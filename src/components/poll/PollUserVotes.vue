@@ -50,6 +50,7 @@ interface Props {
     userVote: SimpleUserVotes
     pollData: DetailedPoll
     displayUsernameInsteadOfFull: boolean
+    lineIndex: number
 }
 
 const props = defineProps<Props>()

@@ -4,12 +4,15 @@
 html {
   scroll-behavior: smooth;
   font-size: 100%;
+  margin: 0;
 }
 
 body {
   background: $bg-color;
   margin: 0;
   padding: 0;
+  width: 100%;
+  height: 100%;
 }
 
 p {
@@ -32,8 +35,9 @@ a {
   text-decoration: none;
 }
 
-a.router-link-exact-active {
+.router-link-exact-active , .router-link-exact-active > * {
   color: $primary-color;
+  fill: $primary-color;
 }
 
 .errorInfo {
@@ -53,6 +57,7 @@ th {
 
 .grecaptcha-badge {
   visibility: hidden;
+  z-index: 9999;
 }
 
 .delete {
@@ -92,4 +97,9 @@ pre {
 
 .radius-top {
   border-radius: 1rem 1rem 0 0 !important;
+}
+
+hr.divider {
+  color: var(--secondary-color);
+  margin-block-start: 0;
 }

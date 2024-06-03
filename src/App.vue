@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <MainLayout :displaySize="displaySize" :userData="userData" :language="localeLanguage">
       <div v-show="isImpersonating">
           You are currently impersonating {{ impersonatingMail }}
           <button class="delete" @click="unimpersonate">
@@ -7,7 +7,6 @@
           </button>
       </div>
       <app-banner v-if="ExpollStorage.showIOSAppBanner" :language="localeLanguage" />
-      <nav-bar :display-size="displaySize" :language="localeLanguage" :user-data="userData" />
 
       <div v-show="!clientIsCompatible" id="versionUnmatch">
           <strong>Warning:</strong> Your client is not compatible with the current backend version. Please update your
@@ -27,7 +26,7 @@
           :user-data="undefined" @colorChange="changeColor"
           @onLangChange="onLangChange"
       />
-    </div>
+    </MainLayout>
 </template>
 
 <script lang="ts" setup>
@@ -37,7 +36,7 @@ import { getUserData } from "./scripts/user"
 import { getLanguage, getSystemLanguage, type languageData } from "./scripts/languageConstruct"
 import Footer from "./components/FooterView.vue"
 import { onMounted, ref } from "vue"
-import NavBar from "./components/NavBar.vue"
+import NavBar from "./components/nav/NavBar.vue"
 import ExpollStorage from "./scripts/storage"
 import { initializePushNotifications } from "./scripts/notification"
 import * as displayHelper from "./scripts/displayHelper"
@@ -47,6 +46,8 @@ import { ReturnCode } from "./types/constants"
 import { apiFetch } from "./scripts/apiRequests"
 import AppBanner from "./components/AppBanner.vue"
 import { RouterView, useRoute, useRouter } from 'vue-router'
+import ViewContainer from '@/views/layout/ViewContainer.vue'
+import MainLayout from '@/views/layout/MainLayout.vue'
 
 
 const route = useRoute()

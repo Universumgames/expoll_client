@@ -18,27 +18,28 @@
                 :poll="poll" :language="language"
                 :display-size="displaySize"
             />
-            <Divider :style="'solid'" color="white" height="0.2rem" />
+            <hr class="divider"/>
             <small>{{ language.uiElements.polls.list.grouping.quarter }}</small>
             <PollListElement
                 v-for="poll in filtered(Filter.quarter)" :key="poll.pollID"
                 :poll="poll" :language="language"
                 :display-size="displaySize"
             />
-            <Divider :style="'solid'" color="white" height="0.2rem" />
+            <hr class="divider"/>
             <small>{{ language.uiElements.polls.list.grouping.year }}</small>
             <PollListElement
                 v-for="poll in filtered(Filter.year)" :key="poll.pollID"
                 :poll="poll" :language="language"
                 :display-size="displaySize"
             />
-            <Divider :style="'solid'" color="white" height="0.2rem" />
+            <hr class="divider"/>
             <small>{{ language.uiElements.polls.list.grouping.older }}</small>
             <PollListElement
                 v-for="poll in filtered(Filter.older)" :key="poll.pollID"
                 :poll="poll" :language="language"
                 :display-size="displaySize"
             />
+            <hr class="divider"/>
         </div>
     </div>
 </template>

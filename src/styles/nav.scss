@@ -1,0 +1,71 @@
+nav.desktop {
+  background: var(--secondary-color);
+  border-radius: var(--default-border-radius);
+  margin-bottom: 2rem;
+  position: sticky;
+  top: 0;
+  z-index: 9999;
+}
+
+#largeNav {
+  padding: 3ch;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#largeNav > * {
+  flex: 1;
+}
+
+#largeNav a {
+  margin-right: 1ch;
+  text-align: center;
+}
+
+#mediumNav {
+  padding: 2ch;
+}
+
+#mediumNav > .list {
+  margin-top: 2ch;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1ch;
+}
+
+#mediumNav > .list > * {
+  margin: 0;
+  padding: 1ch;
+}
+
+#mediumNav .navigationTitle {
+  font-size: 1.5rem;
+  display: inline-block;
+  margin: 0;
+}
+
+nav.mobile {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  background: var(--bg-color);
+  z-index: 9999;
+  width: 100%;
+}
+
+nav.mobile p {
+  margin: 0;
+}
+
+nav.mobile > .evenlySpacedChildContainer {
+  padding: 1ch;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+nav.mobile > hr {
+
+}
