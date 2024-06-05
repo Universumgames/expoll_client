@@ -23,13 +23,13 @@ const routerRoute = useRoute()
       <template v-for="route of routes(props)" :key="route.path">
         <template v-if="route.path != undefined && route.vif != false">
           <RouterLink :to="route.path!">
-            <component :is="route.icon" fill="var(--text-color)" height="1.5em" />
+            <component :is="route.icon" fill="var(--text-color)" height="1rem" />
             <p>{{ route.name }}</p>
           </RouterLink>
         </template>
         <template v-if="route.url != undefined && route.vif != false">
           <a :href="route.url!">
-            <component :is="route.icon" :fill="'var(--text-color)'" height="1.5em" />
+            <component :is="route.icon" :fill="'var(--text-color)'" height="1rem" />
             <p>{{ route.name }}</p>
           </a>
         </template>
