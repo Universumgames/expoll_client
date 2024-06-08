@@ -1,5 +1,3 @@
-import type { ComputedRef } from 'vue'
-import { computed } from 'vue'
 import ListIcon from '@/assetComponents/ListIcon.vue'
 import HouseIcon from '@/assetComponents/HouseIcon.vue'
 import AdminIcon from '@/assetComponents/AdminIcon.vue'
@@ -30,7 +28,7 @@ export function routes(props: {language: languageData, userData?: IUser, display
       name: props.language.uiElements.navigation.home,
       path: '/',
       icon: HouseIcon,
-      vif: !isMobile(props.displaySize) && props.userData != undefined
+      vif: (isMobile(props.displaySize) && props.userData == undefined) || !isMobile(props.displaySize)
     },
     {
       name: props.language.uiElements.login.loginLink,
@@ -53,7 +51,7 @@ export function routes(props: {language: languageData, userData?: IUser, display
     {
       name: 'iOS App',
       url: 'https://apps.apple.com/app/expoll/id1639799209',
-      vif: !ExpollStorage.runsAsPWA() && ExpollStorage.showIOSAppBanner,
+      vif: !ExpollStorage.runsAsPWA() && ExpollStorage.showIOSAppBanner && ExpollStorage.isIOSOrMacoss,
       icon: AppStoreIcon
     }
   ]

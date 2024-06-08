@@ -10,7 +10,6 @@ export default class ExpollStorage {
         return `${ExpollStorage.backendUrl}/api`
     }
     static platformName: string = import.meta.env.VITE_APP_EXPOLL_PLATFORM_NAME//process.env["VITE_APP_EXPOLL_PLATFORM_NAME"]
-    static isAndroid: boolean = ExpollStorage.platformName.toLowerCase().includes("android")
     static isWeb: boolean = ExpollStorage.platformName.toLowerCase().includes("web")
     static isPWA: boolean = false
     static applicationServerKey: string = import.meta.env.VITE_APP_APPLICATION_SERVER_KEY//process.env["VITE_APP_APPLICATION_SERVER_KEY"]
@@ -158,4 +157,7 @@ export default class ExpollStorage {
         localStorage.setItem("showIOSAppBanner", show.toString())
     }
 
+    static get isIOSOrMacos(): boolean {
+        return /iPad|iPhone|iPod|Mac/.test(navigator.platform)
+    }
 }
