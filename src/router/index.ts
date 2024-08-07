@@ -4,7 +4,7 @@ const routes = [
     {
         path: "/polls",
         name: "Polls",
-        component: () => import("../views/PollListView.vue"),
+        component: () => import("../views/poll/PollListView.vue"),
         meta: {
             title: "Polls",
             appPath: "polls"
@@ -13,7 +13,7 @@ const routes = [
     {
         path: "/polls/:id",
         name: "Poll Details",
-        component: () => import("../views/DetailedPollView.vue"),
+        component: () => import("../views/poll/DetailedPollView.vue"),
         meta: {
             title: "Poll Detail",
             appPath: "poll/:id"
@@ -46,7 +46,7 @@ const routes = [
     {
         path: "/create",
         name: "Create Poll",
-        component: () => import("../views/CreatePollView.vue"),
+        component: () => import("../views/poll/CreatePollView.vue"),
         meta: {
             title: "Create Poll"
         }

@@ -47,6 +47,7 @@ export interface ComplexOption {
     dateEnd?: tDate
     dateTimeStart?: tDateTime
     dateTimeEnd?: tDateTime
+    isNew?: boolean
 }
 
 export const empty: ComplexOption = {
@@ -55,7 +56,8 @@ export const empty: ComplexOption = {
     dateStart: new Date().getTime(),
     dateEnd: undefined,
     dateTimeStart: new Date().getTime(),
-    dateTimeEnd: undefined
+    dateTimeEnd: undefined,
+    isNew: undefined
 }
 
 export interface DetailedPoll {

@@ -45,9 +45,9 @@
 </template>
 
 <script setup lang="ts">
-import PollListElement from "../components/poll/PollListElement.vue"
-import LoadingScreen from "../components/utils/LoadingScreen.vue"
-import BlankPollListElement from "../components/Blanks/BlankPollListElement.vue"
+import PollListElement from "../../components/poll/PollListElement.vue"
+import LoadingScreen from "../../components/utils/LoadingScreen.vue"
+import BlankPollListElement from "../../components/Blanks/BlankPollListElement.vue"
 
 import type { languageData } from "@/scripts/languageConstruct"
 import { getPollOverviews } from "@/scripts/poll"

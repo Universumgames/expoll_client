@@ -126,12 +126,11 @@ export async function setNotificationPreferences(data: NotificationPreferences):
  */
 export async function getSessions(): Promise<ISafeSession[]> {
     try {
-        const jwt = ExpollStorage.jwt
-        if (!jwt) return []
         return await apiFetch({
             uri: base + "/sessions",
             useAuth: true,
             options: {
+                method: "GET",
                 headers: {
                     "Content-Type": "application/json"
                 }

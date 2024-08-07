@@ -150,13 +150,13 @@
 </template>
 
 <script lang="ts" setup>
-import ShareIcon from "../assetComponents/ShareIcon.vue"
-import PollUserVoteRow from "../components/poll/PollUserVotes.vue"
-import LoadingScreen from "../components/utils/LoadingScreen.vue"
-import SwitchIcon from "../assetComponents/SwitchIcon.vue"
+import ShareIcon from "../../assetComponents/ShareIcon.vue"
+import PollUserVoteRow from "../../components/poll/PollUserVotes.vue"
+import LoadingScreen from "../../components/utils/LoadingScreen.vue"
+import SwitchIcon from "../../assetComponents/SwitchIcon.vue"
 import type { EditPollRequest } from "@/types/requests"
-import LoginSignupView from "../components/login/LoginSignupView.vue"
-import BlankDetailedPollView from "../components/Blanks/BlankDetailedPollView.vue"
+import LoginSignupView from "../../components/login/LoginSignupView.vue"
+import BlankDetailedPollView from "../../components/Blanks/BlankDetailedPollView.vue"
 import * as pollMethods from "@/scripts/poll"
 import { computed, onMounted, ref } from "vue"
 import { useRoute } from "vue-router"

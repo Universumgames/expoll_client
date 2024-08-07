@@ -38,7 +38,7 @@
 
     <br>
 
-    <label for="defaultVote">{{ language?.uiElements.polls.create.defaultVote }}</label>
+    <label for="defaultVote">{{ language?.uiElements.polls.create.defaultVote }}*</label>
 
     <select id="defaultVote" v-model="defaultVote">
         <option value="-1">
@@ -63,57 +63,7 @@
     <label for="allowsMaybe">{{ language?.uiElements.polls.create.allowsMaybeLabel }}</label>
     <input id="allowsMaybe" v-model="allowsMaybe" type="checkbox"><br>
 
-    <div style="margin-top: 5ch">
-        <label>{{ language?.uiElements.polls.create.optionList }}</label>
-
-        <div>
-            <div v-for="option in options" :key="option.id" class="optionElement">
-                <label>{{ language?.uiElements.polls.create.optionName(option.id ?? 0) }}</label>
-                <button @click="removeOption(option.id ?? 0)">
-                    -
-                </button>
-                <!-- String poll options -->
-                <div v-show="type == 0">
-                    <label :for="option.id + 'value'">{{ language?.uiElements.polls.create.optionValue }}</label>
-                    <input :id="option.id + 'value'" v-model="option.value" type="text">
-                    <label v-show="clicked && option.value == ''" class="errorInfo">{{
-                        language?.uiElements.polls.create.emptyField
-                    }}</label>
-                </div>
-                <!-- Date options -->
-                <div v-show="type == 1">
-                    <label :for="option.id + 'dateStart'">{{ language?.uiElements.polls.create.optionValue }}</label>
-                    <input :id="option.id + 'dateStart'" v-model="option.dateStart" type="date">
-                    <label v-show="clicked && option.dateStart == undefined" class="errorInfo">{{
-                        language?.uiElements.polls.create.emptyField
-                    }}</label>
-                    <label :for="option.id + 'dateEnd'">{{
-                        language?.uiElements.polls.create.optionOptEndValue
-                    }}</label>
-                    <input :id="option.id + 'dateEnd'" v-model="option.dateEnd" type="date">
-                </div>
-                <!-- Date time options -->
-                <div v-show="type == 2">
-                    <label :for="option.id + 'dateTimeStart'">{{
-                        language?.uiElements.polls.create.optionValue
-                    }}</label>
-                    <input :id="option.id + 'dateTimeStart'" v-model="option.dateTimeStart" type="datetime-local">
-                    <label v-show="clicked && option.dateTimeStart == undefined" class="errorInfo">{{
-                        language?.uiElements.polls.create.emptyField
-                    }}</label>
-                    <label :for="option.id + 'dateTimeEnd'">{{
-                        language?.uiElements.polls.create.optionOptEndValue
-                    }}</label>
-                    <input :id="option.id + 'dateTimeEnd'" v-model="option.dateTimeEnd" type="datetime-local">
-                </div>
-            </div>
-        </div>
-        <br>
-        <button @click="addOption">
-            {{ language?.uiElements.polls.create.optionListAddOption }}
-        </button>
-        <br>
-    </div>
+    <option-edit :add-option="addOption" :editable="clicked" :options="options" :language="language" :type="type" :remove-option="removeOption" />
     <br>
     <button @click="create">
         {{ language?.uiElements.polls.create.createBtn }}
@@ -129,6 +79,7 @@ import { onMounted, ref } from "vue"
 import { type ComplexOption, empty } from "@/types/poll"
 import { ReturnCode } from "@/types/constants"
 import { type IUser, PollType, VoteValue } from '@/types/bases'
+import OptionEdit from '@/components/poll/OptionEdit.vue'
 
 const props = defineProps<{ userData: IUser; language: languageData }>()
 
@@ -147,15 +98,11 @@ const clicked = ref(false)
 const errorMsg = ref("")
 
 onMounted(() => {
-    addOption()
 })
 
 
-const addOption = () => {
-    const ele = Object.assign({}, empty)
-    ele.id = currentID.value
-    currentID.value++
-    options.value.push(ele)
+const addOption = (option: ComplexOption) => {
+    options.value.push(option)
 }
 
 const removeOption = (id: number) => {
@@ -221,22 +168,5 @@ button {
   margin: 1ch;
 }
 
-.optionElement > button {
-  padding: 0.5ch 1ch;
-}
 
-.optionElement > div {
-  display: inline;
-}
-
-.optionElement > div > input {
-  background: var(--bg-color);
-}
-
-.optionElement {
-  background: var(--secondary-color);
-  border-radius: var(--default-border-radius);
-  padding: 1ch;
-  margin: 1ch;
-}
 </style>

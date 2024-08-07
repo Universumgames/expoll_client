@@ -37,6 +37,7 @@ select {
   margin: 1ch;
   padding: 1ch;
   border-radius: var(--default-border-radius);
+  -webkit-appearance: none;
 }
 
 .btn-disabled {
