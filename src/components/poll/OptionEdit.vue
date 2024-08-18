@@ -2,6 +2,7 @@
 import { type IUser, PollType } from '@/types/bases'
 import type { languageData } from '@/scripts/languageConstruct'
 import type { ComplexOption } from '@/types/poll'
+import DateTimestampInput from '@/components/utils/DateTimestampInput.vue'
 
 const props = defineProps<{
   userData?: IUser,
@@ -14,56 +15,33 @@ const props = defineProps<{
 }>()
 
 const addOptionLocal = () => {
-  let defaultPromptValue = ''
-  if (props.type == PollType.Date) defaultPromptValue = 'YYYY-MM-DD'
-  else if (props.type == PollType.DateTime) defaultPromptValue = 'YYYY-MM-DD HH:MM'
-  else if (props.type == PollType.String) defaultPromptValue = 'text'
-  const value = prompt('Add option', defaultPromptValue)
-  if (value == null || value == defaultPromptValue || value == '') return
-
-  let value2: string | null = ''
-  if (props.type == PollType.Date || props.type == PollType.DateTime) {
-    value2 = prompt('Add end', defaultPromptValue)
-    if (value2 == defaultPromptValue || value2 == '') value2 = null
-  }
-
-  const option =
+  const option: ComplexOption =
     {
-      value: value,
-      dateStart: new Date(value).getTime(),
-      dateEnd: value2 != null ? new Date(value2).getTime() : undefined,
-      dateTimeStart: new Date(value).getTime(),
-      dateTimeEnd: value2 != null ? new Date(value2).getTime() : undefined,
+      value: '',
+      dateStart: new Date().getTime(),
+      dateEnd: undefined,
+      dateTimeStart: new Date().getTime(),
+      dateTimeEnd: undefined,
       isNew: true,
-      id: finUnusedOptionID()
+      id: findUnusedOptionID()
     }
 
   console.log(option)
-
   props.addOption(option)
 }
 
-const finUnusedOptionID = () => {
+const findUnusedOptionID = () => {
   let id = 0
   while (props.options.find((option) => option.id == id) != undefined) id++
   return id
 }
 
-const setOptionTime = (option: ComplexOption, value: InputEvent) => {
-  const time = new Date(value.target!.value).getTime()
-  if (props.type == PollType.Date) {
-    option.dateStart = time
-  } else if (props.type == PollType.DateTime) {
-    option.dateTimeStart = time
-  }
-}
-
 const getOptionTime = (option: ComplexOption, startOrEnd: boolean): string | undefined => {
   if (props.type == PollType.Date) {
-    if(option.dateEnd == undefined) return undefined
+    if (option.dateEnd == undefined) return undefined
     return new Date(startOrEnd ? option.dateStart! : option.dateEnd).toISOString().split('T')[0]
   } else if (props.type == PollType.DateTime) {
-    if(option.dateTimeEnd == undefined) return undefined
+    if (option.dateTimeEnd == undefined) return undefined
     return new Date(startOrEnd ? option.dateTimeStart! : option.dateTimeEnd).toISOString()
   }
 }
@@ -81,7 +59,7 @@ const getOptionTime = (option: ComplexOption, startOrEnd: boolean): string | und
         </button>
 
         <!-- String poll options -->
-        <div v-show="type == 0">
+        <div v-show="type == PollType.String">
           <label :for="option.id + 'value'">{{ language?.uiElements.polls.create.optionValue }}</label>
           <input :id="option.id + 'value'" v-model="option.value" :disabled="!option.isNew" type="text">
           <label v-show="editable && option.value == ''" class="errorInfo">{{
@@ -89,39 +67,49 @@ const getOptionTime = (option: ComplexOption, startOrEnd: boolean): string | und
             }}</label>
         </div>
         <!-- Date options -->
-        <div v-show="type == 1">
+        <div v-if="type == PollType.Date">
           <label :for="option.id + 'dateStart'">{{ language?.uiElements.polls.create.optionValue }}</label>
-          <input :id="option.id + 'dateStart'" :value="getOptionTime(option, false)" @input="setOptionTime(option, $event)" :disabled="!option.isNew" type="date">
+          <date-timestamp-input :id="option.id + 'dateStart'" v-model="option.dateStart" :disabled="!option.isNew"
+                                dateType="date"
+          />
+
           <label v-show="editable && option.dateStart == undefined" class="errorInfo">{{
               language?.uiElements.polls.create.emptyField
             }}</label>
-          <label v-if="option.dateEnd != undefined" :for="option.id + 'dateEnd'">{{
-              language?.uiElements.polls.create.optionOptEndValue
-            }}</label>
-          <input v-if="option.dateEnd != undefined" :id="option.id + 'dateEnd'" v-model="option.dateEnd"
-                 :disabled="!option.isNew"
-                 type="date"
-          >
+          <template v-if="option.dateEnd != undefined || option.isNew">
+            <label :for="option.id + 'dateEnd'">{{
+                language?.uiElements.polls.create.optionOptEndValue
+              }}</label>
+            <input v-if="option.isNew" type="checkbox" :value="option.dateEnd == undefined" @change="option.dateEnd = $event.target.checked ? new Date() : undefined" :disabled="!option.isNew">
+            <date-timestamp-input v-if="option.dateEnd != undefined" :id="option.id + 'dateEnd'" v-model="option.dateEnd" :disabled="!option.isNew"
+                                  dateType="date"
+            />
+          </template>
         </div>
         <!-- Date time options -->
-        <div v-show="type == 2">
+        <div v-if="type == PollType.DateTime">
           <label :for="option.id + 'dateTimeStart'">{{
               language?.uiElements.polls.create.optionValue
             }}</label>
-          <input :id="option.id + 'dateTimeStart'" v-model="option.dateTimeStart" :disabled="!option.isNew"
-                 type="datetime-local"
-          >
+          <date-timestamp-input :id="option.id + 'dateTimeStart'" v-model="option.dateTimeStart"
+                                :disabled="!option.isNew"
+                                dateType="datetime-local"
+          />
+
           <label v-if="option.dateTimeEnd != undefined" v-show="editable && option.dateTimeStart == undefined"
                  class="errorInfo"
           >{{
               language?.uiElements.polls.create.emptyField
             }}</label>
-          <label :for="option.id + 'dateTimeEnd'">{{
-              language?.uiElements.polls.create.optionOptEndValue
-            }}</label>
-          <input v-if="option.dateTimeEnd != undefined" :id="option.id + 'dateTimeEnd'" v-model="option.dateTimeEnd"
-                 :disabled="!option.isNew" type="datetime-local"
-          >
+          <template v-if="option.dateEnd != undefined || option.isNew">
+            <label :for="option.id + 'dateTimeEnd'">{{
+                language?.uiElements.polls.create.optionOptEndValue
+              }}</label>
+            <input v-if="option.isNew" type="checkbox" :value="option.dateTimeEnd == undefined" @change="option.dateTimeEnd = $event.target.checked ? new Date() : undefined" :disabled="!option.isNew">
+            <date-timestamp-input v-if="option.dateTimeEnd != undefined" :id="option.id + 'dateTimeEnd'" v-model="option.dateTimeEnd" :disabled="!option.isNew"
+                                  dateType="datetime-local"
+            />
+          </template>
         </div>
 
         <p v-if="option.isNew" style="display: inline;margin: 1ch">
