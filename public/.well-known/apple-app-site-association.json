@@ -21,12 +21,18 @@
             "/": "/",
             "#": "*",
             "comment": "Matches all URLs from webapp (webapp uses fragment (#) for routing)"
+          },
+          {
+            "/": "/share",
+            "#": "",
+            "?": { "pollID": "*" },
+            "comment": "Share link"
           }
         ]
       }
     ]
   },
-"webcredentials": {
+  "webcredentials": {
     "apps": [
       "98ZXK38P8L.de.universegame.expoll-ios"
     ]
