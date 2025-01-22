@@ -17,7 +17,7 @@
 
 import { onMounted, onUnmounted } from "vue"
 
-withDefaults(defineProps<{ padding: string, cornerRadius: string, backdropColor: string, backgroundColor: string }>(), {
+withDefaults(defineProps<{ padding?: string, cornerRadius?: string, backdropColor?: string, backgroundColor?: string }>(), {
     padding: "3rem",
     cornerRadius: "2ch",
     backdropColor: "rgba(50, 50, 50, 0.7)",

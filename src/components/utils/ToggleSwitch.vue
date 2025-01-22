@@ -10,7 +10,7 @@
 
 import { computed } from "vue"
 
-const props = withDefaults(defineProps<{ modelValue: boolean, colorOn: string, colorOff: string, scale: number }>(), {
+const props = withDefaults(defineProps<{ modelValue?: boolean, colorOn?: string, colorOff?: string, scale?: number }>(), {
     modelValue: false,
     colorOn: "var(--primary-color)",
     colorOff: "#c6c6c6",

@@ -5,6 +5,7 @@ import { getLanguage, type languageData } from '@/scripts/languageConstruct'
 import Database from "@/scripts/db"
 import { clientsClaim } from 'workbox-core'
 
+// @ts-ignore
 self.skipWaiting()
 clientsClaim()
 

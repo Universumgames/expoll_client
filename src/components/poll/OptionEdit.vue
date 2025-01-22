@@ -80,7 +80,7 @@ const getOptionTime = (option: ComplexOption, startOrEnd: boolean): string | und
             <label :for="option.id + 'dateEnd'">{{
                 language?.uiElements.polls.create.optionOptEndValue
               }}</label>
-            <input v-if="option.isNew" type="checkbox" :value="option.dateEnd == undefined" @change="option.dateEnd = $event.target.checked ? new Date() : undefined" :disabled="!option.isNew">
+            <input v-if="option.isNew" type="checkbox" :value="option.dateEnd == undefined" @change="option.dateEnd = (($event.target! as HTMLInputElement).checked ? new Date().getTime() : undefined)" :disabled="!option.isNew">
             <date-timestamp-input v-if="option.dateEnd != undefined" :id="option.id + 'dateEnd'" v-model="option.dateEnd" :disabled="!option.isNew"
                                   dateType="date"
             />
@@ -105,7 +105,7 @@ const getOptionTime = (option: ComplexOption, startOrEnd: boolean): string | und
             <label :for="option.id + 'dateTimeEnd'">{{
                 language?.uiElements.polls.create.optionOptEndValue
               }}</label>
-            <input v-if="option.isNew" type="checkbox" :value="option.dateTimeEnd == undefined" @change="option.dateTimeEnd = $event.target.checked ? new Date() : undefined" :disabled="!option.isNew">
+            <input v-if="option.isNew" type="checkbox" :value="option.dateTimeEnd == undefined" @change="option.dateTimeEnd = (($event.target! as HTMLInputElement).checked ? new Date().getTime() : undefined)" :disabled="!option.isNew">
             <date-timestamp-input v-if="option.dateTimeEnd != undefined" :id="option.id + 'dateTimeEnd'" v-model="option.dateTimeEnd" :disabled="!option.isNew"
                                   dateType="datetime-local"
             />

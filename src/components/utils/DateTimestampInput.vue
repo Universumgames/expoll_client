@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
 
-const model = defineModel<Number>()
+const model = defineModel<number>()
 
 const props = defineProps<{
     id: string,
@@ -14,7 +14,7 @@ const timestampToDateString = (timestamp: number) => {
     return date.toISOString()
 }
 
-const storedValue = ref(timestampToDateString(model.value))
+const storedValue = ref(timestampToDateString(model.value!))
 
 watch(storedValue, (newValue, oldValue) => {
   console.log(newValue)

@@ -51,7 +51,7 @@ export function routes(props: {language: languageData, userData?: IUser, display
     {
       name: 'iOS App',
       url: 'https://apps.apple.com/app/expoll/id1639799209',
-      vif: !ExpollStorage.runsAsPWA() && ExpollStorage.showIOSAppBanner && ExpollStorage.isIOSOrMacoss,
+      vif: !ExpollStorage.runsAsPWA() && ExpollStorage.showIOSAppBanner && ExpollStorage.isIOSOrMacos,
       icon: AppStoreIcon
     }
   ]
