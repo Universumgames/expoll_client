@@ -48,10 +48,10 @@ COPY ./caddy/php.ini /etc/php83/conf.d/custom.ini
 COPY ./caddy/Caddyfile /etc/caddy/Caddyfile
 
 # Make sure files/folders needed by the processes are accessible when they run under the nobody user
-RUN chown -R nobody.nobody /www/data /run /etc/caddy
+#RUN chown -R nobody.nobody /www/data /run /etc/caddy
 
 # Switch to use a non-root user from here on
-USER nobody
+#USER nobody
 
 COPY --from=0 --chown=nobody /expoll/frontend_server/dist /www/data
 
