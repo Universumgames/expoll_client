@@ -55,7 +55,6 @@ import { onMounted, ref } from "vue"
 import { DisplaySize } from "@/scripts/displayHelper"
 import type { PollSummary } from "@/types/poll"
 import type { IUser } from "@/types/bases"
-import Divider from "@/components/utils/DividerView.vue"
 
 defineProps<{
     userData: IUser | undefined

@@ -2,7 +2,7 @@
     <tr>
         <th class="stickyCol" @click="editNote">
             {{ displayName }}
-            <small>{{ pollData?.admin.id == userVote?.user?.id ?? false ? "(admin)" : "" }}</small><br>
+            <small>{{ (pollData?.admin.id == userVote?.user?.id) ? "(admin)" : "" }}</small><br>
             <small>{{ noteString }}</small>
         </th>
         <td v-for="voteOpt in userVote?.votes" :key="voteOpt.optionID">
