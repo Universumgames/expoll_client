@@ -1,7 +1,7 @@
 <template>
     <details id="authenticatorsContainer">
         <summary>{{ language?.uiElements.login.loggedIn.auths }}</summary>
-        <button v-show="supportsWebauthn" @click="addAuth()">
+        <button v-show="supportsWebauthn" @click="addAuth()" @keyup.enter="addAuth" tabindex="0">
             {{ language?.uiElements.login.loggedIn.addAuth }}
         </button>
 

@@ -20,6 +20,8 @@
             <a
                 v-for="provider in missingProviders" :key="provider"
                 :href="'/api/auth/oidc/addConnection/' + provider"
+                tabindex="0"
+                role="link"
             >
                 <img
                     :src="'/oidc/' + provider + '_signin.png'"

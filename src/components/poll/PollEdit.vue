@@ -2,11 +2,11 @@
   <popup padding="2ch">
     <template #header>
       <div class="editHeader">
-        <button @click="emit('close')">
+        <button @click="emit('close')" tabindex="0">
           Cancel
         </button>
         Editing poll
-        <button @click="save">
+        <button @click="save" tabindex="0">
           Save
         </button>
       </div>
@@ -50,7 +50,7 @@
                  :type="pollData.type"
     />
 
-    <button style="background: var(--alert-color)" @click="deletePoll()">
+    <button style="background: var(--alert-color)" @click="deletePoll()" tabindex="0">
       {{ language?.uiElements.polls.details.deletePollBtn }}
     </button>
   </popup>

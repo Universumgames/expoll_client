@@ -1,7 +1,7 @@
 <template>
     <details id="sessionContainer">
         <summary>{{ language.uiElements.login.loggedIn.activeSessions }}</summary>
-        <button class="delete" @click="logoutEverywhere">
+        <button class="delete" @click="logoutEverywhere" @keyup.enter="logoutEverywhere" tabindex="0">
             Logout everywhere
         </button>
 
@@ -23,7 +23,9 @@
                     </p>
                     <small>Expires: {{ language.uiElements.dateTimeToString(new Date(session.expiration)) }}</small>
                 </div>
-                <button :class="session.active? 'btn-disabled':''" class="delete" @click="deleteSession(session.nonce)">
+                <button :class="session.active? 'btn-disabled':''" class="delete"
+                        @click="deleteSession(session.nonce)"
+                        @keyup.enter="deleteSession(session.nonce)" tabindex="0">
                     {{ language.uiElements.login.loggedIn.deleteSession }}
                 </button>
             </div>

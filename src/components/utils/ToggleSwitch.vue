@@ -3,6 +3,9 @@
         type="checkbox"
         :checked="modelValue"
         @change="(event)=>{emit('update:modelValue', (event.target as any)?.checked)}"
+        role="switch"
+        tabindex="0"
+        :aria-checked="modelValue"
     >
 </template>
 

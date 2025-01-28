@@ -1,17 +1,17 @@
 <template>
   <nav class="desktop">
     <div v-show="!isSmall(displaySize)" id="largeNav">
-      <a :href="userData != undefined ? '/#/polls' : '/'" style="flex: 0">Expoll</a>
+      <a :href="userData != undefined ? '/#/polls' : '/'" style="flex: 0" tabindex="0" role="link" aria-label="Homepage">Expoll</a>
 
       <div id="mainNav">
         <template v-for="route of routes(props)" :key="route.path">
           <template v-if="route.path != undefined && route.vif != false">
-            <RouterLink :to="route.path!">
+            <RouterLink :to="route.path!" tabindex="0" role="link">
               {{ route.name }}
             </RouterLink>
           </template>
           <template v-if="route.url != undefined && route.vif != false">
-            <a :href="route.url!">
+            <a :href="route.url!" tabindex="0" role="link">
               {{ route.name }}
             </a>
           </template>
@@ -27,8 +27,8 @@
         <p class="navigationTitle">
           {{ title }}
         </p>
-        <RouterLink :to="'/login'"  v-if="userData == undefined">
-          <user-icon fill="var(--text-color)" height="1.5em" />
+        <RouterLink :to="'/login'"  v-if="userData == undefined" role="link">
+          <user-icon fill="var(--text-color)" height="1.5em" role="img"/>
           <p style="margin: 0">{{ userData != undefined ? language.uiElements.login.loggedInText : language?.uiElements.login.loginLink }}</p>
         </RouterLink>
       </div>

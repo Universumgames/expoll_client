@@ -22,14 +22,14 @@ const routerRoute = useRoute()
     <div class="evenlySpacedChildContainer">
       <template v-for="route of routes(props)" :key="route.path">
         <template v-if="route.path != undefined && route.vif != false">
-          <RouterLink :to="route.path!">
-            <component :is="route.icon" fill="var(--text-color)" height="1rem" />
+          <RouterLink :to="route.path!" tabindex="0" role="link">
+            <component :is="route.icon" fill="var(--text-color)" height="1rem" role="img"/>
             <p>{{ route.name }}</p>
           </RouterLink>
         </template>
         <template v-if="route.url != undefined && route.vif != false">
-          <a :href="route.url!">
-            <component :is="route.icon" :fill="'var(--text-color)'" height="1rem" />
+          <a :href="route.url!" tabindex="0" role="link">
+            <component :is="route.icon" :fill="'var(--text-color)'" height="1rem" role="img"/>
             <p>{{ route.name }}</p>
           </a>
         </template>

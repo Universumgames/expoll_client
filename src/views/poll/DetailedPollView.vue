@@ -11,7 +11,7 @@
         <div v-if="!poll?.allowsEditing" class="archived" style="border-radius: 0.5rem">
             {{ language?.uiElements.polls.details.editingDisabled }}
         </div>
-        <button v-show="isPollAdmin()" style="float: right" @click="inEditMode = !inEditMode">
+        <button v-show="isPollAdmin()" style="float: right" @click="inEditMode = !inEditMode" type="button" role="button" tabindex="0">
             {{ inEditMode ? "Stop editing" : "Edit" }}
         </button>
         <PollEdit
@@ -77,7 +77,7 @@
 
         <!-- share -->
         <div style="text-align: left; margin-top: 1rem">
-            <a @click="share()">
+            <a @click="share()" @keyup.enter="share()" tabindex="0" role="button">
                 <h3 style="display: inline">Share
                     <share-icon v-show="!shareLinkCopied" class="normalIcon" />
                 </h3>
@@ -97,53 +97,56 @@
         <!-- Poll options and results -->
         <div v-if="poll != undefined" class="x-scroller poll-main">
             <table>
-                <tr>
-                    <th class="stickyCol">
-                        {{ language?.uiElements.polls.details.userCol }}
-                        <button @click="displayUsernameInsteadOfFull = !displayUsernameInsteadOfFull">
-                            <switch-icon class="normalIcon" />
-                        </button>
-                    </th>
-                    <th
-                        v-for="option in poll?.options" :id="'option' + option.id"
-                        :key="option.id"
-                        class="stickyRow"
-                        style="white-space: pre-wrap"
-                    >
-                        <span v-if="relevantOptionID == option.id" class="dot" />
-                        {{ optionValue(option) }}
-                        <br>
-                        ({{ getVotedForCount(option.id ?? 0) }})
-                    </th>
-                </tr>
-
-                <poll-user-vote-row
-                    v-if="isJoined"
-                    :display-username-instead-of-full="displayUsernameInsteadOfFull" :language="language"
-                    :poll-data="poll"
-                    :user-data="userData"
-                    :user-vote="getVotesByUser()"
-                    :line-index="0"
-                    class="currentUserVotes"
-                    @noteChange="noteChangeCallback" @voteChange="voteUpdateCallback"
-                />
-                <poll-user-vote-row
-                    v-for="vote in poll?.userVotes" v-show="vote.user.id != userData?.id"
-                    :key="vote.user.id" :display-username-instead-of-full="displayUsernameInsteadOfFull"
-                    :language="language"
-                    :poll-data="poll" :user-data="userData"
-                    :user-vote="vote"
-                    :line-index="0"
-                    @kickedID="userKicked" @noteChange="noteChangeCallback"
-                    @voteChange="voteUpdateCallback"
-                />
-                <tr v-show="mayEdit()">
-                    <td>
-                        <button @click="addUserClick()">
-                            {{ language?.uiElements.polls.details.addUserBtn }}
-                        </button>
-                    </td>
-                </tr>
+                <thead>
+                    <tr>
+                        <th class="stickyCol">
+                            {{ language?.uiElements.polls.details.userCol }}
+                            <button @click="displayUsernameInsteadOfFull = !displayUsernameInsteadOfFull" tabindex="0" role="switch" aria-label="Switch user display (full/username)">
+                                <switch-icon class="normalIcon" />
+                            </button>
+                        </th>
+                        <th
+                            v-for="option in poll?.options" :id="'option' + option.id"
+                            :key="option.id"
+                            class="stickyRow"
+                            style="white-space: pre-wrap"
+                        >
+                            <span v-if="relevantOptionID == option.id" class="dot" />
+                            {{ optionValue(option) }}
+                            <br>
+                            ({{ getVotedForCount(option.id ?? 0) }})
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <poll-user-vote-row
+                        v-if="isJoined"
+                        :display-username-instead-of-full="displayUsernameInsteadOfFull" :language="language"
+                        :poll-data="poll"
+                        :user-data="userData"
+                        :user-vote="getVotesByUser()"
+                        :line-index="0"
+                        class="currentUserVotes"
+                        @noteChange="noteChangeCallback" @voteChange="voteUpdateCallback"
+                    />
+                    <poll-user-vote-row
+                        v-for="vote in poll?.userVotes" v-show="vote.user.id != userData?.id"
+                        :key="vote.user.id" :display-username-instead-of-full="displayUsernameInsteadOfFull"
+                        :language="language"
+                        :poll-data="poll" :user-data="userData"
+                        :user-vote="vote"
+                        :line-index="0"
+                        @kickedID="userKicked" @noteChange="noteChangeCallback"
+                        @voteChange="voteUpdateCallback"
+                    />
+                    <tr v-show="mayEdit()">
+                        <td>
+                            <button @click="addUserClick()">
+                                {{ language?.uiElements.polls.details.addUserBtn }}
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
             </table>
         </div>
     </template>

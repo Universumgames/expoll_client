@@ -1,6 +1,6 @@
 <template>
     <div class="lang-select" :class="showSelect ? 'changeLangShow' : ''">
-        <div class="changeLang" :class="showSelect? 'radius-top':''" @click="showSelect = !showSelect">
+        <div class="changeLang" :class="showSelect? 'radius-top':''" @click="showSelect = !showSelect" @keyup.enter="showSelect = !showSelect" role="menu" tabindex="0">
             <language-icon fill="var(--text-color)" height="1.5em" />
             <small>{{ language?.uiElements.navigation.changeLanguageButton }}</small>
         </div>
@@ -10,6 +10,9 @@
                 :key="lang.short" class="lang"
                 :class="index == (languageList.length - 1)? 'radius-bottom' : ''"
                 @click="changeLang(lang.short)"
+                @keyup.enter="changeLang(lang.short)"
+                tabindex="0"
+                role="menuitem"
             >
                 {{ lang.name[0] }}
             </p>

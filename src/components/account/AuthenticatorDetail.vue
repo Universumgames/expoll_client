@@ -4,7 +4,7 @@
             <h3 style="display: inline">
                 {{ name }}
             </h3>
-            <button @click="rename">
+            <button @click="rename" @keyup.enter="rename" tabindex="0">
                 <edit-icon class="normalIcon" />
             </button>
         </div>
@@ -15,7 +15,7 @@
             <br>
             <small>Creation: {{ new Date(createdAuth) }}</small>
         </div>
-        <button class="delete" @click="deleteAuth">
+        <button class="delete" @click="deleteAuth" @keyup.enter="deleteAuth" tabindex="0">
             Delete
         </button>
     </div>

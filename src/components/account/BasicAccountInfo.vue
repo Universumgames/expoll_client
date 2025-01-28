@@ -3,6 +3,9 @@
         <p>
             {{ language.uiElements.login.form.username }}: {{ userData.username }} <button
                 @click="editUsername"
+                @keyup.enter="editUsername"
+                tabindex="0"
+                aria-label="Edit username"
             >
                 <edit-icon class="normalIcon" height="1em" fill="var(--text-color)" />
             </button>
@@ -11,6 +14,9 @@
         <p>
             {{ language.uiElements.login.form.firstName }}: {{ userData.firstName }} <button
                 @click="editFirstName"
+                @keyup.enter="editFirstName"
+                tabindex="0"
+                aria-label="Edit first name"
             >
                 <edit-icon class="normalIcon" height="1em" fill="var(--text-color)" />
             </button>
@@ -18,6 +24,9 @@
         <p>
             {{ language.uiElements.login.form.lastName }}: {{ userData.lastName }} <button
                 @click="editLastName"
+                @keyup.enter="editLastName"
+                tabindex="0"
+                aria-label="Edit last name"
             >
                 <edit-icon class="normalIcon" height="1em" fill="var(--text-color)" />
             </button>

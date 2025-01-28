@@ -1,17 +1,17 @@
 <template>
     <div class="color-select" :class="showSelect ? 'changeColorShow' : ''">
-        <div class="changeColor" :class="showSelect? 'radius-top':''" @click="showSelect = !showSelect">
-            <ColorThemeIcon fill="var(--text-color)" height="1.5em" />
+        <div class="changeColor" :class="showSelect? 'radius-top':''" @click="showSelect = !showSelect" @keyup.enter="showSelect = !showSelect" role="menu" tabindex="0">
+            <ColorThemeIcon fill="var(--text-color)" height="1.5em" role="img" alt="Color scheme icon"/>
             <small>{{ language?.uiElements.navigation.changeColorSchemeButton }}</small>
         </div>
         <template v-if="showSelect">
-            <p class="color" @click="changeColor(null)">
+            <p class="color" @click="changeColor(null)" @keyup.enter="changeColor(null)" tabindex="0" role="menuitem">
                 Auto
             </p>
-            <p class="color" @click="changeColor(false)">
+            <p class="color" @click="changeColor(false)" @keyup.enter="changeColor(false)" tabindex="0" role="menuitem">
                 Light
             </p>
-            <p class="color radius-bottom" @click="changeColor(true)">
+            <p class="color radius-bottom" @click="changeColor(true) " @keyup.enter="changeColor(true)" tabindex="0" role="menuitem">
                 Dark
             </p>
         </template>

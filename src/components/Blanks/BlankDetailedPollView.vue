@@ -24,15 +24,17 @@
         <!-- Poll options and results -->
         <div class="x-scroller">
             <table style="border-spacing: 0.5rem">
-                <tr>
-                    <th class="tableBox" />
-                    <th v-for="n in 4" :key="n" style="white-space: pre-wrap" class="tableBox" />
-                    <th style="padding: 1rem" class="tableBox" />
-                </tr>
+                <tbody>
+                    <tr>
+                        <th class="tableBox" />
+                        <th v-for="n in 4" :key="n" style="white-space: pre-wrap" class="tableBox" />
+                        <th style="padding: 1rem" class="tableBox" />
+                    </tr>
 
-                <tr v-for="m in 6" :key="m">
-                    <td v-for="n in 6" :key="n" class="tableBox" />
-                </tr>
+                    <tr v-for="m in 6" :key="m">
+                        <td v-for="n in 6" :key="n" class="tableBox" />
+                    </tr>
+                </tbody>
             </table>
         </div>
     </div>

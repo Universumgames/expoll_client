@@ -9,22 +9,22 @@
         <OIDCLogins :language="language" :user-data="userData" />
 
 
-        <button @click="loginApp">
+        <button @click="loginApp" @keyup.enter="loginApp" tabindex="0">
             {{ language?.uiElements.login.loggedIn.loginAppBtn }}
         </button>
 
         <button style="background-color: var(--secondary-color); 
             border-radius: var(--default-border-radius); 
-            padding: var(--default-padding);" @click="requestPersonalData">
+            padding: var(--default-padding);" @click="requestPersonalData"tabindex="0">
             {{ language?.uiElements.login.loggedIn.personalizedDBContent }}
         </button>
 
         <br>
-        <button @click="logout">
+        <button @click="logout" tabindex="0">
             {{ language?.uiElements.login.logoutBtn }}
         </button>
         <br>
-        <button class="delete" style="margin-top: 30vh;" @click="deleteUser">
+        <button class="delete" style="margin-top: 30vh;" @click="deleteUser" tabindex="0">
             {{ language?.uiElements.login.loggedIn.deleteAccount }}
         </button>
     </div>
@@ -63,7 +63,7 @@ const loggedIn = computed(() => {
 
 const requestPersonalData = async () => {
     const data = await user.requestPersonalData()
-    alert(data)
+    alert("Personal data has been requested, please check your email")
 }
 
 const logout = async () => {

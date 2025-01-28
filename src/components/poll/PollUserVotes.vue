@@ -1,6 +1,6 @@
 <template>
     <tr>
-        <th class="stickyCol" @click="editNote">
+        <th class="stickyCol" @click="editNote" tabindex="0">
             {{ displayName }}
             <small>{{ (pollData?.admin.id == userVote?.user?.id) ? "(admin)" : "" }}</small><br>
             <small>{{ noteString }}</small>
@@ -16,14 +16,14 @@
             <small v-show="errorMsg != '' && voteOpt.votedFor" class="errorInfo">{{ errorMsg }}</small>
         </td>
         <td v-show="loggedUserIsSelectedUser() || pollData.admin.id == userData.id || userData.admin">
-            <button v-show="removeUserBtnVisible" class="leaveBtn" @click="removeUser">
+            <button v-show="removeUserBtnVisible" class="leaveBtn" @click="removeUser" tabindex="0">
                 {{
                     loggedUserIsSelectedUser()
                         ? language?.uiElements.polls.details.leavePollBtn
                         : language?.uiElements.polls.details.kickFromPollBtn
                 }}
             </button>
-            <button v-show="!removeUserBtnVisible" class="leaveBtn btn-disabled" @click="editingDisabledNote">
+            <button v-show="!removeUserBtnVisible" class="leaveBtn btn-disabled" @click="editingDisabledNote" tabindex="0">
                 {{
                     loggedUserIsSelectedUser()
                         ? language?.uiElements.polls.details.leavePollBtn

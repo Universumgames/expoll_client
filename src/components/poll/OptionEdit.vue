@@ -54,7 +54,7 @@ const getOptionTime = (option: ComplexOption, startOrEnd: boolean): string | und
     <div>
       <div v-for="option in options" :key="option.id" class="optionElement">
         <label>{{ language?.uiElements.polls.create.optionName(option.id ?? 0) }}</label>
-        <button @click="removeOption(option.id ?? 0)">
+        <button @click="removeOption(option.id ?? 0)" tabindex="0" aria-label="Remove option">
           -
         </button>
 
@@ -118,7 +118,7 @@ const getOptionTime = (option: ComplexOption, startOrEnd: boolean): string | und
       </div>
     </div>
     <br>
-    <button @click="addOptionLocal">
+    <button @click="addOptionLocal" tabindex="0">
       {{ language?.uiElements.polls.create.optionListAddOption }}
     </button>
     <br>

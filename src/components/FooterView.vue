@@ -10,14 +10,15 @@
                             (userData != undefined ? '&mail=' + encodeURIComponent(userData.mail) : '')
                     "
                     target="_blank"
+                    tabindex="0"
                 >Bugreport</a>
-                <RouterLink to="/privacy">
+                <RouterLink to="/privacy" tabindex="0">
                     {{ language?.uiElements.navigation.privacyPolicy }}
                 </RouterLink>
-                <RouterLink to="/siteNotice">
+                <RouterLink to="/siteNotice" tabindex="0">
                     {{ language?.uiElements.navigation.siteNotice }}
                 </RouterLink>
-                <RouterLink to="/support">
+                <RouterLink to="/support" tabindex="0">
                     {{ language?.uiElements.navigation.support }}
                 </RouterLink>
             </div>
@@ -26,26 +27,28 @@
                 <a
                     href="https://git.mt32.net/universum/expoll_server"
                     target="_blank"
+                    tabindex="0"
                 >Server Source</a>
-                <a href="https://git.mt32.net/universum/expoll_client" target="_blank">Client Source</a>
-                <a href="/api/openapi" target="_blank">API Documentation</a>
+                <a href="https://git.mt32.net/universum/expoll_client" target="_blank" tabindex="0">Client Source</a>
+                <a href="/api/openapi" target="_blank" tabindex="0">API Documentation</a>
             </div>
             <div class="apps">
                 <small>Apps</small>
-                <a href="https://apps.apple.com/app/expoll/id1639799209">
+                <a href="https://apps.apple.com/app/expoll/id1639799209" tabindex="0">
                     iOS App
                 </a>
-                <RouterLink to="/app">
-                    iOS Beta
+                <RouterLink to="/app" tabindex="0">
+                    Join iOS Beta
                 </RouterLink>
             </div>
             <div class="personal_links">
                 <small>Other Projects</small>
-                <a href="https://universegame.de">Website</a>
-                <a href="https://github.com/universumgames">Github</a>
+                <a href="https://universegame.de" tabindex="0">Website</a>
+                <a href="https://github.com/universumgames" tabindex="0">Github</a>
                 <a
                     href="https://mt32.net"
                     target="_blank"
+                    tabindex="0"
                 >Blog</a>
             </div>
         </div>
@@ -55,7 +58,7 @@
         </div>
         <div class="bmc">
             <small>Sponsor me</small>
-            <a href="https://www.buymeacoffee.com/universum" target="_blank">
+            <a href="https://www.buymeacoffee.com/universum" target="_blank" tabindex="0" aria-label="Buy me a coffee link">
                 <img
                     alt="Buy Me A Coffee"
                     height="41"
