@@ -62,7 +62,7 @@ const loggedIn = computed(() => {
 })
 
 const requestPersonalData = async () => {
-    const data = await user.requestPersonalData()
+    await user.requestPersonalData()
     alert("Personal data has been requested, please check your email")
 }
 

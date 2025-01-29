@@ -1,11 +1,13 @@
 <template>
     <div id="basicAccountInfoContainer">
         <p>
-            {{ language.uiElements.login.form.username }}: {{ userData.username }} <button
+            {{ language.uiElements.login.form.username }}: {{ userData.username }}
+            <button
                 @click="editUsername"
                 @keyup.enter="editUsername"
                 tabindex="0"
                 aria-label="Edit username"
+                :id="jumpToContentID"
             >
                 <edit-icon class="normalIcon" height="1em" fill="var(--text-color)" />
             </button>
@@ -43,6 +45,7 @@ import ExpollStorage from "@/scripts/storage"
 import EditIcon from "@/assetComponents/EditIcon.vue"
 import type { IUser } from "@/types/bases"
 import { apiFetch } from "@/scripts/apiRequests"
+import { jumpToContentID } from '@/scripts/jumpElementIDs.ts'
 
 const props = defineProps<{ userData: IUser, language: languageData}>()
 

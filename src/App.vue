@@ -48,6 +48,7 @@ import AppBanner from "./components/AppBanner.vue"
 import { RouterView, useRoute, useRouter } from 'vue-router'
 import ViewContainer from '@/views/layout/ViewContainer.vue'
 import MainLayout from '@/views/layout/MainLayout.vue'
+import AccessibleJumpTo from '@/components/nav/AccessibleJumpTo.vue'
 
 
 const route = useRoute()

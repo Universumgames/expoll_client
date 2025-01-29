@@ -1,5 +1,7 @@
 /* eslint-disable max-len */
 import type { languageData } from "../languageConstruct"
+import type { IPoll } from '@/types/bases.ts'
+import type { PollSummary } from '@/types/poll.ts'
 
 const en: languageData = {
     id: 0,
@@ -163,7 +165,11 @@ Join the Beta via TestFlight and install the app: [https://testflight.apple.com/
                     quarter: "Last 3 Months",
                     year: "Last year",
                     older: "Older"
-                }
+                },
+                elementAriaLabel: (poll: PollSummary) => "Poll " + poll.name +
+                  " created by " + poll.admin.username +
+                  " last updated at " + en.uiElements.dateTimeToString(new Date(poll.lastUpdated)) +
+                  (poll.allowsEditing ? " and is archived" : "")
             },
             details: {
                 createdBy: (username: string) => "Created by " + username,

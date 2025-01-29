@@ -13,7 +13,8 @@ interface Route {
   path?: string
   url?: string
   vif?: boolean
-  icon?: unknown
+  icon?: unknown,
+  isJumpMark?: boolean
 }
 
 export function routes(props: {language: languageData, userData?: IUser, displaySize: DisplaySize}): Route[] {
@@ -22,7 +23,8 @@ export function routes(props: {language: languageData, userData?: IUser, display
       name: props.language.uiElements.navigation.polls,
       path: '/polls',
       vif: props.userData != undefined,
-      icon: ListIcon
+      icon: ListIcon,
+      isJumpMark: true
     },
     {
       name: props.language.uiElements.navigation.home,

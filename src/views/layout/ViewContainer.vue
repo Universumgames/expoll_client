@@ -7,7 +7,7 @@
     <div class="top">
       <slot name="top" />
     </div>
-    <div class="content">
+    <div class="content" id="main">
       <slot name="content" />
     </div>
     <div class="bottom">

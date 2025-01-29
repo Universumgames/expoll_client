@@ -6,6 +6,7 @@ import { routes } from '@/router/navbar'
 import type { IUser } from '@/types/bases'
 import { DisplaySize, isMobile } from '@/scripts/displayHelper'
 import type { languageData } from '@/scripts/languageConstruct'
+import { jumpToNavID } from '@/scripts/jumpElementIDs.ts'
 
 const props = defineProps<{
   userData?: IUser,
@@ -17,18 +18,18 @@ const routerRoute = useRoute()
 </script>
 
 <template>
-  <nav class="mobile">
+  <nav class="mobile" role="menubar" id="navigation">
     <hr class="divider"/>
-    <div class="evenlySpacedChildContainer">
+    <div class="evenlySpacedChildContainer" role="none">
       <template v-for="route of routes(props)" :key="route.path">
         <template v-if="route.path != undefined && route.vif != false">
-          <RouterLink :to="route.path!" tabindex="0" role="link">
+          <RouterLink :to="route.path!" tabindex="0" role="link" :id="route.isJumpMark ? jumpToNavID : undefined">
             <component :is="route.icon" fill="var(--text-color)" height="1rem" role="img"/>
             <p>{{ route.name }}</p>
           </RouterLink>
         </template>
         <template v-if="route.url != undefined && route.vif != false">
-          <a :href="route.url!" tabindex="0" role="link">
+          <a :href="route.url!" tabindex="0" role="link" :id="route.isJumpMark ? jumpToNavID : undefined">
             <component :is="route.icon" :fill="'var(--text-color)'" height="1rem" role="img"/>
             <p>{{ route.name }}</p>
           </a>

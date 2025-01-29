@@ -1,4 +1,6 @@
 import { languageList } from "./languages/languageConfig"
+import type { IPoll } from '@/types/bases.ts'
+import type { PollSummary } from '@/types/poll.ts'
 
 export interface languageData {
     id: number
@@ -131,7 +133,8 @@ export interface languageData {
                     quarter: string,
                     year: string,
                     older: string,
-                }
+                },
+                elementAriaLabel: (poll: PollSummary) => string
             }
             details: {
                 createdBy: (username: string) => string

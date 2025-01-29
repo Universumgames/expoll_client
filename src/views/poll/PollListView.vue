@@ -4,7 +4,7 @@
             <BlankPollListElement v-for="n in 20" :key="n" :language="language" />
         </div>
         <LoadingScreen v-show="loading" />
-        <RouterLink to="/create">
+        <RouterLink to="/create" tabindex="0" :id="jumpToContentID">
             <button>
                 <span title="Create Poll">+ {{
                     language?.uiElements.polls.list.createBtn
@@ -55,6 +55,7 @@ import { onMounted, ref } from "vue"
 import { DisplaySize } from "@/scripts/displayHelper"
 import type { PollSummary } from "@/types/poll"
 import type { IUser } from "@/types/bases"
+import { jumpToContentID } from '@/scripts/jumpElementIDs.ts'
 
 defineProps<{
     userData: IUser | undefined

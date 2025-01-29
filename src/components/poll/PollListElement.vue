@@ -1,5 +1,5 @@
 <template>
-    <router-link :to="'/polls/' + poll.pollID" class="pollListElementContainer">
+    <router-link :to="'/polls/' + poll.pollID" class="pollListElementContainer" tabindex="0" :aria-label="language.uiElements.polls.list.elementAriaLabel(poll)">
         <template v-if="isSmall(displaySize)">
             <div>
                 {{ poll.name }}

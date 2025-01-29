@@ -2,16 +2,17 @@
   <nav class="desktop">
     <div v-show="!isSmall(displaySize)" id="largeNav">
       <a :href="userData != undefined ? '/#/polls' : '/'" style="flex: 0" tabindex="0" role="link" aria-label="Homepage">Expoll</a>
+      <AccessibleJumpTo />
 
-      <div id="mainNav">
+      <div id="mainNav" role="menubar">
         <template v-for="route of routes(props)" :key="route.path">
           <template v-if="route.path != undefined && route.vif != false">
-            <RouterLink :to="route.path!" tabindex="0" role="link">
+            <RouterLink :to="route.path!" tabindex="0" role="link" :id="route.isJumpMark ? jumpToNavID : undefined">
               {{ route.name }}
             </RouterLink>
           </template>
           <template v-if="route.url != undefined && route.vif != false">
-            <a :href="route.url!" tabindex="0" role="link">
+            <a :href="route.url!" tabindex="0" role="link" :id="route.isJumpMark ? jumpToNavID : undefined">
               {{ route.name }}
             </a>
           </template>
@@ -65,6 +66,8 @@ import { RouterLink, useRouter } from 'vue-router'
 import type { IUser } from '@/types/bases'
 import { routes } from '@/router/navbar'
 import UserIcon from '@/assetComponents/UserIcon.vue'
+import AccessibleJumpTo from '@/components/nav/AccessibleJumpTo.vue'
+import { jumpToNavID } from '@/scripts/jumpElementIDs.ts'
 
 const props = defineProps<{
   userData?: IUser,

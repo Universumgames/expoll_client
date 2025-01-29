@@ -11,6 +11,7 @@
                     "
                     target="_blank"
                     tabindex="0"
+                    :id="jumpToFooterID"
                 >Bugreport</a>
                 <RouterLink to="/privacy" tabindex="0">
                     {{ language?.uiElements.navigation.privacyPolicy }}
@@ -89,6 +90,7 @@ import ColorModeSelect from "@/components/ColorModeSelect.vue"
 import ExpollStorage from "../scripts/storage"
 import type { IUser } from "@/types/bases"
 import { RouterLink } from 'vue-router'
+import { jumpToFooterID } from '@/scripts/jumpElementIDs.ts'
 
 interface Props {
     userData: IUser | undefined
