@@ -3,7 +3,7 @@
     <div id="popup">
         <h2>{{ title }}</h2>
         <p>{{ text }}</p>
-        <button @click="$emit('close')">
+        <button @click="$emit('close')" @keyup.enter="$emit('close')" tabindex="0">
             OK
         </button>
     </div>
