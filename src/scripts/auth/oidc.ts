@@ -2,7 +2,7 @@ import { apiFetch } from "@/scripts/apiRequests"
 const base = "/auth"
 
 export interface OIDCConnection {
-    name: string
+    key: string
     mail: string | undefined
     subject: string
 }

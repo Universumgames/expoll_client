@@ -4,7 +4,7 @@
 
         <div v-for="connection in oidcConnections" :key="connection.subject" class="savedOidcLogin">
             <p>{{
-                    capitalizeFirstLetter(connection.name)
+                    capitalizeFirstLetter(connection.key)
                 }}:
             </p>
             <p>{{ connection.mail }}</p>
@@ -53,7 +53,7 @@ const missingProviders = ref<string[]>([])
 onMounted(async () => {
     oidcConnections.value = await auth.getOIDCConnections()
     providers.value = await auth.getAvailableOIDCProviders()
-    const existingProviders = oidcConnections.value.map(t => t.name)
+    const existingProviders = oidcConnections.value.map(t => t.key)
 
     missingProviders.value = providers.value
         .filter(prov => !existingProviders.includes(prov.key))
