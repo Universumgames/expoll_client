@@ -122,7 +122,8 @@ Tritt der Beta via TestFlight bei und installiere die App: [https://testflight.a
                 editFirstNamePrompt: "Vorname ändern",
                 editLastNamePrompt: "Nachname ändern",
                 oidcConnectionNote: "Füge eine alterantive Anmeldemethode hinzu um dich schneller anzumelden",
-                createdOn: "Konto erstellt am"
+                createdOn: "Konto erstellt am",
+                additionalOIDC: "Weitere Anmeldemethoden hinzufügen"
             },
             userAccountDeletion: {
                 disclaimer: "Achtung, du bist derzeit dabei deinen Account zu löschen: Dies kann nicht rückgängig gemacht werden",

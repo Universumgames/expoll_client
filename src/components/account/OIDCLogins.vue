@@ -1,13 +1,13 @@
 <template>
     <div id="oidcLoginsContainer">
-        <p>{{ language?.uiElements.login.loggedIn.oidcLogins }}</p>
+        <b>{{ language?.uiElements.login.loggedIn.oidcLogins }}</b>
 
-        <div>
-            <p v-for="connection in oidcConnections" :key="connection.subject">
-                {{
+        <div v-for="connection in oidcConnections" :key="connection.subject" class="savedOidcLogin">
+            <p>{{
                     capitalizeFirstLetter(connection.name)
-                }}: {{ connection.mail }}
+                }}:
             </p>
+            <p>{{ connection.mail }}</p>
         </div>
 
         <h3 v-show="missingProviders.length != 0">
@@ -16,18 +16,22 @@
             }}
         </h3>
 
-        <div class="missingOidcConnections">
+        <div class="addOidcConnections">
+            <b v-show="missingProviders.length == 0">{{ language?.uiElements.login.loggedIn.additionalOIDC}}</b>
             <a
-                v-for="provider in missingProviders" :key="provider"
-                :href="'/api/auth/oidc/addConnection/' + provider"
+                v-for="provider in providers" :key="provider.key"
+                :href="'/api/auth/oidc/addConnection/' + provider.key"
                 tabindex="0"
                 role="link"
+                class="providerLink"
+                :style="'background-color:' + provider.iconBackgroundColorHex + '; color:' + provider.textColorHex"
             >
                 <img
-                    :src="'/oidc/' + provider + '_signin.png'"
-                    style="width: 100%"
-                    :alt="'sign in with ' + provider + ' image'"
+                    :src="imageURI(provider)"
+                    style="height: 2rem"
+                    :alt="'sign in with ' + provider.key + ' image'"
                 >
+                <p>{{ provider.title }}</p>
             </a>
         </div>
     </div>
@@ -39,22 +43,29 @@ import { onMounted, ref } from "vue"
 import * as auth from "@/scripts/auth/oidc"
 import { capitalizeFirstLetter } from "@/scripts/helper"
 import type { IUser } from "@/types/bases"
+import type { OIDCInfo } from '@/scripts/auth/oidc'
 
 defineProps<{ userData: IUser, language: languageData }>()
 const oidcConnections = ref<auth.OIDCConnection[]>([])
-const providers = ref<{ key: string, imageURI: string, imageSmallURI: string, altName: string }[]>([])
+const providers = ref<OIDCInfo[]>([])
 const missingProviders = ref<string[]>([])
-
 
 onMounted(async () => {
     oidcConnections.value = await auth.getOIDCConnections()
-    providers.value = await auth.getAvailableOIDCProviders() as any
+    providers.value = await auth.getAvailableOIDCProviders()
     const existingProviders = oidcConnections.value.map(t => t.name)
 
     missingProviders.value = providers.value
         .filter(prov => !existingProviders.includes(prov.key))
         .map(prov => prov.key)
+
+    console.log(providers)
 })
+
+const imageURI = (provider: OIDCInfo) => {
+    let uriNotProvided = provider.imageURI == undefined || provider.imageURI == "" || provider.imageURI == null
+    return uriNotProvided ? ('/oidc/' + provider.iconFileName) : provider.imageURI
+}
 </script>
 
 <style>
@@ -67,11 +78,31 @@ onMounted(async () => {
   flex-direction: column;
 }
 
-.missingOidcConnections {
+.addOidcConnections {
   display: flex;
   margin: 0 auto;
   justify-content: center;
   flex-direction: column;
   width: min(60ch, 80vw);
+}
+
+.savedOidcLogin {
+    display: flex;
+    margin: 0 auto;
+    justify-content: center;
+    flex-direction: row;
+}
+
+.savedOidcLogin > * {
+    display: inline-block;
+    margin: 0;
+}
+
+.providerLink {
+    display: flex;
+    margin: 0 auto;
+    justify-content: center;
+    flex-direction: column;
+    width: min(60ch, 80vw);
 }
 </style>

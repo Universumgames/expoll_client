@@ -7,6 +7,15 @@ export interface OIDCConnection {
     subject: string
 }
 
+export interface OIDCInfo {
+    key: string
+    imageURI: string
+    iconFileName: string
+    iconBackgroundColorHex: string
+    textColorHex: string
+    title: string
+}
+
 /**
  *
  * @return {Promise<OIDCConnection[]>} returns a list of OIDC connections
@@ -31,10 +40,10 @@ export async function getOIDCConnections(): Promise<OIDCConnection[]> {
 /**
  * get a list of available OIDC providers
  */
-export async function getAvailableOIDCProviders(): Promise<unknown> {
+export async function getAvailableOIDCProviders(): Promise<OIDCInfo[]> {
     try {
         return await apiFetch({
-            uri: "/auth/oidc/providers",
+            uri: base + "/oidc/providers",
             useAuth: true,
             options: {
                 headers: {

@@ -86,6 +86,7 @@ export interface languageData {
                 editLastNamePrompt: string,
                 oidcConnectionNote: string,
                 createdOn: string,
+                additionalOIDC: string,
             },
             userAccountDeletion: {
                 disclaimer: string,

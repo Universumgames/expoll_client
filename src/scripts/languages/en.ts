@@ -117,7 +117,8 @@ Join the Beta via TestFlight and install the app: [https://testflight.apple.com/
                 editFirstNamePrompt: "Edit your first name",
                 editLastNamePrompt: "Edit your last name",
                 oidcConnectionNote: "Add alternative login methods to sign in quicker",
-                createdOn: "Account created on"
+                createdOn: "Account created on",
+                additionalOIDC: "Add more third party logins"
             },
             userAccountDeletion: {
                 disclaimer: "This will delete your account and all data associated with it. This cannot be undone.",
