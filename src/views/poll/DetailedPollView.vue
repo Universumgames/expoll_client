@@ -169,9 +169,9 @@ import type { tOptionId, tUserID } from "@/types/constants"
 import { voteString } from '@/scripts/vote'
 import type { DisplaySize } from '@/scripts/displayHelper'
 import type { languageData } from '@/scripts/languageConstruct'
-import { type IUser, PollType, VoteValue } from '@/types/bases'
+import { type IUser, type LocalUser, PollType, VoteValue } from '@/types/bases'
 
-const props = defineProps<{ userData: IUser, language: languageData, displaySize: DisplaySize, failedLoading: boolean }>()
+const props = defineProps<{ userData: LocalUser, language: languageData, displaySize: DisplaySize, failedLoading: boolean }>()
 const route = useRoute()
 
 const loadingMain = ref(true)

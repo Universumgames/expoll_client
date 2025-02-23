@@ -23,6 +23,11 @@ export interface IUser {
     createdTimestamp: tDateTime
 }
 
+export interface LocalUser extends IUser {
+    pollsOwned: number
+    maxPollsOwned: number
+}
+
 /* eslint-disable no-unused-vars */
 export enum PollType {
     String = 0,

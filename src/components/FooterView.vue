@@ -88,12 +88,12 @@ import LanguageSelect from "./LanguageSelect.vue"
 import { computed } from "vue"
 import ColorModeSelect from "@/components/ColorModeSelect.vue"
 import ExpollStorage from "../scripts/storage"
-import type { IUser } from "@/types/bases"
+import type { IUser, LocalUser } from '@/types/bases'
 import { RouterLink } from 'vue-router'
 import { jumpToFooterID } from '@/scripts/jumpElementIDs.ts'
 
 interface Props {
-    userData: IUser | undefined
+    userData: LocalUser | undefined
     language: languageData | undefined
     frontendVersion: string
     backendVersion: string

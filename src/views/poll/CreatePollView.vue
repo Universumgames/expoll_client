@@ -83,10 +83,10 @@ import { createPoll } from '@/scripts/poll'
 import { onMounted, ref } from 'vue'
 import { type ComplexOption } from '@/types/poll'
 import { ReturnCode } from '@/types/constants'
-import { type IUser, PollType, VoteValue } from '@/types/bases'
+import { type IUser, type LocalUser, PollType, VoteValue } from '@/types/bases'
 import OptionEdit from '@/components/poll/OptionEdit.vue'
 
-const props = defineProps<{ userData: IUser | undefined; language: languageData }>()
+const props = defineProps<{ userData: LocalUser | undefined; language: languageData }>()
 
 const pollName = ref('')
 const maxVoteCount = ref(-1)

@@ -87,6 +87,7 @@ export interface languageData {
                 oidcConnectionNote: string,
                 createdOn: string,
                 additionalOIDC: string,
+                pollCounts: string,
             },
             userAccountDeletion: {
                 disclaimer: string,

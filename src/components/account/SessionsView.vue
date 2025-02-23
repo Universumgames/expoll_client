@@ -40,9 +40,9 @@ import { limitLength } from "@/scripts/helper"
 import * as auth from "@/scripts/authentication"
 import * as user from "@/scripts/user"
 import { onMounted, ref } from "vue"
-import { type ISafeSession, type IUser, Platform } from "@/types/bases"
+import { type ISafeSession, type IUser, type LocalUser, Platform } from '@/types/bases'
 
-const props = defineProps<{ userData: IUser, language: languageData }>()
+const props = defineProps<{ userData: LocalUser, language: languageData }>()
 
 const sessions = ref<ISafeSession[]>([])
 

@@ -10,8 +10,8 @@
                 Deleted at {{ new Date(userInfo.deletedTimestamp).toLocaleString() }}
             </small>
             <img
-                v-for="connection in userInfo.oidcConnections" :key="connection"
-                :src="'/oidc/' + connection + '_preview.svg'" :alt="connection"
+                v-for="connection in userInfo.oidcConnections" :key="connection.id"
+                :src="'/oidc/' + connection.key + '_preview.svg'" :alt="connection.key"
                 class="oidcConnection"
             >
         </div>

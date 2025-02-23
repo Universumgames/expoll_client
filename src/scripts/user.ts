@@ -2,7 +2,7 @@ import type { CreateUserRequest } from "@/types/requests"
 import ExpollStorage from "@/scripts/storage"
 
 import type { NotificationPreferences } from "@/types/notification"
-import type { ISafeSession, IUser } from "@/types/bases"
+import type { ISafeSession, IUser, LocalUser } from '@/types/bases'
 import { ReturnCode } from "@/types/constants"
 import { apiFetch } from "@/scripts/apiRequests"
 
@@ -34,9 +34,9 @@ export async function signUp(data: CreateUserRequest): Promise<ReturnCode> {
 
 /**
  * Get user data via cookie
- * @return {IUser} return user data
+ * @return {LocalUser} return user data
  */
-export async function getUserData(): Promise<IUser | undefined> {
+export async function getUserData(): Promise<LocalUser | undefined> {
     try {
         return await apiFetch({
             uri: base,

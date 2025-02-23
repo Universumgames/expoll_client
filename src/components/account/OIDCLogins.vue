@@ -42,10 +42,10 @@ import type { languageData } from "@/scripts/languageConstruct"
 import { onMounted, ref } from "vue"
 import * as auth from "@/scripts/auth/oidc"
 import { capitalizeFirstLetter } from "@/scripts/helper"
-import type { IUser } from "@/types/bases"
+import type { IUser, LocalUser } from '@/types/bases'
 import type { OIDCInfo } from '@/scripts/auth/oidc'
 
-defineProps<{ userData: IUser, language: languageData }>()
+defineProps<{ userData: LocalUser, language: languageData }>()
 const oidcConnections = ref<auth.OIDCConnection[]>([])
 const providers = ref<OIDCInfo[]>([])
 const missingProviders = ref<string[]>([])
@@ -100,9 +100,12 @@ const imageURI = (provider: OIDCInfo) => {
 
 .providerLink {
     display: flex;
-    margin: 0 auto;
     justify-content: center;
-    flex-direction: column;
+    align-items: center;
+    flex-direction: row;
+    gap: 1ch;
     width: min(60ch, 80vw);
+    border-radius: var(--default-border-radius);
+    margin: 1ch;
 }
 </style>

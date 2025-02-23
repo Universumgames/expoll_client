@@ -41,11 +41,11 @@ import type { VoteRequest } from "@/types/requests"
 import { editUserNote, leavePoll, removeUserFromPoll } from "@/scripts/poll"
 import { computed, ref } from "vue"
 import type { DetailedPoll, SimpleUserVotes } from "@/types/poll"
-import type { IUser } from "@/types/bases"
+import type { IUser, LocalUser } from '@/types/bases'
 import { ReturnCode, type tOptionId } from "@/types/constants"
 
 interface Props {
-    userData: IUser
+    userData: LocalUser
     language?: languageData
     userVote: SimpleUserVotes
     pollData: DetailedPoll

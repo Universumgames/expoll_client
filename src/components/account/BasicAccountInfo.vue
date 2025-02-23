@@ -36,6 +36,7 @@
         <small>{{ language.uiElements.login.loggedIn.createdOn }}: {{
             new Date(userData.createdTimestamp).toLocaleString()
         }}</small>
+        <small>{{ language.uiElements.login.loggedIn.pollCounts}} ({{pollCounts}})</small>
     </div>
 </template>
 
@@ -43,11 +44,23 @@
 import type { languageData } from "@/scripts/languageConstruct"
 import ExpollStorage from "@/scripts/storage"
 import EditIcon from "@/assetComponents/EditIcon.vue"
-import type { IUser } from "@/types/bases"
+import type { IPoll, IUser, LocalUser } from '@/types/bases'
 import { apiFetch } from "@/scripts/apiRequests"
 import { jumpToContentID } from '@/scripts/jumpElementIDs.ts'
+import { computed, ref } from 'vue'
+import { getPollOverviews } from '@/scripts/poll.ts'
 
-const props = defineProps<{ userData: IUser, language: languageData}>()
+const props = defineProps<{ userData: LocalUser, language: languageData}>()
+
+let pollsJoined = ref(0)
+
+getPollOverviews().then((polls) => {
+    pollsJoined.value = polls?.polls.length ?? 0
+})
+
+const pollCounts = computed(() => {
+    return `${pollsJoined.value}/${props.userData.pollsOwned}/${props.userData.maxPollsOwned == -1 ? "∞" : props.userData.maxPollsOwned}`
+})
 
 const editUsername = async () => {
     const username = prompt(props.language?.uiElements.login.loggedIn.editUsernamePrompt, props.userData?.username)

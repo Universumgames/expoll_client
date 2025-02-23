@@ -27,10 +27,10 @@ import EditIcon from "../../assetComponents/EditIcon.vue"
 import type { languageData } from "@/scripts/languageConstruct"
 import { computed } from "vue"
 import { limitLength } from "@/scripts/helper"
-import type { IUser } from "@/types/bases"
+import type { IUser, LocalUser } from '@/types/bases'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const props = defineProps<{ userData: IUser, language?: languageData, authenticator: any }>()
+const props = defineProps<{ userData: LocalUser, language?: languageData, authenticator: any }>()
 const emit = defineEmits(["update"])
 
 const name = computed(() => props.authenticator.name == "" ? "unnamed" : props.authenticator.name)

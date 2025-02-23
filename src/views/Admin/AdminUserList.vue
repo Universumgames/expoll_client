@@ -41,10 +41,10 @@ import { onMounted, ref } from "vue"
 import ExpollStorage from "@/scripts/storage"
 import type { UserInfo } from "@/types/admin/userInfo"
 import { apiFetch } from "@/scripts/apiRequests"
-import type { IUser } from '@/types/bases'
+import type { IUser, LocalUser } from '@/types/bases'
 import type { languageData } from '@/scripts/languageConstruct'
 
-defineProps<{ userData: IUser, language: languageData }>()
+defineProps<{ userData: LocalUser, language: languageData }>()
 
 const adminIsSuper = ref(false)
 const users = ref<UserInfo[]>()

@@ -1,5 +1,6 @@
 import type { tUserID } from "@/types/constants"
 import type { IUser } from '@/types/bases'
+import type { OIDCConnection } from '@/scripts/auth/oidc.ts'
 
 export interface UserInfo extends IUser {
     id: tUserID
@@ -10,7 +11,7 @@ export interface UserInfo extends IUser {
     admin: boolean
     active: boolean
     superAdmin: boolean
-    oidcConnections: string[]
+    oidcConnections: OIDCConnection[]
     createdTimestamp: number
     deletedTimestamp: number | null
 }

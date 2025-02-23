@@ -9,7 +9,9 @@
                 <span title="Create Poll">+ {{
                     language?.uiElements.polls.list.createBtn
                 }}</span>
+                <small> ({{polls.length}}/{{userData.maxPollsOwned == -1 ? "∞" : userData.maxPollsOwned}})</small>
             </button>
+
         </RouterLink>
         <div class="pollList">
             <small>{{ language.uiElements.polls.list.grouping.latest }}</small>
@@ -54,11 +56,11 @@ import { getPollOverviews } from "@/scripts/poll"
 import { onMounted, ref } from "vue"
 import { DisplaySize } from "@/scripts/displayHelper"
 import type { PollSummary } from "@/types/poll"
-import type { IUser } from "@/types/bases"
+import type { IUser, LocalUser } from '@/types/bases'
 import { jumpToContentID } from '@/scripts/jumpElementIDs.ts'
 
 defineProps<{
-    userData: IUser | undefined
+    userData: LocalUser
     language: languageData
     tryAdminView?: boolean
     displaySize: DisplaySize

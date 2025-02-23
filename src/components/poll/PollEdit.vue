@@ -65,11 +65,11 @@ import type { EditPollRequest } from '@/types/requests'
 import * as pollMethods from '@/scripts/poll'
 import type { ComplexOption, DetailedPoll } from '@/types/poll'
 import { ReturnCode, type tOptionId } from '@/types/constants'
-import { type IUser } from '@/types/bases'
+import { type IUser, type LocalUser } from '@/types/bases'
 import OptionEdit from '@/components/poll/OptionEdit.vue'
 
 interface Props {
-  userData: IUser
+  userData: LocalUser
   language: languageData
   pollData: DetailedPoll
 }
