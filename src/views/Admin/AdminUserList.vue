@@ -26,7 +26,7 @@
         <user-row
             v-for="user in filteredUsers" :key="user.id"
             :user-info="user" :language="language"
-            :admin="userData as UserInfo"
+            :admin="userData"
             :super-admin="adminIsSuper" @update="getData"
         />
     </div>

@@ -80,8 +80,9 @@ import ExpollStorage from "@/scripts/storage"
 import { apiFetch } from "@/scripts/apiRequests"
 import type { UserInfo } from '@/types/admin/userInfo'
 import type { languageData } from '@/scripts/languageConstruct'
+import type { LocalUser } from '@/types/bases.ts'
 
-const props = defineProps<{ userInfo: UserInfo; admin: UserInfo; language: languageData; superAdmin: boolean }>()
+const props = defineProps<{ userInfo: UserInfo; admin: LocalUser; language: languageData; superAdmin: boolean }>()
 const emit = defineEmits(["update"])
 
 const deleteUser = async () => {

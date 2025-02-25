@@ -42,12 +42,12 @@ import Authenticators from "@/components/account/AuthenticatorView.vue"
 import Sessions from "@/components/account/SessionsView.vue"
 import NotificationPreferences from "@/components/account/NotificationPreferences.vue"
 import OIDCLogins from "@/components/account/OIDCLogins.vue"
-import type { IUser } from "@/types/bases"
+import type { IUser, LocalUser } from '@/types/bases'
 import { setCookie } from "@/scripts/cookie"
 import ExpollStorage from "@/scripts/storage"
 import type { DisplaySize } from '@/scripts/displayHelper'
 
-const props = defineProps<{ userData?: IUser, language: languageData, failedLoading: boolean, displaySize: DisplaySize }>()
+const props = defineProps<{ userData?: LocalUser, language: languageData, failedLoading: boolean, displaySize: DisplaySize }>()
 const router = useRouter()
 
 onMounted(async () => {
