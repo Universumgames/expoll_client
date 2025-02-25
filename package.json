@@ -52,7 +52,7 @@
     "vite-plugin-eslint": "^1.8.1",
     "vite-plugin-pwa": "0.21.1",
     "vite-plugin-vue-devtools": "7.7.0",
-    "vitest": "3.0.3",
+    "vitest": "3.0.5",
     "vue-tsc": "2.2.0",
     "webpack-env": "0.8.0"
   },
