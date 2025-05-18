@@ -157,7 +157,8 @@ Join the Beta via TestFlight and install the app: [https://testflight.apple.com/
                 editableAfterCreation: "You can edit this option after creation",
                 notEditableAfterCreation: "You can't edit this option after saving",
                 privateVoting: "Private voting, votes will only be visible to you",
-                defaultVote: "Default vote"
+                defaultVote: "Default vote",
+                useUTC: "Use same moment across timezones"
             },
             list: {
                 lastUpdate: (timeString: string) => "Last update on \n" + timeString,
@@ -216,10 +217,10 @@ Join the Beta via TestFlight and install the app: [https://testflight.apple.com/
             }
         },
         serverError: "An error on our side occurred",
-        dateToString: (d?: Date) =>
-            d?.toLocaleString(undefined, { dateStyle: "short" }) ?? "",
-        dateTimeToString: (dt?: Date) =>
-            dt?.toLocaleString(undefined, { timeStyle: "short", dateStyle: "short" }) ?? ""
+        dateToString: (d?: Date, timezone?: string) =>
+            d?.toLocaleString(undefined, { dateStyle: "short", timeZone: timezone }) ?? "",
+        dateTimeToString: (dt?: Date, timezone?: string) =>
+            dt?.toLocaleString(undefined, { timeStyle: "short", dateStyle: "short", timeZone: timezone }) ?? ""
     },
     notifications: {
         "notification.server.backend.update": "Backend got updated to Version %@",

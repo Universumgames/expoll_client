@@ -22,6 +22,7 @@ const addOptionLocal = () => {
       dateEnd: undefined,
       dateTimeStart: new Date().getTime(),
       dateTimeEnd: undefined,
+      timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
       isNew: true,
       id: findUnusedOptionID()
     }

@@ -1,7 +1,7 @@
 import type { CreatePollRequest, DetailedPollResponse, EditPollRequest, PollOverview } from "@/types/requests"
-import { replacer } from "./helper"
+import { replacer } from './helper'
 import type { languageData } from "@/scripts/languageConstruct"
-import type { ComplexOption, DetailedPoll } from "@/types/poll"
+import { type ComplexOption, type DetailedPoll, empty } from '@/types/poll'
 import { PollType } from "@/types/bases"
 import { apiFetch } from "@/scripts/apiRequests"
 import { ReturnCode, type tPollID, type tUserID } from '@/types/constants'
@@ -243,8 +243,9 @@ export function optionToString(option: ComplexOption, pollData: DetailedPoll, la
         case PollType.String:
             return option.value ?? ""
         case PollType.Date:
-            start = language.uiElements.dateToString(new Date(option.dateStart ?? 0))
-            end = language.uiElements.dateToString(new Date(option.dateEnd ?? 0))
+            start = language.uiElements.dateToString(new Date(option.dateStart ?? 0), option.timezone)
+            end = language.uiElements.dateToString(new Date(option.dateEnd ?? 0), pollData.useUTC ? undefined :
+              option.timezone)
             return (
                 language.uiElements.polls.details.dateStringFormat(
                     start,
@@ -253,8 +254,9 @@ export function optionToString(option: ComplexOption, pollData: DetailedPoll, la
             )
 
         case PollType.DateTime:
-            start = language.uiElements.dateTimeToString(new Date(option.dateTimeStart ?? 0))
-            end = language.uiElements.dateTimeToString(new Date(option.dateTimeEnd ?? 0))
+            start = language.uiElements.dateTimeToString(new Date(option.dateTimeStart ?? 0), option.timezone)
+            end = language.uiElements.dateTimeToString(new Date(option.dateTimeEnd ?? 0), pollData.useUTC ? undefined :
+              option.timezone)
             return (
                 language.uiElements.polls.details.dateStringFormat(
                     start,

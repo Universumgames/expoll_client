@@ -126,6 +126,7 @@ export interface languageData {
                 notEditableAfterCreation: string
                 privateVoting: string
                 defaultVote: string
+                useUTC: string
             }
             list: {
                 lastUpdate: (timeString: string) => string,
@@ -177,8 +178,8 @@ export interface languageData {
             }
         }
         serverError: string
-        dateToString: (d?: Date) => string
-        dateTimeToString: (dt?: Date) => string
+        dateToString: (d: Date, timezone?: string) => string
+        dateTimeToString: (dt: Date, timezone?: string) => string
 
     }
     notifications: {

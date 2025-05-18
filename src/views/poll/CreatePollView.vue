@@ -64,6 +64,9 @@
     <label for="allowsMaybe">{{ language?.uiElements.polls.create.allowsMaybeLabel }}</label>
     <input id="allowsMaybe" v-model="allowsMaybe" type="checkbox"><br>
 
+    <label for="useUTC" v-if="type == PollType.DateTime">{{ language?.uiElements.polls.create.useUTC }}</label>
+    <input id="useUTC" v-model="useUTC" type="checkbox" v-if="type == PollType.DateTime"><br>
+
     <option-edit :add-option="addOption" :editable="clicked" :language="language" :options="options"
                  :remove-option="removeOption"
                  :type="type"
@@ -94,6 +97,7 @@ const allowsMaybe = ref(true)
 const type = ref(PollType.String)
 const description = ref('')
 const defaultVote = ref(VoteValue.unknown)
+const useUTC = ref(false)
 
 const options = ref<ComplexOption[]>([])
 const currentID = ref(0)
@@ -151,7 +155,8 @@ const create = async () => {
     options: options.value,
     allowsMaybe: allowsMaybe.value,
     allowsEditing: true,
-    defaultVote: defaultVote.value
+    defaultVote: defaultVote.value,
+    useUTC: useUTC.value
   }
   const retDat = await createPoll(data)
 

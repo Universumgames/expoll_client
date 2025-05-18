@@ -249,7 +249,6 @@ const getRelevantOptionID = (): tOptionId | undefined => {
 
 const getPollData = async () => {
     const pollData = await pollMethods.getDetailedPoll(pollID.value)
-    console.log(pollData)
     if (pollData == undefined) return
 
     // sort options
@@ -285,14 +284,10 @@ const getPollData = async () => {
 
 const setup = async () => {
     try {
-        console.log("1")
         if (isEditing()) return
-        console.log("2")
         await getPollData()
-        console.log("3")
         await checkAndJoinPoll()
 
-        console.log("4")
         await getPollData()
 
         if (poll.value != undefined) changes.value = { pollID: poll.value.pollID }

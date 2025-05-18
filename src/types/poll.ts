@@ -47,6 +47,7 @@ export interface ComplexOption {
     dateEnd?: tDate
     dateTimeStart?: tDateTime
     dateTimeEnd?: tDateTime
+    timezone?: string
     isNew?: boolean
 }
 
@@ -57,7 +58,8 @@ export const empty: ComplexOption = {
     dateEnd: undefined,
     dateTimeStart: new Date().getTime(),
     dateTimeEnd: undefined,
-    isNew: undefined
+    isNew: undefined,
+    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
 }
 
 export interface DetailedPoll {
@@ -77,6 +79,7 @@ export interface DetailedPoll {
     privateVoting: boolean
     shareURL: string
     defaultVote: VoteValue
+    useUTC: boolean
 }
 
 export interface simpleVote {

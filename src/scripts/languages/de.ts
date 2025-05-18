@@ -162,7 +162,8 @@ Tritt der Beta via TestFlight bei und installiere die App: [https://testflight.a
                 editableAfterCreation: "Die Option kann nach dem Erstellen noch bearbeitet werden",
                 notEditableAfterCreation: "Die Option kann nach dem Erstellen nicht mehr bearbeitet werden",
                 privateVoting: "Private Abstimmung, Stimmen können nur von dir gesehen werden",
-                defaultVote: "Standardstimme"
+                defaultVote: "Standardstimme",
+                useUTC: "Selber Zeitpunkt über Zeitzonen hinweg"
             },
             list: {
                 lastUpdate: (timeString: string) => "Zuletzt aktualisiert am \n" + timeString,
@@ -226,10 +227,10 @@ Tritt der Beta via TestFlight bei und installiere die App: [https://testflight.a
             }
         },
         serverError: "Ein Fehler beim Server ist aufgetreten",
-        dateToString: (d?: Date) =>
-            d?.toLocaleString(undefined, { dateStyle: "short" }) ?? "",
-        dateTimeToString: (dt?: Date) =>
-            dt?.toLocaleString(undefined, { timeStyle: "short", dateStyle: "short" }) ?? ""
+        dateToString: (d?: Date, timezone?: string) =>
+            d?.toLocaleString(undefined, { dateStyle: "short", timeZone: timezone }) ?? "",
+        dateTimeToString: (dt?: Date, timezone?: string) =>
+            dt?.toLocaleString(undefined, { timeStyle: "short", dateStyle: "short", timeZone: timezone }) ?? ""
     },
     notifications: {
         "notification.server.backend.update": "Das Backend wurde aktualisiert auf Version %@",

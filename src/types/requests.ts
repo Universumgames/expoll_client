@@ -53,6 +53,7 @@ export interface CreatePollRequest {
     allowsMaybe: boolean
     allowsEditing: boolean
     defaultVote: VoteValue
+    useUTC: boolean
 }
 
 export interface CreatePollResponse {
