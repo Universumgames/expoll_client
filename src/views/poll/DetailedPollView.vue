@@ -111,7 +111,7 @@
                             class="stickyRow"
                             style="white-space: pre-wrap"
                         >
-                            <span v-if="relevantOptionID == option.id" class="dot" />
+                            <span v-if="poll.mostRelevantOptionID == option.id" class="dot" />
                             {{ optionValue(option) }}
                             <br>
                             ({{ getVotedForCount(option.id ?? 0) }})
@@ -190,10 +190,6 @@ const pollID = computed(() => {
     return route.params.id as string
 })
 
-const relevantOptionID = computed(() => {
-    return getRelevantOptionID()
-})
-
 const isEditing = () => {
     return (addingOption.value || changes.value.name != undefined || changes.value.description != undefined) &&
         poll.value != undefined
@@ -222,7 +218,7 @@ onMounted(async () => {
 })
 
 const scrollToNextOption = () => {
-    const optionID = getRelevantOptionID()
+    const optionID = poll.value?.mostRelevantOptionID
     if (optionID == undefined) return
     const optionToScrollTo: HTMLElement =
         document.getElementById("option" + optionID) ?? document.body
@@ -232,20 +228,6 @@ const scrollToNextOption = () => {
         inline: "center"
     })
 }
-
-const getRelevantOptionID = (): tOptionId | undefined => {
-    if (poll.value?.type == PollType.String) return undefined
-    const dateCalc = (option: ComplexOption) => {
-        const dateRaw = option.dateStart ?? option.dateTimeStart
-        let date = new Date(dateRaw ?? 0)
-        date.setDate(date.getDate() + 1)
-        return date
-    }
-
-    const option = poll.value?.options.find((option) => dateCalc(option) > new Date())
-    return option?.id
-}
-
 
 const getPollData = async () => {
     const pollData = await pollMethods.getDetailedPoll(pollID.value)

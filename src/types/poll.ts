@@ -73,6 +73,7 @@ export interface DetailedPoll {
     created: Date
     type: PollType
     options: ComplexOption[]
+    mostRelevantOptionID: tOptionId
     userVotes: SimpleUserVotes[]
     allowsMaybe: boolean
     allowsEditing: boolean
