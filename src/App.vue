@@ -209,6 +209,7 @@ displaySize.value = displayHelper.getDisplaySize()
 
 addEventListener("resize", () => {
     displaySize.value = displayHelper.getDisplaySize()
+  console.log("Resized to " + displaySize.value)
 })
 
 const openOutstandingPoll = async () => {

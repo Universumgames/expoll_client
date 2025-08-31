@@ -17,6 +17,7 @@
         </h3>
 
         <div class="addOidcConnections">
+          <br/>
             <b v-show="missingProviders.length == 0">{{ language?.uiElements.login.loggedIn.additionalOIDC}}</b>
             <a
                 v-for="provider in providers" :key="provider.key"
@@ -80,10 +81,10 @@ const imageURI = (provider: OIDCInfo) => {
 
 .addOidcConnections {
   display: flex;
-  margin: 0 auto;
   justify-content: center;
+  align-items: center;
   flex-direction: column;
-  width: min(60ch, 80vw);
+  width: 100%;
 }
 
 .savedOidcLogin {
@@ -104,7 +105,7 @@ const imageURI = (provider: OIDCInfo) => {
     align-items: center;
     flex-direction: row;
     gap: 1ch;
-    width: min(60ch, 80vw);
+    width: 90%;
     border-radius: var(--default-border-radius);
     margin: 1ch;
 }

@@ -99,7 +99,7 @@ Join the Beta via TestFlight and install the app: [https://testflight.apple.com/
                 userExists: "Username or mail is already taken"
             },
             loggedIn: {
-                personalizedDBContent: "See what data of you is in our database",
+                personalizedDBContent: "Request personal data",
                 auths: "Authenticators",
                 addAuth: "Add Authenticator",
                 authDisclaimer:

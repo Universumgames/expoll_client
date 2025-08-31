@@ -52,7 +52,6 @@ export function isMobile(displaySize: DisplaySize): boolean {
  */
 export function isSmall(displaySize: DisplaySize): boolean {
   return displaySize <= DisplaySize.S
-
 }
 
 /**

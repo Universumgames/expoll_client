@@ -103,3 +103,7 @@ hr.divider {
   color: var(--secondary-color);
   margin-block-start: 0;
 }
+
+summary {
+  cursor: pointer;
+}

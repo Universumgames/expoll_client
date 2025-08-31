@@ -61,6 +61,6 @@ const deleteAuth = async () => {
     border-radius: var(--default-border-radius);
     margin: 1rem;
     padding: 1ch;
-  justify-content: space-between;
+    justify-content: space-between;
 }
 </style>
