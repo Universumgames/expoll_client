@@ -10,9 +10,11 @@ export interface NotificationPreferences {
 /* eslint-disable no-unused-vars */
 export enum NotificationType {
     voteChange = "voteChange",
+    voteChangeDetailed = "voteChangeDetailed",
     userAdded = "userAdded",
     userRemoved = "userRemoved",
     pollDeleted = "pollDeleted",
     pollEdited = "pollEdited",
-    pollArchived = "pollArchived"
+    pollArchived = "pollArchived",
+    newLogin = "newLogin"
 }

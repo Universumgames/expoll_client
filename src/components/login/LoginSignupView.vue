@@ -29,7 +29,7 @@
           </button>
         </div>
       </div>
-      <PasskeyButton :language="language" />
+      <PasskeyButton :language="language" :error-popup="displayError"/>
       <OIDC :language="language" />
       <LoginDisclaimer/>
       <div style="margin-top: 10ch; border-top: 1px white solid;">
